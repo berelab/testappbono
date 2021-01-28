@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+
+  mysql:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: 'fanosa'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: '12345'
+      MYSQL_ROOT_PASSWORD: '12345'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./var/mysql:/var/lib/mysql
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=12345 --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 3
