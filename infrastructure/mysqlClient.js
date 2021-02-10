@@ -2,7 +2,6 @@
 
 const mssql = require('mssql');
 
-//create connection
 const config = {
   user: 'appbono',
   password: 'LeBon.1498',
@@ -17,31 +16,28 @@ const config = {
   }
 }
 
-// const connection = mssql.connect(config, function(err, res){
-//   if(err){
-//       throw (err);
-//   } else{
-//       console.log("Conexión exitosa a la base de datos");
-//       // app.listen(port, function(){
-//       //     console.log("Prueba BD corriendo en http://localhost:"+port);
-//       // });
-//   }
-// });
+const connection = mssql.connect(config, (err) => {
+  if(err){
+    console.error('error connecting: ' + err);
+  } else{
+      console.log("SQL connected");
+  }
+});
 
 const run = async() =>{
-  let pool;
+  // let pool;
 
   try {
-      console.log('Connection Opening..');
-      pool = await mssql.connect(config);
-      console.log('Connected');
-      const { recordset } = await mssql.query`SELECT * FROM APP_COLABORA;`;
+      // console.log('Connection Opening..');
+      // pool = await mssql.connect(config);
+      // console.log('Connected');
+      const { recordset } = await connection.query`SELECT * FROM APP_COLABORA;`;
       console.log(recordset);
   } catch (err) {
       console.log(err);
 
   }finally{
-      await pool.close();
+      await connection.close();
       console.log('Connection closed');
   }
 }
@@ -49,4 +45,4 @@ const run = async() =>{
 run();
 
 
-// module.exports = connection; 
+module.exports = connection; 
