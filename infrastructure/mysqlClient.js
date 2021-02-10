@@ -17,16 +17,36 @@ const config = {
   }
 }
 
-const connection = mssql.connect(config, function(err, res){
-  if(err){
-      throw (err);
-  } else{
-      console.log("Conexión exitosa a la base de datos");
-      // app.listen(port, function(){
-      //     console.log("Prueba BD corriendo en http://localhost:"+port);
-      // });
+// const connection = mssql.connect(config, function(err, res){
+//   if(err){
+//       throw (err);
+//   } else{
+//       console.log("Conexión exitosa a la base de datos");
+//       // app.listen(port, function(){
+//       //     console.log("Prueba BD corriendo en http://localhost:"+port);
+//       // });
+//   }
+// });
+
+const run = async() =>{
+  let pool;
+
+  try {
+      console.log('Connection Opening..');
+      pool = await mssql.connect(config);
+      console.log('Connected');
+      const { recordset } = await mssql.query`SELECT * FROM APP_COLABORA;`;
+      console.log(recordset);
+  } catch (err) {
+      console.log(err);
+
+  }finally{
+      await pool.close();
+      console.log('Connection closed');
   }
-});
+}
+
+run();
 
 
-module.exports = connection; 
+// module.exports = connection; 
