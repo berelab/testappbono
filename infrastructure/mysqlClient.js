@@ -1,22 +1,31 @@
 'use strict'
 
-const mysql = require ('mysql');
+const mssql = require('mssql');
 
 //create connection
-const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'user',
-  password : '12345',
-  database : 'fanosa',
-  port     : '3306' 
-});
-
-connection.connect((err) => {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
+const config = {
+  user: 'appbono',
+  password: 'LeBon.1498',
+  server: 'prodsql08.fanosa.com',
+  database: 'FAN_BONO',
+  port: 1433,
+  options: {
+      cryptoCredentialsDetails: {
+          minVersion: 'TLSv1'
+      },
+      enableArithAbort: true
   }
-  console.log('Mysql connected as id ' + connection.threadId);
+}
+
+const connection = mssql.connect(config, function(err, res){
+  if(err){
+      throw (err);
+  } else{
+      console.log("Conexión exitosa a la base de datos");
+      // app.listen(port, function(){
+      //     console.log("Prueba BD corriendo en http://localhost:"+port);
+      // });
+  }
 });
 
 
