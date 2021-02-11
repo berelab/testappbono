@@ -1,16 +1,18 @@
 'use strict'
 
-const { poolPromise } = require ('../infrastructure/mysqlClient');
-const queryString = "SELECT CB_APE_MAT FROM APP_COLABORA WHERE CB_CIUDAD='Hermosillo'";
+// const { prodPoolPromise } = require ('./prodSQLClient');
+const { appPoolPromise } = require ('./appSQLClient');
+
 
 class MySqlCorteRepository {
 
     async find() {
         let response;
         let pool;
+        const queryString = "SELECT * FROM lapaz";
 
         try {
-            pool = await poolPromise
+            pool = await appPoolPromise
             response = await pool.request()
             .query(queryString);
             
