@@ -27,24 +27,28 @@ class MySqlCorteRepository {
         }
     }
 
-    // async update(base, dias_sucios, extra_m3) {
-    //     let response;
+    async update(base, dias_sucios, extra_m3) {
+        let response;
 
-    //     const queryString = `UPDATE corte SET base0 = ${base} , dias_sucios = '${dias_sucios}', $_extra_m3 = '${extra_m3}' WHERE id = 1`;
+        const queryString = `UPDATE corte SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'corte';`;
         
-    //     try {
-    //         response = await new Promise((resolve, reject) => {
-    //             db.query(queryString, (err, result)=>{
-    //                 if(err) throw err           
-    //                 resolve(result);   
-    //             });
-    //         });
-    //     } catch(error) {
-    //         throw error
-    //     }
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
 
-    //     return response;
-    // }
+            // response = await new Promise((resolve, reject) => {
+            //     db.query(queryString, (err, result)=>{
+            //         if(err) throw err           
+            //         resolve(result);   
+            //     });
+            // });
+        } catch(error) {
+            throw error
+        }
+
+        return response;
+    }
 };
 
 module.exports = MySqlCorteRepository;

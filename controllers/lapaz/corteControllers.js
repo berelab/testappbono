@@ -12,10 +12,6 @@ const controller = {
 
         let corte = await model.execute(); 
 
-        // return res.status(200).send({
-        //     corte
-        // });
-
 		return res.status(200).send({
             message: corte.message,
             base0: corte.base0,
@@ -87,10 +83,6 @@ const controller = {
         let base = req.body.base;
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
-        
-        base ? base : base = 165;
-        dias_sucios ?  dias_sucios.toString() : dias_sucios = '0';
-        extra_m3 ? extra_m3.toString() : extra_m3 = '4.20';
         
         const repository = new mySqlCorteRepository();
         const model = new corteModels(repository);

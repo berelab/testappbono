@@ -13,7 +13,6 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
-        // return response;
 
         return this._convertData(response);
     }
