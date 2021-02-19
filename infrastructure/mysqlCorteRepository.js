@@ -9,7 +9,7 @@ class MySqlCorteRepository {
     async find() {
         let response;
         let pool;
-        const queryString = "SELECT * FROM lapaz";
+        const queryString = "SELECT base0, dias_sucios, $_extra_m3 FROM lapaz WHERE depto = 'corte'";
 
         try {
             pool = await appPoolPromise
