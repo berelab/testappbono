@@ -20,12 +20,11 @@ class MySqlCorteRepository {
             throw error
         }
 
-        return response[0].base0;
-        // return {
-        //     'base': response[0].base0,
-        //     'dirty_days': response[0].dias_sucios,
-        //     'extra': response[0].$_extra_m3
-        // }
+        return {
+            'base': response.recordset[0].base0,
+            'dirty_days': response.recordset[0].dias_sucios,
+            'extra': response.recordset[0].$_extra_m3
+        }
     }
 
     // async update(base, dias_sucios, extra_m3) {

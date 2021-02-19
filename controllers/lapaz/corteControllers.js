@@ -12,21 +12,21 @@ const controller = {
 
         let corte = await model.execute(); 
 
-        return res.status(200).send({
-            corte
-        });
-
-		// return res.status(200).send({
-        //     message: corte.message,
-        //     base0: corte.base0,
-        //     dias_sucios: corte.dias_sucios,
-        //     $_extra_m3: corte.$_extra_m3,
-        //     dias: corte.dias,
-        //     factor_dias_laborados: corte.factor_dias_laborados,
-        //     colaboradores:corte.colaboradores,
-        //     m3_cortados: corte.m3_cortados,
-        //     equipo: corte.equipo
+        // return res.status(200).send({
+        //     corte
         // });
+
+		return res.status(200).send({
+            message: corte.message,
+            base0: corte.base0,
+            dias_sucios: corte.dias_sucios,
+            $_extra_m3: corte.$_extra_m3,
+            dias: corte.dias,
+            factor_dias_laborados: corte.factor_dias_laborados,
+            colaboradores:corte.colaboradores,
+            m3_cortados: corte.m3_cortados,
+            equipo: corte.equipo
+        });
     },
     
     calculator: async(req, res)=>{

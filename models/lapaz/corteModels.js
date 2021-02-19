@@ -13,9 +13,9 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
-        return response;
+        // return response;
 
-        // return this._convertData(response);
+        return this._convertData(response);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
