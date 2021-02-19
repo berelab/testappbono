@@ -31,7 +31,7 @@ class MySqlCorteRepository {
         let response;
         let pool;
 
-        const queryString = `UPDATE corte SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'corte';`;
+        const queryString = `UPDATE lapaz SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'corte';`;
         
         try {
             pool = await appPoolPromise
