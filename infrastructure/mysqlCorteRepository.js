@@ -9,7 +9,7 @@ class MySqlCorteRepository {
     async find() {
         let response;
         let pool;
-        const queryString = "SELECT base0, dias_sucios, $_extra_m3 FROM lapaz WHERE depto = 'corte'";
+        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM lapaz WHERE depto = 'corte';";
 
         try {
             pool = await appPoolPromise
@@ -20,7 +20,7 @@ class MySqlCorteRepository {
             throw error
         }
 
-        return response.recordset;
+        return response[0].base0;
         // return {
         //     'base': response[0].base0,
         //     'dirty_days': response[0].dias_sucios,
