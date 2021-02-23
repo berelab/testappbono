@@ -1,7 +1,7 @@
 'use strict'
 
-const { prodPoolPromise } = require ('./prodSQLClient');
-const { appPoolPromise } = require ('./appSQLClient');
+const { prodPoolPromise } = require ('../prodSQLClient');
+const { appPoolPromise } = require ('../appSQLClient');
 
 
 class MySqlCorteRepository {
