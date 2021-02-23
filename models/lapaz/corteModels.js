@@ -7,6 +7,7 @@ class CorteModels {
 
     async execute() {
         let response;
+        let alldata;
 
         try {
             response = await this.repository.find();
