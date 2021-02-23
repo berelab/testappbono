@@ -33,8 +33,8 @@ class CorteModels {
 
     _convertData(response, team) {
         return {
-            message: 'Corte',
-            city: 'La Paz',
+            message: team[0].depto,
+            city: team[0].ciudad,
             base0: response.base,
             dias_sucios: response.dirty_days,
             $_extra_m3: response.extra,

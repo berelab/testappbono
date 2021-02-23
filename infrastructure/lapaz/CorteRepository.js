@@ -41,12 +41,6 @@ class MySqlCorteRepository {
         }
 
         return response.recordset
-
-        // return {
-        //     'base': response.recordset[0].name,
-        //     'dirty_days': response.recordset[0].dias_sucios,
-        //     'extra': response.recordset[0].$_extra_m3
-        // }
     }
 
     async update(base, dias_sucios, extra_m3) {
