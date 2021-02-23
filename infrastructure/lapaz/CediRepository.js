@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require ('../mysqlClient');
+//const db = require ('../mysqlClient');
 const queryString = "SELECT base0, dias_sucios, $_extra_m3 FROM lapaz WHERE depto = 'cedi'";
 
 class CediRepository {
