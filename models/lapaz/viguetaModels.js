@@ -16,7 +16,7 @@ const viguetaBaseData = {
                     jueves: 0.50,
                     viernes: 0,
                     sabado: 0,
-                }
+                },
             },
             {
                 nombre: 'Natalio Díaz',
@@ -27,7 +27,7 @@ const viguetaBaseData = {
                     jueves: 1.0,
                     viernes: 1.0,
                     sabado: 0,
-                }
+                },
             },
             {
                 nombre: 'Alberto Peña',
@@ -38,7 +38,7 @@ const viguetaBaseData = {
                     jueves: 1.0,
                     viernes: 1.0,
                     sabado: 0,
-                }
+                },
             },
             {
                 nombre: 'Andres Aguilar',
@@ -49,7 +49,7 @@ const viguetaBaseData = {
                     jueves: 0,
                     viernes: 0,
                     sabado: 0,
-                }
+                },
             }
         ]
 };

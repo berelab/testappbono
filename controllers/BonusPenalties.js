@@ -12,7 +12,8 @@ export default class BonusPenalties {
         percepcion_total_m3_base,
         departamento,
         dias_sucios,
-        city
+        city,
+        num_quejas_cliente 
     ){
         this.amp                        = amp;
         this.blocks_fe                  = blocks_fe;
@@ -22,6 +23,7 @@ export default class BonusPenalties {
         this.depto                      = departamento;
         this.dias_sucios                = dias_sucios;
         this.city                       = city;
+        this.num_quejas_cliente         = num_quejas_cliente 
     }
 
     //Getters
@@ -46,6 +48,41 @@ export default class BonusPenalties {
     get densidadIns16(){
         return this.pc_densidad_ins16(this.percepcion_total_m3_base);
     }
+    get aprovechamientoMP(){
+        return this.pc_aprovechamientoMP(this.percepcion_total_m3_base);
+    }
+    
+    get desperdicios2(){
+        return this.pc_desperdicio2(this.percepcion_total_m3_base)
+    }
+
+    get ordenLimpieza(){
+        return this.pc_ordenLimpieza(this.percepcion_total_m3_base);
+    }
+
+    get quejas(){
+        return this.pc_quejas(this.percepcion_total_m3_base);
+    }
+
+    get pcRetardosEntrega(){
+        return this.pc_retardosEntrega(this.percepcion_total_m3_base, this.amp);
+    }
+
+    get pcCalidad(){
+        return this.pc_Calidad(this.percepcion_total_m3_base, this.blocks_fe)
+    }
+
+    get pcLimpieza(){
+        return this.pc_limpieza(this.percepcion_total_m3_base, this.densidad)
+    }
+
+     get pcblocksfe(){
+         return this.pc_blocksfe(this.percepcion_total_m3_base, this.blocks_fe);
+     }
+
+     get  pcltkgPreexpandido(){
+         return this. pc_ltkgPreexpandido(this.percepcion_total_m3_base, this.densidad);
+     }
 
 
     //Methods
@@ -55,8 +92,35 @@ export default class BonusPenalties {
         let premio_castigo_amp;
         if(city == 'Juarez') {
             this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicios2;
-        } 
-        else{
+        }else if(city == 'Guadalajara'){
+            premio_castigo_amp =calc.desperdicio7;
+        }else if(city=='Queretaro'){
+            premio_castigo_amp= calc.aprovechamientoMP4;
+        }else if(city=='Villahermosa'){
+            if(this.depto =='Corte'){
+                premio_castigo_amp= calc.desperdicio8;
+            }else{
+                premio_castigo_amp= calc.aprovechamientoMP5;
+            }
+            
+        }else if(city=='CDMX'){
+            if(this.depto=='CorteConst'){
+                premio_castigo_amp = calc.desperdicio9;
+            }else if(this.depto=='CorteMaquila'){
+                premio_castigo_amp = calc.desperdicio10;
+            }else{
+                premio_castigo_amp= this.amp;
+            }
+           
+        }else if(city =='Monterrey'){
+            if(this.depto=='EMCO' || this.depto=='Corte NIP'  || this.depto=='Corte L'){
+                premio_castigo_amp = calc.desperdicio11;
+            }else if(this.depto=='Bloquera'){
+                premio_castigo_amp= calc.aprovechamientoMP6;
+            }else if(this.depto=='Herramental'){
+                premio_castigo_amp = this.amp/100;
+            }
+        }else{  
             premio_castigo_amp = calc.desperdicios;
         }
         premio_castigo_amp ? extra_amp = percepcion_total_m3_base * premio_castigo_amp : extra_amp = 0
@@ -72,17 +136,56 @@ export default class BonusPenalties {
             premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol;
         }else if(depto == 'Moldeo' && city == 'Juarez'){
             premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol
+        }else if(depto == 'Moldeo' && city == 'Hermosillo'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios5
+        }else if(depto == 'Almacen' && city == 'Nogales'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios3
+        }else if(depto == 'Almacen' && city == 'Hermosillo'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios4
         }else if(depto == this._check_Department(depto)){
             premio_castigo_diasSucios =  dirtyDaysCalcs.auditoriaSol2;
         }else if (depto == 'Corte' && city == 'Juarez'){
             premio_castigo_diasSucios =  dirtyDaysCalcs.auditoriaSol2;
         }else if (depto == 'Electrolux'){
             premio_castigo_diasSucios = 0;
+        }else if(depto == 'Bloquera' && city == 'Hermosillo'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios2;
+        }else if(depto == 'Steelfoam' && city == 'Hermosillo'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol3;
+            premio_castigo_diasSucios =   premio_castigo_diasSucios *.2;
+        }else if((depto == 'PreexpYMoldeo' || depto =='Corte') && city == 'Guadalajara'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios7;
+        }else if(depto == 'Almacen'  && city == 'Guadalajara'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios8;
+        }else if(depto == 'Molienda de MR'  && city == 'Guadalajara'){ 
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol4;
+        }else if((depto == 'PreexpYMoldeo' || depto == 'Corte' || depto == 'Almacen') && city == 'Queretaro'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios9;
+        }else if(depto == 'Hielera' && city == 'Queretaro' ){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios6;
+        }else if(depto =='PreexpYMoldeo' && city =='Villahermosa'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol;
+        }else if(depto =='Corte' && city =='Villahermosa'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol5;
+        }else if(depto =='Almacen' && city =='Villahermosa'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios11;
+        }else if(depto =='Almacen' && city=='CDMX'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol;
+        }else if((depto =='PreexpYMoldeo' || depto =='CorteConst'  || depto =='Vitro' || depto =='CorteMaquila') && city=='CDMX'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios12;
+        }else if(depto == 'Molienda de MR'  && city == 'Monterrey'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol2
+        }else if((depto == 'Almacen'  || depto == 'moldeo' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental') && city == 'Monterrey'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol7
+        }else if(depto == 'Bloquera'  && city == 'Monterrey'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol8
+        }else if(depto=='PreExpansion' && city == 'Monterrey'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios13
         }else{
             premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios;
         }
         premio_castigo_diasSucios ? extra_diasSucios = percepcion_total_m3_base * premio_castigo_diasSucios : extra_diasSucios = 0
-
+        
         return extra_diasSucios;
     }
     pc_desperdicio(percepcion_total_m3_base){
@@ -130,4 +233,200 @@ export default class BonusPenalties {
         const result = departments.find( dep => dep === depto );
         return result;
     }
+
+    pc_aprovechamientoMP(percepcion_total_m3_base){
+        let calc = new TableOfProportions(this.amp);
+        let p_pc_amp;
+        let premio_castigo_amp;
+
+        if(this.depto=='Moldeo'){
+            p_pc_amp = calc.aprovechamientoMP2;
+        }else if(this.depto=='PreexpYMoldeo'){   
+           this.city =='Queretaro' ? p_pc_amp = calc.aprovechamientoMP4 :p_pc_amp = calc.aprovechamientoMP3;
+        }else{ // bloquera
+            p_pc_amp = calc.aprovechamientoMP;
+        }
+        p_pc_amp ? premio_castigo_amp = percepcion_total_m3_base * p_pc_amp : premio_castigo_amp = 0;
+     
+        return premio_castigo_amp;
+    }
+
+    pc_desperdicio2(percepcion_total_m3_base){
+        let calc = new TableOfProportions(this.amp);
+        let p_desperdicio ;
+        let premio_castigo_desperdicio;
+        if(this.depto=='Steelfoam'){
+            p_desperdicio = calc.desperdicio5
+            p_desperdicio = p_desperdicio*.2
+        }else{
+            p_desperdicio = calc.desperdicio4
+        }
+       
+        p_desperdicio ? premio_castigo_desperdicio = percepcion_total_m3_base * p_desperdicio : premio_castigo_desperdicio = 0;
+       
+        return premio_castigo_desperdicio;
+    }
+
+    pc_ordenLimpieza(percepcion_total_m3_base){
+        let calc = new TableOfProportions(null, this.blocks_fe);
+        let pc_ordenLimpieza = calc.ordenLimpieza;
+        let premio_castigo_desperdicio;
+        pc_ordenLimpieza ? premio_castigo_desperdicio = percepcion_total_m3_base * pc_ordenLimpieza : premio_castigo_desperdicio = 0;
+       
+        return premio_castigo_desperdicio;
+    }
+
+    pc_quejas(percepcion_total_m3_base){
+        let calc = new TableOfProportions(null, null,null,null,null, this.num_quejas_cliente );
+        let pc_quejas;
+
+        if(this.depto =='Almacen'   && (this.city =='Guadalajara' || this.city =='Hermosillo' || this.city =='Monterrey') ){
+            pc_quejas = calc.quejas2;
+        }else if(this.depto =='Corte'  && (this.city =='Queretaro' || this.city =='Guadalajara' )){
+            pc_quejas = calc.quejas2;
+        }else if( this.depto =='Almacen' && this.city=='Queretaro' ){
+            pc_quejas = calc.quejas4;
+        }else if((this.depto =='Choferes' || this.depto =='Choferes Locales'  || this.depto =='Choferes CEDI') && (this.city =='Guadalajara' || this.city =='Monterrey')){
+            pc_quejas = calc.quejas3;
+        }else if(this.depto=='PreexpYMoldeo'  && this.city=='CDMX'){
+            pc_quejas = calc.quejas5;
+        }else if((this.depto=='CorteConst' || this.depto =='CorteMaquila'  || this.depto =='Vitro') && this.city=='CDMX' ){
+            pc_quejas = calc.quejas2;
+        }else if((this.depto =='Moldeo' || this.depto =='EMCO' || this.depto=='Corte NIP')   && this.city =='Monterrey'){
+            pc_quejas = calc.quejas2;
+        }else if(this.depto=='Corte L'   && this.city =='Monterrey'){
+            pc_quejas = calc.quejas6;
+        }else{
+            pc_quejas = calc.quejas;
+        }
+
+        let premio_castigo_desperdicio;
+        pc_quejas ? premio_castigo_desperdicio = percepcion_total_m3_base * pc_quejas : premio_castigo_desperdicio = 0;
+       
+        
+    
+        
+        return premio_castigo_desperdicio;
+    }
+
+    pc_blocksfe(percepcion_total_m3_base, blocks_fe){
+        let calc = new TableOfProportions(null,blocks_fe);
+        let premio_castigo_blocksfe;
+        let pcblocksfe;
+        if(this.depto =='Corte'  && this.city =='Guadalajara'){
+            pcblocksfe = calc.boletaspnc;
+        }else if(this.depto =='Almacen'  && this.city =='Guadalajara'){
+            pcblocksfe = calc.usoEquipoSeguridad; 
+        }else if(this.depto =='Almacen'  && this.city =='Queretaro'){
+            pcblocksfe = calc.usoEquipoSeguridad2; 
+        }else if(this.depto =='PreexpYMoldeo'  && this.city =='Queretaro'){
+            pcblocksfe = calc.blocksfe2;
+        }else if(this.depto =='Corte'  && this.city =='Queretaro'){
+            pcblocksfe = calc.rechazoInterno2;
+        }else if(this.depto == 'Hielera' && this.city == 'Queretaro'){
+            pcblocksfe = calc.hielerasfe;
+        }else if(this.depto == 'PreexpYMoldeo' && this.city == 'Villahermosa'){
+            pcblocksfe = calc.blocksfe3;
+        }else if(this.depto =='Almacen'  && this.city =='CDMX'){
+            pcblocksfe = calc.difInventario;
+        }else if(this.depto == 'Bloquera' && this.city == 'Monterrey'){
+            pcblocksfe = calc.blocksfe4;
+        }else{
+            pcblocksfe = calc.blocksfe;
+        }
+      
+
+        pcblocksfe ? premio_castigo_blocksfe = percepcion_total_m3_base * pcblocksfe : premio_castigo_blocksfe = 0;
+        return premio_castigo_blocksfe;
+    }
+
+    /**insupanel */
+
+    pc_retardosEntrega(percepcion_total_m3_base, amp){
+        let calc = new TableOfProportions(amp);
+        let pcpenalizacion = calc.penalizacion;
+
+        if(this.city =='Guadalajara'){
+            let pc_re;
+            let bonos;
+            bonos = percepcion_total_m3_base;
+            pc_re = bonos * pcpenalizacion
+            return pc_re;
+        }else if(this.city =='Queretaro'){
+          let pc_re = pcpenalizacion;
+          return pc_re;
+        }else{
+            let pc_re =[];
+            let bonos =[]
+            bonos = percepcion_total_m3_base;
+            let len = bonos.length;
+            
+            for(var i=0; i<len; i++){
+                var total = bonos[i] * pcpenalizacion
+                pc_re.push(total)
+            } 
+            return pc_re;
+        }
+
+    }
+
+    pc_Calidad(percepcion_total_m3_base, blocks_fe){
+        let calc = new TableOfProportions(blocks_fe);
+        let pcpenalizacion = calc.penalizacion;
+
+        if(this.city=='Guadalajara'){
+            let pc_calidad;
+            let bonos;
+            bonos = percepcion_total_m3_base;
+            pc_calidad= bonos * pcpenalizacion
+
+            return pc_calidad;
+        }else if(this.city =='Queretaro'){
+            let pc_calidad = pcpenalizacion;
+            return pc_calidad;
+        }else{
+            let pc_calidad =[];
+            let bonos =[]
+            bonos = percepcion_total_m3_base;
+            let len = bonos.length;
+            
+            for(var i=0; i<len; i++){
+                var total = bonos[i] * pcpenalizacion
+                pc_calidad.push(total)
+            } 
+ 
+            return pc_calidad;
+        }
+       
+    }
+
+    pc_limpieza(percepcion_total_m3_base, densidad){
+        let calc = new TableOfProportions(densidad);
+        let pcpenalizacion = calc.penalizacion;
+        let pclimpieza =[];
+        let bonos =[]
+        bonos = percepcion_total_m3_base;
+        let len = bonos.length;
+        
+        for(var i=0; i<len; i++){
+            var total = bonos[i] * pcpenalizacion
+            pclimpieza.push(total)
+        } 
+          
+
+        return pclimpieza;
+    }
+
+    pc_ltkgPreexpandido(percepcion_total_m3_base, densidad){
+        let calc = new TableOfProportions(densidad);
+        let extra_preexpandido;
+        let premio_castigo_preexpandido = calc.ltkgPreexpandido ;
+
+        premio_castigo_preexpandido ? extra_preexpandido = percepcion_total_m3_base * premio_castigo_preexpandido : extra_preexpandido = 0
+
+        return extra_preexpandido;
+    }
+
+
+
 }

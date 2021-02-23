@@ -1,8 +1,8 @@
 'use strict'
 
-import {message, city, base0, auditoria_sol,num_quejas_cliente, rechazo_interno,dias, desperdicio, factor_dias_laborados,horas_por_turno,asistencia_total,$_extra_m3,tiempo_extra,colaboradores,m3_cortados,equipo} from '../../models/nogales/corteModels';
+import {message, city, base0, auditoria_sol,num_quejas_cliente, rechazo_interno,dias, desperdicio, factor_dias_laborados,horas_por_turno,asistencia_total,$_extra_m3,tiempo_extra,colaboradores,m3_cortados,equipo} from '../../models/nogales/corteModel';
 import mainCalcs from '../mainCalcs';
-import calcsN from  './calcsN';
+import calcsN from  '../calcsN';
 
 
 
@@ -13,7 +13,6 @@ const controller = {
 		return res.status(200).send({
             message: message,
             city: city,
-            lenght,
             base0,
             auditoria_sol,
             num_quejas_cliente,
@@ -51,14 +50,22 @@ const controller = {
             factor_dias_laborados,
             message,
             city,
-            amp
+            amp,
+            null,
+            null,
+            null,
+            tiempo_extra,
+            horas_por_turno,
+            num_quejas_cliente,
+             rechazo_interno,
         );
 
         let daily_prod = calc.dailyProd;
+        let m3cortados_persona = calc.m3Persona;
         let progress = calc.progress_bar;       
-        let m3_persona = calc.m3Persona;
         let sumatoria_asistencia = calc.totalAsistencia;
-
+        
+        /** calculos especificos */
         let asistencias = sumatoria_asistencia;
         const calN = new calcsN(
             asistencias,
@@ -66,59 +73,88 @@ const controller = {
             equipo,
             dias,
             tiempo_extra,
-            horas_por_turno
+            horas_por_turno,
+            $_extra_m3,
+            m3_cortados,
+            base0,
+            desperdicio,
+            auditoria_sol,
+            num_quejas_cliente,
+            rechazo_interno
             );
         
-        let asistencia_diaria = calN.asistencia;
-        let asistencia_por_factor = calN.asistenciaFactor;
-        let asistencia_mas_tiempo_extra = calN.asistenciaMasTiempoExtra;
-
-
-        
-        let percepcion_total = calc.percepcionTotal;//
-        let bono_total = calc.bonoTotal;
-        
-
-
+     
+        let pago_por_colaborador = calc.pagoTotal;
+        let pago_total_sin_penalizacion = calc.pagoTotalSinPenalizacion;
+        let bono_Total_con_penalizacion_por_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
+        let bono_total= calc.bonoTotalConPenalizacion;
+        let percepcion_total = calc.percepcionTotal;
 
         if(req.params.index){
-            let i = req.params.index;
+            let i = parseInt(req.params.index); 
+            
+            if(isNaN(i)){
+                return res.status(400).send({
+                    status: 'error',
+                    code:400,
+                    message: 'Index invalido',
+                });
+            }
 
+            let len = equipo.length;
+           
+
+            if(i < 0 || i >= len ){
+                return res.status(400).send({
+                    status: 'error',
+                    code:400,
+                    message: 'No existe el colaborador',
+                });
+            }else{
+                return res.status(200).send({
+                    
+                    nombre: equipo[i].nombre,
+                    depto: message,
+                    day: weekdayName,
+                    meta_semana: base0,
+                    dias_laborados: dias,
+                    progress: progress,
+                    m3_persona: m3cortados_persona ,
+                    bono_depto: percepcion_total,
+                    pago_persona: pago_por_colaborador[i],
+                    bono_persona:bono_Total_con_penalizacion_por_colaborador[i],
+                    $_extra_m3: $_extra_m3,
+                    asistencia: sumatoria_asistencia[i],
+                    datos_extra: {
+                        m3_persona_dia: daily_prod
+                    },
+
+                });
+               
+            }
+            
+        
+        }else{
             return res.status(200).send({
-                asis,
-                nombre: equipo[i].nombre,
+                
                 depto: message,
                 day: weekdayName,
                 meta_semana: base0,
                 dias_laborados: dias,
-                $_extra_m3: $_extra_m3,
+                $_extra_m3: $_extra_m3,            
                 progress: progress,
-                m3_persona: m3_persona,
-                bono_persona: bono_total,
+                m3_persona: m3cortados_persona,
                 bono_depto: percepcion_total,
-                asistencia: sumatoria_asistencia[i],
-                datos_extra: {
-                    m3_persona_dia: daily_prod
-                }
-                
-            });
-            
-        }else{
-            return res.status(200).send({
-                asistencia_diaria,
-                asistencia_por_factor,
-                asistencia_mas_tiempo_extra,
-                depto: message,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra_m3,
-                m3_persona: m3_persona,
-                bono_persona: bono_total,
-                bono_depto: percepcion_total, 
+                pago_persona: pago_por_colaborador,
+                pago_total:pago_total_sin_penalizacion,
+                bono_persona:bono_Total_con_penalizacion_por_colaborador,
+                bono_total: bono_total,
                 datos_extra: {
                     m3_persona_dia: daily_prod
                 },
+                asistencia: sumatoria_asistencia, 
                 equipo
+                
             });
         }
 

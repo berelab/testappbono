@@ -22,29 +22,69 @@ const controller = {
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
         let condicion_auditoria = auditoria(auditoria_sol);
-        let asistencia_total= asistencia(1);
+        let asistencia_persona = asistencias(equipo);
+        let total_base = total_base_persona(asistencia_persona, pago_dia);
+        let bono_total = bono_total_persona(total_base,condicion_auditoria);
 
-        let total_base = pago_dia * asistencia_total;
-        let bono = total_base * (condicion_auditoria + 1);
+        if(req.params.index){
+            let i = parseInt(req.params.index); 
 
-
-        return res.status(200).send({
-            nombre: equipo[1].nombre,
-            depto: message,
-            meta_semana: 0,
-            dias_laborados: dias_laborados,
-            day: weekdayName,
-            m3_persona: 0,
-            bono_persona: bono,
-            asistencia: asistencia_total, 
-            datos_extra: {
-                condicionante_auditoria: condicion_auditoria,
-                total_base: total_base,
-                pago_por_dia: pago_dia,
-                asistencia_total: asistencia_total
-            }
             
-        });
+            if(isNaN(i)){
+                return res.status(400).send({
+                    status: 'error',
+                    code:400,
+                    message: 'Index invalido',
+                });
+            }
+
+            let len = equipo.length;
+           
+
+            if(i < 0 || i >= len ){
+                return res.status(400).send({
+                    status: 'error',
+                    code:400,
+                    message: 'No existe el colaborador',
+                });
+            }else{
+                return res.status(200).send({
+                    nombre: equipo[i].nombre,
+                    depto: message,
+                    meta_semana: 0,
+                    dias_laborados: dias_laborados,
+                    day: weekdayName,
+                    m3_persona: 0,
+                    asistencia: asistencia_persona[i],
+                    total_base: total_base[i],
+                    bono_persona:  bono_total[i],
+                    datos_extra: {
+                        condicionante_auditoria: condicion_auditoria,
+                        pago_por_dia: pago_dia
+                    },
+                });
+            }
+        }else{
+            return res.status(200).send({
+                depto: message,
+                meta_semana: 0,
+                dias_laborados: dias_laborados,
+                day: weekdayName,
+                m3_persona: 0,
+                asistencia: asistencia_persona,
+                total_base: total_base,
+                bono_persona:  bono_total,
+                datos_extra: {
+                    condicionante_auditoria: condicion_auditoria,
+                    pago_por_dia: pago_dia
+                },
+                equipo: equipo
+                
+            });
+           
+        }
+
+       
     }
 
 };
@@ -69,11 +109,39 @@ let auditoria = (value) => {
     }
 }
 
-let asistencia = (n) => {
-    let total = equipo[n].asistencia.lunes + equipo[n].asistencia.martes  + equipo[n].asistencia.miercoles + equipo[n].asistencia.jueves + equipo[n].asistencia.viernes + equipo[n].asistencia.sabado ;
-    return total;
+
+let asistencias = (equipo) =>{
+    let asistencia_total= [];
+    let len = equipo.length;
+
+    for(var n =0; n< len; n++){
+        let total = equipo[n].asistencia.lunes + equipo[n].asistencia.martes  + equipo[n].asistencia.miercoles + equipo[n].asistencia.jueves + equipo[n].asistencia.viernes + equipo[n].asistencia.sabado ;
+        asistencia_total.push(total);
+    }
+    return asistencia_total;
 }
 
+let total_base_persona =(asistencia_persona, pago_dia) =>{
+    let total_base= [];
+    let len = asistencia_persona.length;
+
+    for(var n =0; n< len; n++){
+        let total = asistencia_persona[n] * pago_dia;
+        total_base.push(total);
+    }
+    return total_base;
+}
+
+let bono_total_persona =(total_base, condicion_auditoria) =>{
+    let bono_total= [];
+    let len = total_base.length;
+
+    for(var n =0; n< len; n++){
+        let total = total_base[n] * (condicion_auditoria + 1);
+        bono_total.push(total);
+    }
+    return bono_total;
+}
 
 
 module.exports = controller; 

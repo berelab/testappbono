@@ -32,6 +32,7 @@ export default class Production {
         let total =  m3_cortados.lunes + m3_cortados.martes + m3_cortados.miercoles + m3_cortados.jueves + m3_cortados.viernes + m3_cortados.sabado
         return total;
     }
+    
     production(weekdayName){
         let m3_persona;
         if(weekdayName == 'domingo'){
