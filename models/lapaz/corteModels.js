@@ -7,17 +7,16 @@ class CorteModels {
 
     async execute() {
         let response;
-        let alldata;
+        let teamResponse;
 
         try {
             response = await this.repository.find();
-            alldata = await this.repository.findTeam();
-            console.log(alldata);
+            teamResponse = await this.repository.findTeam();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response);
+        return this._convertData(response, teamResponse);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -32,7 +31,7 @@ class CorteModels {
         return response;
     }
 
-    _convertData(response) {
+    _convertData(response, team) {
         return {
             message: 'Corte',
             city: 'La Paz',
@@ -59,100 +58,7 @@ class CorteModels {
                 viernes: 387.56,
                 sabado: 0.00
             },
-            equipo: [
-                {
-                    nombre: 'Martín Chan',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Jorge Paniagua',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Nehemias Díaz',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Martin Verdugo',
-                    asistencia: {
-                        lunes: 0,
-                        martes: 0,
-                        miercoles: 0,
-                        jueves: 0,
-                        viernes: 0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Natalio Díaz',
-                    asistencia: {
-                        lunes: 0,
-                        martes: 0,
-                        miercoles: 0,
-                        jueves: 0,
-                        viernes: 0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Alberto Peña',
-                    asistencia: {
-                        lunes: 0,
-                        martes: 0,
-                        miercoles: 0,
-                        jueves: 0,
-                        viernes: 0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Andrés Aguilar',
-                    asistencia: {
-                        lunes: 0,
-                        martes: 0,
-                        miercoles: 0,
-                        jueves: 0,
-                        viernes: 0,
-                        sabado: 0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                }
-                
-            ]
+            equipo: team
         };
     }
 };
