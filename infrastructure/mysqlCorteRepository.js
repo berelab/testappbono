@@ -1,6 +1,6 @@
 'use strict'
 
-// const { prodPoolPromise } = require ('./prodSQLClient');
+const { prodPoolPromise } = require ('./prodSQLClient');
 const { appPoolPromise } = require ('./appSQLClient');
 
 
@@ -32,7 +32,7 @@ class MySqlCorteRepository {
         const queryString = "SELECT COLABORADOR.CB_NOMBRES AS nombre, COLABORADOR.CB_APE_PAT AS a_paterno, COLABORADOR.CB_APE_MAT AS a_materno, APP_NIVEL2.TB_ELEMENT AS depto, COLABORADOR.CB_NIVEL5 AS planta, APP_NIVEL1.TB_ELEMENT AS ciudad FROM APP_COLABORA AS COLABORADOR INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO WHERE COLABORADOR.CB_NIVEL5 = 'LPZ' AND APP_NIVEL2.TB_ELEMENT = 'Corte Variable'";
 
         try {
-            pool = await appPoolPromise
+            pool = await prodPoolPromise
             response = await pool.request()
             .query(queryString);
             
