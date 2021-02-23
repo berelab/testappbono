@@ -17,7 +17,7 @@ class MySqlCorteRepository {
             .query(queryString);
             
         } catch(error) {
-            throw error
+            console.log(error);
         }
 
         return {
@@ -25,6 +25,28 @@ class MySqlCorteRepository {
             'dirty_days': response.recordset[0].dias_sucios,
             'extra': response.recordset[0].$_extra_m3
         }
+    }
+    async findTeam() {
+        let response;
+        let pool;
+        const queryString = "SELECT COLABORADOR.CB_NOMBRES AS nombre, COLABORADOR.CB_APE_PAT AS a_paterno, COLABORADOR.CB_APE_MAT AS a_materno, APP_NIVEL2.TB_ELEMENT AS depto, COLABORADOR.CB_NIVEL5 AS planta, APP_NIVEL1.TB_ELEMENT AS ciudad FROM APP_COLABORA AS COLABORADOR INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO WHERE COLABORADOR.CB_NIVEL5 = 'LPZ' AND APP_NIVEL2.TB_ELEMENT = 'Corte Variable'";
+
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return response.recordset
+
+        // return {
+        //     'base': response.recordset[0].name,
+        //     'dirty_days': response.recordset[0].dias_sucios,
+        //     'extra': response.recordset[0].$_extra_m3
+        // }
     }
 
     async update(base, dias_sucios, extra_m3) {
@@ -38,14 +60,8 @@ class MySqlCorteRepository {
             response = await pool.request()
             .query(queryString);
 
-            // response = await new Promise((resolve, reject) => {
-            //     db.query(queryString, (err, result)=>{
-            //         if(err) throw err           
-            //         resolve(result);   
-            //     });
-            // });
         } catch(error) {
-            throw error
+            console.log(error);
         }
 
         return response;

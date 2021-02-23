@@ -10,6 +10,8 @@ class CorteModels {
 
         try {
             response = await this.repository.find();
+            alldata = await this.repository.findTeam();
+            console.log(alldata);
         } catch(error) {
             throw error;
         }
