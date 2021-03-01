@@ -34,7 +34,7 @@ class CorteModels {
         return response;
     }
 
-    _convertData(response, team, entries) {
+    _convertData(response, team) {
         return {
             message: 'Corte',
             city: 'La Paz',
@@ -62,7 +62,7 @@ class CorteModels {
                 sabado: 0.00
             },
             equipo: team,
-            entries
+            asistencia: 'team attendance',
         };
     }
 };
