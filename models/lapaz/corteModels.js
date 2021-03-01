@@ -17,6 +17,7 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
+        console.log(entries);
         
         return this._convertData(response, teamResponse, entries);
     }
@@ -61,7 +62,7 @@ class CorteModels {
                 sabado: 0.00
             },
             equipo: team,
-            entries
+            asistencia: entries
         };
     }
 };
