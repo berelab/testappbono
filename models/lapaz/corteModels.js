@@ -61,8 +61,7 @@ class CorteModels {
                 viernes: 387.56,
                 sabado: 0.00
             },
-            equipo: team,
-            asistencia: entries
+            equipo: team
         };
     }
 };

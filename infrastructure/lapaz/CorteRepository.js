@@ -45,7 +45,7 @@ class MySqlCorteRepository {
     async entryTimes(){
         let response;
         let pool;
-        const queryString = "SELECT cu.* FROM (SELECT u.CB_CODIGO AS userid, u.PRETTYNAME AS nombre, u.CB_NIVEL5 AS planta, n.TB_ELEMENT AS depto, c.AU_FECHA AS fecha, c.CH_H_AJUS AS entrada, c.CH_H_REAL AS entrada_real, ROW_NUMBER() OVER (PARTITION BY u.CB_CODIGO, c.AU_FECHA ORDER BY c.CH_H_AJUS) AS seqnum FROM APP_CHECADAS c JOIN APP_COLABORA u ON u.CB_CODIGO = c.CB_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE c.AU_FECHA BETWEEN '2021-02-22 00:00:00.000' AND '2021-02-28 00:00:00.000' AND  u.CB_NIVEL5 = 'JRZ' AND n.TB_ELEMENT = 'Corte Variable') cu WHERE seqnum = 1 "
+        const queryString = "SELECT cu.* FROM (SELECT u.CB_CODIGO AS userid, u.PRETTYNAME AS nombre, u.CB_NIVEL5 AS planta, n.TB_ELEMENT AS depto, CONVERT(VARCHAR(10), c.AU_FECHA, 103) AS fecha, c.CH_H_AJUS AS entrada, c.CH_H_REAL AS entrada_real, ROW_NUMBER() OVER (PARTITION BY u.CB_CODIGO, c.AU_FECHA ORDER BY c.CH_H_AJUS) AS seqnum FROM APP_CHECADAS c JOIN APP_COLABORA u ON u.CB_CODIGO = c.CB_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE c.AU_FECHA BETWEEN '2021-02-22 00:00:00.000' AND '2021-02-28 00:00:00.000' AND  u.CB_NIVEL5 = 'JRZ' AND n.TB_ELEMENT = 'Corte Variable') cu WHERE seqnum = 1 "
 
         try {
             pool = await prodPoolPromise
