@@ -8,6 +8,7 @@ class CorteModels {
     async execute() {
         let response;
         let teamResponse;
+        let entries;
 
         try {
             response = await this.repository.find();
