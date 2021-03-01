@@ -29,7 +29,7 @@ class MySqlCorteRepository {
     async findTeam() {
         let response;
         let pool;
-        const queryString = "SELECT COLABORADOR.CB_CODIGO AS userID, COLABORADOR.CB_NOMBRES AS nombre, COLABORADOR.CB_APE_PAT AS a_paterno, COLABORADOR.CB_APE_MAT AS a_materno, COLABORADOR.CB_SEXO AS sexo, COLABORADOR.CB_TEL AS telefono, COLABORADOR.CB_E_MAIL AS email, COLABORADOR.CB_ACTIVO AS activo, APP_NIVEL2.TB_ELEMENT AS depto, COLABORADOR.CB_NIVEL5 AS planta, APP_NIVEL1.TB_ELEMENT AS ciudad FROM APP_COLABORA AS COLABORADOR INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO WHERE COLABORADOR.CB_NIVEL5 = 'LPZ' AND APP_NIVEL2.TB_ELEMENT = 'Corte Variable'";
+        const queryString = "SELECT COLABORADOR.CB_CODIGO AS userID, COLABORADOR.CB_NOMBRES AS nombre, COLABORADOR.CB_APE_PAT AS a_paterno, COLABORADOR.CB_APE_MAT AS a_materno, COLABORADOR.CB_SEXO AS sexo, COLABORADOR.CB_TEL AS telefono, COLABORADOR.CB_E_MAIL AS email, APP_NIVEL2.TB_ELEMENT AS depto, COLABORADOR.CB_NIVEL5 AS planta, APP_NIVEL1.TB_ELEMENT AS ciudad FROM APP_COLABORA AS COLABORADOR INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO WHERE COLABORADOR.CB_NIVEL5 = 'LPZ' AND APP_NIVEL2.TB_ELEMENT = 'Corte Variable' AND COLABORADOR.CB_ACTIVO = 'S'";
 
         try {
             pool = await prodPoolPromise
@@ -41,6 +41,23 @@ class MySqlCorteRepository {
         }
 
         return response.recordset
+    }
+    async entryTimes(){
+        let response;
+        let pool;
+        const queryString = "SELECT cu.* FROM (SELECT u.CB_CODIGO AS userid, u.PRETTYNAME AS nombre, u.CB_NIVEL5 AS planta, n.TB_ELEMENT AS depto, c.AU_FECHA AS fecha, c.CH_H_AJUS AS entrada, c.CH_H_REAL AS entrada_real, ROW_NUMBER() OVER (PARTITION BY u.CB_CODIGO, c.AU_FECHA ORDER BY c.CH_H_AJUS) AS seqnum FROM APP_CHECADAS c JOIN APP_COLABORA u ON u.CB_CODIGO = c.CB_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE c.AU_FECHA BETWEEN '2021-02-22 00:00:00.000' AND '2021-02-28 00:00:00.000' AND  u.CB_NIVEL5 = 'JRZ' AND n.TB_ELEMENT = 'Corte Variable') cu WHERE seqnum = 1 "
+
+        try {
+            pool = await prodPoolPromise
+            response = await pool.request()
+            .query(queryString);
+
+        } catch (error) {
+            console.log(error)
+        }
+
+        console.log(response.recordset);
+        // return response.recordset
     }
 
     async update(base, dias_sucios, extra_m3) {
