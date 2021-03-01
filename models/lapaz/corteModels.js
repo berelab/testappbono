@@ -12,11 +12,12 @@ class CorteModels {
         try {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
         } catch(error) {
             throw error;
         }
-
-        return this._convertData(response, teamResponse);
+        
+        return this._convertData(response, teamResponse, entries);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -31,7 +32,7 @@ class CorteModels {
         return response;
     }
 
-    _convertData(response, team) {
+    _convertData(response, team, entries) {
         return {
             message: 'Corte',
             city: 'La Paz',
@@ -58,7 +59,8 @@ class CorteModels {
                 viernes: 387.56,
                 sabado: 0.00
             },
-            equipo: team
+            equipo: team,
+            entries
         };
     }
 };
