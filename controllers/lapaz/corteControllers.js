@@ -21,7 +21,8 @@ const controller = {
             factor_dias_laborados: corte.factor_dias_laborados,
             colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
-            equipo: corte.equipo
+            equipo: corte.equipo,
+            asistencia: corte.team_asis
         });
     },
     
