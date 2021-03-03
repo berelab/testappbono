@@ -17,7 +17,7 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
-        this._reorderData(entries);
+        console.log(this._reorderData(entries));
         
         return this._convertData(response, teamResponse, entries);
     }
