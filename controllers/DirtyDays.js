@@ -7,6 +7,10 @@ export default class DirtyDays {
         this.dias_sucios = dias_sucios
     }
     // Getters
+    get diasSucios14(){
+        return this.dirty_days14(this.dias_sucios)
+    }
+
     get diasSucios () {
         return this.dirty_days(this.dias_sucios);
     }
@@ -98,6 +102,24 @@ export default class DirtyDays {
     }
 
     //Methods
+    dirty_days14(value){ // Estandar  
+        if(value == 0){
+            return 0;
+        }else if(value ==1){
+            return -.10
+        }else if(value ==2){
+            return -.15
+        }else if(value ==3){
+            return -.20
+        }else if(value ==4){
+            return -.30
+        }else if(value >=5){
+            return -.40
+        }else{
+            return 0;
+        }
+    }
+
     dirty_days(value) {
         if(value == 0 ){
             return .05;

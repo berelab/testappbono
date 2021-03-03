@@ -81,9 +81,12 @@ export default class BonusPenalties {
      }
 
      get  pcltkgPreexpandido(){
-         return this. pc_ltkgPreexpandido(this.percepcion_total_m3_base, this.densidad);
+         return this.pc_ltkgPreexpandido(this.percepcion_total_m3_base, this.densidad);
      }
 
+     get pc_equipoProtecc(){
+         return this.pc_equipo_protecc(this.percepcion_total_m3_base, this.city);
+     }
 
     //Methods
     extra_desperdicio(percepcion_total_m3_base, city){
@@ -120,6 +123,23 @@ export default class BonusPenalties {
             }else if(this.depto=='Herramental'){
                 premio_castigo_amp = this.amp/100;
             }
+        }else if(city=='Merida' || city=='Veracruz' || city=='Cancun' || city=='Tijuana' || city=='Culiacan' ){
+            if(this.depto=='Corte' || this.depto=='EMCO' ||this.depto=='Bloquera'){
+                premio_castigo_amp = calc.desperdicio13;
+            }else if(this.depto=='Moldeo' || this.depto=='PreexpYMoldeo'){
+                premio_castigo_amp = calc.desperdicio14;
+            }else if(this.depto=='Steelfoam'){
+                premio_castigo_amp = calc.desperdicio15;
+            }else if(this.depto=='Construpanel'){
+                premio_castigo_amp = calc.desperdicio16;
+            }else if(this.depto=='Rotulado'){
+                premio_castigo_amp = calc.desperdicio17;
+            }else if(this.depto=='Empaque Perla'){
+                premio_castigo_amp = calc.condicionanteEpp2;
+            }else if(this.depto=='Bono TYG'){
+                premio_castigo_amp = calc.desperdicio18;
+            }
+           
         }else{  
             premio_castigo_amp = calc.desperdicios;
         }
@@ -127,6 +147,19 @@ export default class BonusPenalties {
 
         return extra_amp;
     }
+
+    pc_equipo_protecc(percepcion_total_m3_base, city){
+        let calc = new TableOfProportions(this.amp, this.blocks_fe, this.densidad, this.id_combustible);
+        let extra_ep;
+        let premio_castigo_ep;
+       
+        premio_castigo_ep = calc.equipoProteccion;
+    
+        premio_castigo_ep ? extra_ep = percepcion_total_m3_base * premio_castigo_ep : extra_ep = 0
+
+        return extra_ep;
+    }
+    
     extra_dias_sucios(depto, dias_sucios, percepcion_total_m3_base, city){
         let dirtyDaysCalcs = new DirtyDays(dias_sucios);
         let extra_diasSucios;
@@ -181,6 +214,8 @@ export default class BonusPenalties {
             premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol8
         }else if(depto=='PreExpansion' && city == 'Monterrey'){
             premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios13
+        }else if(city=='Merida' || city=='Veracruz' || city=='Mexicali' || city=='Cancun' || city=='Tijuana' || city=='Culiacan'){
+            premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios14
         }else{
             premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios;
         }
@@ -280,7 +315,7 @@ export default class BonusPenalties {
         let calc = new TableOfProportions(null, null,null,null,null, this.num_quejas_cliente );
         let pc_quejas;
 
-        if(this.depto =='Almacen'   && (this.city =='Guadalajara' || this.city =='Hermosillo' || this.city =='Monterrey') ){
+        if(this.depto =='Almacen'   && (this.city =='Guadalajara' || this.city =='Hermosillo' || this.city =='Monterrey' || this.city =='Veracruz' ) ){
             pc_quejas = calc.quejas2;
         }else if(this.depto =='Corte'  && (this.city =='Queretaro' || this.city =='Guadalajara' )){
             pc_quejas = calc.quejas2;
@@ -292,10 +327,20 @@ export default class BonusPenalties {
             pc_quejas = calc.quejas5;
         }else if((this.depto=='CorteConst' || this.depto =='CorteMaquila'  || this.depto =='Vitro') && this.city=='CDMX' ){
             pc_quejas = calc.quejas2;
-        }else if((this.depto =='Moldeo' || this.depto =='EMCO' || this.depto=='Corte NIP')   && this.city =='Monterrey'){
+        }else if((this.depto =='Moldeo' || this.depto =='EMCO' || this.depto=='Corte NIP' || this.depto=='Corte')   &&  (this.city =='Merida' || this.city =='Monterrey')){
             pc_quejas = calc.quejas2;
         }else if(this.depto=='Corte L'   && this.city =='Monterrey'){
             pc_quejas = calc.quejas6;
+        }else if(this.depto=='Choferes CEDI' &&  this.city =='Veracruz' ){
+            pc_quejas = calc.quejas2;
+        }else if(this.depto=='Corte'   && this.city =='Cancun'){
+            pc_quejas = calc.quejas7;
+        }else if((this.depto=='Corte' || this.depto =='Construpanel' )  && this.city =='Culiacan'){
+            pc_quejas = calc.devoluciones;
+        }else if((this.depto=='Almacen Const' || this.depto=='Almacen') && this.city =='Culiacan'){
+            pc_quejas = calc.quejas2;
+        }else if(this.depto=='Choferes Locales' && this.city=='Culiacan'){
+            pc_quejas = calc.quejas3;
         }else{
             pc_quejas = calc.quejas;
         }
@@ -331,6 +376,28 @@ export default class BonusPenalties {
             pcblocksfe = calc.difInventario;
         }else if(this.depto == 'Bloquera' && this.city == 'Monterrey'){
             pcblocksfe = calc.blocksfe4;
+        }else if(this.depto == 'Bloquera' && this.city == 'Merida'){
+            pcblocksfe = calc.blocksfe2;
+        }else if(this.depto == 'Bloquera' && this.city == 'Veracruz'){
+            pcblocksfe = calc.blocksfe5;
+        }else if(this.depto == 'Construpanel' && this.city == 'Veracruz'){
+            pcblocksfe = calc.rechazoInterno3;
+        }else if(this.depto == 'Rotulado' && this.city == 'Merida'){
+            pcblocksfe = calc.piezasDefectuosas;
+        }else if(this.depto == 'Rotulado' && this.city == 'Mexicali'){
+            pcblocksfe = calc.condicionanteEpp;
+        }else if(this.depto =='PreexpYMoldeo'  && this.city =='Cancun'){
+            pcblocksfe = calc.blocksfe6;
+        }else if(this.depto =='PreexpYMoldeo'  && this.city =='Culiacan'){
+            pcblocksfe = calc.descSeguridad;
+        }else if(this.depto =='Molienda'  && this.city =='Culiacan'){
+            pcblocksfe = calc.descuentoEpp;
+        }else if((this.depto =='Corte' || this.depto =='Construpanel' || this.depto=='Almacen Const' || this.depto=='Almacen')  && this.city =='Culiacan'){
+            pcblocksfe = calc.descSeguridad2;
+        }else if((this.depto =='Almacen'  || this.depto=='Almacen Playa') && this.city =='Cancun'){
+            pcblocksfe = calc.difInventario2;
+        }else if(this.depto=='Bono TYG' && this.city=='Tijuana'){
+            pcblocksfe = calc.condicionanteEpp2;
         }else{
             pcblocksfe = calc.blocksfe;
         }

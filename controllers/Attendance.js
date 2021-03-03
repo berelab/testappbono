@@ -35,11 +35,36 @@ export default class Attendance {
         return this.retardo(this.equipo);
     }
 
+    get asistenciaPersona(){
+        return this.asistencia_persona(this.equipo);
+    }
+
+    get diasComPersona(){
+        return this.dias_com_persona(this.equipo);
+    }
+
+    get totalAsistencias(){
+        return this.total_asistencias(this.equipo);
+    }
+
+    get colaboradoresPorDia(){
+        return this.colaboradores_por_dia(this.equipo, this.factor_dias_laborados);
+    }
+
+    get asistenciaTotal(){
+        return  this.asistencia_total(this.equipo, this.factor_dias_laborados);
+    }
+
     //methods 
     // sumatoria de las asistencias en la semana por persona.
     asistencia(equipo,city, depto) {
         let asistencia_total = [];
-        if(city=='Monterrey' && (depto=='Moldeo' || depto=='EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='PreExpansion')){
+        if(city=='Monterrey' && (depto=='Moldeo' || depto=='EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='PreExpansion' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3')){
+            for (var i = 0, len = equipo.length; i < len; ++i) {
+                var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado+ equipo[i].asistencia.domingo;
+                asistencia_total.push(total);
+            }
+        }else if(city=='Merida' && (depto=='Moldeo')){
             for (var i = 0, len = equipo.length; i < len; ++i) {
                 var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado+ equipo[i].asistencia.domingo;
                 asistencia_total.push(total);
@@ -299,6 +324,151 @@ export default class Attendance {
                 
                 return equivalente;
              }
+        }else if(city=='Merida'){
+            if(depto=='Mantenimiento' || depto=='Almacen' || depto=='Choferes' || depto=='Moldeo' || depto=='Rotulado'){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+             }else if(depto=='Corte' || depto=='Bloquera'){
+                let equivalente = [];
+                let len = sumatoria_asistencia.length;
+                
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/horas_por_turno)) * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+
+                return equivalente;
+             }
+        }else if(city=='Veracruz'){
+            if(depto=='Mantenimiento' || depto=='Almacen' || depto=='Almacen CEDI' || depto=='Choferes' || depto=='Choferes CEDI'){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+             }else if(depto=='Bloquera'  || depto=='Corte' || depto=='EMCO' || depto =='Moldeo' || depto=='Steelfoam' || depto=='Construpanel'){
+                let equivalente = [];
+                let len = sumatoria_asistencia.length;
+                
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/horas_por_turno)) * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+
+                return equivalente;
+             }
+        }else if(city=='Mexicali'){
+            if(depto=='Choferes' || depto=='Rotulado'){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+                }
+        }else if(city=='Cancun'){
+            if(depto=='Mantenimiento' || depto=='Corte' ||depto == 'PreexpYMoldeo'  ||depto == 'Almacen' || depto=='Almacen Playa'){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+             }else if(depto=='Empaque Perla'){
+                let equivalente= sumatoria_asistencia;
+                return equivalente
+             }
+        }else if(city=='Tijuana'){
+            if(depto=='Silo Molino' || depto=='Mantenimiento'  || depto=='Almacen' ){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+             }else if(depto=='Corte' || depto=='PreexpYMoldeo' || depto=='Choferes Locales'){
+                 return sumatoria_asistencia;
+             }else if(depto=='Bono TYG'){
+                let equivalente = [];
+                let len = sumatoria_asistencia.length;
+                
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/12));
+                        equivalente.push(total);
+                    }
+                }
+
+                return equivalente;
+             }
+        }else if(city=='Culiacan'){
+            if(depto=='Mantenimiento'){
+                let equivalente=[];
+                let len = sumatoria_asistencia.length;
+    
+                for(var i =0; i< len; i++){
+                    if(sumatoria_asistencia[i]==0){
+                        equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
+                    }
+                }
+                
+                return equivalente;
+             }else if(depto=='PreexpYMoldeo' || depto=='Mantenimiento Edificios' || depto=='Molienda' || depto=='Corte' || depto=='Construpanel'  || depto=='Almacen' || depto=='Almacen Const' || depto=='Choferes Locales'){
+                return sumatoria_asistencia;
+             }
         }else{
 
             let equivalecia_asistencia;
@@ -324,5 +494,128 @@ export default class Attendance {
         }
         return retardos_totales;
     }
+
+    colaboradores_por_dia(equipo, factor_dias_laborados){
+        let len = equipo.length;
+        let asistencia_total = [];
+        let total_lunes=0;
+        let total_martes=0;
+        let total_miercoles=0;
+        let total_jueves=0;
+        let total_viernes=0;
+        let total_sabado=0;
+     
+       
+        for (var i = 0; i <len; ++i) {
+             total_lunes = total_lunes + equipo[i].asistencia.lunes;
+             total_martes = total_martes+ equipo[i].asistencia.martes;
+             total_miercoles = total_miercoles + equipo[i].asistencia.miercoles;
+             total_jueves  = total_jueves + equipo[i].asistencia.jueves;
+             total_viernes  = total_viernes + equipo[i].asistencia.viernes;
+             total_sabado  = total_sabado + equipo[i].asistencia.sabado;
+             
+        }
+    
+       
+        total_lunes = total_lunes * factor_dias_laborados;
+        total_martes = total_martes* factor_dias_laborados;
+        total_miercoles = total_miercoles * factor_dias_laborados;
+        total_jueves  = total_jueves * factor_dias_laborados;
+        total_viernes = total_viernes * factor_dias_laborados;
+        total_sabado = total_sabado * factor_dias_laborados;
+        
+    
+        asistencia_total.push(total_lunes);
+        asistencia_total.push(total_martes);
+        asistencia_total.push(total_miercoles);
+        asistencia_total.push(total_jueves);
+        asistencia_total.push(total_viernes);
+        asistencia_total.push(total_sabado);
+       
+        let colaboradores = {
+            lunes: asistencia_total[0],
+            martes: asistencia_total[1],
+            miercoles: asistencia_total[2],
+            jueves: asistencia_total[3],
+            viernes: asistencia_total[4],
+            sabado: asistencia_total[5],
+        }
+        
+        if(equipo[0].asistencia.domingo != null || equipo[0].asistencia.domingo >= 0 ){
+            /**Existe domingo*/
+            let total_domingo=0;
+            
+            for (var i = 0; i <len; ++i) {
+                total_domingo = total_domingo + equipo[i].asistencia.domingo;
+            }
+
+            total_domingo = total_domingo * factor_dias_laborados;
+           
+            asistencia_total.push(total_lunes);
+
+            colaboradores = {
+                lunes: asistencia_total[0],
+                martes: asistencia_total[1],
+                miercoles: asistencia_total[2],
+                jueves: asistencia_total[3],
+                viernes: asistencia_total[4],
+                sabado: asistencia_total[5],
+                sabado: asistencia_total[6],
+            }
+        }
+
+      
+        return colaboradores;
+     }
+    
+     asistencia_total(equipo, factor_dias_laborados){
+         let colaboradores = this.colaboradores_por_dia(equipo, factor_dias_laborados);
+         let total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles + colaboradores.jueves + colaboradores.viernes +colaboradores.sabado
+         return total;
+     }
+
+
+    /* Mexicali mmto, produccion almacen*/
+
+    
+   asistencia_persona(equipo){
+    let len = equipo.length;
+    let asistencias = [];
+
+    for (var i = 0; i <len; ++i) {
+        let asistencia_persona = equipo[i].asistencia;
+        asistencias.push(asistencia_persona);
+         
+    }
+
+    return asistencias;
+    }
+
+    /** mmto, produccion */
+    dias_com_persona(equipo){
+        let len = equipo.length;
+        let dias_comida = [];
+    
+        for (var i = 0; i <len; ++i) {
+            let dia_comida = equipo[i].dias_comida;
+            dias_comida.push(dia_comida);
+             
+        }
+    
+        return dias_comida;
+        }
+
+    total_asistencias(equipo){
+        let asistencias = this.asistencia_persona(equipo)
+        let len = asistencias.length;
+        let asistencia_total = 0;
+        
+        for (var i = 0; i <len; ++i) {
+            asistencia_total+= asistencias[i];
+        }
+
+        return asistencia_total;
+    }
+
 }
 

@@ -33,7 +33,7 @@ const controller ={
         let len = horas_extras_semana.length;
 
         for(var i =0; i<len; i++){
-            var total = ((horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (horas_extras_semana[i].horas_extras.horas_extras_triples*3));
+            var total = ((horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (horas_extras_semana[i].horas_extras.horas_extras_triples*3))/9.5;
             total_turnos_extras.push(total);
         }
 

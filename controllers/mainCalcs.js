@@ -5,6 +5,7 @@ import Production from './Production';
 import BonusPenalties from './BonusPenalties';
 import TableOfProportions from './TableOfProportions';
 import calcsN from './calcsN';
+import { city } from '../models/lapaz/lapaz';
 
 class MainCalcs {
     constructor ( 
@@ -174,6 +175,26 @@ class MainCalcs {
     get TotalCambioMoldes(){
         return this.total_cambio_moldes(this.m3_cortados, this.extram3);
     }
+
+    get montoAPagar(){
+        return this.monto_a_pagar(this.colaboradores, this.extram3, this.dias, this.depto, this.base, this.dias_sucios );
+    }
+
+    get montoTotal(){
+        return this.monto_total(this.colaboradores, this.extram3, this.dias,  this.depto, this.base , this.dias_sucios );
+    }
+
+    get produccionPersona(){
+        return this.produccion_persona(this.asistencia_total,this.dias, this.m3_cortados, );
+    }
+
+    get percepcionTotal2(){
+        return this.percepcion_total_2(this.asistencia_total, this.dias, this.m3_cortados, this.base, this.extram3)
+    }
+
+    get percepcionTotal3(){
+        return this.percepcion_total_3(this.extram3, this.base, this.dias_sucios);
+    }
   
     // Methods
 
@@ -181,8 +202,13 @@ class MainCalcs {
         let calc = new Production(this.m3_cortados, this.colaboradores, this.nameDay);
         let m3_persona;
         let m3_cortados_totales = calc.totalM3;
-        if(this.city == 'Nogales' || this.city == 'Hermosillo' || this.city == 'Guadalajara' || this.city == 'Queretaro' || this.city == 'Monterrey'){
-            m3_cortados_totales && asistencia_total != 0 ? m3_persona = (m3_cortados_totales / asistencia_total)*dias : m3_persona = 0
+        if(this.city == 'Nogales' || this.city == 'Hermosillo' || this.city == 'Guadalajara' || this.city == 'Queretaro' || this.city == 'Monterrey' || this.city == 'Merida' || this.city=='Veracruz' || this.city=='Mexicali' || this.city=='Cancun'   || this.city=='Culiacan' || this.city=='Tijuana'){
+            if((this.city=='Tijuana' && this.depto=='Bono TYG') || (this.city=='Culiacan' && (this.depto=='Almacen Const' || this.depto=='Almacen'))){
+                m3_cortados_totales && asistencia_total != 0 ? m3_persona = (m3_cortados_totales / asistencia_total) : m3_persona = 0
+            }else{
+                m3_cortados_totales && asistencia_total != 0 ? m3_persona = (m3_cortados_totales / asistencia_total)*dias : m3_persona = 0
+            }
+           
             
         }else if(this.depto == 'Electrolux' || this.depto == 'Choferes'){
             m3_cortados_totales && asistencia_total != 0 ? m3_persona = (m3_cortados_totales / asistencia_total) : m3_persona = 0
@@ -263,6 +289,7 @@ class MainCalcs {
         let premio_castigo_boletaspnc;
         let premio_castigo_usoequiseg;
         let premio_castigo_preexpandido;
+        let premio_castigo_rechazo;
 
         if(depto == 'CEDI' || depto == 'Chofer Local' || depto =='Choferes'  || depto== 'Almacen' ){
             extra_diasSucios = dirtyDaysCalcs.auditoriaDiasSucios;
@@ -278,6 +305,18 @@ class MainCalcs {
             }else if( city =='Queretaro'){
                 premio_castigo_quejas=clacs.quejas;
                 premio_castigo_blocksfe=clacs.pcblocksfe
+                percepcion_total =percepcion_total_m3_base + extra_diasSucios + extra_amp + premio_castigo_quejas + premio_castigo_blocksfe;
+            }else if( city =='Merida'){
+                premio_castigo_quejas=clacs.quejas;
+                percepcion_total =percepcion_total_m3_base + extra_diasSucios +premio_castigo_quejas +extra_amp;
+            }else if(city =='Veracruz' || city =='Tijuana'){
+                percepcion_total =percepcion_total_m3_base + extra_diasSucios +extra_amp;
+            }else if(city =='Cancun'){
+                premio_castigo_quejas=clacs.quejas;
+                percepcion_total =percepcion_total_m3_base + extra_diasSucios +extra_amp+ premio_castigo_quejas;
+            }else if(city=='Culiacan'){
+                premio_castigo_quejas=clacs.quejas;
+                premio_castigo_blocksfe=clacs.pcblocksfe;
                 percepcion_total =percepcion_total_m3_base + extra_diasSucios + extra_amp + premio_castigo_quejas + premio_castigo_blocksfe;
             }else{
                percepcion_total = percepcion_total_m3_base + extra_amp + extra_diasSucios;
@@ -439,11 +478,120 @@ class MainCalcs {
                 premio_castigo_quejas = (percepcion_total_m3_base + extra_diasSucios + extra_amp)*pc_q;
                 percepcion_total = percepcion_total_m3_base + extra_amp + extra_diasSucios + premio_castigo_quejas;
             }
+         }else if((depto == 'Almacen' || depto == 'Choferes' || depto=='Moldeo' || depto=='Bloquera' || depto=='Rotulado') && city =='Merida'){
+             if(depto == 'Almacen' || depto == 'Choferes'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios
+             }else if(depto =='Moldeo'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_quejas =clacs.quejas;
+                percepcion_total = percepcion_total_m3_base + premio_castigo_quejas +extra_diasSucios
+             }else if( depto=='Bloquera'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                premio_castigo_blocksfe=clacs.pcblocksfe
+                percepcion_total = percepcion_total_m3_base+ premio_castigo_blocksfe +extra_diasSucios + extra_amp
+             }else if(depto=='Rotulado'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_blocksfe=clacs.pcblocksfe
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios + premio_castigo_blocksfe
+             }
+         }else if(( depto=='Bloquera' || depto =='EMCO' || depto =='Moldeo' || depto=='Almacen' || depto=='Almacen CEDI' || depto =='Steelfoam' || depto=='Choferes' || depto=='Choferes CEDI' || depto=='Construpanel') && city =='Veracruz'){
+            if( depto=='Bloquera'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                premio_castigo_blocksfe=clacs.pcblocksfe
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp +premio_castigo_blocksfe
+            }else if(depto=='EMCO' || depto =='Moldeo'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp
+            }else if(depto =='Steelfoam'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp
+            }else if(depto=='Almacen' || depto=='Choferes CEDI'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_quejas =clacs.quejas;
+                percepcion_total = percepcion_total_m3_base + premio_castigo_quejas +extra_diasSucios
+            }else if( depto=='Almacen CEDI'){
+                let limpieza_unidades = this.blocks_fe;
+                limpieza_unidades =='Si' || limpieza_unidades =='SI' ? premio_castigo_ordenLimpieza = 100:  premio_castigo_ordenLimpieza = -100
+                percepcion_total = percepcion_total_m3_base +  premio_castigo_ordenLimpieza
+            }else if(depto=='Choferes'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base  +extra_diasSucios
+            }else if(depto=='Construpanel'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_rechazo =clacs.pcblocksfe
+                extra_amp = clacs.extraDesperdicio;
+                premio_castigo_usoequiseg = clacs.pc_equipoProtecc;
+                percepcion_total = percepcion_total_m3_base +premio_castigo_usoequiseg +extra_diasSucios  +premio_castigo_rechazo +extra_amp
+            }
+         }else if( (depto=='Choferes' || depto=='Rotulado')&& city=='Mexicali'){
+             if(depto=='Choferes'){
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios
+             }else if(depto=='Rotulado'){
+                premio_castigo_blocksfe =clacs.pcblocksfe
+                extra_amp = clacs.extraDesperdicio;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe +extra_amp
+             }
+           
+         }else if((depto == 'PreexpYMoldeo' || depto == 'Almacen' || depto=='Almacen Playa') && city=='Cancun'){
+            if(depto=='PreexpYMoldeo'){
+                premio_castigo_blocksfe =clacs.pcblocksfe
+                extra_amp = clacs.extraDesperdicio;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe +extra_amp;
+            }else if(depto == 'Almacen' || depto=='Almacen Playa'){
+                premio_castigo_blocksfe =clacs.pcblocksfe
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe
+            }
+         }else if((depto=='Silo Molino' || depto=='Almacen' || depto == 'PreexpYMoldeo' || depto=='Choferes Locales' || depto=='Bono TYG')&&city =='Tijuana'){
+             if(depto=='Silo Molino' || depto=='Almacen' ){
+                 extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios;
+             }else if(depto == 'PreexpYMoldeo'){
+                extra_amp = clacs.extraDesperdicio;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios + extra_amp
+             }else if(depto=='Choferes Locales'){
+                 this.dias_sucios ==0? extra_diasSucios = 100: extra_diasSucios= -100
+                 percepcion_total = percepcion_total_m3_base + extra_diasSucios
+             }else if(depto=='Bono TYG'){
+                premio_castigo_blocksfe =clacs.pcblocksfe
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios +extra_amp +premio_castigo_blocksfe
+             }
+         }else if(( depto == 'PreexpYMoldeo'  || depto=='Molienda'   || depto=='Construpanel'  || depto=='Choferes Locales'  || depto=='Almacen' || depto=='Almacen Const') &&city=='Culiacan'){
+            if( depto == 'PreexpYMoldeo'){
+                premio_castigo_blocksfe =clacs.pcblocksfe
+                extra_diasSucios = clacs.extraDiasSucios;
+                extra_amp = clacs.extraDesperdicio;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios +extra_amp +premio_castigo_blocksfe
+            }else if(depto=='Construpanel' || depto=='Almacen Const' || depto=='Almacen'){
+                premio_castigo_quejas=clacs.quejas;
+                premio_castigo_blocksfe=clacs.pcblocksfe;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total =percepcion_total_m3_base + extra_diasSucios  + premio_castigo_quejas + premio_castigo_blocksfe;
+            }else if(depto=='Choferes Locales'){
+                premio_castigo_quejas=clacs.quejas;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total =percepcion_total_m3_base  + extra_diasSucios  + premio_castigo_quejas;
+            }else if(depto=='Molienda'){
+                premio_castigo_blocksfe=clacs.pcblocksfe;
+                extra_diasSucios = clacs.extraDiasSucios;
+                percepcion_total =percepcion_total_m3_base  +   premio_castigo_blocksfe
+            }
          }else { 
             percepcion_total = percepcion_total_m3_base + extra_diasSucios;    
         }
 
-       percepcion_total < 0 ? percepcion_total = "0" : percepcion_total; 
+        percepcion_total < 0 ? percepcion_total = "0" : percepcion_total; 
                     
         return percepcion_total;
     }
@@ -452,10 +600,11 @@ class MainCalcs {
      * Retorna el pago total antes de realizar las penalizaciones por faltas/retardos.
      */
     pago_total(depto, dias){
-        let calcN = new calcsN(sumatoria_asistencia, this.factor_dias_laborados, this.equipo, this.dias, this.tiempo_extra,this.horas_por_turno, this.extram3,this.m3_cortados,this.base,this.amp,this.dias_sucios,this.num_quejas_cliente,this.rechazo_interno,this.city, this.depto,this.colaboradores);
         let calc = new Attendance(this.equipo, this.factor_dias_laborados, this.city, this.dias, this.depto, this.horas_por_turno);
         let sumatoria_asistencia = calc.asistencias;
         let equivalecia_asistencia = calc.equivaleciaAsistencias;
+        let calcN = new calcsN(sumatoria_asistencia, this.factor_dias_laborados, this.equipo, this.dias, this.tiempo_extra,this.horas_por_turno, this.extram3,this.m3_cortados,this.base,this.amp,this.dias_sucios,this.num_quejas_cliente,this.rechazo_interno,this.city, this.depto,this.colaboradores);
+      
 
         if(this.city == 'Nogales' && depto == 'Corte' ){
             if(depto == 'Corte'){
@@ -468,9 +617,10 @@ class MainCalcs {
                     pago.push(total);
                 }
             }
-        }else if( this.city == 'Nogales' || this.city == 'Hermosillo' || this.city == 'Guadalajara' || this.city =='Queretaro'  || this.city =='Villahermosa' || this.city =='CDMX' || this.city =='Monterrey'){
-            if(depto == 'Bloquera' || depto == 'Moldeo' || depto =='Almacen' || depto=='Almacen CEDI' || depto =='Choferes' || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental'){
+        }else if( this.city == 'Nogales' || this.city == 'Hermosillo' || this.city == 'Guadalajara' || this.city =='Queretaro'  || this.city =='Villahermosa' || this.city =='CDMX' || this.city =='Monterrey' || this.city =='Merida' || this.city=='Veracruz' || this.city=='Mexicali' || this.city=='Cancun' || this.city=='Culiacan' || this.city=='Tijuana'){
+            if(depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Bloquera' || depto == 'Moldeo' || depto =='Almacen' || depto=='Almacen CEDI' || depto=='Almacen Const' || depto=='Almacen Playa' || depto =='Choferes' || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Construpanel'){
                 var pago =[];
+              
                 let percepcion_total = this.percepcion_total(depto, this.city);
                 
                 if(this.city=='Queretaro' && depto=='Almacen'){
@@ -485,8 +635,8 @@ class MainCalcs {
                         pago.push(total);
                     }
                 }
-                 
-                
+               
+               
             }else if(depto =='PreExpansion'){
                 var pago=[];
                 if(this.city =='Monterrey'){
@@ -509,6 +659,17 @@ class MainCalcs {
                         var total = total_bono_calidad/dias*equivalecia_asistencia[i];
                         pago.push(total);
                  }
+            }else if(depto=='Mantenimiento Edificios'){
+                var pago =[];
+              
+                let percepcion_total = this.percepcion_total_3(this.extram3, this.base, this.dias_sucios);
+                
+              
+                    for(var i =0; i <equivalecia_asistencia.length; i++){
+                        var total = percepcion_total/dias*(equivalecia_asistencia[i]);
+                        pago.push(total);
+                    }
+                
             }else if( depto == 'Insulpanel'){
                 var pago=[];
                 let total_bono_insulpanel = this.bono_total_por_colaborador(this.equipo)
@@ -518,6 +679,31 @@ class MainCalcs {
                     pago.push(total);
                  }
 
+            }else if(depto=='Rotulado'){
+               
+                var pago=[];
+                let percepcion_total = this.percepcion_total(depto, this.city);
+                let equipo = this.equipo;
+
+                if(this.city=='Mexicali'){
+                    for(var i =0; i <equivalecia_asistencia.length; i++){
+                        var total = percepcion_total/dias*(equivalecia_asistencia[i]);
+                        pago.push(total);
+                    }
+                }else{
+                    for(var i=0; i<equipo.length;i++){
+                        let rotulador = equipo[i].rotulador;
+                        let total =0;
+                        if(rotulador == 'NO' ||  rotulador == 'No'){
+                            total = (percepcion_total/dias*(equivalecia_asistencia[i]))*.5;
+        
+                        }else{
+                            total = percepcion_total/dias*(equivalecia_asistencia[i]);
+                        }
+                       
+                        pago.push(total);
+                    }
+                }
             }else if(depto=='RotuladoT1'){
                var pago =[];
                let percepcion_total = calcN.percepcionTotalPorDia;
@@ -545,6 +731,35 @@ class MainCalcs {
                    pago.push(total);
                }
               
+            }else if(depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3'){
+                var pago=[];
+                let ptpd = calcN.percepcionTotalPorDia;
+                let ptpdi= calcN.percepcionTotalPorDiaIndividual;
+                let equipo = this.equipo;
+
+                for(var i=0; i<equipo.length;i++){
+                    let rotulador = equipo[i].rotulador;
+                    let total =0;
+                    if(rotulador == 'NO'){
+                        total = (equipo[i].asistencia.lunes *ptpdi[0]) +(equipo[i].asistencia.martes *ptpdi[1]) +(equipo[i].asistencia.miercoles *ptpdi[2]) +(equipo[i].asistencia.jueves *ptpdi[3]) +(equipo[i].asistencia.viernes *ptpdi[4]) +(equipo[i].asistencia.sabado *ptpdi[5]) +(equipo[i].asistencia.domingo *ptpdi[6]);
+    
+                    }else{
+                        total = (equipo[i].asistencia.lunes * ptpd[0])+(equipo[i].asistencia.martes *ptpd[1]) +(equipo[i].asistencia.miercoles *ptpd[2]) +(equipo[i].asistencia.jueves *ptpd[3]) +(equipo[i].asistencia.viernes *ptpd[4]) +(equipo[i].asistencia.sabado *ptpd[5]) +(equipo[i].asistencia.domingo *ptpd[6]);
+                    }
+                   
+                    pago.push(total);
+                }
+
+            }else if(depto=='Empaque Perla'){
+                var pago=[]
+            
+                let percepcion_total = this.percepcion_total_2(this.asistencia_total,dias, this.m3_cortados, this.base, this.extram3);
+                
+                for(var i =0; i <equivalecia_asistencia.length; i++){
+                    var total = percepcion_total/dias*(equivalecia_asistencia[i]);
+                    pago.push(total);
+                }
+                
             }
         
         }else if(this.city == 'La Paz' || this.city == 'Juarez'){
@@ -617,7 +832,7 @@ class MainCalcs {
         let pagoTotal =[];
 
 
-        if(depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI'  || depto=='Chofer Local' ||  depto =='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen CEDI' || depto =='Choferes'   || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam' || depto == 'Insulpanel' || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental'){
+        if( depto=='Mantenimiento Edificios' || depto=='Silo Molino' || depto=='Bono TYG'|| depto == 'Placa' || depto=='Molienda'  || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI'  || depto=='Chofer Local' ||  depto =='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen Const'  || depto=='Almacen CEDI' || depto=='Almacen Playa' || depto =='Choferes'   || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam' || depto == 'Insulpanel' || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental'|| depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel' || depto=='Empaque Perla'){
             for(var i=0; i<pagoPorColaborador.length; i++){
                 sumatoriaPagoColaboradores = sumatoriaPagoColaboradores + pagoPorColaborador[i];
             }
@@ -713,7 +928,7 @@ class MainCalcs {
                 }
             
             
-        }else if(depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen CEDI' || depto =='Choferes'  || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental'){
+        }else if( depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen'  || depto=='Almacen Const'  || depto=='Almacen CEDI' || depto=='Almacen Playa' || depto =='Choferes'  || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel'  || depto=='Empaque Perla'){
             for(var i=0; i<pago.length; i++){
                 penalizacion_falta_retardos = this.penalizacion_falta_retardos(faltas[i], retardos[i], pago[i]);
                 if(penalizacion_falta_retardos >0){
@@ -752,7 +967,7 @@ class MainCalcs {
     
                 pagoTotal = pagoTiempoExtra + sumatoriaBonoColaboradores;
             
-         }else if(depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen CEDI' || depto =='Choferes'  || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental'){
+         }else if(depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen Const'  || depto=='Almacen Playa' || depto=='Almacen CEDI' || depto =='Choferes'  || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel' || depto=='Empaque Perla'){
             for(var i=0; i<bonoPorColaborador.length; i++){
                 sumatoriaBonoColaboradores = sumatoriaBonoColaboradores + bonoPorColaborador[i];
             }
@@ -855,19 +1070,9 @@ class MainCalcs {
         /** total */
         let calc = new TableOfProportions(null,null,null,null,null,null,null,null,null,rendimiento_agua,rendimiento_combustible, rendimiento_electricidad,faltas_uso_epp,fugas_perla, fugas_vapor, fugas_aceite, fugas_aire );
 
-        let porcAgua;
-        let porcCombustible;
-        let porcElectricidad;
-        if(this.city =='Guadalajara' ||  this.city =='Queretaro' ){
-             porcAgua = calc.agua2;
-             porcCombustible = calc.combustible2;
-             porcElectricidad = calc.electricidad2;
-        }else{
-             porcAgua = calc.agua;
-             porcCombustible = calc.combustible;
-             porcElectricidad = calc.electricidad;
-        }
-       
+        let porcAgua = calc.agua;
+        let porcCombustible = calc.combustible;
+        let porcElectricidad = calc.electricidad;
 
         let premcastEnergeticos = porcAgua + porcCombustible + porcElectricidad;
 
@@ -1054,6 +1259,104 @@ class MainCalcs {
 
         return total;
     }
+
+    /**Mexicali*/
+
+    monto_a_pagar(asistencias, pago, dias, depto, dias_comida, pago_dia_comida){
+        let dias_laborados = dias;
+        let monto =[];
+        let len = asistencias.length;
+        
+        if(depto=='Almacen' || depto=='Bono Garantia'){
+            for(var i =0; i<len; i++){
+                let total = (pago/dias_laborados)*asistencias[i]
+                monto.push(total);
+            }
+        }else if(depto=='Produccion' || depto=='Mantenimiento'){
+            for(var i =0; i<len; i++){
+                let total = ((pago/dias_laborados)*asistencias[i])+(dias_comida[i]*pago_dia_comida);
+                monto.push(total);
+            }
+        }
+       
+        return monto
+    }
+
+    monto_total(asistencias, pago, dias, depto, dias_comida, pago_dia_comida){
+        let montos =  this.monto_a_pagar(asistencias, pago, dias, depto, dias_comida, pago_dia_comida);
+        let total=0;
+        let len = montos.length;
+
+        for(var i=0; i<len; i++){
+            total+=montos[i];
+        }
+
+        return total;
+    }
+
+    /** empaque perla */
+    produccion_persona(asistencia_total,dias, m3_cortados){
+        let produccion= ((m3_cortados.bolsa_grande + (m3_cortados.bolsa_chica*1.5))/asistencia_total)*dias;
+        return produccion
+    }
+
+    percepcion_total_2(asistencia_total,dias, m3_cortados, base, extram3){
+        let dirtyDaysCalcs = new DirtyDays(this.dias_sucios);
+        let produccion = this.produccion_persona(asistencia_total,dias, m3_cortados);
+        let despuesB0 = produccion-base;
+       
+        let pagounidad=0;
+        if(despuesB0 >=0 && despuesB0 <301){
+            pagounidad=.35
+        }else if(despuesB0 >=301 && despuesB0 <601){
+            pagounidad=.4
+        }else if(despuesB0 >=601 && despuesB0 <901){
+            pagounidad=.45
+        }else if(despuesB0 >=901 && despuesB0 <1201){
+            pagounidad=.5
+        }else if(despuesB0 >=1201){
+            pagounidad=.55
+        }
+
+        let pago = despuesB0*pagounidad;
+        let clacs = new BonusPenalties(this.amp, null, null, null, pago, this.depto, this.dias_sucios, this.city);
+        
+        let extra_amp = clacs.extraDesperdicio;
+        let extra_diasSucios= clacs.extraDiasSucios;;
+        let percepcion_total= pago + extra_amp + extra_diasSucios;
+
+        percepcion_total < 0 ? percepcion_total = 0 : percepcion_total; 
+
+        return percepcion_total;
+    }
+
+    /** MANTENIMIENTO EDIFICIOS */
+
+    percepcion_total_3(extram3, base, dias_sucios){
+        let percepcion_total;
+        
+        let pc_epp; 
+        let epp = dias_sucios;
+        if(epp >=0 && epp <1 ){
+            epp = 0
+        }else if(epp >=1 && epp <2){
+            epp =  -.2;
+        }else if(epp >=2 && epp <3){
+            epp = -.5;
+        }else if(epp >=3 ){
+            epp =  -1;
+        }else{
+            epp =  0;
+        }
+
+        pc_epp = (extram3 * base)* epp;
+        percepcion_total = (extram3* base) + pc_epp;
+    
+        percepcion_total < 0 ? percepcion_total = 0 : percepcion_total; 
+
+        return percepcion_total;
+    }
+    
 
   }
   

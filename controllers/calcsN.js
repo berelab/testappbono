@@ -46,7 +46,7 @@ class CalcsN {
     // Getters
     
     get asistencia () {
-        return this.asistenciasTotalesPorDia(this.equipo, this.dias);
+        return this.asistenciasTotalesPorDia(this.equipo);
     }
 
     get asistenciaFactor () {
@@ -93,8 +93,16 @@ class CalcsN {
         return this.percepcionTotal_PorDia();
     }
 
+    get percepcionTotalPorDiaIndividual(){
+        return this.percepcionTotal_PorDia_Individual(this.equipo);
+    }
+
     get percepcionTotalPorSemana(){
         return this.percepcionTotal_PorSemana();
+    }
+
+    get percepcionTotalPorSemanaIndividual(){
+        return this.percepcionTotal_PorSemanaIndividual(this.equipo);
     }
 
    
@@ -108,7 +116,7 @@ class CalcsN {
     /**
      * Retorna un arreglo de las asistencias totales (sin factor), por cada dia de la semana
      */
-    asistenciasTotalesPorDia(equipo, dias){
+    asistenciasTotalesPorDia(equipo){
         let asistencia_total = [];
         let total_lunes=0;
         let total_martes=0;
@@ -126,12 +134,22 @@ class CalcsN {
              total_sabado  = total_sabado + equipo[i].asistencia.sabado;
         }
 
+       
         asistencia_total.push(total_lunes);
         asistencia_total.push(total_martes);
         asistencia_total.push(total_miercoles);
         asistencia_total.push(total_jueves);
         asistencia_total.push(total_viernes);
         asistencia_total.push(total_sabado);
+
+        if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
+            let total_domingo=0;
+            for (var i = 0; i <equipo.length; ++i) {
+                total_domingo  = total_domingo + equipo[i].asistencia.domingo;
+           }
+           asistencia_total.push(total_domingo);
+        }
+
 
         return asistencia_total;
     }
@@ -186,7 +204,9 @@ class CalcsN {
         m3cortados.push(m3_cortados.jueves);
         m3cortados.push(m3_cortados.viernes);
         m3cortados.push(m3_cortados.sabado);
-       
+        if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
+            m3cortados.push(m3_cortados.domingo);
+        }
 
         return m3cortados;
 
@@ -222,6 +242,17 @@ class CalcsN {
             }
 
 
+        }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
+            let colaboradores =this.colaboradores;
+            for(var i=0; i<colaboradores.length; i++){
+                if(m3cortados[i]==0 || colaboradores[i]==0){
+                    m3_cortados_persona.push(0);
+                }else{
+                    let total = m3cortados[i]/colaboradores[i];
+                    m3_cortados_persona.push(total);
+                }
+            }
+            
         }else{
             for(var i=0; i<asistenciaDiaria.length; i++){
                 if(m3cortados[i]==0 || asistenciaDiaria[i]==0){
@@ -246,12 +277,12 @@ class CalcsN {
         let m3_ExtraVSBaseO = [];
         let m3_CortadosPersona = this.m3CortadosPorPersona();
         let baseDiaria;
-        if(this.depto=='RotuladoT1'){
+        if(this.depto=='RotuladoT1' || this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3' ){
             baseDiaria=base0;
         }else{
            baseDiaria = base0 /dias;
         }
-        for(var i =0; i< dias; i++){
+        for(var i =0; i< m3_CortadosPersona.length; i++){
             if(m3_CortadosPersona[i]==0){
                 m3_ExtraVSBaseO.push(0);
             }else{
@@ -296,6 +327,8 @@ class CalcsN {
         if(this.depto=='RotuladoT1'){
             preOCas = calc.desperdicio6;
 
+        }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
+            preOCas = calc.desperdicio12;
         }else{
             preOCas = calc.desperdicioN;
 
@@ -328,6 +361,8 @@ class CalcsN {
         if(this.depto=='RotuladoT1'){
             preOCas = calcs.diasSucios6;
 
+        }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
+            preOCas = calcs.auditoriaSol7;
         }else{
             preOCas= calc.auditoriasolN;
 
@@ -407,7 +442,7 @@ class CalcsN {
         let $porQuejas;
         let $porRechazoInterno;
 
-        if(this.depto=='RotuladoT1'){
+        if(this.depto=='RotuladoT1' || this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3'){
             $porDesperdicio = this.porDesperdicioPorDia(this.desperdicio);
             $porAuditoriaSOL = this.porAuditoriaSOLPorDia(this.auditoria_sol);
             for(var i =0; i<percepcion_Total_Por_M3Base.length; i++){
@@ -438,6 +473,23 @@ class CalcsN {
         return  percepcionTotal;
     }
 
+    percepcionTotal_PorDia_Individual(equipo){
+        let percepcionTotalIndividual = [];
+        let percepcionTotal = this.percepcionTotal_PorDia();
+        let asistencia = this.asistenciasTotalesPorDia(equipo);
+
+        for(var i=0; i<asistencia.length; i++){
+            if(asistencia[i]==0 || percepcionTotal[i] ==0){
+                percepcionTotalIndividual.push(0);
+            }else{
+                let total = percepcionTotal[i]/asistencia[i];
+                percepcionTotalIndividual.push(total);
+            }
+        }
+
+        return  percepcionTotalIndividual;
+    }
+
      /**
      * Retorna la percepcion total de la semana
      */
@@ -453,6 +505,16 @@ class CalcsN {
         return percepcion_total;
     }
 
+    percepcionTotal_PorSemanaIndividual(equipo){
+        let percepcion_total =0;
+        let ptpd= this.percepcionTotal_PorDia_Individual(equipo);
+
+        for(var i =0; i <ptpd.length; i++){
+            percepcion_total += ptpd[i];
+        }
+
+        return percepcion_total;
+    }
 
 
    

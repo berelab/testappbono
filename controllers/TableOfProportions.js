@@ -100,6 +100,45 @@ export default class TableOfProportions {
         return this.desperdicio_11(this.amp);
     }
 
+    get desperdicio12(){
+        return this.desperdicio_12(this.amp);
+    }
+
+    get desperdicio13(){
+        return this.desperdicio_13(this.amp);
+    }
+
+    get desperdicio14(){
+        return this.desperdicio_14(this.amp);
+    }
+
+    get desperdicio15(){
+        return this.desperdicio_15(this.amp);
+    }
+
+    get desperdicio16(){
+        return this.desperdicio_16(this.amp);
+    }
+
+    get desperdicio17(){
+        return this.desperdicio_17(this.amp);
+    }
+
+    get desperdicio18(){
+        return this.desperdicio_18(this.amp);
+    }
+
+    get condicionanteEpp(){
+        return this.condicionante_epp(this.blocks_fe);
+    }
+
+     get condicionanteEpp2(){
+        return this.condicionante_epp2(this.amp);
+    }
+
+    get equipoProteccion(){
+        return this.equipo_proteccion(this.id_combustible);
+    }
 
     get auditoriasolN(){
         return this.auditoria_sol_Nogales(this.auditoria_sol);
@@ -129,8 +168,16 @@ export default class TableOfProportions {
         return this._quejas6(this.num_quejas_cliente);
     }
     
+    get quejas7(){
+        return this._quejas7(this.num_quejas_cliente);
+    }
+
     get rechazoInternoN(){
         return this.rechazo_interno_Nogales(this.rechazo_interno);
+    }
+
+    get rechazoInterno3(){
+        return this.rechazo_interno3(this.blocks_fe)
     }
 
     get perlaCorteN(){
@@ -172,19 +219,6 @@ export default class TableOfProportions {
     get agua(){
         return this._agua(this.rendimiento_agua);
     }
-
-    get electricidad2(){
-        return this._electricidad2(this.rendimiento_electricidad);
-    }
-
-    get combustible2(){
-        return this._combustible2(this.rendimiento_combustible);
-    }
-    
-    get agua2(){
-        return this._agua2(this.rendimiento_agua);
-    }
-
 
     get aprovechamientoMP(){
        return this.aprovechamientoMP_Hmo(this.amp);
@@ -230,6 +264,20 @@ export default class TableOfProportions {
     get blocksfe4(){
         return this.blocksfe_4(this.blocks_fe);
     }
+
+    get blocksfe5(){
+        return this.blocksfe_5(this.blocks_fe);
+    }
+
+    get blocksfe6(){
+        return this.blocksfe_6(this.blocks_fe);
+    }
+
+
+    get piezasDefectuosas(){
+        return this.piezas_defectuosas(this.blocks_fe)
+    }
+    
     get hielerasfe(){
         return this.hielerasfe_1(this.blocks_fe);
     }
@@ -280,7 +328,82 @@ export default class TableOfProportions {
         return this.dif_inventario(this.blocks_fe);
     }
 
+    get difInventario2(){
+        return this.dif_inventario2(this.blocks_fe);
+    }
+
+    get descSeguridad(){
+        return this.desc_seguridad(this.blocks_fe);
+    }
+
+    get descSeguridad2(){
+        return this.desc_seguridad2(this.blocks_fe);
+    }
+
+    get devoluciones(){
+        return this._devoluciones(this.num_quejas_cliente);
+    }
+
+    get descuentoEpp(){
+        return this._descuento_epp(this.blocks_fe);
+    }
+
+
     //methods
+
+    desperdicio_13(value){ // estandar corte y bloquera 
+        if(value >=0 && value <88){
+            return .2
+        }else if(value >=88 && value <92){
+            return .15
+        }else if(value >=92 && value <96){
+            return .10
+        }else if(value >=96 && value <100){
+            return .05
+        }else if(value >=100 && value <103){
+            return 0
+        }else if(value >=103 && value <106){
+            return -.05
+        }else if(value >=106 && value <109){
+            return -.10
+        }else if(value >=109 && value <112){
+            return -.15
+        }else if(value >=112 && value <115){
+            return -.20
+        }else if(value >=115){
+            return -.25
+        }else{
+            return 0
+        }
+    }
+
+    desperdicio_14(value){ // estandar moldeo
+        if(value >=0 && value <88){
+            return -.2
+        }else if(value >=88 && value <92){
+            return -.15
+        }else if(value >=92 && value <96){
+            return -.10
+        }else if(value >=96 && value <100){
+            return -.05
+        }else if(value >=100 && value <103){
+            return 0
+        }else if(value >=103 && value <106){
+            return .05
+        }else if(value >=106 && value <109){
+            return .10
+        }else if(value >=109 && value <112){
+            return .15
+        }else if(value >=112 && value <115){
+            return .20
+        }else if(value >=115){
+            return .25
+        }else{
+            return 0
+        }
+    }
+
+
     desperdicio(value){
         if(value >= 88 && value < 90){
             return .35;
@@ -662,6 +785,24 @@ export default class TableOfProportions {
         }
     }
 
+    _quejas7(value){ 
+        if(value ==0){
+            return 0;
+        }else if(value == 1 ){
+            return .15;
+        }else if(value == 2){
+            return .20;
+        }else if(value == 3){
+            return .25;
+        }else if(value == 4){
+            return .30;
+        }else if(value == 5){
+            return .50;
+        }else{
+            return 0;
+        }
+    }
+
 
     rechazo_interno_Nogales(value){//dpt corte
         // faltan porcentajes excel.
@@ -830,21 +971,9 @@ export default class TableOfProportions {
         }
     }
 
-    _electricidad(value){
-        if(value  == 'Rojo'){
-            return -.12;
-        }else if(value == 'Amarillo'){
-            return -.06;
-        }else if(value == 'Verde'){
-            return  .06;
-        }else if(value == 'Azul'){
-            return .12
-        }else{
-            return 0;
-        }
-    }
+    
 
-    _electricidad2(value){
+    _electricidad(value){
         if(value  == 'Rojo'){
             return .04;
         }else if(value == 'Amarillo'){
@@ -858,20 +987,8 @@ export default class TableOfProportions {
         }
     }
 
+   
     _combustible(value){
-        if(value  == 'Rojo'){
-            return -.12;
-        }else if(value == 'Amarillo'){
-            return -.06;
-        }else if(value == 'Verde'){
-            return  .06;
-        }else if(value == 'Azul'){
-            return .12
-        }else{
-            return 0;
-        }
-    }
-    _combustible2(value){
         if(value  == 'Rojo'){
             return .04;
         }else if(value == 'Amarillo'){
@@ -885,21 +1002,8 @@ export default class TableOfProportions {
         }
     }
 
+    
     _agua(value){
-        if(value  == 'Rojo'){
-            return -.06;
-        }else if(value == 'Amarillo'){
-            return -.03;
-        }else if(value == 'Verde'){
-            return  .03;
-        }else if(value == 'Azul'){
-            return .06
-        }else{
-            return 0;
-        }
-    }
-
-    _agua2(value){
         if(value  == 'Rojo'){
             return .02;
         }else if(value == 'Amarillo'){
@@ -1057,6 +1161,20 @@ export default class TableOfProportions {
         }else if(value>=11 && value < 21){
             return -.10;
         }else if(value>=21){
+            return -.20;
+        }else{
+            return 0;
+        }
+    }
+
+    desperdicio_12(value){
+        if(value==0){
+            return 0;
+        }else if(value>=1 && value < 11){
+            return -.05;
+        }else if(value>=11 && value < 20){
+            return -.10;
+        }else if(value>=20){
             return -.20;
         }else{
             return 0;
@@ -1230,6 +1348,36 @@ export default class TableOfProportions {
 
     }
 
+    blocksfe_6(value){
+        if(value>=0 && value <1){
+            return .02;
+        }else if(value>=1 && value <2){
+            return -.03;
+        }else if(value>=2 && value <3){
+            return -.06;
+        }else if(value>=3){
+            return -.09;
+        }else{
+            return 0;
+        }
+
+    }
+
+    blocksfe_5(value){
+        if(value>=0 && value <1){
+            return 0;
+        }else if(value>=1 && value <2){
+            return -.03;
+        }else if(value>=2 && value <3){
+            return -.06;
+        }else if(value>=3){
+            return -.1;
+        }else{
+            return 0;
+        }
+
+    }
+
     hielerasfe_1(value){
         if(value>=0 && value <1){
             return .1
@@ -1269,6 +1417,38 @@ export default class TableOfProportions {
             return 225
         }else if(value=='No' || value=='no' || value=='NO'){
             return -100
+        }else{
+            return 0
+        }
+    }
+
+    desc_seguridad(value){
+        if(value=='Si' || value=='si' || value=='SI' || value >0){
+            return -.05
+        }else{
+            return 0
+        }
+    }
+
+    desc_seguridad2(value){
+        if(value=='Si' || value=='si' || value=='SI' || value >0){
+            return -.1
+        }else{
+            return 0
+        }
+    }
+
+    _devoluciones(value){
+        if(value=='Si' || value=='si' || value=='SI' || value >0){
+            return -.02
+        }else{
+            return 0
+        }
+    }
+
+    _descuento_epp(value){
+        if(value=='No' || value=='no' || value=='NO'){
+            return -.25
         }else{
             return 0
         }
@@ -1589,4 +1769,207 @@ export default class TableOfProportions {
         }
     }
 
+    piezas_defectuosas(value){
+        if(value >=0 && value <1){
+            return 0
+        }else if(value >=1 && value <11){
+            return -.05
+        }else if(value >=11 && value <21){
+            return -.1
+        }else if(value >=21 ){
+            return -.2
+        }else{
+            return 0;
+        }
+    }
+
+    desperdicio_15(value){
+        if(value>=0 && value <10.5){
+            return .2;
+        }else if(value >=10.5 && value <11){
+            return .175;
+        }else if(value >=11 && value <11.5){
+            return .15;
+        }else if(value >=11.5 && value <12){
+            return .125;
+        }else if(value >=12 && value <12.5){
+            return .1;
+        }else if(value >=12.5 && value <13){
+            return .075;
+        }else if(value >=13 && value <13.5){
+            return .05;
+        }else if(value >=13.5 && value <14){
+            return .025;
+        }else if(value >=14 && value <14.5){
+            return 0;
+        }else if(value >=14.5 && value <15){
+            return -.025;
+        }else if(value >=15 && value <15.5){
+            return -.05;
+        }else if(value >=15.5 && value <16){
+            return -.075;
+        }else if(value >=16 && value <16.5){
+            return -.1;
+        }else if(value >=16.5 && value <17){
+            return -.125;
+        }else if(value >=17 && value <17.5){
+            return -.15;
+        }else if(value >=17.5 && value <18){
+            return -.175;
+        }else if(value >=18 ){
+            return -.2;
+        }else{
+            return 0;
+        }
+    }
+
+    rechazo_interno3(value){
+        if(value >=0 && value <1){
+            return 0;
+        }else if(value >=1 && value <2){
+            return -.02
+        }else if(value >=2 && value <3){
+            return -.03
+        }else if(value >=3 && value <4){
+            return -.04
+        }else if(value >=4 && value <5){
+            return -.05
+        }else if(value >=5 && value <6){
+            return -.075
+        }else if(value >=6 && value <7){
+            return -.08
+        }else if(value >=7 && value <8){
+            return -.1
+        }else if(value >=8 && value <9){
+            return -.15
+        }else if(value >=9 && value <10){
+            return -.17
+        }else if(value >=10){
+            return -.20
+        }else{
+            return 0;
+        }
+    }
+
+    desperdicio_16(value){
+        if(value >=0 && value <5.4){
+            return .2;
+        }else if(value >=5.4 && value <5.8){
+            return .16
+        }else if(value >=5.8 && value <6.2){
+            return .12
+        }else if(value >=6.2 && value <6.4){
+            return .08
+        }else if(value >=6.4 && value <6.6){
+            return .04
+        }else if(value >=6.6 && value <7){
+            return 0
+        }else if(value >=7 && value <7.5){
+            return -.04
+        }else if(value >=7.5 && value <8){
+            return -.08
+        }else if(value >=8 && value <8.5){
+            return -.12
+        }else if(value >=8.5){
+            return -.24
+        }else{
+            return 0;
+        }
+    }
+
+    equipo_proteccion(value){
+        if(value==0){
+            return 0;
+        }else if(value ==5){
+            return .08;
+        }else{
+            return 0;
+        }
+    }
+
+    condicionante_epp(value){
+        if(value ==0){
+            return 0;
+        }else if(value==1){
+            return -.01
+        }else if(value==2){
+            return -.05
+        }else if(value==3){
+            return -.08
+        }else if(value==4){
+            return -.12
+        }else if(value==5){
+            return -.15
+        }else if(value==6){
+            return -.30
+        }else{
+            return 0
+        }
+    }
+
+    condicionante_epp2(value){
+        if(value ==0){
+            return 0;
+        }else if(value==1){
+            return -.01
+        }else if(value==2){
+            return -.05
+        }else if(value==3){
+            return -.08
+        }else if(value==4){
+            return -.12
+        }else if(value==5){
+            return -.15
+        }else if(value==6){
+            return -.20
+        }else{
+            return 0
+        }
+    }
+
+    desperdicio_17(value){
+        if(value>=0 && value <3){
+            return 0;
+        }else if(value >=3 && value <9){
+            return -.08
+        }else if(value >=9 && value <16){
+            return -.1
+        }else if(value >=16 ){
+            return -.2
+        }
+    }
+
+    dif_inventario2(value){
+        if(value>=0 && value <0.5){
+            return .08;
+        }else if(value >=0.5 && value <1){
+            return  .04
+        }else if(value >=1 && value <1.5){
+            return  0
+        }else if(value >=1.5 && value <2){
+            return -.04
+        }else if(value >=2 ){
+            return -.08
+        }
+    }
+
+    desperdicio_18(value){
+        if(value >= 0 &&  value <1){
+            return 0
+        }else if(value >=1 && value <6){
+            return -.05
+        }else if(value >=6 && value <11){
+            return -.07
+        }else if(value >=11 && value <16){
+            return -.09
+        }else if(value >=16 && value <21){
+            return -.11
+        }else if(value >=21 && value <26){
+            return -.13
+        }else if(value >=26 ){
+            return -.15
+        }else{
+            return 0;
+        }
+    }
 }

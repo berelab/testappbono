@@ -113,6 +113,73 @@ import preexpansionMonterrey from '../controllers/monterrey/preexpansionControll
 import rotuladoHielera1Monterrey from '../controllers/monterrey/rotuladoHielera1Controller';
 import rotuladoHielera2Monterrey from '../controllers/monterrey/rotuladoHielera2Controller';
 import rotuladoHielera3Monterrey from '../controllers/monterrey/rotuladoHielera3Controller';
+
+//--------------------------------------------------------------------------------------------------
+// MERIDA
+import mantenimientoMerida from '../controllers/merida/mantenimientoController';
+import almacenMerida from '../controllers/merida/almacenController';
+import choferesMerida from '../controllers/merida/choferesController';
+import moldeoMerida from '../controllers/merida/moldeoController';
+import corteMerida from '../controllers/merida/corteController';
+import bloqueraMerida from '../controllers/merida/bloqueraController';
+import rotuladoMerida from '../controllers/merida/rotuladoController';
+
+//--------------------------------------------------------------------------------------------------
+// VERACRUZ
+import bloqueraVeracruz from '../controllers/veracruz/bloqueraController';
+import corteVeracruz from '../controllers/veracruz/corteController';
+import emcoVeracruz from '../controllers/veracruz/emcoController';
+import mantenimientoVeracruz from '../controllers/veracruz/mantenimientoController';
+import moldeoVeracruz from '../controllers/veracruz/moldeoController';
+import almacenVeracruz from '../controllers/veracruz/almacenController';
+import almacenCediVeracruz from '../controllers/veracruz/almacenCediController';
+import steelfoamVeracruz from '../controllers/veracruz/steelfoamController';
+import choferesVeracruz from '../controllers/veracruz/choferesController';
+import choferCediVeracruz from '../controllers/veracruz/choferCediController';
+import construpanelVeracruz from '../controllers/veracruz/construpanelController';
+
+
+//--------------------------------------------------------------------------------------------------
+// MEXICALI
+import choferesMexicali from '../controllers/mexicali/choferesController';
+import rotuladoMexicali from '../controllers/mexicali/rotuladoController';
+import almacenMexicali from '../controllers/mexicali/almacenController';
+import produccionMexicali from '../controllers/mexicali/produccionController';
+import mantenimientoMexicali from '../controllers/mexicali/mantenimientoController';
+
+//--------------------------------------------------------------------------------------------------
+// Cancun
+import mantenimientoCancun from '../controllers/cancun/mantenimientoController';
+import corteCancun from '../controllers/cancun/corteController';
+import preexpYMoldeoCancun from '../controllers/cancun/preexpYMoldeoController';
+import almacenCancun from '../controllers/cancun/almacenController';
+import almacenPlayaCancun from '../controllers/cancun/almacenPlayaController';
+import empaquePerlaCancun from '../controllers/cancun/empaquePerlaController';
+import traficoCancun from '../controllers/cancun/traficoController';
+
+// TIJUANA -----------------------------------------------------------------------------------------------
+import mantenimientoTijuana from '../controllers/tijuana/mantenimientoController';
+import bonoGarantiaTijuana from '../controllers/tijuana/bonoGarantiaController';
+import siloMolinoTijuana from '../controllers/tijuana/siloMolinoController';
+import almacenTijuana from '../controllers/tijuana/almacenController';
+import corteTijuana from '../controllers/tijuana/corteController';
+import corteMaqTijuana from '../controllers/tijuana/corteMaqController';
+import preexpYMoldeoTijuana from '../controllers/tijuana/preexpYMoldeoController';
+import choferesLocalesTijuana from '../controllers/tijuana/choferesLocalesController';
+import bonoTYGTijuana from '../controllers/tijuana/bonoTYGController';
+
+// CULIACAN -------------------------------------------------------------------------------------
+
+import mantenimientoCuliacan  from '../controllers/culiacan/mantenimientoController';
+import preexpYMoldeoCuliacan  from '../controllers/culiacan/preexpYMoldeoController';
+import corteCuliacan  from '../controllers/culiacan/corteController';
+import construpanelCuliacan  from '../controllers/culiacan/construpanelController';
+import almacenConstCuliacan  from '../controllers/culiacan/almacenConstController';
+import almacenCuliacan  from '../controllers/culiacan/almacenController';
+import choferesLocalesCuliacan  from '../controllers/culiacan/choferesLocalesController';
+import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
+import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
+
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ
 router.get('/lapaz', lapaz.data)
@@ -396,9 +463,9 @@ router.get('/cdmx/almacen/', almacenCdmx.home);
 router.get('/cdmx/almacen/calculator', almacenCdmx.calculator);
 router.get('/cdmx/almacen/calculator/:index', almacenCdmx.calculator);
 
-router.get('/cdmx/preexpMoldeo/', preexpMoldeoCdmx.home);
-router.get('/cdmx/preexpMoldeo/calculator', preexpMoldeoCdmx.calculator);
-router.get('/cdmx/preexpMoldeo/calculator/:index', preexpMoldeoCdmx.calculator);
+router.get('/cdmx/preexpymoldeo/', preexpMoldeoCdmx.home);
+router.get('/cdmx/preexpymoldeo/calculator', preexpMoldeoCdmx.calculator);
+router.get('/cdmx/preexpymoldeo/calculator/:index', preexpMoldeoCdmx.calculator);
 
 
 router.get('/cdmx/mantenimiento/', mantenimientoCdmx.home);
@@ -487,5 +554,213 @@ router.get('/monterrey/rotulado-hielera-2/calculator/:index', rotuladoHielera2Mo
 router.get('/monterrey/rotulado-hielera-3/', rotuladoHielera3Monterrey.home);
 router.get('/monterrey/rotulado-hielera-3/calculator', rotuladoHielera3Monterrey.calculator);
 router.get('/monterrey/rotulado-hielera-3/calculator/:index', rotuladoHielera3Monterrey.calculator);
+
+// Merida ------------------------------------------------------------------------------------------
+router.get('/merida/mantenimiento/', mantenimientoMerida.home);
+router.get('/merida/mantenimiento/calculator',mantenimientoMerida.calculator);
+router.get('/merida/mantenimiento/calculator/:index', mantenimientoMerida.calculator);
+
+router.get('/merida/almacen/', almacenMerida.home);
+router.get('/merida/almacen/calculator', almacenMerida.calculator);
+router.get('/merida/almacen/calculator/:index', almacenMerida.calculator);
+
+router.get('/merida/choferes/', choferesMerida.home);
+router.get('/merida/choferes/calculator', choferesMerida.calculator);
+router.get('/merida/choferes/calculator/:index', choferesMerida.calculator);
+
+router.get('/merida/moldeo/', moldeoMerida.home);
+router.get('/merida/moldeo/calculator', moldeoMerida.calculator);
+router.get('/merida/moldeo/calculator/:index', moldeoMerida.calculator);
+
+router.get('/merida/corte/', corteMerida.home);
+router.get('/merida/corte/calculator', corteMerida.calculator);
+router.get('/merida/corte/calculator/:index', corteMerida.calculator);
+
+
+router.get('/merida/bloquera/', bloqueraMerida.home);
+router.get('/merida/bloquera/calculator', bloqueraMerida.calculator);
+router.get('/merida/bloquera/calculator/:index', bloqueraMerida.calculator);
+
+
+router.get('/merida/rotulado/', rotuladoMerida.home);
+router.get('/merida/rotulado/calculator', rotuladoMerida.calculator);
+router.get('/merida/rotulado/calculator/:index', rotuladoMerida.calculator);
+
+//VERACRUZ ------------------------------------------------------------------------------
+
+router.get('/veracruz/bloquera/', bloqueraVeracruz.home);
+router.get('/veracruz/bloquera/calculator', bloqueraVeracruz.calculator);
+router.get('/veracruz/bloquera/calculator/:index', bloqueraVeracruz.calculator);
+
+router.get('/veracruz/corte/', corteVeracruz.home);
+router.get('/veracruz/corte/calculator', corteVeracruz.calculator);
+router.get('/veracruz/corte/calculator/:index', corteVeracruz.calculator);
+
+
+router.get('/veracruz/emco/', emcoVeracruz.home);
+router.get('/veracruz/emco/calculator', emcoVeracruz.calculator);
+router.get('/veracruz/emco/calculator/:index', emcoVeracruz.calculator);
+
+router.get('/veracruz/moldeo/', moldeoVeracruz.home);
+router.get('/veracruz/moldeo/calculator', moldeoVeracruz.calculator);
+router.get('/veracruz/moldeo/calculator/:index', moldeoVeracruz.calculator);
+
+router.get('/veracruz/almacen/', almacenVeracruz.home);
+router.get('/veracruz/almacen/calculator', almacenVeracruz.calculator);
+router.get('/veracruz/almacen/calculator/:index', almacenVeracruz.calculator);
+
+router.get('/veracruz/almacen-cedi/', almacenCediVeracruz.home);
+router.get('/veracruz/almacen-cedi/calculator', almacenCediVeracruz.calculator);
+router.get('/veracruz/almacen-cedi/calculator/:index', almacenCediVeracruz.calculator);
+
+router.get('/veracruz/mantenimiento/', mantenimientoVeracruz.home);
+router.get('/veracruz/mantenimiento/calculator', mantenimientoVeracruz.calculator);
+router.get('/veracruz/mantenimiento/calculator/:index', mantenimientoVeracruz.calculator);
+
+router.get('/veracruz/steelfoam/', steelfoamVeracruz.home);
+router.get('/veracruz/steelfoam/calculator', steelfoamVeracruz.calculator);
+router.get('/veracruz/steelfoam/calculator/:index', steelfoamVeracruz.calculator);
+
+router.get('/veracruz/choferes/', choferesVeracruz.home);
+router.get('/veracruz/choferes/calculator', choferesVeracruz.calculator);
+router.get('/veracruz/choferes/calculator/:index', choferesVeracruz.calculator);
+
+router.get('/veracruz/chofer-cedi/', choferCediVeracruz.home);
+router.get('/veracruz/chofer-cedi/calculator', choferCediVeracruz.calculator);
+router.get('/veracruz/chofer-cedi/calculator/:index', choferCediVeracruz.calculator);
+
+
+router.get('/veracruz/construpanel/', construpanelVeracruz.home);
+router.get('/veracruz/construpanel/calculator', construpanelVeracruz.calculator);
+router.get('/veracruz/construpanel/calculator/:index', construpanelVeracruz.calculator);
+
+//MEXICALI ---------------------------------------------------------------------
+router.get('/mexicali/choferes/', choferesMexicali.home);
+router.get('/mexicali/choferes/calculator', choferesMexicali.calculator);
+router.get('/mexicali/choferes/calculator/:index', choferesMexicali.calculator);
+
+router.get('/mexicali/rotulado/', rotuladoMexicali.home);
+router.get('/mexicali/rotulado/calculator', rotuladoMexicali.calculator);
+router.get('/mexicali/rotulado/calculator/:index', rotuladoMexicali.calculator);
+
+router.get('/mexicali/almacen/', almacenMexicali.home);
+router.get('/mexicali/almacen/calculator', almacenMexicali.calculator);
+router.get('/mexicali/almacen/calculator/:index', almacenMexicali.calculator);
+
+router.get('/mexicali/produccion/', produccionMexicali.home);
+router.get('/mexicali/produccion/calculator', produccionMexicali.calculator);
+router.get('/mexicali/produccion/calculator/:index', produccionMexicali.calculator);
+
+router.get('/mexicali/mantenimiento/', mantenimientoMexicali.home);
+router.get('/mexicali/mantenimiento/calculator', mantenimientoMexicali.calculator);
+router.get('/mexicali/mantenimiento/calculator/:index', mantenimientoMexicali.calculator);
+
+//CANCUN-----------------------------------------------------------------------------
+
+router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
+router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
+router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
+
+router.get('/cancun/corte/', corteCancun.home);
+router.get('/cancun/corte/calculator', corteCancun.calculator);
+router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
+
+router.get('/cancun/preexpymoldeo/', preexpYMoldeoCancun.home);
+router.get('/cancun/preexpymoldeo/calculator', preexpYMoldeoCancun.calculator);
+router.get('/cancun/preexpymoldeo/calculator/:index', preexpYMoldeoCancun.calculator);
+
+router.get('/cancun/almacen/', almacenCancun.home);
+router.get('/cancun/almacen/calculator', almacenCancun.calculator);
+router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
+
+
+router.get('/cancun/almacen-playa/', almacenPlayaCancun.home);
+router.get('/cancun/almacen-playa/calculator', almacenPlayaCancun.calculator);
+router.get('/cancun/almacen-playa/calculator/:index', almacenPlayaCancun.calculator);
+
+router.get('/cancun/empaque-perla/', empaquePerlaCancun.home);
+router.get('/cancun/empaque-perla/calculator', empaquePerlaCancun.calculator);
+router.get('/cancun/empaque-perla/calculator/:index', empaquePerlaCancun.calculator);
+
+router.get('/cancun/trafico/', traficoCancun.home);
+router.get('/cancun/trafico/calculator', traficoCancun.calculator);
+router.get('/cancun/trafico/calculator/:index', traficoCancun.calculator);
+
+//TIJUANA--------------------------------------------------------------------------------------
+router.get('/tijuana/mantenimiento/', mantenimientoTijuana.home);
+router.get('/tijuana/mantenimiento/calculator', mantenimientoTijuana.calculator);
+router.get('/tijuana/mantenimiento/calculator/:index', mantenimientoTijuana.calculator);
+
+router.get('/tijuana/bono-garantia/', bonoGarantiaTijuana.home);
+router.get('/tijuana/bono-garantia/calculator', bonoGarantiaTijuana.calculator);
+router.get('/tijuana/bono-garantia/calculator/:index', bonoGarantiaTijuana.calculator);
+
+router.get('/tijuana/silo-molino/', siloMolinoTijuana.home);
+router.get('/tijuana/silo-molino/calculator', siloMolinoTijuana.calculator);
+router.get('/tijuana/silo-molino/calculator/:index', siloMolinoTijuana.calculator);
+
+router.get('/tijuana/almacen/', almacenTijuana.home);
+router.get('/tijuana/almacen/calculator', almacenTijuana.calculator);
+router.get('/tijuana/almacen/calculator/:index', almacenTijuana.calculator);
+
+
+router.get('/tijuana/corte/', corteTijuana.home);
+router.get('/tijuana/corte/calculator', corteTijuana.calculator);
+router.get('/tijuana/corte/calculator/:index', corteTijuana.calculator);
+
+
+router.get('/tijuana/corte-maq/', corteMaqTijuana.home);
+router.get('/tijuana/corte-maq/calculator', corteMaqTijuana.calculator);
+router.get('/tijuana/corte-maq/calculator/:index', corteMaqTijuana.calculator);
+
+router.get('/tijuana/preexpymoldeo/', preexpYMoldeoTijuana.home);
+router.get('/tijuana/preexpymoldeo/calculator', preexpYMoldeoTijuana.calculator);
+router.get('/tijuana/preexpymoldeo/calculator/:index', preexpYMoldeoTijuana.calculator);
+
+router.get('/tijuana/choferes-locales/', choferesLocalesTijuana.home);
+router.get('/tijuana/choferes-locales/calculator', choferesLocalesTijuana.calculator);
+router.get('/tijuana/choferes-locales/calculator/:index', choferesLocalesTijuana.calculator);
+
+router.get('/tijuana/bono-tyg/', bonoTYGTijuana.home);
+router.get('/tijuana/bono-tyg/calculator', bonoTYGTijuana.calculator);
+router.get('/tijuana/bono-tyg/calculator/:index', bonoTYGTijuana.calculator);
+
+// CULIACAN -------------------------------------------------------------------------------------
+
+router.get('/culiacan/mantenimiento/', mantenimientoCuliacan.home);
+router.get('/culiacan/mantenimiento/calculator', mantenimientoCuliacan.calculator);
+router.get('/culiacan/mantenimiento/calculator/:index', mantenimientoCuliacan.calculator);
+
+router.get('/culiacan/preexpymoldeo/', preexpYMoldeoCuliacan.home);
+router.get('/culiacan/preexpymoldeo/calculator', preexpYMoldeoCuliacan.calculator);
+router.get('/culiacan/preexpymoldeo/calculator/:index', preexpYMoldeoCuliacan.calculator);
+
+router.get('/culiacan/corte/', corteCuliacan.home);
+router.get('/culiacan/corte/calculator', corteCuliacan.calculator);
+router.get('/culiacan/corte/calculator/:index', corteCuliacan.calculator);
+
+router.get('/culiacan/construpanel/', construpanelCuliacan.home);
+router.get('/culiacan/construpanel/calculator', construpanelCuliacan.calculator);
+router.get('/culiacan/construpanel/calculator/:index', construpanelCuliacan.calculator);
+
+router.get('/culiacan/almacen-const/', almacenConstCuliacan.home);
+router.get('/culiacan/almacen-const/calculator', almacenConstCuliacan.calculator);
+router.get('/culiacan/almacen-const/calculator/:index', almacenConstCuliacan.calculator);
+
+router.get('/culiacan/almacen-eps/', almacenCuliacan.home);
+router.get('/culiacan/almacen-eps/calculator', almacenCuliacan.calculator);
+router.get('/culiacan/almacen-eps/calculator/:index', almacenCuliacan.calculator);
+
+router.get('/culiacan/choferes-locales/', choferesLocalesCuliacan.home);
+router.get('/culiacan/choferes-locales/calculator', choferesLocalesCuliacan.calculator);
+router.get('/culiacan/choferes-locales/calculator/:index', choferesLocalesCuliacan.calculator);
+
+router.get('/culiacan/molienda/', moliendaCuliacan.home);
+router.get('/culiacan/molienda/calculator', moliendaCuliacan.calculator);
+router.get('/culiacan/molienda/calculator/:index', moliendaCuliacan.calculator);
+
+router.get('/culiacan/mantenimiento-edificios/', mantenimientoEdificiosCuliacan.home);
+router.get('/culiacan/mantenimiento-edificios/calculator', mantenimientoEdificiosCuliacan.calculator);
+router.get('/culiacan/mantenimiento-edificios/calculator/:index', mantenimientoEdificiosCuliacan.calculator);
 
 module.exports = router;

@@ -32,7 +32,7 @@ const rotuladoHielera2BaseData = {
             {
                 nombre: 'MARY BELTRAN',
                 num: 200648,
-                rotulador: 'SI',
+                rotulador: 'NO',
                 asistencia: {
                     lunes: 1,
                     martes: 1,
