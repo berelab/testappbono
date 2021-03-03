@@ -1,6 +1,6 @@
 'use strict'
 
-const db = require ('../mysqlClient');
+//const db = require ('../mysqlClient');
 
 class KbrsRepository {
 
