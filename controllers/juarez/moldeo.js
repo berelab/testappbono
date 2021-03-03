@@ -53,6 +53,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             moldeo.equipo, 
+            null, // kbrs.team_asis,
             moldeo.base0, 
             moldeo.$_extra_m3, 
             moldeo.auditoria_sol, 

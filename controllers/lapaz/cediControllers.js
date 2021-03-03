@@ -42,6 +42,7 @@ const controller = {
             cedi.asistencia_total, 
             weekdayName, 
             cedi.equipo, 
+            null, // cedi.team_asis,
             cedi.base0, 
             cedi.$_extra_m3, 
             cedi.dias_sucios, 

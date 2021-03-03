@@ -42,6 +42,7 @@ const controller = {
             choferes.asistencia, 
             weekdayName, 
             choferes.equipo, 
+            null, // choferes.team_asis,
             choferes.base0, 
             choferes.$_extra_m3, 
             choferes.auditoria_sol, 

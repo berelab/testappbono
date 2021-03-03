@@ -48,6 +48,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             corte.equipo, 
+            null, // corte.team_asis,
             corte.base0, 
             corte.$_extra_m3, 
             corte.auditoria_sol, 

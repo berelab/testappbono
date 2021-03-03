@@ -15,6 +15,7 @@ class MainCalcs {
         asistencia_total,
         nameDay,
         equipo,
+        asist,
         base,
         extram3,
         dias_sucios,       
@@ -50,6 +51,7 @@ class MainCalcs {
         this.asistencia_total       = asistencia_total;
         this.nameDay                = nameDay;
         this.equipo                 = equipo;
+        this.asist                  = asist
         this.base                   = base;
         this.extram3                = extram3;
         this.dias_sucios            = dias_sucios;        
@@ -90,7 +92,7 @@ class MainCalcs {
         return this.progress(this.m3_cortados, this.colaboradores, this.nameDay);
     }
     get totalAsistencia(){
-        return this.asistencia(this. equipo, this.factor_dias_laborados,this.city,this.depto);
+        return this.asistencia(this. equipo, this.factor_dias_laborados,this.city,this.dias, this.depto,this.horas_por_turno, this.asist);
     }
     get percepcionTotal(){
         return this.percepcion_total(this.depto, this.city);
@@ -219,8 +221,8 @@ class MainCalcs {
       
         return m3_persona;
     }
-    asistencia(equipo, factor_dias_laborados, city, depto) {
-        let calc = new Attendance(equipo, factor_dias_laborados, city, null , depto);
+    asistencia(equipo, factor_dias_laborados, city, dias,  depto, horas_por_turno, asist) {
+        let calc = new Attendance(equipo, factor_dias_laborados, city, dias , depto, horas_por_turno, asist);
         let asistencia_total = calc.asistencias;
         return asistencia_total;
     }
@@ -600,7 +602,7 @@ class MainCalcs {
      * Retorna el pago total antes de realizar las penalizaciones por faltas/retardos.
      */
     pago_total(depto, dias){
-        let calc = new Attendance(this.equipo, this.factor_dias_laborados, this.city, this.dias, this.depto, this.horas_por_turno);
+        let calc = new Attendance(this.equipo, this.factor_dias_laborados, this.city,this.dias,  this.depto, this.horas_por_turno, this.asist);
         let sumatoria_asistencia = calc.asistencias;
         let equivalecia_asistencia = calc.equivaleciaAsistencias;
         let calcN = new calcsN(sumatoria_asistencia, this.factor_dias_laborados, this.equipo, this.dias, this.tiempo_extra,this.horas_por_turno, this.extram3,this.m3_cortados,this.base,this.amp,this.dias_sucios,this.num_quejas_cliente,this.rechazo_interno,this.city, this.depto,this.colaboradores);
@@ -803,7 +805,7 @@ class MainCalcs {
       * @param {numero de dias laborados en la semana} dias 
       */
     pago_TiempoExtra(tiempo_extra, factor_dias_laborados, dias){
-        let calc = new Attendance(this.equipo, this.factor_dias_laborados, this.city, this.dias, this.depto);
+        let calc = new Attendance(equipo, this.factor_dias_laborados, this.city, dias, this.depto, this.horas_por_turno, this.asist);
         let totalTiempoExtra;
         let equivalenteTiempoExtra; 
         let pago;
@@ -891,7 +893,7 @@ class MainCalcs {
         }
     }
     bono_total(depto, equipo, dias){
-        let calc = new Attendance(equipo, this.factor_dias_laborados, this.city, this.dias, this.depto);
+        let calc = new Attendance(equipo, this.factor_dias_laborados, this.city, dias, this.depto, this.horas_por_turno, this.asist);
         let faltas = calc.faltas;
         let retardos = calc.retardos;
         let pago = this.pago_total(depto, dias);
@@ -909,7 +911,7 @@ class MainCalcs {
      */
     bono_TotalConPenalizacionPorColaborador(city,depto, dias){
         let bonototal =[];
-        let calc = new Attendance(this.equipo, this.factor_dias_laborados, city, this.dias, depto);
+        let calc = new Attendance(this.equipo, this.factor_dias_laborados, city, dias, depto, this.horas_por_turno, this.asist);
         let faltas = calc.faltas;
         let retardos = calc.retardos;
         let pago = this.pago_total(depto,dias);

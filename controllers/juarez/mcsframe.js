@@ -49,6 +49,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             mcsframe.equipo, 
+            null, // mcsframe.team_asis,
             mcsframe.base0, 
             mcsframe.$_extra_m3, 
             mcsframe.auditoria_sol, 

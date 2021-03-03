@@ -47,6 +47,7 @@ const controller = {
             moldeo.dias, 
             weekdayName, 
             moldeo.equipo, 
+            null, // moldeo.team_asis,
             moldeo.base0, 
             moldeo.$_extra_m3, 
             moldeo.dias_sucios, 

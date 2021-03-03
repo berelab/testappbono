@@ -48,6 +48,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             aligerante.equipo, 
+            null, // aligerante.team_asis,
             aligerante.base0, 
             aligerante.$_extra_m3, 
             aligerante.auditoria_sol, 

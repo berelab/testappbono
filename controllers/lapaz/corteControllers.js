@@ -44,6 +44,7 @@ const controller = {
             corte.asistencia_total, 
             weekdayName, 
             corte.equipo, 
+            corte.team_asis,
             corte.base0, 
             corte.$_extra_m3, 
             corte.dias_sucios,             
@@ -78,7 +79,7 @@ const controller = {
             }
 
             let len = corte.equipo.length;
-           
+            let nombre = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({
@@ -89,7 +90,7 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: corte.equipo[i].nombre,
+                    nombre: nombre,
                     depto: corte.message,
                     day: weekdayName,
                     meta_semana: corte.base0,

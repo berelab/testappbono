@@ -42,6 +42,7 @@ const controller = {
             chofer.asistencia_total, 
             weekdayName, 
             chofer.equipo, 
+            null, // chofer.team_asis,
             chofer.base0, 
             chofer.$_extra_m3, 
             chofer.dias_sucios, 

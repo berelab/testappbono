@@ -7,18 +7,20 @@ export default class Attendance {
         city,
         dias,
         depto,
-        horas_por_turno
+        horas_por_turno,
+        asist
     ){
         this.equipo = equipo
         this.factor_dias_laborados = factor_dias_laborados;
         this.city = city,
         this.dias = dias
         this.depto = depto
-        this.horas_por_turno =  horas_por_turno
+        this.horas_por_turno =  horas_por_turno,
+        this.asist = asist
     }
     //Getters
     get asistencias(){
-        return this.asistencia(this.equipo, this.city, this.depto);
+        return this.asistencia(this.equipo, this.city, this.depto, this.asist);
     }
 
     get asistenciasPorDias () {
@@ -26,7 +28,7 @@ export default class Attendance {
     }
 
     get equivaleciaAsistencias(){
-        return this.equivalencia_asistencia(this.equipo, this.factor_dias_laborados, this.city, this.depto, this.horas_por_turno);
+        return this.equivalencia_asistencia(this.equipo, this.factor_dias_laborados, this.city, this.depto, this.horas_por_turno, this.asist);
     }
     get faltas(){
         return this.falta(this.equipo);
@@ -57,9 +59,40 @@ export default class Attendance {
 
     //methods 
     // sumatoria de las asistencias en la semana por persona.
-    asistencia(equipo,city, depto) {
-        let asistencia_total = [];
-        if(city=='Monterrey' && (depto=='Moldeo' || depto=='EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='PreExpansion' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3')){
+    asistencia(equipo,city, depto, asist) {
+        let asistencia_total  =[];
+        
+        if(city=='La Paz' && (depto=='Corte')){
+            let len_as = asist.length
+            let len_eq = equipo.length
+            
+            
+            //comparar el userID del colaborador con el code de asistencia y devolver el inidice de la asistencia
+            let indices =[];
+            for(var i=0; i<len_eq; i++){
+                let indice='no encontrado';
+                let ie = equipo[i].userID
+                for(var a =0; a<len_as; a++){
+                    if(ie === asist[a].code){
+                        indice =a
+                    }
+                }
+                indices.push(indice);
+            }
+
+            //obtener las asistencias por semana por persona
+            for(var i=0; i<indices.length; i++){
+               
+                if(indices[i]=='no encontrado'){ 
+                    let total =0;
+                    asistencia_total.push(total);
+                }else{
+                   let total = parseFloat(asist[i].asistencia[0].lunes) +  parseFloat(asist[i].asistencia[1].martes) +parseFloat(asist[i].asistencia[2].miercoles)+parseFloat(asist[i].asistencia[3].jueves)+parseFloat(asist[i].asistencia[4].viernes)
+                   asistencia_total.push(total);
+                }
+            }
+
+        }else if(city=='Monterrey' && (depto=='Moldeo' || depto=='EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='PreExpansion' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3')){
             for (var i = 0, len = equipo.length; i < len; ++i) {
                 var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado+ equipo[i].asistencia.domingo;
                 asistencia_total.push(total);
@@ -120,9 +153,9 @@ export default class Attendance {
         return asistencia_total;
      }
 
-    equivalencia_asistencia(equipo, factor_dias_laborados, city, depto, horas_por_turno){
+     equivalencia_asistencia(equipo, factor_dias_laborados, city, depto, horas_por_turno , asist){
        
-        let sumatoria_asistencia = this.asistencia(equipo, city, depto);
+        let sumatoria_asistencia = this.asistencia(equipo, city, depto, asist );
 
         if(city == 'Nogales'){
             let equivalente=[];

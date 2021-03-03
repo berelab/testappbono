@@ -48,6 +48,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             placa.equipo, 
+            null, // kbrs.team_asis,
             placa.base0, 
             placa.$_extra_m3, 
             placa.auditoria_sol, 

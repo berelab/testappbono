@@ -47,6 +47,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             electrolux.equipo, 
+            null, // electrolux.team_asis,
             electrolux.base0, 
             electrolux.$_extra_m3, 
             auditoria_sol, 
