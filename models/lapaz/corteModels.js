@@ -86,7 +86,7 @@ class CorteModels {
         });
         
         let seen = {};
-        result = orderedData.filter(function(entry) {
+        let result = orderedData.filter(function(entry) {
             var previous;
             if (seen.hasOwnProperty(entry.code)) {
                 previous = seen[entry.code];
@@ -99,6 +99,7 @@ class CorteModels {
             seen[entry.code] = entry;
             return true;
         });
+
         return result;
     }
 
