@@ -1,13 +1,13 @@
 'use strict'
 
 import corteModels from '../../models/lapaz/corteModels';
-import mySqlCorteRepository from '../../infrastructure/lapaz/CorteRepository';
+import CorteSQLRepo from '../../infrastructure/lapaz/CorteRepository';
 import mainCalcs from '../MainCalcs';
 
 const controller = {
 	
 	home: async (req, res) => {
-        const repository = new mySqlCorteRepository();
+        const repository = new CorteSQLRepo();
         const model = new corteModels(repository);
 
         let corte = await model.execute(); 
@@ -21,12 +21,13 @@ const controller = {
             factor_dias_laborados: corte.factor_dias_laborados,
             colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
-            equipo: corte.equipo
+            equipo: corte.equipo,
+            asistencia: corte.team_asis
         });
     },
     
     calculator: async(req, res)=>{
-        const repository = new mySqlCorteRepository();
+        const repository = new CorteSQLRepo();
         const model = new corteModels(repository);
 
         let corte = await model.execute(); 
@@ -141,7 +142,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
         
-        const repository = new mySqlCorteRepository();
+        const repository = new CorteSQLRepo();
         const model = new corteModels(repository);
         let corte = await model.refresh(base, dias_sucios, extra_m3); 
 
