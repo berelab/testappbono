@@ -69,7 +69,10 @@ class MySqlCorteRepository {
         } catch (error) {
             console.log(error);
         }
-        return response.recordset;
+        return{
+            'dias': response.recordset[0].dias,
+            'factor': response.recordset[0].factor
+        }
     }
 
     async update(base, dias_sucios, extra_m3) {

@@ -36,7 +36,6 @@ class CorteModels {
     }
 
     _convertData(response, team, entries, extra) {
-        console.log(extra);
         return {
             message: 'Corte',
             city: 'La Paz',
