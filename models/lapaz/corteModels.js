@@ -17,7 +17,7 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
-        console.log(entries);
+        this._reorderData(entries);
         
         return this._convertData(response, teamResponse, entries);
     }
@@ -66,6 +66,43 @@ class CorteModels {
             
         };
     }
+
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+        return result;
+    }
+
+
 };
 
 module.exports = CorteModels;
