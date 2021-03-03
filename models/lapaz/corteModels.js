@@ -17,9 +17,8 @@ class CorteModels {
         } catch(error) {
             throw error;
         }
-        console.log(this._reorderData(entries));
-        
-        return this._convertData(response, teamResponse, entries);
+
+        return this._convertData(response, teamResponse, this._reorderData(entries));
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -35,6 +34,7 @@ class CorteModels {
     }
 
     _convertData(response, team, entries) {
+        console.log(entries);
         return {
             message: 'Corte',
             city: 'La Paz',
