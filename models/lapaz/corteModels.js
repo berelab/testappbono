@@ -14,11 +14,12 @@ class CorteModels {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
             entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -33,16 +34,15 @@ class CorteModels {
         return response;
     }
 
-    _convertData(response, team, entries) {
-        console.log(entries);
+    _convertData(response, team, entries, extra) {
         return {
             message: 'Corte',
             city: 'La Paz',
             base0: response.base,
             dias_sucios: response.dirty_days,
             $_extra_m3: response.extra,
-            dias: '6',
-            factor_dias_laborados: '1.2',
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
             asistencia_total: '18.00',
             amp: '96.98',
             colaboradores: {
@@ -63,7 +63,6 @@ class CorteModels {
             },
             equipo: team,
             team_asis: entries
-            
         };
     }
 
