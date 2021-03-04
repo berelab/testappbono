@@ -1,13 +1,13 @@
 'use strict'
 
 import cedeiModels from '../../models/lapaz/cedeiModels';
-import mySqlCediRepository from '../../infrastructure/lapaz/CediRepository';
+import SQLCediRepository from '../../infrastructure/lapaz/CediRepository';
 import mainCalcs from '../MainCalcs';
 
 const controller = {
 
 	home: async(req, res) => {
-        const repository = new mySqlCediRepository();
+        const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
 
@@ -21,12 +21,13 @@ const controller = {
             asistencia_total: cedi.asistencia_total,
             colaboradores: cedi.colaboradores,
             m3_desplazados: cedi.m3_desplazados,
-            equipo: cedi.equipo
+            equipo: cedi.equipo,
+            asistencia: cedi.team_asis
         });
     },
     calculator: async(req, res)=>{
 
-        const repository = new mySqlCediRepository();
+        const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
 
@@ -42,7 +43,7 @@ const controller = {
             cedi.asistencia_total, 
             weekdayName, 
             cedi.equipo, 
-            null, // cedi.team_asis,
+            cedi.team_asis,
             cedi.base0, 
             cedi.$_extra_m3, 
             cedi.dias_sucios, 
@@ -65,7 +66,6 @@ const controller = {
 
         if(req.params.index){
             let i = parseInt(req.params.index); 
-
             
             if(isNaN(i)){
                 return res.status(400).send({
@@ -76,7 +76,7 @@ const controller = {
             }
 
             let len = cedi.equipo.length;
-           
+            let name = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({
@@ -85,13 +85,12 @@ const controller = {
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-             
-                    nombre: cedi.equipo[i].nombre,
+                return res.status(200).send({    
+                    nombre: name,
                     depto: cedi.message,
                     day: weekdayName,
                     meta_semana: cedi.base0,
-                    dias_laborados: cedi.base0, 
+                    dias_laborados: cedi.dias, 
                     $_extra_m3: cedi.$_extra_m3,       
                     progress: progress,
                     m3_persona: m3_persona,
@@ -141,7 +140,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
         
-        const repository = new mySqlCediRepository();
+        const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.refresh(base, dias_sucios, extra_m3); 
 

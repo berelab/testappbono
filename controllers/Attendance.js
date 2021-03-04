@@ -62,7 +62,7 @@ export default class Attendance {
     asistencia(equipo,city, depto, asist) {
         let asistencia_total  =[];
         
-        if(city=='La Paz' && (depto=='Corte' || depto == 'Almacén' || depto == 'Moldeo')){
+        if(city=='La Paz' && (depto=='Corte' || depto == 'Almacén' || depto == 'Moldeo' || depto == 'CEDI')){
             let len_as = asist.length
             let len_eq = equipo.length
             
