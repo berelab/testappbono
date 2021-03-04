@@ -76,7 +76,7 @@ const controller = {
             }
 
             let len = cedi.equipo.length;
-            let name = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno
+            let name = cedi.equipo[i].nombre +' ' + cedi.equipo[i].a_paterno + ' ' + cedi.equipo[i].a_materno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({

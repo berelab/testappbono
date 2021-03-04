@@ -88,7 +88,7 @@ const controller = {
             }
 
             let len = moldeo.equipo.length;
-            let name = moldeo.equipo[i].nombre +' ' + moldeo.equipo[i].a_paterno
+            let name = moldeo.equipo[i].nombre +' ' + moldeo.equipo[i].a_paterno + ' ' + moldeo.equipo[i].a_materno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({

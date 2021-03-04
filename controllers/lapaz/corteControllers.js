@@ -79,7 +79,7 @@ const controller = {
             }
 
             let len = corte.equipo.length;
-            let nombre = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno
+            let nombre = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno +' ' + corte.equipo[i].a_materno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({

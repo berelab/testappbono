@@ -85,7 +85,7 @@ const controller = {
             }
 
             let len = almacen.equipo.length;
-            let name = almacen.equipo[i].nombre +' ' + almacen.equipo[i].a_paterno
+            let name = almacen.equipo[i].nombre +' ' + almacen.equipo[i].a_paterno + ' ' + almacen.equipo[i].a_materno
            
             if(i < 0 || i >= len ){
                 return res.status(400).send({
