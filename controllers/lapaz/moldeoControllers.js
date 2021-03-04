@@ -1,13 +1,13 @@
 'use strict'
 
 import moldeoModels from '../../models/lapaz/moldeoModels';
-import mySqlMoldeoRepository from '../../infrastructure/lapaz/MoldeoRepository';
+import SQLMoldeoRepository from '../../infrastructure/lapaz/MoldeoRepository';
 import mainCalcs from '../MainCalcs';
 
 const controller = {
 	
 	home: async(req, res) => {
-        const repository = new mySqlMoldeoRepository();
+        const repository = new SQLMoldeoRepository();
         const model = new moldeoModels(repository);
         let moldeo = await model.execute(); 
 
@@ -25,12 +25,13 @@ const controller = {
             horas_por_turno: moldeo.horas_por_turno,
             blocks_moldeados: moldeo.blocks_moldeados,
             colaboradores: moldeo.colaboradores,
-            equipo: moldeo.equipo
+            equipo: moldeo.equipo,
+            asistencia: moldeo.team_asis
         });
     },
     
     calculator: async(req, res)=>{
-        const repository = new mySqlMoldeoRepository();
+        const repository = new SQLMoldeoRepository();
         const model = new moldeoModels(repository);
         let moldeo = await model.execute(); 
 
@@ -47,7 +48,7 @@ const controller = {
             moldeo.dias, 
             weekdayName, 
             moldeo.equipo, 
-            null, // moldeo.team_asis,
+            moldeo.team_asis,
             moldeo.base0, 
             moldeo.$_extra_m3, 
             moldeo.dias_sucios, 
@@ -87,7 +88,7 @@ const controller = {
             }
 
             let len = moldeo.equipo.length;
-           
+            let name = moldeo.equipo[i].nombre +' ' + moldeo.equipo[i].a_paterno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({
@@ -98,11 +99,11 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: moldeo.equipo[i].nombre,
+                    nombre: name,
                     depto: moldeo.message,
                     day: weekdayName,
                     meta_semana: moldeo.base0,
-                    dias_laborados: moldeo.base0, 
+                    dias_laborados: moldeo.dias, 
                     $_extra_m3: moldeo.$_extra_m3,       
                     progress: progress,
                     m3_persona: blocks_persona,
@@ -121,8 +122,7 @@ const controller = {
             }
         }else{
 
-            return res.status(200).send({
-               
+            return res.status(200).send({      
                 depto: moldeo.message,
                 day: weekdayName,
                 meta_semana: moldeo.base0,
@@ -151,7 +151,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
         
-        const repository = new mySqlMoldeoRepository();
+        const repository = new SQLMoldeoRepository();
         const model = new moldeoModels(repository);
         let moldeo = await model.refresh(base, dias_sucios, extra_m3); 
 

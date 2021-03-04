@@ -1,26 +1,24 @@
 'use strict'
 
-//const db = require ('../mysqlClient');
-const queryString = "SELECT * FROM bonoslp WHERE depto = 'Bloquera'";
+const { appPoolPromise } = require ('../appSQLClient');
 
 class bonosRepository {
 
     async find() {
+        let pool;
         let response;
+        const queryString = "SELECT * FROM bonoslp WHERE depto = 'Bloquera'";
+
         try {
-            response = await new Promise((resolve, reject) => {
-                db.query(queryString,  (err, result) => {
-                    if (err) throw err;
-                    resolve(result);  
-                });
-            });
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
         } catch(error) {
-            throw error
+            console.log(error);
         }
 
-        return {
-           response
-        }
+        return response.recordset;
     }
 
     

@@ -100,7 +100,7 @@ const controller = {
                     depto: almacen.message,
                     day: weekdayName,
                     meta_semana: almacen.base0,
-                    dias_laborados: almacen.base0, 
+                    dias_laborados: almacen.dias, 
                     $_extra_m3: almacen.$_extra_m3,       
                     progress: progress,
                     m3_persona: m3_persona,
