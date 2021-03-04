@@ -25,9 +25,7 @@ class bonosModel {
             semanas: [
                 {
                     semana:  response.response[0].fecha,
-                    // semana: response.response[0].semana,
                     bono:  response.response[0].bono,
-                    //fecha:  response.response[0].fecha
                 },
                 {
                     semana:   response.response[1].fecha,

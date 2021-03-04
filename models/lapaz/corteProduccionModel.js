@@ -19,15 +19,13 @@ class produccionModel {
     
     _convertData(response) {
         return {
-            message: 'Produccion',
+            message: 'Producción',
             city: 'La Paz',
             depto: 'Corte',
             semanas: [
                 {
                     semana: response.response[0].fecha,
-                    // semana: response.response[0].semana,
                     produccion:  response.response[0].produccion,
-                    //fecha:  response.response[0].fecha
                 },
                 {
                     semana:  response.response[1].fecha,
