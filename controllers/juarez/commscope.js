@@ -48,7 +48,6 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             commscope.equipo, 
-            null, // commscope.team_asis,
             commscope.base0, 
             commscope.$_extra_m3, 
             commscope.auditoria_sol, 

@@ -42,7 +42,6 @@ const controller = {
             kbrs.asistencia, 
             weekdayName, 
             kbrs.equipo, 
-            null, // kbrs.team_asis,
             kbrs.base0, 
             kbrs.$_extra_m3, 
             kbrs.auditoria_sol, 

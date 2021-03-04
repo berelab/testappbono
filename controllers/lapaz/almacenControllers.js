@@ -3,6 +3,7 @@
 import almacenModels from '../../models/lapaz/almacenModels';
 import SQLAlmacenRepo from '../../infrastructure/lapaz/AlmacenRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 
 const controller = {
 	
@@ -11,6 +12,8 @@ const controller = {
         const repository = new SQLAlmacenRepo();
         const model = new almacenModels(repository);
         let almacen = await model.execute(); 
+        const cd =  new convertData(almacen.equipo, almacen.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: almacen.message,
@@ -23,7 +26,8 @@ const controller = {
             colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
             equipo: almacen.equipo,
-            asistencia: almacen.team_asis
+            asistencia: almacen.team_asis,
+            _equipo: equipo
         });
     },
     
@@ -31,6 +35,8 @@ const controller = {
         const repository = new SQLAlmacenRepo();
         const model = new almacenModels(repository);
         let almacen = await model.execute(); 
+        const cd =  new convertData(almacen.equipo, almacen.team_asis);
+        let equipo = cd.convert;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -50,8 +56,7 @@ const controller = {
             almacen.colaboradores, 
             asistencia_total, 
             weekdayName, 
-            almacen.equipo, 
-            almacen.team_asis,
+            equipo, 
             almacen.base0, 
             almacen.$_extra_m3, 
             almacen.dias_sucios, 

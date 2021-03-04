@@ -3,6 +3,7 @@
 import choferModels from '../../models/lapaz/choferlocalModels';
 import SQLChoferRepository from '../../infrastructure/lapaz/ChoferRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 
 const controller = {
 	
@@ -10,6 +11,8 @@ const controller = {
         const repository = new SQLChoferRepository();
         const model = new choferModels(repository);
         let chofer = await model.execute(); 
+        const cd =  new convertData(chofer.equipo, chofer.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: chofer.message,
@@ -22,7 +25,8 @@ const controller = {
             colaboradores: chofer.colaboradores,
             m3_desplazados: chofer.m3_desplazados,
             equipo: chofer.equipo,
-            asistencia: chofer.team_asis
+            asistencia: chofer.team_asis,
+            _equipo: equipo
         });
     },
     
@@ -30,6 +34,8 @@ const controller = {
         const repository = new SQLChoferRepository();
         const model = new choferModels(repository);
         let chofer = await model.execute(); 
+        const cd =  new convertData(chofer.equipo, chofer.team_asis);
+        let equipo = cd.convert;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -42,8 +48,7 @@ const controller = {
             chofer.colaboradores, 
             chofer.asistencia_total, 
             weekdayName, 
-            chofer.equipo, 
-            chofer.team_asis,
+            equipo, 
             chofer.base0, 
             chofer.$_extra_m3, 
             chofer.dias_sucios, 

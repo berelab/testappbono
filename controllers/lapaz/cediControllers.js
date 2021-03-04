@@ -3,6 +3,7 @@
 import cedeiModels from '../../models/lapaz/cedeiModels';
 import SQLCediRepository from '../../infrastructure/lapaz/CediRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 
 const controller = {
 
@@ -10,6 +11,8 @@ const controller = {
         const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
+        //const cd =  new convertData(cedi.equipo, cedi.team_asis);
+        //let equipo = cd.convert;
 
 		return res.status(200).send({
             message: cedi.message,
@@ -22,7 +25,8 @@ const controller = {
             colaboradores: cedi.colaboradores,
             m3_desplazados: cedi.m3_desplazados,
             equipo: cedi.equipo,
-            asistencia: cedi.team_asis
+            asistencia: cedi.team_asis,
+            //_equipo: equipo
         });
     },
     calculator: async(req, res)=>{
@@ -30,6 +34,8 @@ const controller = {
         const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
+        //const cd =  new convertData(cedi.equipo, cedi.team_asis);
+        //let equipo = cd.convert;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -42,8 +48,7 @@ const controller = {
             cedi.colaboradores, 
             cedi.asistencia_total, 
             weekdayName, 
-            cedi.equipo, 
-            cedi.team_asis,
+            cedi.team_asis,//equipo,
             cedi.base0, 
             cedi.$_extra_m3, 
             cedi.dias_sucios, 

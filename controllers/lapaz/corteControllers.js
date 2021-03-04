@@ -3,6 +3,7 @@
 import corteModels from '../../models/lapaz/corteModels';
 import CorteSQLRepo from '../../infrastructure/lapaz/CorteRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 
 const controller = {
 	
@@ -11,6 +12,8 @@ const controller = {
         const model = new corteModels(repository);
 
         let corte = await model.execute(); 
+        const cd =  new convertData(corte.equipo, corte.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: corte.message,
@@ -22,7 +25,8 @@ const controller = {
             colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
             equipo: corte.equipo,
-            asistencia: corte.team_asis
+            asistencia: corte.team_asis,
+            _equipo: equipo
         });
     },
     
@@ -31,6 +35,8 @@ const controller = {
         const model = new corteModels(repository);
 
         let corte = await model.execute(); 
+        const cd =  new convertData(corte.equipo, corte.team_asis);
+        let equipo = cd.convert;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -43,8 +49,7 @@ const controller = {
             corte.colaboradores, 
             corte.asistencia_total, 
             weekdayName, 
-            corte.equipo, 
-            corte.team_asis,
+            equipo,
             corte.base0, 
             corte.$_extra_m3, 
             corte.dias_sucios,             
@@ -79,7 +84,7 @@ const controller = {
             }
 
             let len = corte.equipo.length;
-            let nombre = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno +' ' + corte.equipo[i].a_materno
+            let name = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno +' ' + corte.equipo[i].a_materno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({
@@ -90,7 +95,7 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: nombre,
+                    nombre: name,
                     depto: corte.message,
                     day: weekdayName,
                     meta_semana: corte.base0,

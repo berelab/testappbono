@@ -49,7 +49,6 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             almacen.equipo, 
-            null, // almacen.team_asis,
             almacen.base0, 
             almacen.$_extra_m3, 
             almacen.auditoria_sol, 

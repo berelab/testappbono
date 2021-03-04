@@ -3,6 +3,7 @@
 import moldeoModels from '../../models/lapaz/moldeoModels';
 import SQLMoldeoRepository from '../../infrastructure/lapaz/MoldeoRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 
 const controller = {
 	
@@ -10,6 +11,8 @@ const controller = {
         const repository = new SQLMoldeoRepository();
         const model = new moldeoModels(repository);
         let moldeo = await model.execute(); 
+        const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: moldeo.message,
@@ -26,14 +29,18 @@ const controller = {
             blocks_moldeados: moldeo.blocks_moldeados,
             colaboradores: moldeo.colaboradores,
             equipo: moldeo.equipo,
-            asistencia: moldeo.team_asis
+            asistencia: moldeo.team_asis,
+            _equipo: equipo
+            
         });
     },
     
     calculator: async(req, res)=>{
         const repository = new SQLMoldeoRepository();
         const model = new moldeoModels(repository);
-        let moldeo = await model.execute(); 
+        let moldeo = await model.execute();
+        const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert; 
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -47,8 +54,7 @@ const controller = {
             moldeo.colaboradores, 
             moldeo.dias, 
             weekdayName, 
-            moldeo.equipo, 
-            moldeo.team_asis,
+            equipo,
             moldeo.base0, 
             moldeo.$_extra_m3, 
             moldeo.dias_sucios, 

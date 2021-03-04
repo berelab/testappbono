@@ -46,7 +46,6 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             aosmith.equipo, 
-            null, // aosmith.team_asis,
             aosmith.base0, 
             aosmith.$_extra_m3, 
             aosmith.auditoria_sol, 

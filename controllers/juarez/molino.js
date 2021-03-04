@@ -48,7 +48,6 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             molino.equipo, 
-            null, // kbrs.team_asis,
             molino.base0, 
             molino.$_extra_m3, 
             molino.auditoria_sol, 
