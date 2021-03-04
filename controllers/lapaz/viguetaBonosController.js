@@ -1,12 +1,12 @@
 'use strict'
 import bonosModel from '../../models/lapaz/viguetaBonosModel';
-import mySqlBonosRepository from '../../infrastructure/lapaz/viguetaBonosRepository';
+import SQLBonosRepository from '../../infrastructure/lapaz/viguetaBonosRepository';
 
 
 const controller = {
 	
 	home: async (req, res) => {
-        const repository = new mySqlBonosRepository();
+        const repository = new SQLBonosRepository();
         const model = new bonosModel(repository);
 
         let  bonos = await model.execute(); 
