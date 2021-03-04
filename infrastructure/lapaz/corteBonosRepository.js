@@ -2,7 +2,6 @@
 
 const { appPoolPromise } = require ('../appSQLClient');
 
-
 class bonosRepository {
 
     async find() {

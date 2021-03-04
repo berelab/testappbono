@@ -1,13 +1,13 @@
 'use strict'
 
 import choferModels from '../../models/lapaz/choferlocalModels';
-import mySqlChoferRepository from '../../infrastructure/lapaz/ChoferRepository';
+import SQLChoferRepository from '../../infrastructure/lapaz/ChoferRepository';
 import mainCalcs from '../MainCalcs';
 
 const controller = {
 	
 	home: async(req, res) => {
-        const repository = new mySqlChoferRepository();
+        const repository = new SQLChoferRepository();
         const model = new choferModels(repository);
         let chofer = await model.execute(); 
 
@@ -21,12 +21,13 @@ const controller = {
             asistencia_total: chofer.asistencia_total,
             colaboradores: chofer.colaboradores,
             m3_desplazados: chofer.m3_desplazados,
-            equipo: chofer.equipo
+            equipo: chofer.equipo,
+            asistencia: chofer.team_asis
         });
     },
     
     calculator: async(req, res)=>{
-        const repository = new mySqlChoferRepository();
+        const repository = new SQLChoferRepository();
         const model = new choferModels(repository);
         let chofer = await model.execute(); 
 
@@ -42,7 +43,7 @@ const controller = {
             chofer.asistencia_total, 
             weekdayName, 
             chofer.equipo, 
-            null, // chofer.team_asis,
+            chofer.team_asis,
             chofer.base0, 
             chofer.$_extra_m3, 
             chofer.dias_sucios, 
@@ -76,7 +77,7 @@ const controller = {
             }
 
             let len = chofer.equipo.length;
-           
+            let name = chofer.equipo[i].nombre +' ' + chofer.equipo[i].a_paterno +' ' + chofer.equipo[i].a_materno
 
             if(i < 0 || i >= len ){
                 return res.status(400).send({
@@ -85,13 +86,12 @@ const controller = {
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-             
-                    nombre: chofer.equipo[i].nombre,
+                return res.status(200).send({    
+                    nombre: name,
                     depto: chofer.message,
                     day: weekdayName,
                     meta_semana: chofer.base0,
-                    dias_laborados: chofer.base0, 
+                    dias_laborados: chofer.dias, 
                     $_extra_m3: chofer.$_extra_m3,       
                     progress: progress,
                     m3_persona: m3_persona,
@@ -103,15 +103,11 @@ const controller = {
                     asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
-                });
-               
+                    },                   
+                });               
             }
         }else{
-
-            return res.status(200).send({
-               
+            return res.status(200).send({               
                 depto: chofer.message,
                 day: weekdayName,
                 meta_semana: chofer.base0,
@@ -133,9 +129,7 @@ const controller = {
                 equipo: chofer.equipo 
             });
         }
-       
 
-       
     },
 
     editInfo: async(req, res)=>{
@@ -143,7 +137,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
         
-        const repository = new mySqlChoferRepository();
+        const repository = new SQLChoferRepository();
         const model = new choferModels(repository);
         let chofer = await model.refresh(base, dias_sucios, extra_m3); 
 

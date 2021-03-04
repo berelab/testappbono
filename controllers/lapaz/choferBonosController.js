@@ -1,12 +1,12 @@
 'use strict'
 import bonosModel from '../../models/lapaz/choferBonosModel';
-import mySqlBonosRepository from '../../infrastructure/lapaz/choferBonosRepository';
+import SQLBonosRepository from '../../infrastructure/lapaz/choferBonosRepository';
 
 
 const controller = {
 	
 	home: async (req, res) => {
-        const repository = new mySqlBonosRepository();
+        const repository = new SQLBonosRepository();
         const model = new bonosModel(repository);
 
         let  bonos = await model.execute(); 

@@ -1,12 +1,11 @@
 'use strict'
 import produccionModel from '../../models/lapaz/choferProduccionModel';
-import mySqlProduccionRepository from '../../infrastructure/lapaz/choferProduccionRepository';
-
+import SQLProduccionRepository from '../../infrastructure/lapaz/choferProduccionRepository';
 
 const controller = {
 	
 	home: async (req, res) => {
-        const repository = new mySqlProduccionRepository();
+        const repository = new SQLProduccionRepository();
         const model = new produccionModel(repository);
 
         let  produccion = await model.execute(); 
