@@ -18,49 +18,49 @@ class bonosModel {
     }
     
     _convertData(response) {
-        console.log(response);
+
         return {
             message: 'Bonos',
             city: 'La Paz',
             depto: 'Corte',
             semanas: [
                 {
-                    semana:  response.response[0].fecha,
-                    bono:  response.response[0].bono,
+                    semana:  response[0].fecha,
+                    bono:  response[0].bono,
                 },
                 {
-                    semana:   response.response[1].fecha,
-                    bono:  response.response[1].bono,
+                    semana:   response[1].fecha,
+                    bono:  response[1].bono,
                     
                 },
                 {
-                    semana:   response.response[2].fecha,
-                    bono:  response.response[2].bono,
+                    semana:   response[2].fecha,
+                    bono:  response[2].bono,
                    
                 },
                 {
-                    semana:   response.response[3].fecha,
-                    bono:  response.response[3].bono,
+                    semana:   response[3].fecha,
+                    bono:  response[3].bono,
                    
                 },
                 {
-                    semana:   response.response[4].fecha,
-                    bono:  response.response[4].bono,
+                    semana:   response[4].fecha,
+                    bono:  response[4].bono,
                    
                 },
                 {
-                    semana:   response.response[5].fecha,
-                    bono:  response.response[5].bono,
+                    semana:   response[5].fecha,
+                    bono:  response[5].bono,
                   
                 },
                 {
-                    semana:  response.response[6].fecha,
-                    bono:  response.response[6].bono,
+                    semana:  response[6].fecha,
+                    bono:  response[6].bono,
                    
                 },
                 {
-                    semana:   response.response[7].fecha,
-                    bono:  response.response[7].bono,
+                    semana:   response[7].fecha,
+                    bono:  response[7].bono,
                    
                 }
 
