@@ -116,7 +116,7 @@ const controller = {
                 depto: corte.message,
                 day: weekdayName,
                 meta_semana: corte.base0,
-                dias_laborados: corte.base0,
+                dias_laborados: corte.dias,
                 $_extra_m3: corte.$_extra_m3,
                 progress: progress,
                 m3_persona: m3_persona,

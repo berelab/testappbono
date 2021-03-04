@@ -3,7 +3,6 @@
 const { prodPoolPromise } = require ('../prodSQLClient');
 const { appPoolPromise } = require ('../appSQLClient');
 
-
 class MySqlCorteRepository {
 
     async find() {

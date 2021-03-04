@@ -1,13 +1,14 @@
 'use strict'
 
 import almacenModels from '../../models/lapaz/almacenModels';
-import mySqlAlmacenRepository from '../../infrastructure/lapaz/AlmacenRepository';
+import SQLAlmacenRepo from '../../infrastructure/lapaz/AlmacenRepository';
 import mainCalcs from '../MainCalcs';
 
 const controller = {
 	
 	home: async(req, res) => {
-        const repository = new mySqlAlmacenRepository();
+
+        const repository = new SQLAlmacenRepo();
         const model = new almacenModels(repository);
         let almacen = await model.execute(); 
 
@@ -21,12 +22,13 @@ const controller = {
             horas_por_turno: almacen.horas_por_turno,
             colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
-            equipo: almacen.equipo
+            equipo: almacen.equipo,
+            asistencia: almacen.team_asis
         });
     },
     
     calculator: async(req, res)=>{
-        const repository = new mySqlAlmacenRepository();
+        const repository = new SQLAlmacenRepo();
         const model = new almacenModels(repository);
         let almacen = await model.execute(); 
 
@@ -35,8 +37,8 @@ const controller = {
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-        let he_dobles = almacen.equipo[0].horas_extra_dobles;
-        let he_triples= almacen.equipo[0].horas_extra_triples;
+        let he_dobles = almacen.horas_extra_dobles;
+        let he_triples= almacen.horas_extra_triples;
 
         let total_horas_extra = (he_dobles *2) + (he_triples*3);
         let asistencia_total = (almacen.asistencia + (total_horas_extra / almacen.horas_por_turno))*5; 
@@ -49,7 +51,7 @@ const controller = {
             asistencia_total, 
             weekdayName, 
             almacen.equipo, 
-            null, // almacen.team_asis,
+            almacen.team_asis,
             almacen.base0, 
             almacen.$_extra_m3, 
             almacen.dias_sucios, 
@@ -83,8 +85,8 @@ const controller = {
             }
 
             let len = almacen.equipo.length;
+            let name = almacen.equipo[i].nombre +' ' + almacen.equipo[i].a_paterno
            
-
             if(i < 0 || i >= len ){
                 return res.status(400).send({
                     status: 'error',
@@ -94,7 +96,7 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: almacen.equipo[i].nombre,
+                    nombre: name,
                     depto: almacen.message,
                     day: weekdayName,
                     meta_semana: almacen.base0,
@@ -116,20 +118,19 @@ const controller = {
                
             }
         }else{
-            return res.status(200).send({
-               
+            return res.status(200).send({              
                 depto: almacen.message,
                 day: weekdayName,
                 meta_semana: almacen.base0,
-                dias_laborados: almacen.dias,            
+                dias_laborados: almacen.dias, 
+                $_extra_m3: almacen.$_extra_m3,           
                 progress: progress,
                 m3_persona: m3_persona,
                 bono_depto: percepcion_total,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total, 
                 bono_persona: bono_total_colaborador, 
-                bono_total:bono_total,
-                $_extra_m3: almacen.$_extra_m3,
+                bono_total:bono_total,  
                 bono_productividad: bono_productividad,
                 bono_metas: bono_metas,
                 asistencia: sumatoria_asistencia, 
@@ -147,7 +148,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
 
-        const repository = new mySqlAlmacenRepository();
+        const repository = new SQLAlmacenRepo();
         const model = new almacenModels(repository);
         let almacen = await model.refresh(base, dias_sucios, extra_m3); 
 

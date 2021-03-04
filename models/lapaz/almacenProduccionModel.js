@@ -24,42 +24,42 @@ class produccionModel {
             depto: 'Almacen',
             semanas: [
                 {
-                    semana: response.response[0].fecha,
-                    produccion:  response.response[0].produccion,
+                    semana: response[0].fecha,
+                    produccion:  response[0].produccion,
                 },
                 {
-                    semana:  response.response[1].fecha,
-                    produccion:  response.response[1].produccion,
+                    semana:  response[1].fecha,
+                    produccion:  response[1].produccion,
                    
                 },
                 {
-                    semana:  response.response[2].fecha,
-                    produccion:  response.response[2].produccion,
+                    semana:  response[2].fecha,
+                    produccion:  response[2].produccion,
                     
                 },
                 {
-                    semana:  response.response[3].fecha,
-                    produccion:  response.response[3].produccion,
+                    semana:  response[3].fecha,
+                    produccion:  response[3].produccion,
                     
                 },
                 {
-                    semana:  response.response[4].fecha,
-                    produccion:  response.response[4].produccion,
+                    semana:  response[4].fecha,
+                    produccion:  response[4].produccion,
                    
                 },
                 {
-                    semana: response.response[5].fecha,
-                    produccion:  response.response[5].produccion,
+                    semana: response[5].fecha,
+                    produccion:  response[5].produccion,
                    
                 },
                 {
-                    semana:  response.response[6].fecha,
-                    produccion:  response.response[6].produccion,
+                    semana:  response[6].fecha,
+                    produccion:  response[6].produccion,
                     
                 },
                 {
-                    semana:  response.response[7].fecha,
-                    produccion:  response.response[7].produccion,
+                    semana:  response[7].fecha,
+                    produccion:  response[7].produccion,
                    
                 }
 
