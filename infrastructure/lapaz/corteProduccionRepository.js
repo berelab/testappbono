@@ -18,7 +18,7 @@ class produccionRepository {
             console.log(error);
         }
 
-        return response;
+        return response.recordset;
     }
 
     
