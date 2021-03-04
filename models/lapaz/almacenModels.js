@@ -7,6 +7,9 @@ class AlmacenModels {
 
     async execute() {
         let response;
+        let teamResponse;
+        let entries;
+        let extra;
 
         try {
             response = await this.repository.find();
