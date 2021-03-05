@@ -4,6 +4,7 @@ import almacenModels from '../../models/lapaz/almacenModels';
 import SQLAlmacenRepo from '../../infrastructure/lapaz/AlmacenRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 	
@@ -38,6 +39,10 @@ const controller = {
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
 
+        const calcAtt = new att( equipo, almacen.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia = calcAtt.asistenciaTotal;
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
@@ -47,13 +52,13 @@ const controller = {
         let he_triples= almacen.horas_extra_triples;
 
         let total_horas_extra = (he_dobles *2) + (he_triples*3);
-        let asistencia_total = (almacen.asistencia + (total_horas_extra / almacen.horas_por_turno))*5; 
+        let asistencia_total = asistencia +( (total_horas_extra / almacen.horas_por_turno))*5; 
 
 
         const calc = new mainCalcs(
             almacen.dias, 
             almacen.m3_desplazados, 
-            almacen.colaboradores, 
+            colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
@@ -78,21 +83,17 @@ const controller = {
         let bono_metas = calc.pc_metas;  
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
+            
 
-            let len = almacen.equipo.length;
-            let name = almacen.equipo[i].nombre +' ' + almacen.equipo[i].a_paterno + ' ' + almacen.equipo[i].a_materno
-           
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
@@ -101,7 +102,8 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: name,
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: almacen.message,
                     day: weekdayName,
                     meta_semana: almacen.base0,

@@ -4,6 +4,7 @@ import corteModels from '../../models/lapaz/corteModels';
 import CorteSQLRepo from '../../infrastructure/lapaz/CorteRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 	
@@ -38,6 +39,10 @@ const controller = {
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;
 
+        const calcAtt = new att( equipo, corte.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
@@ -46,8 +51,8 @@ const controller = {
         const calc = new mainCalcs(
             corte.dias, 
             corte.m3_cortados, 
-            corte.colaboradores, 
-            corte.asistencia_total, 
+            colaboradores, 
+            asistencia_total, 
             weekdayName, 
             equipo,
             corte.base0, 
@@ -72,21 +77,17 @@ const controller = {
         let bono_metas = calc.pc_metas;  
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
+            
 
-            let len = corte.equipo.length;
-            let name = corte.equipo[i].nombre +' ' + corte.equipo[i].a_paterno +' ' + corte.equipo[i].a_materno
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
@@ -95,7 +96,8 @@ const controller = {
             }else{
                 return res.status(200).send({
              
-                    nombre: name,
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: corte.message,
                     day: weekdayName,
                     meta_semana: corte.base0,

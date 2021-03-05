@@ -4,6 +4,7 @@ import cedeiModels from '../../models/lapaz/cedeiModels';
 import SQLCediRepository from '../../infrastructure/lapaz/CediRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 
@@ -11,8 +12,8 @@ const controller = {
         const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
-        //const cd =  new convertData(cedi.equipo, cedi.team_asis);
-        //let equipo = cd.convert;
+        const cd =  new convertData(cedi.equipo, cedi.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: cedi.message,
@@ -26,7 +27,7 @@ const controller = {
             m3_desplazados: cedi.m3_desplazados,
             equipo: cedi.equipo,
             asistencia: cedi.team_asis,
-            //_equipo: equipo
+            _equipo: equipo
         });
     },
     calculator: async(req, res)=>{
@@ -34,8 +35,12 @@ const controller = {
         const repository = new SQLCediRepository();
         const model = new cedeiModels(repository);
         let cedi = await model.execute(); 
-        //const cd =  new convertData(cedi.equipo, cedi.team_asis);
-        //let equipo = cd.convert;
+        const cd =  new convertData(cedi.equipo, cedi.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, cedi.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -45,10 +50,10 @@ const controller = {
         const calc = new mainCalcs(
             cedi.dias, 
             cedi.m3_desplazados, 
-            cedi.colaboradores, 
-            cedi.asistencia_total, 
+            colaboradores, 
+            asistencia_total, 
             weekdayName, 
-            cedi.team_asis,//equipo,
+            equipo,
             cedi.base0, 
             cedi.$_extra_m3, 
             cedi.dias_sucios, 
@@ -70,20 +75,17 @@ const controller = {
         let bono_metas = calc.pc_metas;  
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let codigo = parseInt(req.params.index); 
+
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
+            
 
-            let len = cedi.equipo.length;
-            let name = cedi.equipo[i].nombre +' ' + cedi.equipo[i].a_paterno + ' ' + cedi.equipo[i].a_materno
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
@@ -91,7 +93,8 @@ const controller = {
                 });
             }else{
                 return res.status(200).send({    
-                    nombre: name,
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: cedi.message,
                     day: weekdayName,
                     meta_semana: cedi.base0,

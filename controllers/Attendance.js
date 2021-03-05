@@ -506,7 +506,7 @@ export default class Attendance {
         let total_jueves=0;
         let total_viernes=0;
         let total_sabado=0;
-     
+        let total_domingo=0;
        
         for (var i = 0; i <len; ++i) {
              total_lunes = total_lunes + equipo[i].asistencia.lunes;
@@ -515,7 +515,7 @@ export default class Attendance {
              total_jueves  = total_jueves + equipo[i].asistencia.jueves;
              total_viernes  = total_viernes + equipo[i].asistencia.viernes;
              total_sabado  = total_sabado + equipo[i].asistencia.sabado;
-             
+             total_domingo = total_domingo + equipo[i].asistencia.domingo;
         }
     
        
@@ -525,6 +525,7 @@ export default class Attendance {
         total_jueves  = total_jueves * factor_dias_laborados;
         total_viernes = total_viernes * factor_dias_laborados;
         total_sabado = total_sabado * factor_dias_laborados;
+        total_domingo = total_domingo * factor_dias_laborados;
         
     
         asistencia_total.push(total_lunes);
@@ -533,6 +534,7 @@ export default class Attendance {
         asistencia_total.push(total_jueves);
         asistencia_total.push(total_viernes);
         asistencia_total.push(total_sabado);
+        asistencia_total.push(total_domingo);
        
         let colaboradores = {
             lunes: asistencia_total[0],
@@ -541,30 +543,10 @@ export default class Attendance {
             jueves: asistencia_total[3],
             viernes: asistencia_total[4],
             sabado: asistencia_total[5],
+            domingo: asistencia_total[6],
         }
         
-        if(equipo[0].asistencia.domingo != null || equipo[0].asistencia.domingo >= 0 ){
-            /**Existe domingo*/
-            let total_domingo=0;
-            
-            for (var i = 0; i <len; ++i) {
-                total_domingo = total_domingo + equipo[i].asistencia.domingo;
-            }
-
-            total_domingo = total_domingo * factor_dias_laborados;
-           
-            asistencia_total.push(total_lunes);
-
-            colaboradores = {
-                lunes: asistencia_total[0],
-                martes: asistencia_total[1],
-                miercoles: asistencia_total[2],
-                jueves: asistencia_total[3],
-                viernes: asistencia_total[4],
-                sabado: asistencia_total[5],
-                sabado: asistencia_total[6],
-            }
-        }
+        
 
       
         return colaboradores;
@@ -572,7 +554,7 @@ export default class Attendance {
     
      asistencia_total(equipo, factor_dias_laborados){
          let colaboradores = this.colaboradores_por_dia(equipo, factor_dias_laborados);
-         let total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles + colaboradores.jueves + colaboradores.viernes +colaboradores.sabado
+         let total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles + colaboradores.jueves + colaboradores.viernes +colaboradores.sabado +colaboradores.domingo
          return total;
      }
 

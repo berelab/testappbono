@@ -4,6 +4,7 @@ import choferModels from '../../models/lapaz/choferlocalModels';
 import SQLChoferRepository from '../../infrastructure/lapaz/ChoferRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 	
@@ -37,6 +38,10 @@ const controller = {
         const cd =  new convertData(chofer.equipo, chofer.team_asis);
         let equipo = cd.convert;
 
+        const calcAtt = new att( equipo, chofer.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
@@ -45,8 +50,8 @@ const controller = {
         const calc = new mainCalcs(
             chofer.dias, 
             chofer.m3_desplazados, 
-            chofer.colaboradores, 
-            chofer.asistencia_total, 
+            colaboradores, 
+            asistencia_total, 
             weekdayName, 
             equipo, 
             chofer.base0, 
@@ -70,21 +75,17 @@ const controller = {
         let bono_metas = calc.pc_metas;  
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
+            
 
-            let len = chofer.equipo.length;
-            let name = chofer.equipo[i].nombre +' ' + chofer.equipo[i].a_paterno +' ' + chofer.equipo[i].a_materno
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
@@ -92,7 +93,8 @@ const controller = {
                 });
             }else{
                 return res.status(200).send({    
-                    nombre: name,
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: chofer.message,
                     day: weekdayName,
                     meta_semana: chofer.base0,
