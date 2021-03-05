@@ -1,29 +1,44 @@
 'use strict'
 
-import {message, dias_laborados, auditoria_sol, pago_dia, equipo} from '../../models/lapaz/viguetaModels';
+import viguetaModels from '../../models/lapaz/viguetaModels';
+import viguetaSQLRepo from '../../infrastructure/lapaz/ViguetaRepository';
+import convertData from '../ConvertData';
 
 const controller = {
 	
-	home: (req, res) => {
+	home: async (req, res) => {
+        const repository = new viguetaSQLRepo();
+        const model = new viguetaModels(repository);
+
+        let vigueta = await model.execute(); 
+        const cd =  new convertData(vigueta.equipo, vigueta.team_asis);
+        let equipo = cd.convert;
+
 		return res.status(200).send({
-            message: message,
-            dias_laborados,
-            auditoria_sol,
-            pago_dia,
-            equipo
+            message: vigueta.message,
+            dias: vigueta.dias_laborados,
+            dias_sucios: vigueta.auditoria_sol,
+            pago: vigueta.pago_dia,
+            equipo: equipo
         });
     },
     
-    calculator: (req, res)=>{
+    calculator: async (req, res)=>{
+        const repository = new viguetaSQLRepo();
+        const model = new viguetaModels(repository);
+
+        let vigueta = await model.execute(); 
+        const cd =  new convertData(vigueta.equipo, vigueta.team_asis);
+        let equipo = cd.convert;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-        let condicion_auditoria = auditoria(auditoria_sol);
+        let condicion_auditoria = auditoria(vigueta.auditoria_sol);
         let asistencia_persona = asistencias(equipo);
-        let total_base = total_base_persona(asistencia_persona, pago_dia);
+        let total_base = total_base_persona(asistencia_persona, vigueta.pago_dia);
         let bono_total = bono_total_persona(total_base,condicion_auditoria);
 
         if(req.params.index){
@@ -39,6 +54,7 @@ const controller = {
             }
 
             let len = equipo.length;
+            let name = vigueta.equipo[i].nombre +' ' + vigueta.equipo[i].a_paterno +' ' + vigueta.equipo[i].a_materno
            
 
             if(i < 0 || i >= len ){
@@ -49,12 +65,10 @@ const controller = {
                 });
             }else{
                 return res.status(200).send({
-                    nombre: equipo[i].nombre,
-                    depto: message,
-                    meta_semana: 0,
-                    dias_laborados: dias_laborados,
+                    nombre: name,
+                    depto: vigueta.message,
+                    dias_laborados: vigueta.dias_laborados,
                     day: weekdayName,
-                    m3_persona: 0,
                     asistencia: asistencia_persona[i],
                     total_base: total_base[i],
                     bono_persona:  bono_total[i],
@@ -66,11 +80,9 @@ const controller = {
             }
         }else{
             return res.status(200).send({
-                depto: message,
-                meta_semana: 0,
+                depto: vigueta.message,
                 dias_laborados: dias_laborados,
                 day: weekdayName,
-                m3_persona: 0,
                 asistencia: asistencia_persona,
                 total_base: total_base,
                 bono_persona:  bono_total,
