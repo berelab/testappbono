@@ -68,9 +68,7 @@ class CediRepository {
             response = await pool.request()
             .query(queryString);
 
-            if(!response.recordset){
-                console.log('no hay')
-            }
+                console.log(response.recordset)
 
         } catch (error) {
             console.log(error)
