@@ -70,16 +70,8 @@ class CediRepository {
         } catch (error) {
             console.log(error)
         }
-        if((response.recordset).length == 0){
-           return [{
-                userid: '0',
-                fecha: '-',
-                entrada: '-',
-                entrada_real: '-'
-           }]
-        }else{
-            return response.recordset;
-        }
+        
+        return response.recordset;
         
     }
     async extraData(){
