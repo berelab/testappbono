@@ -67,12 +67,13 @@ class CediRepository {
             pool = await prodPoolPromise
             response = await pool.request()
             .query(queryString);
-
-                console.log(response.recordset)
-
         } catch (error) {
             console.log(error)
         }
+        console.log((response.recordset).length)
+            if((response.recordset).length == 0){
+               console.log('viene vacío')
+            }
         return response.recordset;
     }
     async extraData(){
