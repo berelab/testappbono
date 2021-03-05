@@ -72,7 +72,10 @@ class CediRepository {
         }
         if((response.recordset).length == 0){
            return [{
-                message: 'no hay asistencias para el equipo'
+                userid: '0',
+                fecha: '-',
+                entrada: '-',
+                entrada_real: '-'
            }]
         }else{
             return response.recordset;
