@@ -74,7 +74,7 @@ const controller = {
                     bono_persona:  bono_total[i],
                     datos_extra: {
                         condicionante_auditoria: condicion_auditoria,
-                        pago_por_dia: pago_dia
+                        pago_por_dia: vigueta.pago_dia
                     },
                 });
             }
@@ -88,7 +88,7 @@ const controller = {
                 bono_persona:  bono_total,
                 datos_extra: {
                     condicionante_auditoria: condicion_auditoria,
-                    pago_por_dia: pago_dia
+                    pago_por_dia: vigueta.pago_dia
                 },
                 equipo: equipo
                 
