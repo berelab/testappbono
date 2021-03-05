@@ -29,7 +29,8 @@ const controller = {
             blocks_moldeados: moldeo.blocks_moldeados,
             colaboradores: moldeo.colaboradores,
             asistencia: moldeo.team_asis,
-            equipo: equipo
+            equipo: moldeo.equipo,
+            _equipo: equipo
             
         });
     },

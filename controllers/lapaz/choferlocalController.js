@@ -25,7 +25,8 @@ const controller = {
             colaboradores: chofer.colaboradores,
             m3_desplazados: chofer.m3_desplazados,
             asistencia: chofer.team_asis,
-            equipo: equipo
+            equipo: chofer.equipo,
+            _equipo: equipo
         });
     },
     

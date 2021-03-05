@@ -26,7 +26,8 @@ const controller = {
             colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
             asistencia: almacen.team_asis,
-            equipo: equipo
+            equipo: almacen.equipo,
+            _equipo: equipo
         });
     },
     

@@ -25,7 +25,8 @@ const controller = {
             colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,
-            equipo: equipo
+            equipo: corte.equipo,
+            _equipo: equipo
         });
     },
     
