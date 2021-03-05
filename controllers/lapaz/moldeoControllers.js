@@ -84,7 +84,6 @@ const controller = {
         if(req.params.index){
             let i = parseInt(req.params.index); 
 
-            
             if(isNaN(i)){
                 return res.status(400).send({
                     status: 'error',
