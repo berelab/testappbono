@@ -81,7 +81,7 @@ const controller = {
         }else{
             return res.status(200).send({
                 depto: vigueta.message,
-                dias_laborados: dias_laborados,
+                dias_laborados: vigueta.dias_laborados,
                 day: weekdayName,
                 asistencia: asistencia_persona,
                 total_base: total_base,
