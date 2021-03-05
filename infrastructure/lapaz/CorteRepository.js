@@ -54,7 +54,6 @@ class MySqlCorteRepository {
         } catch (error) {
             console.log(error)
         }
-        console.log(response.recordset)
         return response.recordset;
     }
     async extraData(){

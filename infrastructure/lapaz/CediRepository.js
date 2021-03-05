@@ -70,11 +70,14 @@ class CediRepository {
         } catch (error) {
             console.log(error)
         }
-        console.log((response.recordset).length)
-            if((response.recordset).length == 0){
-               console.log('viene vacío')
-            }
-        return response.recordset;
+        if((response.recordset).length == 0){
+           return [{
+                message: 'no hay asistencias para el equipo'
+           }]
+        }else{
+            return response.recordset;
+        }
+        
     }
     async extraData(){
         let response;
