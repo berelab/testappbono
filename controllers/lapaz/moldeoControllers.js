@@ -28,9 +28,8 @@ const controller = {
             horas_por_turno: moldeo.horas_por_turno,
             blocks_moldeados: moldeo.blocks_moldeados,
             colaboradores: moldeo.colaboradores,
-            equipo: moldeo.equipo,
             asistencia: moldeo.team_asis,
-            _equipo: equipo
+            equipo: equipo
             
         });
     },

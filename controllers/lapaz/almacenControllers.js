@@ -25,9 +25,8 @@ const controller = {
             horas_por_turno: almacen.horas_por_turno,
             colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
-            equipo: almacen.equipo,
             asistencia: almacen.team_asis,
-            _equipo: equipo
+            equipo: equipo
         });
     },
     
