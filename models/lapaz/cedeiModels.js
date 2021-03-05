@@ -66,6 +66,7 @@ class CediModels {
         };
     }
     _reorderData(entries){
+        console.log(entries);
         let orderedData = entries.map(element => {
             let dateString = element.fecha
             var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
