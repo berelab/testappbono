@@ -3,6 +3,9 @@
 import express from 'express';
 const router = express.Router();
 
+// Admins
+import admin from '../controllers/admin/adminController';
+
 //LA PAZ
 import lapaz from '../controllers/lapaz/lapaz';
 import corteLaPaz from '../controllers/lapaz/corteControllers.js';
@@ -179,6 +182,10 @@ import almacenCuliacan  from '../controllers/culiacan/almacenController';
 import choferesLocalesCuliacan  from '../controllers/culiacan/choferesLocalesController';
 import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
 import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
+
+// Admin
+router.post('/test', admin.home);
+router.post('/login', admin.login);
 
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ
