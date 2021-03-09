@@ -26,8 +26,7 @@ const controller = {
             colaboradores: chofer.colaboradores,
             m3_desplazados: chofer.m3_desplazados,
             asistencia: chofer.team_asis,
-            equipo: chofer.equipo,
-            _equipo: equipo
+            equipo_convertido: equipo
         });
     },
     
@@ -132,8 +131,7 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                equipo: chofer.equipo 
+                }
             });
         }
 

@@ -27,8 +27,7 @@ const controller = {
             colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
             asistencia: almacen.team_asis,
-            equipo: almacen.equipo,
-            _equipo: equipo
+            equipo_convertido: equipo
         });
     },
     
@@ -143,8 +142,7 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                equipo: almacen.equipo 
+                }
                 
             });
         }

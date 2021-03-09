@@ -30,8 +30,7 @@ const controller = {
             blocks_moldeados: moldeo.blocks_moldeados,
             colaboradores: moldeo.colaboradores,
             asistencia: moldeo.team_asis,
-            equipo: moldeo.equipo,
-            _equipo: equipo
+            equipo_convertido: equipo
             
         });
     },
@@ -51,7 +50,6 @@ const controller = {
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
-        let amp = 0;
 
         const calc = new mainCalcs(
             moldeo.dias, 
@@ -66,7 +64,7 @@ const controller = {
             moldeo.factor_dias_laborados,
             moldeo.message,
             moldeo.city,
-            amp,
+            null,
             moldeo.blocks_fuera_especificacion,
             moldeo.densidad,
             moldeo.indicador_combustible
@@ -148,8 +146,7 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                equipo: moldeo.equipo 
+                }
             });
         }
     },

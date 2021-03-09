@@ -19,7 +19,7 @@ const controller = {
             dias: vigueta.dias_laborados,
             dias_sucios: vigueta.auditoria_sol,
             pago: vigueta.pago_dia,
-            equipo: equipo
+            equipo_convertido: equipo
         });
     },
     
@@ -89,8 +89,7 @@ const controller = {
                 datos_extra: {
                     condicionante_auditoria: condicion_auditoria,
                     pago_por_dia: vigueta.pago_dia
-                },
-                equipo: equipo
+                }
                 
             });
            

@@ -25,9 +25,8 @@ const controller = {
             asistencia_total: cedi.asistencia_total,
             colaboradores: cedi.colaboradores,
             m3_desplazados: cedi.m3_desplazados,
-            equipo: cedi.equipo,
             asistencia: cedi.team_asis,
-            _equipo: equipo
+            equipo_convertido: equipo
         });
     },
     calculator: async(req, res)=>{
@@ -110,8 +109,7 @@ const controller = {
                     asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
+                    }                    
                 });
                
             }
@@ -136,8 +134,7 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                equipo: cedi.equipo 
+                }
             });
         }
        
