@@ -73,7 +73,6 @@ const controller = {
         let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar; 
-        console.log({'controller':progress}) 
         let blocks_persona = calc.m3Persona;
         let percepcion_total = calc.percepcionTotal;
 

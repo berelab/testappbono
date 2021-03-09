@@ -39,14 +39,15 @@ export default class Production {
             return 0;
         }       
         if(this.colaboradores[weekdayName] == 0) return 0;
+        console.log({'prod - colab': this.colaboradores[weekdayName]});  
         this.m3_cortados ? m3_persona = (this.m3_cortados[weekdayName] / this.colaboradores[weekdayName]) : m3_persona = 0;
-    
+        console.log({'prod - m3per': m3_persona});  
         return m3_persona;
     }
     progress (today){
         let weekdayNumber = this.dayNumber();
         let daily_prod = this.production(today); 
-        console.log({'prod - daily':daily_prod})                            
+        console.log({'prod - daily':daily_prod});                            
         let acc;
         let monday_prod;
         let tuesday_prod;
@@ -62,12 +63,12 @@ export default class Production {
             case 2:
                 monday_prod = this.production('lunes');
                 acc = monday_prod + daily_prod;
+                console.log({'prod - case2':acc}) 
                 return acc;
             case 3:
                 monday_prod = this.production('lunes');
                 tuesday_prod = this.production('martes');
-                acc = monday_prod + tuesday_prod + daily_prod;
-                console.log({'prod - case3':acc}) 
+                acc = monday_prod + tuesday_prod + daily_prod;                
                 return acc;
             case 4:      
                   monday_prod = this.production('lunes'); 
