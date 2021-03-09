@@ -45,7 +45,8 @@ export default class Production {
     }
     progress (today){
         let weekdayNumber = this.dayNumber();
-        let daily_prod = this.production(today);                            
+        let daily_prod = this.production(today); 
+        console.log({'prod - daily':daily_prod})                            
         let acc;
         let monday_prod;
         let tuesday_prod;
@@ -66,6 +67,7 @@ export default class Production {
                 monday_prod = this.production('lunes');
                 tuesday_prod = this.production('martes');
                 acc = monday_prod + tuesday_prod + daily_prod;
+                console.log({'prod - case3':acc}) 
                 return acc;
             case 4:      
                   monday_prod = this.production('lunes'); 
