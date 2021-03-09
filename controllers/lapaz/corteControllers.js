@@ -26,8 +26,8 @@ const controller = {
             colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,
-            equipo: corte.equipo,
-            _equipo: equipo
+            //equipo: corte.equipo,
+            equipo_convertido: equipo
         });
     },
     
@@ -138,7 +138,7 @@ const controller = {
                 datos_extra: {
                     m3_persona_dia: daily_prod
                 },
-                equipo: corte.equipo // en vez del nombre se devuelve el equipo entero
+                //equipo: corte.equipo // en vez del nombre se devuelve el equipo entero
                 
             });
         }
