@@ -102,20 +102,12 @@ const controller = {
                 
                 
                 //Generar token de jwt y devolverlo
-                if(params.gettoken){
-                    //Devolver datos
-                    return res.status(200).send({
-                        status: 'success',
-                         token: jwt.createToken(admins[index])
-                    });
-                }else{
-                    admins[index].password = undefined; // evitar devolver la pass
-                    //Devolver datos
-                    return res.status(200).send({
-                        status: 'success',
-                        user: admins[index]
-                    });
-                }
+                //Devolver datos
+                return res.status(200).send({
+                    status: 'success',
+                     token: jwt.createToken(admins[index])
+                });
+                
 
            }else{
             return res.status(404).send({

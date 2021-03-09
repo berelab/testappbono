@@ -519,13 +519,13 @@ export default class Attendance {
         }
     
        
-        total_lunes = total_lunes * factor_dias_laborados;
-        total_martes = total_martes* factor_dias_laborados;
-        total_miercoles = total_miercoles * factor_dias_laborados;
-        total_jueves  = total_jueves * factor_dias_laborados;
-        total_viernes = total_viernes * factor_dias_laborados;
-        total_sabado = total_sabado * factor_dias_laborados;
-        total_domingo = total_domingo * factor_dias_laborados;
+        total_lunes = total_lunes //* factor_dias_laborados;
+        total_martes = total_martes //* factor_dias_laborados;
+        total_miercoles = total_miercoles //* factor_dias_laborados;
+        total_jueves  = total_jueves //* factor_dias_laborados;
+        total_viernes = total_viernes //* factor_dias_laborados;
+        total_sabado = total_sabado //* factor_dias_laborados;
+        total_domingo = total_domingo //* factor_dias_laborados;
         
     
         asistencia_total.push(total_lunes);
@@ -553,10 +553,10 @@ export default class Attendance {
      }
     
      asistencia_total(equipo, factor_dias_laborados){
-         let colaboradores = this.colaboradores_por_dia(equipo, factor_dias_laborados);
-         let total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles + colaboradores.jueves + colaboradores.viernes +colaboradores.sabado +colaboradores.domingo
-         return total;
-     }
+        let colaboradores = this.colaboradores_por_dia(equipo, factor_dias_laborados);
+        let total = (colaboradores.lunes * factor_dias_laborados) + (colaboradores.martes*factor_dias_laborados) + (colaboradores.miercoles*factor_dias_laborados) + (colaboradores.jueves*factor_dias_laborados) + (colaboradores.viernes*factor_dias_laborados) + (colaboradores.sabado*factor_dias_laborados) + (colaboradores.domingo*factor_dias_laborados)
+        return total;
+    }
 
 
     /* Mexicali mmto, produccion almacen*/

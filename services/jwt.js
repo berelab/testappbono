@@ -14,8 +14,8 @@ exports.createToken = (user) =>{
          email: user.email,
          num: user.num,
          role: user.role,
-         iat:  moment().unix(), //fecha en la que se ha creado el token
-         exp: moment().add(30, 'days').unix // fecha de expiracion del token, en este caso expira en 30 dias. formato unix.
+         iat:  moment().format(), //fecha en la que se ha creado el token
+         exp: moment().add(30, 'days').format()// fecha de expiracion del token, en este caso expira en 30 dias.
      };
 
      return  jwt.encode(payload, clave);

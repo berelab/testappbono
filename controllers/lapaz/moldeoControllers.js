@@ -15,6 +15,10 @@ const controller = {
         const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
         let equipo = cd.convert;
 
+        const calcAtt = new att( equipo, moldeo.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
 		return res.status(200).send({
             message: moldeo.message,
             city: moldeo.city,
@@ -28,7 +32,8 @@ const controller = {
             factor_dias_laborados: moldeo.factor_dias_laborados,
             horas_por_turno: moldeo.horas_por_turno,
             blocks_moldeados: moldeo.blocks_moldeados,
-            colaboradores: moldeo.colaboradores,
+            colaboradores: colaboradores,
+            asistencia_total: asistencia_total,
             asistencia: moldeo.team_asis,
             equipo_convertido: equipo
             
