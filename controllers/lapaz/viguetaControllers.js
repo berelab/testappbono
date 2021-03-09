@@ -89,6 +89,21 @@ const controller = {
                 }
             });
         }       
+    },
+
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
+        
+        const repository = new viguetaSQLRepo();
+        const model = new viguetaModels(repository);
+        let vigueta = await model.refresh(base, dias_sucios, extra_m3); 
+
+        return res.status(200).send({
+            message : 'OK',
+            vigueta
+        });  
     }
 
 };
