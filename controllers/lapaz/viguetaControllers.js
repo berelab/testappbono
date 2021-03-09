@@ -42,22 +42,17 @@ const controller = {
         let bono_total = bono_total_persona(total_base,condicion_auditoria);
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
-
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
-            }
+            let codigo = parseInt(req.params.index); 
 
             let len = equipo.length;
-            let name = vigueta.equipo[i].nombre +' ' + vigueta.equipo[i].a_paterno +' ' + vigueta.equipo[i].a_materno
-           
+            let i = 'no encontrado';
 
-            if(i < 0 || i >= len ){
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
+            }
+            
+
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
@@ -65,18 +60,20 @@ const controller = {
                 });
             }else{
                 return res.status(200).send({
-                    nombre: name,
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: vigueta.message,
-                    dias_laborados: vigueta.dias_laborados,
                     day: weekdayName,
+                    dias_laborados: vigueta.dias_laborados,                    
                     asistencia: asistencia_persona[i],
                     total_base: total_base[i],
                     bono_persona:  bono_total[i],
                     datos_extra: {
                         condicionante_auditoria: condicion_auditoria,
                         pago_por_dia: vigueta.pago_dia
-                    },
+                    },                 
                 });
+               
             }
         }else{
             return res.status(200).send({
@@ -89,13 +86,11 @@ const controller = {
                 datos_extra: {
                     condicionante_auditoria: condicion_auditoria,
                     pago_por_dia: vigueta.pago_dia
-                }
-                
-            });
-           
-        }
+                },
+                equipo: equipo
 
-       
+            });
+        }       
     }
 
 };
