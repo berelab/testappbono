@@ -48,14 +48,14 @@ class MoldeoModels {
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             horas_por_turno: 9.5,            
-            colaboradores: {
-                lunes: 0,
-                martes: 1,
-                miercoles: 1,
-                jueves: 1,
-                viernes: 1,
-                sabado: 0
-            },
+            // colaboradores: {
+            //     lunes: 0,
+            //     martes: 1,
+            //     miercoles: 1,
+            //     jueves: 1,
+            //     viernes: 1,
+            //     sabado: 0
+            // },
             blocks_moldeados: {
                 lunes: 0,
                 martes: 0,
