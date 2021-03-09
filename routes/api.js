@@ -210,6 +210,7 @@ router.get('/lapaz/chofercedi', cediLaPaz.home);
 router.get('/lapaz/chofercedi/calculator', cediLaPaz.calculator);
 router.get('/lapaz/chofercedi/calculator/:index', cediLaPaz.calculator);
 
+router.put('/lapaz/admin/vigueta', viguetaLaPaz.editInfo);
 router.get('/lapaz/vigueta', viguetaLaPaz.home);
 router.get('/lapaz/vigueta/calculator', viguetaLaPaz.calculator);
 router.get('/lapaz/vigueta/calculator/:index', viguetaLaPaz.calculator);
