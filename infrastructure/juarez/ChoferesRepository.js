@@ -8,7 +8,7 @@ class ChoferesRepository {
     async find() {        
         let response;
         let pool;
-        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM plantas WHERE depto = 'almacen' AND ciudad = 'choferes'";
+        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM plantas WHERE depto = 'choferes' AND ciudad = 'juarez'";
 
         try {
             pool = await appPoolPromise
