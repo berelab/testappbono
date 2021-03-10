@@ -200,10 +200,10 @@ router.get('/lapaz/almacen', almacenLaPaz.home);
 router.get('/lapaz/almacen/calculator', almacenLaPaz.calculator);
 router.get('/lapaz/almacen/calculator/:index', almacenLaPaz.calculator);
 
-router.put('/lapaz/admin/chofer-local', choferLaPaz.editInfo);
-router.get('/lapaz/chofer-local', choferLaPaz.home);
-router.get('/lapaz/chofer-local/calculator', choferLaPaz.calculator);
-router.get('/lapaz/chofer-local/calculator/:index', choferLaPaz.calculator);
+router.put('/lapaz/admin/choferlocal', choferLaPaz.editInfo);
+router.get('/lapaz/choferlocal', choferLaPaz.home);
+router.get('/lapaz/choferlocal/calculator', choferLaPaz.calculator);
+router.get('/lapaz/choferlocal/calculator/:index', choferLaPaz.calculator);
 
 router.put('/lapaz/admin/chofercedi', cediLaPaz.editInfo);
 router.get('/lapaz/chofercedi', cediLaPaz.home);
