@@ -44,10 +44,7 @@ const controller = {
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-        let he_dobles = almacen.horas_extra_dobles;
-        let he_triples= almacen.horas_extra_triples;
-
-        let total_horas_extra = (he_dobles *2) + (he_triples*3);
+        let total_horas_extra = (almacen.horas_extra_dobles * 2) + (almacen.horas_extra_triples * 3);
         let asistencia_total = (asistencia + (total_horas_extra / 24)); 
 
         const calc = new mainCalcs(

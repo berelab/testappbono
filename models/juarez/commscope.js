@@ -7,14 +7,20 @@ class Commscope {
 
     async execute() {
         let response;
+        let teamResponse;
+        let entries;
+        let extra;
 
         try {
             response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -29,25 +35,19 @@ class Commscope {
         return response;
     }
 
-    _convertData(response) {
+    _convertData(response, team, entries, extra) {
         return {            
             message: 'Commscope',
             city: 'Juarez',
             base0: response.base,
             auditoria_sol: response.dirty_days,
             $_extra_m3: response.extra,
-            dias: '6',
+            dias: extra.dias,
+            horas_extra_dobles: 0,
+            horas_extra_triples: 0,
             asistencia: 51.00,
-            factor_dias_laborados: '1.2',
+            factor_dias_laborados: extra.factor,
             horas_por_turno: 9.6,
-            colaboradores: {
-                lunes: 10,
-                martes: 10,
-                miercoles: 12,
-                jueves: 11,
-                viernes: 0,
-                sabado: 0
-            },
             m3_cortados: {
                 lunes: 168.22,
                 martes: 168.22,
@@ -56,221 +56,44 @@ class Commscope {
                 viernes: 0,
                 sabado: 0
             },
-            equipo: [
-                {
-                    nombre: 'Francisco Jesús Gómez Gómez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Ivan Castillo',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Jesús Adasola',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Elizabeth Quiroz Vera',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 0.0,
-                        miercoles: 1.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Aidee Sanchez Del Valle',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Juan Antonio Martínez Juarez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Enrique Sanchez Palacios',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Gerardo Antonio Hernandez Vazquez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Guadalupe Del Valle Perez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Miguel Valles',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Alma Delia Calderón',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 0.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 0,
-                    total_bono: 0,
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Luis Guillermo Delgado Galvan',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'José Leos',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 0.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Francisco Sanchez Palacios',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 1.0,
-                        miercoles: 0.5,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-            ]
+            equipo: team,
+            team_asis: entries
         };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
     }
 };
 
