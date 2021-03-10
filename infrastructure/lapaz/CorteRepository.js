@@ -8,7 +8,7 @@ class MySqlCorteRepository {
     async find() {
         let response;
         let pool;
-        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM lapaz WHERE depto = 'corte';";
+        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM plantas WHERE depto = 'corte' AND ciudad = 'lapaz';";
 
         try {
             pool = await appPoolPromise
@@ -78,7 +78,7 @@ class MySqlCorteRepository {
         let response;
         let pool;
 
-        const queryString = `UPDATE lapaz SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'corte';`;
+        const queryString = `UPDATE plantas SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'corte' AND ciudad = 'lapaz';`;
         
         try {
             pool = await appPoolPromise

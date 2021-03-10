@@ -9,7 +9,7 @@ class AlmacenRepository {
     async find() {
         let response;
         let pool;
-        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM lapaz WHERE depto = 'almacen'";
+        const queryString = "SELECT base0, dias_sucios, [$_extra_m3] FROM plantas WHERE depto = 'almacen' AND ciudad = 'lapaz'";
 
         try {
             pool = await appPoolPromise
@@ -30,7 +30,7 @@ class AlmacenRepository {
         let response;
         let pool;
 
-        const queryString = `UPDATE lapaz SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'almacen';`;
+        const queryString = `UPDATE plantas SET base0 = ${base} , dias_sucios = '${dias_sucios}', [$_extra_m3] = '${extra_m3}' WHERE depto = 'almacen' AND ciudad = 'lapaz';`;
         
         try {
             pool = await appPoolPromise

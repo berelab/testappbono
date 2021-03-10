@@ -7,14 +7,20 @@ class Aligerante {
 
     async execute() {
         let response;
+        let teamResponse;
+        let entries;
+        let extra;
 
         try {
             response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -29,26 +35,20 @@ class Aligerante {
         return response;
     }
 
-    _convertData(response) {
+    _convertData(response, team, entries, extra) {
         return {            
             message: 'Aligerante',
             city: 'Juarez',
             base0: response.base,
             auditoria_sol: response.dirty_days,
             $_extra_m3: response.extra,
-            dias: '6',
+            dias: extra.dias,
             desperdicio: .1572,
-            factor_dias_laborados: '1.2',
+            factor_dias_laborados: extra.factor,
             horas_por_turno: 9.6,
-            asistencia: 5.40,
-            colaboradores: {
-                lunes: 1,
-                martes: 1,
-                miercoles: 2,
-                jueves: 1,
-                viernes: 0,
-                sabado: 0
-            },
+            horas_extra_dobles: 0,
+            horas_extra_triples: 0,
+            asistencia: 5.40,            
             m3_cortados: {
                 lunes: 34.1025,
                 martes: 34.1025,
@@ -57,39 +57,45 @@ class Aligerante {
                 viernes: 0,
                 sabado: 0
             },
-            equipo: [
-                {
-                    nombre: 'Alexis Yahir Mendez',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Briaan Salvador Lopez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 0.5,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-            ]
+            equipo: team,
+            team_asis: entries
         };
+    }
+
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
     }
 };
 

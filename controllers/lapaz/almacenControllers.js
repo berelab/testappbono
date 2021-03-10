@@ -99,8 +99,7 @@ const controller = {
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-             
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
                     depto: almacen.message,
@@ -142,8 +141,7 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                }
-                
+                }                
             });
         }
        
