@@ -44,7 +44,7 @@ class MySqlCorteRepository {
     async entryTimes(){
         let response;
         let pool;
-        const queryString = "SELECT cu.* FROM (SELECT u.CB_CODIGO AS userid, CONVERT(VARCHAR(10), c.AU_FECHA, 101) AS fecha, c.CH_H_AJUS AS entrada, c.CH_H_REAL AS entrada_real, ROW_NUMBER() OVER (PARTITION BY u.CB_CODIGO, c.AU_FECHA ORDER BY c.CH_H_AJUS) AS seqnum FROM APP_CHECADAS c JOIN APP_COLABORA u ON u.CB_CODIGO = c.CB_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE c.AU_FECHA BETWEEN '2021-01-18 00:00:00.000' AND '2021-01-24 00:00:00.000' AND  u.CB_NIVEL5 = 'LPZ' AND n.TB_ELEMENT = 'Corte Variable') cu WHERE seqnum = 1 "
+        const queryString = "SELECT cu.* FROM (SELECT u.CB_CODIGO AS userid, CONVERT(VARCHAR(10), c.AU_FECHA, 101) AS fecha, c.CH_H_AJUS AS entrada, c.CH_H_REAL AS entrada_real, ROW_NUMBER() OVER (PARTITION BY u.CB_CODIGO, c.AU_FECHA ORDER BY c.CH_H_AJUS) AS seqnum FROM APP_CHECADAS c JOIN APP_COLABORA u ON u.CB_CODIGO = c.CB_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE c.AU_FECHA BETWEEN (SELECT DATEADD(DAY, 2 - DATEPART(WEEKDAY, GETDATE()), cast( floor( cast( getdate() as float)) as datetime))) AND (SELECT  DATEADD(DAY, 8 -  DATEPART(WEEKDAY, GETDATE()) , cast( floor( cast( getdate() as float)) as datetime)) )  AND  u.CB_NIVEL5 = 'LPZ' AND n.TB_ELEMENT = 'Corte Variable') cu WHERE seqnum = 1 "
 
         try {
             pool = await prodPoolPromise
