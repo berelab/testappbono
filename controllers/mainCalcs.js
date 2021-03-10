@@ -763,16 +763,25 @@ class MainCalcs {
             }
         
         }else if(this.city == 'La Paz' || this.city == 'Juarez'){
-            if(depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Corte' ||  depto =='Commscope' || depto=='AOS Mith' || depto=='Choferes' || depto=='Aligerante' || depto=='Corte' || depto=='Almacén' || depto=='CEDI' || depto=='Chofer Local' || depto=='Moldeo'){
+            if(depto == 'Mantenimiento'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Corte' ||  depto =='Commscope' || depto=='AOS Mith' || depto=='Choferes' || depto=='Aligerante' || depto=='Corte' || depto=='Almacén' || depto=='CEDI' || depto=='Chofer Local' || depto=='Moldeo'){
                 var pago=[];
-                let percepcion_total = this.percepcion_total(depto, this.city);
+              
 
                 if(depto=='CEDI' || depto =='Chofer Local'){
+                      let percepcion_total = this.percepcion_total(depto, this.city);
                     for(var i =0; i <sumatoria_asistencia.length; i++){
                         var total = percepcion_total/dias*(sumatoria_asistencia[i]);
                         pago.push(total);
                     }
+                }else if(depto == 'Mantenimiento'){
+                    var pago=[];
+                        let total_bono_calidad = this.total_mantenimiento(this.montos_recibidos_area, this.rendimiento_agua, this.rendimiento_combustible, this.rendimiento_electricidad, this.fugas_aire,this.fugas_perla , this.fugas_vapor, this.fugas_aceite , this.faltas_uso_epp);
+                        for(var i =0; i <equivalecia_asistencia.length; i++){
+                            var total = total_bono_calidad/dias*equivalecia_asistencia[i];
+                            pago.push(total);
+                       }
                 }else{
+                    let percepcion_total = this.percepcion_total(depto, this.city);
                     for(var i =0; i <equivalecia_asistencia.length; i++){
                         var total = percepcion_total/dias*(equivalecia_asistencia[i]);
                         pago.push(total);

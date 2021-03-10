@@ -142,7 +142,7 @@ export default class Attendance {
             return equivalente;
 
         }else if(city== 'La Paz'){
-            if(depto=='Corte' || depto=='Almacén' || depto=='CEDI' || depto=='Chofer Local' || depto=='Moldeo'){
+            if(depto=='Mantenimiento' || depto=='Corte' || depto=='Almacén' || depto=='CEDI' || depto=='Chofer Local' || depto=='Moldeo'){
                 let equivalente=[];
                 let len = sumatoria_asistencia.length;
     
@@ -158,7 +158,7 @@ export default class Attendance {
                 return equivalente;
             }
         }else if(city== 'Juarez'){
-            if(depto == 'Placa' || depto == 'Molino' || depto =='Moldeo' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Corte' || depto=='Aligerante' || depto=='Almacén' || depto=='AOS Mith' || depto=='Choferes' || depto =='Commscope'){
+            if(depto=='Mantenimiento' || depto == 'Placa' || depto == 'Molino' || depto =='Moldeo' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Corte' || depto=='Aligerante' || depto=='Almacén' || depto=='AOS Mith' || depto=='Choferes' || depto =='Commscope'){
                 let equivalente=[];
                 let len = sumatoria_asistencia.length;
     

@@ -14,6 +14,7 @@ import choferLaPaz from '../controllers/lapaz/choferlocalController';
 import cediLaPaz from '../controllers/lapaz/cediControllers';
 import viguetaLaPaz from '../controllers/lapaz/viguetaControllers';
 import moldeoLaPaz from '../controllers/lapaz/moldeoControllers';
+import mantenimientoLaPaz from '../controllers/lapaz/mantenimientoController';
 
 import bonosCorteLaPaz from '../controllers/lapaz/corteBonosController';
 import produccionCorteLaPaz from '../controllers/lapaz/corteProduccionController';
@@ -40,6 +41,7 @@ import aligeranteJuarez from '../controllers/juarez/aligerante';
 import almacenJuarez from '../controllers/juarez/almacen';
 import molinoJuarez from '../controllers/juarez/molino';
 import choferesJuarez from '../controllers/juarez/choferes';
+import mantenimientoJuarez from '../controllers/juarez/mantenimientoController';
 
 //NOGALES
 import corteNogales from '../controllers/nogales/corteController';
@@ -220,6 +222,10 @@ router.get('/lapaz/bloquera', moldeoLaPaz.home);
 router.get('/lapaz/bloquera/calculator', moldeoLaPaz.calculator);
 router.get('/lapaz/bloquera/calculator/:index', moldeoLaPaz.calculator);
 
+router.get('/lapaz/mantenimiento', mantenimientoLaPaz.home);
+router.get('/lapaz/mantenimiento/calculator', mantenimientoLaPaz.calculator);
+router.get('/lapaz/mantenimiento/calculator/:index', mantenimientoLaPaz.calculator);
+
 /* produccion y montos */
 router.get('/lapaz/corte/bonos', bonosCorteLaPaz.home);
 router.get('/lapaz/corte/produccion', produccionCorteLaPaz.home);
@@ -297,6 +303,10 @@ router.put('/juarez/admin/choferes', choferesJuarez.editInfo);
 router.get('/juarez/choferes', choferesJuarez.home);
 router.get('/juarez/choferes/calculator', choferesJuarez.calculator);
 router.get('/juarez/choferes/calculator/:index', choferesJuarez.calculator);
+
+router.get('/juarez/mantenimiento', mantenimientoJuarez.home);
+router.get('/juarez/mantenimiento/calculator', mantenimientoJuarez.calculator);
+router.get('/juarez/mantenimiento/calculator/:index', mantenimientoJuarez.calculator);
 //------------------------------------------------------------------------------------------------------------
 //NOGALES
 router.get('/nogales/corte', corteNogales.home);
