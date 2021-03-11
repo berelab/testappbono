@@ -47,11 +47,11 @@ class AlmacenModels {
             factor_dias_laborados: extra.factor,
             $_extra_m3: response.extra,
             m3_desplazados: {
-                lunes: 0,
-                martes: 0,
-                miercoles: 0,
-                jueves: 1450,
-                viernes: 0,
+                lunes: 290,
+                martes: 290,
+                miercoles: 290,
+                jueves: 290,
+                viernes: 290,
                 sabado: 0,
                 
             },

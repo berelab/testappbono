@@ -50,11 +50,11 @@ class CorteModel {
             amp:11.5,
             asistencia_total:33.6,
             m3_desplazados: {
-                lunes: 0,
-                martes: 0,
-                miercoles:0,
-                jueves: 1497.14,
-                viernes: 0,
+                lunes: 299.428,
+                martes: 299.428,
+                miercoles:299.428,
+                jueves: 299.428,
+                viernes: 299.428,
                 sabado: 0,
                 
             },
