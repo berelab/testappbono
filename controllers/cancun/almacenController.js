@@ -22,7 +22,7 @@ const controller = {
             $_extra_m3: almacen.$_extra_m3,
             dias: almacen.dias,
             factor_dias_laborados: almacen.factor_dias_laborados,
-            diferencia_inv: almace.diferencia_inv,
+            diferencia_inv: almacen.diferencia_inv,
             m3_desplazados: almacen.m3_desplazados,
             asistencia: almacen.team_asis,
             equipo_convertido: equipo            
