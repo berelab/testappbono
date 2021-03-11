@@ -7,14 +7,20 @@ class Moldeo {
 
     async execute() {
         let response;
+        let teamResponse;
+        let entries;
+        let extra;
 
         try {
             response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -29,7 +35,7 @@ class Moldeo {
         return response;
     }
 
-    _convertData(response) {
+    _convertData(response, team, entries, extra) {
         return {            
             message: 'Moldeo',
             city: 'Juarez',
@@ -40,17 +46,11 @@ class Moldeo {
             blocks_fuera_especificacion: '0',
             densidad_bobedilla: 5.1,
             densidad_ins16: 14.0,
-            dias: '4.8',
-            factor_dias_laborados: '1.2',
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
             horas_por_turno: 9.6,
-            colaboradores: {
-                lunes: 3,
-                martes: 3,
-                miercoles: 2,
-                jueves: 2,
-                viernes: 0,
-                sabado: 0
-            },
+            horas_extra_dobles: 0,
+            horas_extra_triples: 0,
             blocks_moldeados: {
                 lunes: 94.25,
                 martes: 94.25,
@@ -59,69 +59,44 @@ class Moldeo {
                 viernes: 0,
                 sabado: 0
             },
-            equipo: [
-                {
-                    nombre: 'Nisoforo Hernandez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.5,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Angel Gabriel Mora Casanova',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 0.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Francisco Sanchez',
-                    asistencia: {
-                        lunes: 0.5,
-                        martes: 0.5,
-                        miercoles: 0.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Daniel García Gomez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.5,
-                        jueves: 1.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    horas_extra_dobles: 0,
-                    horas_extra_triples: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-            ]
+            equipo: team,
+            team_asis: entries
         };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
     }
 };
 

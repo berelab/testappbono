@@ -1,54 +1,59 @@
 'use strict'
 
 import mcsframeModel from '../../models/juarez/mcsframe';
-import mySqlMcsframeRepository from '../../infrastructure/juarez/McsframeRepository';
+import SQLMcsframeRepository from '../../infrastructure/juarez/McsframeRepository';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 	
 	home: async(req, res) => {
-        const repository = new mySqlMcsframeRepository();
+        const repository = new SQLMcsframeRepository();
         const model = new mcsframeModel(repository);
         let mcsframe = await model.execute(); 
+        const cd =  new convertData(mcsframe.equipo, mcsframe.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
             message: mcsframe.message,
-            city: mcsframe.city,
             base0: mcsframe.base0,
             dias_sucios: mcsframe.auditoria_sol,
             $_extra_m3: mcsframe.$_extra_m3,
             dias: mcsframe.dias,
             factor_dias_laborados: mcsframe.factor_dias_laborados,
-            horas_por_turno: mcsframe.horas_por_turno,
-            colaboradores: mcsframe.colaboradores,
             m3_cortados: mcsframe.m3_cortados,
-            equipo: mcsframe.equipo
+            asistencia: mcsframe.team_asis,
+            equipo_convertido: equipo
         });
     },
     
     calculator: async(req, res)=>{
-        const repository = new mySqlMcsframeRepository();
+        const repository = new SQLMcsframeRepository();
         const model = new mcsframeModel(repository);
         let mcsframe = await model.execute(); 
+        const cd =  new convertData(mcsframe.equipo, mcsframe.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, mcsframe.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-        let he_dobles = mcsframe.equipo[0].horas_extra_dobles;
-        let he_triples= mcsframe.equipo[0].horas_extra_triples;
-
-        let total_horas_extra = (he_dobles *2) + (he_triples*3);
-        let asistencia_total = (mcsframe.asistencia + (total_horas_extra / mcsframe.horas_por_turno)); 
+        let total_horas_extra = (mcsframe.horas_extra_dobles * 2) + (mcsframe.horas_extra_triples * 3);
+        let asistencia_total = (asistencia + (total_horas_extra / mcsframe.horas_por_turno)); 
 
         const calc = new mainCalcs(
             mcsframe.dias, 
             mcsframe.m3_cortados, 
-            mcsframe.colaboradores, 
+            colaboradores, 
             asistencia_total, 
             weekdayName, 
-            mcsframe.equipo, 
+            equipo, 
             mcsframe.base0, 
             mcsframe.$_extra_m3, 
             mcsframe.auditoria_sol, 
@@ -70,34 +75,29 @@ const controller = {
         let bono_metas = calc.pc_metas; 
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
-
-            let len = mcsframe.equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-             
-                    nombre: mcsframe.equipo[i].nombre,
+                return res.status(200).send({  
+                    nombre: equipo[i].nombre,
+                    code: equipo[i].num,
                     depto: mcsframe.message,
                     day: weekdayName,
                     meta_semana: mcsframe.base0,
-                    dias_laborados: mcsframe.base0, 
+                    dias_laborados: mcsframe.dias,
                     $_extra_m3: mcsframe.$_extra_m3,       
                     progress: progress,
                     m3_persona: m3_persona,
@@ -109,34 +109,30 @@ const controller = {
                     asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
+                    }                  
                 });
                
             }
         }else{
-            return res.status(200).send({
-               
+            return res.status(200).send({              
                 depto: mcsframe.message,
                 day: weekdayName,
                 meta_semana: mcsframe.base0,
-                dias_laborados: mcsframe.dias,            
+                dias_laborados: mcsframe.dias, 
+                $_extra_m3: mcsframe.$_extra_m3,           
                 progress: progress,
                 m3_persona: m3_persona,
                 bono_depto: percepcion_total,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total, 
                 bono_persona: bono_total_colaborador, 
-                bono_total:bono_total,
-                $_extra_m3: mcsframe.$_extra_m3,
+                bono_total:bono_total,  
                 bono_productividad: bono_productividad,
                 bono_metas: bono_metas,
                 asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                equipo: mcsframe.equipo 
-                
+                }                                                                                       
             });
         }
     },
@@ -146,7 +142,7 @@ const controller = {
         let dias_sucios = req.body.dias_sucios;        
         let extra_m3 =  req.body.extra_m3;
         
-        const repository = new mySqlMcsframeRepository();
+        const repository = new SQLMcsframeRepository();
         const model = new mcsframeModel(repository);
         let mcsframe = await model.refresh(base, dias_sucios, extra_m3); 
 

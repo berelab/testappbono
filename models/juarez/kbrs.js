@@ -7,14 +7,20 @@ class Kbrs {
 
     async execute() {
         let response;
+        let teamResponse;
+        let entries;
+        let extra;
 
         try {
             response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -29,24 +35,16 @@ class Kbrs {
         return response;
     }
 
-    _convertData(response) {
+    _convertData(response, team, entries, extra) {
         return {            
             message: 'Kbrs',
             city: 'Juarez',
             base0: response.base,
             auditoria_sol: response.dirty_days,
             $_extra_m3: response.extra,
-            dias: '6',
+            dias: extra.dias,
             asistencia: 92.40,
-            factor_dias_laborados: '1.2',
-            colaboradores: {
-                lunes: 13,
-                martes: 16,
-                miercoles: 16,
-                jueves: 16,
-                viernes: 16,
-                sabado: 0
-            },
+            factor_dias_laborados: extra.factor,
             piezas_terminadas: {
                 lunes: 50,
                 martes: 50,
@@ -55,264 +53,44 @@ class Kbrs {
                 viernes: 50,
                 sabado: 0
             },
-            equipo: [
-                {
-                    nombre: 'Claudia Margarita Salomón',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 'real', 
-                    retardos: 0
-                },
-                {
-                    nombre: 'Rosendo Samaniego Longoria',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 0.0,
-                        miercoles: 0.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 0,
-                    total_bono: 0,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Jose Perez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Nora Bertha Alicia Ramos Lopez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Eduardo Medina Rabango',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Ramón Montelongo',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Manuel De Jesus Medina Villa',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Angel Joel Quiroz Gutierrez',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 4,
-                    total_bono: 184.21,
-                    faltas : 1,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Ernesto Lopez',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Sandra Campa Barrón',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 5,
-                    total_bono: 506.57,
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Guillermo Carrasco',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    total_asistencia: 4,
-                    total_bono: 184.21,
-                    faltas : 1,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Guadalupe Avila Flores',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Jose Juan Hernandez',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Fabián De Jesus Colorado',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Martin Javier Quiñones',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Maria Jean Aguilar',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 0,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Jose Perfecto Capiz Peña',
-                    asistencia: {
-                        lunes: 0.0,
-                        martes: 1.0,
-                        miercoles: 1.0,
-                        jueves: 1.0,
-                        viernes: 1.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 1,
-                    retardos: 0
-                },
-                {
-                    nombre: 'Luis Jesús Campa Barrón',
-                    asistencia: {
-                        lunes: 1.0,
-                        martes: 0.0,
-                        miercoles: 0.0,
-                        jueves: 0.0,
-                        viernes: 0.0,
-                        sabado: 0.0,
-                    },
-                    faltas : 4,
-                    retardos: 0
-                },
-            ]
+            equipo: team,
+            team_asis: entries
         };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
     }
 };
 
