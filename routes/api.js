@@ -154,6 +154,7 @@ import mantenimientoMexicali from '../controllers/mexicali/mantenimientoControll
 
 //--------------------------------------------------------------------------------------------------
 // Cancun
+import cancun from '../controllers/cancun/cancun';
 import mantenimientoCancun from '../controllers/cancun/mantenimientoController';
 import corteCancun from '../controllers/cancun/corteController';
 import preexpYMoldeoCancun from '../controllers/cancun/preexpYMoldeoController';
@@ -675,6 +676,7 @@ router.get('/mexicali/mantenimiento/calculator/:index', mantenimientoMexicali.ca
 
 //CANCUN-----------------------------------------------------------------------------
 
+router.get('/cancun', cancun.data)
 router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
 router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
 router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
