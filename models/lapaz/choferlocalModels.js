@@ -44,15 +44,7 @@ class ChoferModels {
             $_extra_m3: response.extra,
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
-            asistencia_total: '6.00',            
-            colaboradores: {
-                lunes: 1,
-                martes: 1,
-                miercoles: 1,
-                jueves: 1,
-                viernes: 1,
-                sabado: 0
-            },
+            asistencia_total: '6.00',  
             m3_desplazados: {
                 lunes: 130.9322,
                 martes: 17.6686,

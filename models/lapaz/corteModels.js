@@ -46,14 +46,6 @@ class CorteModels {
             factor_dias_laborados: extra.factor,
             asistencia_total: '18.00',
             amp: '96.98',
-            colaboradores: {
-                lunes: 3,
-                martes: 3,
-                miercoles: 3,
-                jueves: 3,
-                viernes: 3,
-                sabado: 3
-            },
             m3_cortados: {
                 lunes: 328.32,
                 martes: 81.93,

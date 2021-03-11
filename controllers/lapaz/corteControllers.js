@@ -23,13 +23,12 @@ const controller = {
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
             factor_dias_laborados: corte.factor_dias_laborados,
-            colaboradores:corte.colaboradores,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,
             equipo_convertido: equipo
         });
     },
-    
+
     calculator: async(req, res)=>{
         const repository = new CorteSQLRepo();
         const model = new corteModels(repository);
@@ -85,7 +84,6 @@ const controller = {
                 equipo[a].num == codigo?  i = a: i
             }
             
-
             if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
@@ -112,10 +110,8 @@ const controller = {
                     asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
+                    }, 
                 });
-               
             }
         }else{
             return res.status(200).send({
@@ -127,19 +123,18 @@ const controller = {
                 progress: progress,
                 m3_persona: m3_persona,
                 bono_depto: percepcion_total,
-                pago_persona:pago_colaboradores, //bono antes del descuento por las faltas
-                pago_total: pago_total, // sumatoria de pago_persona
-                bono_persona: bono_total_colaborador, //bono despues del descuento por las faltas
+                pago_persona:pago_colaboradores, 
+                pago_total: pago_total, 
+                bono_persona: bono_total_colaborador, 
                 bono_total:bono_total,
                 bono_productividad: bono_productividad,
                 bono_metas: bono_metas,
-                asistencia: sumatoria_asistencia,  // asistencias de cada uno de los colab
+                asistencia: sumatoria_asistencia,
                 datos_extra: {
                     m3_persona_dia: daily_prod
                 }
             });
         }
-        
     },
 
     editInfo: async(req, res)=>{

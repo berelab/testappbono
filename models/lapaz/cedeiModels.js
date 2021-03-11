@@ -45,14 +45,6 @@ class CediModels {
             factor_dias_laborados: extra.factor,
             dias: extra.dias,
             asistencia_total: '6.00',
-            colaboradores: {
-                lunes: 1,
-                martes: 1,
-                miercoles: 1,
-                jueves: 1,
-                viernes: 1,
-                sabado: 0
-            },
             m3_desplazados: {
                 lunes: 32.22,
                 martes: 24.1462,

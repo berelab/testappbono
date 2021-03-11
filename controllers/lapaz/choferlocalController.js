@@ -23,7 +23,6 @@ const controller = {
             $_extra_m3: chofer.$_extra_m3,
             factor_dias_laborados: chofer.factor_dias_laborados,
             asistencia_total: chofer.asistencia_total,
-            colaboradores: chofer.colaboradores,
             m3_desplazados: chofer.m3_desplazados,
             asistencia: chofer.team_asis,
             equipo_convertido: equipo

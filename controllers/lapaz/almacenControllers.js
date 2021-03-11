@@ -23,8 +23,6 @@ const controller = {
             $_extra_m3: almacen.$_extra_m3,
             dias: almacen.dias,
             factor_dias_laborados: almacen.factor_dias_laborados,
-            horas_por_turno: almacen.horas_por_turno,
-            colaboradores: almacen.colaboradores,
             m3_desplazados: almacen.m3_desplazados,
             asistencia: almacen.team_asis,
             equipo_convertido: equipo
@@ -47,12 +45,8 @@ const controller = {
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-        let he_dobles = almacen.horas_extra_dobles;
-        let he_triples= almacen.horas_extra_triples;
-
-        let total_horas_extra = (he_dobles *2) + (he_triples*3);
+        let total_horas_extra = (almacen.horas_extra_dobles * 2) + (almacen.horas_extra_triples * 3);
         let asistencia_total = asistencia +( (total_horas_extra / almacen.horas_por_turno))*5; 
-
 
         const calc = new mainCalcs(
             almacen.dias, 
@@ -83,7 +77,6 @@ const controller = {
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
-
             let len = equipo.length;
             let i = 'no encontrado';
 
@@ -91,7 +84,6 @@ const controller = {
                 equipo[a].num == codigo?  i = a: i
             }
             
-
             if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
@@ -117,10 +109,8 @@ const controller = {
                     asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
-                });
-               
+                    },                    
+                });               
             }
         }else{
             return res.status(200).send({              
@@ -143,8 +133,7 @@ const controller = {
                     m3_persona_dia: daily_prod
                 }                
             });
-        }
-       
+        }       
     },
     editInfo: async(req, res)=>{
         let base = req.body.base;

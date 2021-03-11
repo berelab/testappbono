@@ -23,7 +23,6 @@ const controller = {
             $_extra_m3: cedi.$_extra_m3,
             factor_dias_laborados: cedi.factor_dias_laborados,
             asistencia_total: cedi.asistencia_total,
-            colaboradores: cedi.colaboradores,
             m3_desplazados: cedi.m3_desplazados,
             asistencia: cedi.team_asis,
             equipo_convertido: equipo
@@ -83,7 +82,6 @@ const controller = {
                 equipo[a].num == codigo?  i = a: i
             }
             
-
             if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
@@ -110,13 +108,10 @@ const controller = {
                     datos_extra: {
                         m3_persona_dia: daily_prod
                     }                    
-                });
-               
+                });               
             }
         }else{
-
-            return res.status(200).send({
-               
+            return res.status(200).send({               
                 depto: cedi.message,
                 day: weekdayName,
                 meta_semana: cedi.base0,
@@ -136,9 +131,7 @@ const controller = {
                     m3_persona_dia: daily_prod
                 }
             });
-        }
-       
-        
+        }               
     },
     editInfo: async(req, res)=>{
         let base = req.body.base;

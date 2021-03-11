@@ -1,64 +1,102 @@
 'use strict'
 
-const almacenBaseData = {
-        message: 'Almacen',
-        city: 'Cancun',
-        base0: 125,
-        dias_sucios:0,
-        diferencia_inv:1,
-        asistencia_total:12,
-        dias: 6,
-        factor_dias_laborados: 1.2,
-        $_extra_m3: 1.5,
-        colaboradores: {
-            lunes: 0,
-            martes: 2.4,
-            miercoles: 2.4,
-            jueves: 2.4,
-            viernes: 2.4,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 1450,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        equipo: [
-            {
-                nombre: 'JAIR HOY MORALES',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+class AlmacenModels {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Almacen',
+            city: 'Cancun',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            diferencia_inv: 1,
+            asistencia_total:12,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            $_extra_m3: response.extra,
+            m3_desplazados: {
+                lunes: 0,
+                martes: 0,
+                miercoles: 0,
+                jueves: 1450,
+                viernes: 0,
+                sabado: 0,
+                
             },
-            {
-                nombre: 'JUAN REYES GARCIA',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            }
-        ]
+            equipo: team,
+            team_asis: entries
+        };
+    }
+
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
+
+
 };
 
-module.exports = almacenBaseData;
+module.exports = AlmacenModels;

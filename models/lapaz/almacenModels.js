@@ -48,14 +48,6 @@ class AlmacenModels {
             horas_extra_dobles: 0,
             horas_extra_triples: 0,
             asistencia: 1.2,
-            colaboradores: {
-                lunes: 1,
-                martes: 1,
-                miercoles: 1,
-                jueves: 1,
-                viernes: 1,
-                sabado: 0
-            },
             m3_desplazados: {
                 lunes: 456.29,
                 martes: 207.65,
