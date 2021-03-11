@@ -22,9 +22,6 @@ const controller = {
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
             factor_dias_laborados: corte.factor_dias_laborados,
-            num_quejas, 
-            rechazo_interno,           
-            amp,
             m3_desplazados: corte.m3_desplazados,
             asistencia: corte.team_asis,
             equipo_convertido: equipo                 
