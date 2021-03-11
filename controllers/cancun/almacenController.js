@@ -30,8 +30,8 @@ const controller = {
     },
     
     calculator: async (req, res)=>{
-        const repository = new SQLAlmacenRepo();
-        const model = new almacenModels(repository);
+        const repository = new SQLAlmacen();
+        const model = new almacenModel(repository);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
