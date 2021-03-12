@@ -28,7 +28,7 @@ const controller = {
             blocks_cortados: bloquera.blocks_cortados,
             asistencia: bloquera.asistencia_total,            
             colaboradores: bloquera.colaboradores, 
-            equipo: bloquera.equipo,
+            equipo_convertido: bloquera.equipo,
             // asistencia: bloquera.team_asis,
             // equipo_convertido: equipo     
         });

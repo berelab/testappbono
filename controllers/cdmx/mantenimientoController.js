@@ -86,12 +86,19 @@ const controller = {
         );
 
         let sumatoria_asistencia = calc.totalAsistencia;
+        console.log({'1': sumatoria_asistencia});
         let asistencias_colaborador = calc.totalAsistencia;
+        console.log({'2': asistencias_colaborador});
         let total_mantenimiento = calc.totalMantenimiento
+        console.log({'3': total_mantenimiento});
         let pago_colaboradores = calc.pagoTotal;
+        console.log({'4': pago_colaboradores});
         let pago_total = calc.pagoTotalSinPenalizacion;
+        console.log({'5': pago_total});
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
+        console.log({'6': bono_total_colaborador});
         let bono_total = calc.bonoTotalConPenalizacion;
+        console.log({'7': bono_total});
         // let bono_productividad = calc.bonoProductividad;  
         // let bono_metas = calc.pc_metas;  
 
@@ -123,7 +130,7 @@ const controller = {
                     asistencia: sumatoria_asistencia[i],
                     bono_depto: total_mantenimiento,
                     pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i],
+                    bono_persona: bono_total_colaborador[i],
                     // bono_productividad: bono_productividad,
                     // bono_metas: bono_metas,                                 
                 });               
