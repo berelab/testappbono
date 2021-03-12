@@ -16,14 +16,14 @@ const controller = {
         let equipo = cd.convert;
 
 		return res.status(200).send({
-            message: panel.message,
-            base0: panel.base0,
-            dias_sucios: panel.dias_sucios,
-            dias: panel.dias,
-            $_extra_m3: panel.$_extra_m3,
-            factor_dias_laborados: panel.factor_dias_laborados,
-            m3_desplazados: panel.m3_desplazados,
-            asistencia: panel.team_asis,
+            message: corte.message,
+            base0: corte.base0,
+            dias_sucios: corte.dias_sucios,
+            dias: corte.dias,
+            $_extra_m3: corte.$_extra_m3,
+            factor_dias_laborados: corte.factor_dias_laborados,
+            m3_desplazados: corte.m3_desplazados,
+            asistencia: corte.team_asis,
             equipo_convertido: equipo                   
         });
     },
@@ -34,7 +34,7 @@ const controller = {
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;
 
-        const calcAtt = new att( equipo, panel.factor_dias_laborados);
+        const calcAtt = new att( equipo, corte.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
         // let asistencia_total = calcAtt.asistenciaTotal;
 
@@ -106,11 +106,11 @@ const controller = {
                 return res.status(200).send({    
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: panel.message,
+                    depto: corte.message,
                     day: weekdayName,
-                    meta_semana: panel.base0,
-                    dias_laborados: panel.dias, 
-                    $_extra_m3: panel.$_extra_m3,       
+                    meta_semana: corte.base0,
+                    dias_laborados: corte.dias, 
+                    $_extra_m3: corte.$_extra_m3,       
                     progress: progress,
                     m3_persona: bultos_dia,
                     bono_depto: percepcion_total,  
@@ -126,11 +126,11 @@ const controller = {
             }
         }else{
             return res.status(200).send({               
-                depto: panel.message,
+                depto: corte.message,
                 day: weekdayName,
-                meta_semana: panel.base0,
-                dias_laborados: panel.dias,
-                $_extra_m3: panel.$_extra_m3,
+                meta_semana: corte.base0,
+                dias_laborados: corte.dias,
+                $_extra_m3: corte.$_extra_m3,
                 progress: progress,
                 m3_persona: bultos_dia,
                 bono_depto: percepcion_total,
