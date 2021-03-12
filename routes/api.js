@@ -749,7 +749,7 @@ router.get('/tijuana/bono-tyg/calculator/:index', bonoTYGTijuana.calculator);
 
 // CULIACAN -------------------------------------------------------------------------------------
 
-router.get('/culiacan', culiacan.data)
+router.get('/culiacan', culiacan.data);
 router.get('/culiacan/mantenimiento/', mantenimientoCuliacan.home);
 router.get('/culiacan/mantenimiento/calculator', mantenimientoCuliacan.calculator);
 router.get('/culiacan/mantenimiento/calculator/:index', mantenimientoCuliacan.calculator);
