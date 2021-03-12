@@ -43,12 +43,12 @@ const controller = {
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
                 
-        colaboradores.lunes = tiempo_extra.lunes >0 ? colaboradores.lunes +tiempo_extra.lunes : colaboradores.lunes
-        colaboradores.martes = tiempo_extra.martes >0 ? colaboradores.martes +tiempo_extra.martes: colaboradores.martes
-        colaboradores.miercoles =  tiempo_extra.miercoles >0 ?colaboradores.miercoles +tiempo_extra.miercoles: colaboradores.miercoles
-        colaboradores.jueves = tiempo_extra.jueves>0 ? colaboradores.jueves +tiempo_extra.jueves: colaboradores.jueves
-        colaboradores.viernes = tiempo_extra.viernes >0  ? colaboradores.viernes +tiempo_extra.viernes : colaboradores.viernes
-        colaboradores.sabado = tiempo_extra.sabado >0 ? colaboradores.sabado +tiempo_extra.sabado :colaboradores.sabado
+        colaboradores.lunes = corte.tiempo_extra.lunes >0 ? colaboradores.lunes + corte.tiempo_extra.lunes : colaboradores.lunes
+        colaboradores.martes = corte.tiempo_extra.martes >0 ? colaboradores.martes +corte.tiempo_extra.martes: colaboradores.martes
+        colaboradores.miercoles =  corte.tiempo_extra.miercoles >0 ?colaboradores.miercoles +corte.tiempo_extra.miercoles: colaboradores.miercoles
+        colaboradores.jueves = corte.tiempo_extra.jueves>0 ? colaboradores.jueves +corte.tiempo_extra.jueves: colaboradores.jueves
+        colaboradores.viernes = corte.tiempo_extra.viernes >0  ? colaboradores.viernes + corte.tiempo_extra.viernes : colaboradores.viernes
+        colaboradores.sabado = corte.tiempo_extra.sabado >0 ? colaboradores.sabado + corte.tiempo_extra.sabado :colaboradores.sabado
 
         let asistencia_total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles+colaboradores.jueves+colaboradores.viernes+colaboradores.sabado;
 
