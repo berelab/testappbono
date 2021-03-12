@@ -685,9 +685,9 @@ router.get('/cancun/corte/', corteCancun.home);
 router.get('/cancun/corte/calculator', corteCancun.calculator);
 router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
 
-router.get('/cancun/preexpymoldeo/', preexpYMoldeoCancun.home);
-router.get('/cancun/preexpymoldeo/calculator', preexpYMoldeoCancun.calculator);
-router.get('/cancun/preexpymoldeo/calculator/:index', preexpYMoldeoCancun.calculator);
+router.get('/cancun/bloquera/', preexpYMoldeoCancun.home);
+router.get('/cancun/bloquera/calculator', preexpYMoldeoCancun.calculator);
+router.get('/cancun/bloquera/calculator/:index', preexpYMoldeoCancun.calculator);
 
 router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);

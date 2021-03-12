@@ -1,19 +1,29 @@
 'use strict'
 
-import {message, city, semana, bonos_por_viaje, equipo } from '../../models/cancun/traficoModel';
+import traficoModel from '../../models/cancun/traficoModel';
+import SQLTrafico from '../../infrastructure/cancun/traficoRepo';
+import att from '../Attendance';
+import convertData from '../ConvertData';
 
 const controller = {
 	
-    home: (req, res) => {
+    home: async (req, res) => {
+        const repository = new SQLTrafico();
+        const model = new traficoModel(repository);
+        let trafico = await model.execute(); 
+        const cd =  new convertData(trafico.equipo, trafico.team_asis);
+        let equipo = cd.convert;
+
       	return res.status(200).send({
-            message, 
-            city, 
-            semana, 
-            bonos_por_viaje, 
-            equipo
+            message: trafico.message,              
+            semana: trafico.semana, 
+            bonos_por_viaje: trafico.semana, 
+            asistencia: moldeo.team_asis,
+            equipo_convertido: equipo   
         });
     },
     calculator: (req, res)=>{
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
@@ -60,11 +70,8 @@ const controller = {
                     m3_desplazados: equipo[i].m3_desplazados,
                     rendimientos: equipo[i].rendimientos,
                     bono_persona:bono_colaborador[i],
-                });
-               
+                });               
             }
-            
-        
         }else{
             return res.status(200).send({
                 

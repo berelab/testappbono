@@ -5,10 +5,19 @@ const CancunData = {
         departamentos: [            
             {
                 nombre: 'Almacén',
+            },            
+            {
+                nombre: 'Bloquera',
             },
             {
                 nombre: 'Corte',
-            }
+            },
+            {
+                nombre: 'Mantenimiento',
+            },
+            // {
+            //     nombre: 'Tráfico',
+            // }
         ]
 };
 

@@ -1,89 +1,98 @@
 'use strict'
 
-const traficoBaseData = {
-        message: 'Trafico',
-        city: 'Cancun',
-        semana:{
-            del:'11/03/2019',
-            al:'17/03/2019'
-        },
-        bonos_por_viaje:{
-            cancun: 60,
-            playa_del_carmen:80,
-            tulum: 100,
-            chetumal:300
+class TraficoModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
         }
-        ,
-        equipo: [
-            {
-                nombre: 'ALEJANDRO MORALES CASAGNON',
-                num: '985134',
-                auditoria_vehiculo:80,
-                m3_desplazados:522,
-                rendimientos:90,
-                viajes: {
-                    cancun: 6,
-                    playa_del_carmen:2,
-                    tulum: 0,
-                    chetumal:0
-                }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Trafico',
+            city: 'Cancun',
+            semana:{
+                del:'11/03/2019',
+                al:'17/03/2019'
             },
-            {
-                nombre: 'ESPINOSA SANTIAGO SAMUEL',
-                num: '985134',
-                auditoria_vehiculo:100,
-                m3_desplazados:270,
-                rendimientos:100,
-                viajes: {
-                    cancun: 3,
-                    playa_del_carmen:0,
-                    tulum: 2,
-                    chetumal:0
-                }
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            $_extra_m3: response.extra,
+            bonos_por_viaje:{
+                cancun: 60,
+                playa_del_carmen:80,
+                tulum: 100,
+                chetumal:300
             },
-            {
-                nombre: 'CORDOVA OLAN ARCIDES',
-                num: '985134',
-                auditoria_vehiculo:100,
-                m3_desplazados:278,
-                rendimientos:110,
-                viajes: {
-                    cancun: 4,
-                    playa_del_carmen:0,
-                    tulum: 2,
-                    chetumal:0
-                }
-            },
-            {
-                nombre: 'CARLOS IGNACIO HERNANDEZ VALENCIA',
-                num: '985134',
-                auditoria_vehiculo:90,
-                m3_desplazados:250,
-                rendimientos:90,
-                viajes: {
-                    cancun: 2,
-                    playa_del_carmen:2,
-                    tulum: 1,
-                    chetumal:1
-                }
-            },
-             {
-                nombre: 'HOY MORALES JAIR',
-                num: '985134',
-                auditoria_vehiculo:100,
-                m3_desplazados:140,
-                rendimientos:100,
-                viajes: {
-                    cancun: 3,
-                    playa_del_carmen:0,
-                    tulum: 0,
-                    chetumal:0
-                }
-            },
-        ]
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
         
-       
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
         
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = traficoBaseData;
+module.exports = TraficoModel;

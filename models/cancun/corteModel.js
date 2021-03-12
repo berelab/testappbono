@@ -1,7 +1,5 @@
 'use strict'
 
-'use strict'
-
 class CorteModel {
     constructor(repository){
         this.repository = repository;
