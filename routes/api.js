@@ -482,6 +482,7 @@ router.get('/cdmexico/almacen/', almacenCdmx.home);
 router.get('/cdmexico/almacen/calculator', almacenCdmx.calculator);
 router.get('/cdmexico/almacen/calculator/:index', almacenCdmx.calculator);
 
+router.put('/cdmexico/admin/bloquera', preexpMoldeoCdmx.editInfo);
 router.get('/cdmexico/bloquera/', preexpMoldeoCdmx.home);
 router.get('/cdmexico/bloquera/calculator', preexpMoldeoCdmx.calculator);
 router.get('/cdmexico/bloquera/calculator/:index', preexpMoldeoCdmx.calculator);
@@ -490,6 +491,7 @@ router.get('/cdmexico/mantenimiento/', mantenimientoCdmx.home);
 router.get('/cdmexico/mantenimiento/calculator', mantenimientoCdmx.calculator);
 router.get('/cdmexico/mantenimiento/calculator/:index', mantenimientoCdmx.calculator);
 
+router.put('/cdmexico/admin/corte', corteConstCdmx.editInfo);
 router.get('/cdmexico/corte/', corteConstCdmx.home);
 router.get('/cdmexico/corte/calculator', corteConstCdmx.calculator);
 router.get('/cdmexico/corte/calculator/:index', corteConstCdmx.calculator);
@@ -678,14 +680,17 @@ router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
 router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
 router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
 
+router.put('/cancun/admin/corte', corteCancun.editInfo);
 router.get('/cancun/corte/', corteCancun.home);
 router.get('/cancun/corte/calculator', corteCancun.calculator);
 router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
 
+router.put('/cancun/admin/bloquera', preexpYMoldeoCancun.editInfo);
 router.get('/cancun/bloquera/', preexpYMoldeoCancun.home);
 router.get('/cancun/bloquera/calculator', preexpYMoldeoCancun.calculator);
 router.get('/cancun/bloquera/calculator/:index', preexpYMoldeoCancun.calculator);
 
+router.put('/cancun/admin/almacen', almacenCancun.editInfo);
 router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
@@ -753,10 +758,12 @@ router.get('/culiacan/bloquera/', preexpYMoldeoCuliacan.home);
 router.get('/culiacan/bloquera/calculator', preexpYMoldeoCuliacan.calculator);
 router.get('/culiacan/bloquera/calculator/:index', preexpYMoldeoCuliacan.calculator);
 
+router.put('/culiacan/admin/corte', corteCuliacan.editInfo);
 router.get('/culiacan/corte/', corteCuliacan.home);
 router.get('/culiacan/corte/calculator', corteCuliacan.calculator);
 router.get('/culiacan/corte/calculator/:index', corteCuliacan.calculator);
 
+router.put('/culiacan/admin/panel', construpanelCuliacan.editInfo);
 router.get('/culiacan/panel/', construpanelCuliacan.home);
 router.get('/culiacan/panel/calculator', construpanelCuliacan.calculator);
 router.get('/culiacan/panel/calculator/:index', construpanelCuliacan.calculator);
@@ -769,6 +776,7 @@ router.get('/culiacan/almacen-eps/', almacenCuliacan.home);
 router.get('/culiacan/almacen-eps/calculator', almacenCuliacan.calculator);
 router.get('/culiacan/almacen-eps/calculator/:index', almacenCuliacan.calculator);
 
+router.put('/culiacan/admin/choferlocal', choferesLocalesCuliacan.editInfo);
 router.get('/culiacan/choferlocal/', choferesLocalesCuliacan.home);
 router.get('/culiacan/choferlocal/calculator', choferesLocalesCuliacan.calculator);
 router.get('/culiacan/choferlocal/calculator/:index', choferesLocalesCuliacan.calculator);
