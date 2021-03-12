@@ -16,9 +16,9 @@ const controller = {
         let equipo = cd.convert;
 
 		return res.status(200).send({
-            message: corte.message,           
-            dias: corte.dias,
-            factor_dias_laborados: corte.factor_dias_laborados,
+            message: mantenimiento.message,           
+            dias: mantenimiento.dias,
+            factor_dias_laborados: mantenimiento.factor_dias_laborados,
             areas: mantenimiento.areas, 
             montos_recibidos_area: mantenimiento.montos_recibidos_area,
             rendimiento_agua: mantenimiento.rendimiento_agua, 
@@ -29,7 +29,7 @@ const controller = {
             fugas_vapor: mantenimiento.fugas_vapor, 
             fugas_aceite: mantenimiento.fugas_aceite, 
             fugas_aire: mantenimiento.fugas_aire,
-            asistencia: corte.team_asis,
+            asistencia: mantenimiento.team_asis,
             equipo_convertido: equipo   
         });
     },
@@ -41,7 +41,7 @@ const controller = {
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
 
-        const calcAtt = new att( equipo, corte.factor_dias_laborados);
+        const calcAtt = new att( equipo, mantenimiento.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia = calcAtt.asistenciaTotal;
 
@@ -115,11 +115,11 @@ const controller = {
                 return res.status(200).send({  
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: corte.message,
+                    depto: mantenimiento.message,
                     day: weekdayName,
-                    meta_semana: corte.base0,
-                    dias_laborados: corte.dias, 
-                    $_extra_m3: corte.$_extra_m3,
+                    meta_semana: mantenimiento.base0,
+                    dias_laborados: mantenimiento.dias, 
+                    $_extra_m3: mantenimiento.$_extra_m3,
                     asistencia: sumatoria_asistencia[i],
                     bono_depto: total_mantenimiento,
                     pago_persona: pago_colaboradores[i],
@@ -130,7 +130,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({   
-                depto: corte.message,
+                depto: mantenimiento.message,
                 day: weekdayName,
                 bono_depto: percepcion_total,
                 pago_persona:pago_colaboradores, 
