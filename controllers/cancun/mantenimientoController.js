@@ -92,8 +92,8 @@ const controller = {
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-        let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;  
+        // let bono_productividad = calc.bonoProductividad;  
+        // let bono_metas = calc.pc_metas;  
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
@@ -124,8 +124,8 @@ const controller = {
                     bono_depto: total_mantenimiento,
                     pago_persona: pago_colaboradores[i],
                     bono_persona:bono_total_colaborador[i],
-                    bono_productividad: bono_productividad,
-                    bono_metas: bono_metas,                                 
+                    // bono_productividad: bono_productividad,
+                    // bono_metas: bono_metas,                                 
                 });               
             }
         }else{
@@ -137,8 +137,8 @@ const controller = {
                 pago_total: pago_total, 
                 bono_persona: bono_total_colaborador, 
                 bono_total:bono_total,  
-                bono_productividad: bono_productividad,
-                bono_metas: bono_metas,
+                // bono_productividad: bono_productividad,
+                // bono_metas: bono_metas,
                 asistencia: asistencias_colaborador,             
             });
         }
