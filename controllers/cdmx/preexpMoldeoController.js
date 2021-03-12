@@ -109,7 +109,7 @@ const controller = {
                     depto: bloquera.message,
                     day: weekdayName,
                     meta_semana: bloquera.base0,
-                    dias_laborados: bloquera.base0, 
+                    dias_laborados: bloquera.dias, 
                     $_extra_m3: bloquera.$_extra_m3,       
                     progress: progress,
                     m3_persona: blocks_persona,

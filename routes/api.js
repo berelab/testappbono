@@ -176,7 +176,7 @@ import choferesLocalesTijuana from '../controllers/tijuana/choferesLocalesContro
 import bonoTYGTijuana from '../controllers/tijuana/bonoTYGController';
 
 // CULIACAN -------------------------------------------------------------------------------------
-
+import culiacan from '../controllers/culiacan/culiacan'
 import mantenimientoCuliacan  from '../controllers/culiacan/mantenimientoController';
 import preexpYMoldeoCuliacan  from '../controllers/culiacan/preexpYMoldeoController';
 import corteCuliacan  from '../controllers/culiacan/corteController';
@@ -744,21 +744,22 @@ router.get('/tijuana/bono-tyg/calculator/:index', bonoTYGTijuana.calculator);
 
 // CULIACAN -------------------------------------------------------------------------------------
 
+router.get('/culiacan', culiacan.data)
 router.get('/culiacan/mantenimiento/', mantenimientoCuliacan.home);
 router.get('/culiacan/mantenimiento/calculator', mantenimientoCuliacan.calculator);
 router.get('/culiacan/mantenimiento/calculator/:index', mantenimientoCuliacan.calculator);
 
-router.get('/culiacan/preexpymoldeo/', preexpYMoldeoCuliacan.home);
-router.get('/culiacan/preexpymoldeo/calculator', preexpYMoldeoCuliacan.calculator);
-router.get('/culiacan/preexpymoldeo/calculator/:index', preexpYMoldeoCuliacan.calculator);
+router.get('/culiacan/bloquera/', preexpYMoldeoCuliacan.home);
+router.get('/culiacan/bloquera/calculator', preexpYMoldeoCuliacan.calculator);
+router.get('/culiacan/bloquera/calculator/:index', preexpYMoldeoCuliacan.calculator);
 
 router.get('/culiacan/corte/', corteCuliacan.home);
 router.get('/culiacan/corte/calculator', corteCuliacan.calculator);
 router.get('/culiacan/corte/calculator/:index', corteCuliacan.calculator);
 
-router.get('/culiacan/construpanel/', construpanelCuliacan.home);
-router.get('/culiacan/construpanel/calculator', construpanelCuliacan.calculator);
-router.get('/culiacan/construpanel/calculator/:index', construpanelCuliacan.calculator);
+router.get('/culiacan/panel/', construpanelCuliacan.home);
+router.get('/culiacan/panel/calculator', construpanelCuliacan.calculator);
+router.get('/culiacan/panel/calculator/:index', construpanelCuliacan.calculator);
 
 router.get('/culiacan/almacen-const/', almacenConstCuliacan.home);
 router.get('/culiacan/almacen-const/calculator', almacenConstCuliacan.calculator);
@@ -768,9 +769,9 @@ router.get('/culiacan/almacen-eps/', almacenCuliacan.home);
 router.get('/culiacan/almacen-eps/calculator', almacenCuliacan.calculator);
 router.get('/culiacan/almacen-eps/calculator/:index', almacenCuliacan.calculator);
 
-router.get('/culiacan/choferes-locales/', choferesLocalesCuliacan.home);
-router.get('/culiacan/choferes-locales/calculator', choferesLocalesCuliacan.calculator);
-router.get('/culiacan/choferes-locales/calculator/:index', choferesLocalesCuliacan.calculator);
+router.get('/culiacan/choferlocal/', choferesLocalesCuliacan.home);
+router.get('/culiacan/choferlocal/calculator', choferesLocalesCuliacan.calculator);
+router.get('/culiacan/choferlocal/calculator/:index', choferesLocalesCuliacan.calculator);
 
 router.get('/culiacan/molienda/', moliendaCuliacan.home);
 router.get('/culiacan/molienda/calculator', moliendaCuliacan.calculator);

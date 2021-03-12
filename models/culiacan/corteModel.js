@@ -1,202 +1,111 @@
 'use strict'
 
-const corteBaseData = {
-        message: 'Corte',
-        city: 'Culiacan',
-        base0: 160,
-        dias_sucios:0,
-        amp:99.40,
-        devoluciones:'OK',
-        seguridad_e_higiene:'OK',
-        asistencia_total: 50.40,
-        dias: 6,
-        factor_dias_laborados: 1,
-        horas_por_turno:10,
-        $_extra_m3: 3.2,
-        colaboradores: {
-            lunes: 10.2,
-            martes: 10.2,
-            miercoles: 10.2,
-            jueves: 10.2,
-            viernes: 9.6,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 4597.5,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        tiempo_extra: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        equipo: [
-            {
-                nombre: 'JORGE ALEJO RODRIGUEZ',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+class CorteModels {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Corte',
+            city: 'Culiacan',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            amp: 99.40,
+            devoluciones: 'OK',
+            seguridad_e_higiene: 'OK',      
+            horas_por_turno: 0,
+            m3_desplazados: {
+                lunes: 919.5,
+                martes: 919.5,
+                miercoles: 919.5,
+                jueves: 919.5,
+                viernes: 919.5,
+                sabado: 0,
+                
             },
-             {
-                nombre: 'MARIO ALBERTO ROGRIGUEZ RIOS',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+            tiempo_extra: {
+                lunes: 0,
+                martes: 0,
+                miercoles: 0,
+                jueves: 0,
+                viernes: 0,
+                sabado: 0,
+                
             },
-            {
-                nombre: 'EDGAR LOPEZ ARELLANO',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JULIAN RAYMUNDO ROCHA QUINTERO',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LUIS GERARDO COLLANTES SALAS',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LUIS ARMANDO VELAZQUEZ GURROLA',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JAZZIEL SEBASTIAN CASTAÑOS LIZARRAGA',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'KEVIN ALEJANDRO MEZA CHAREZ',
-                num:'',
-                asistencia: {
-                    lunes: 0.6,
-                    martes: 0.6,
-                    miercoles: 0.6,
-                    jueves: 0.6,
-                    viernes: 0,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOSE LUIS BARRERA LOPEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0.6,
-                    martes: 0.6,
-                    miercoles: 0.6,
-                    jueves: 0.6,
-                    viernes: 0.6,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JUAN CARLOS CAMACHO SOLANO',
-                num:'',
-                asistencia: {
-                    lunes: 0.6,
-                    martes: 0.6,
-                    miercoles: 0.6,
-                    jueves: 0.6,
-                    viernes: 0.6,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-             
-             
-            
+            equipo: team,
+            team_asis: entries
+        };
+    }
+
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
         
-        ]
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
         
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = corteBaseData;
+module.exports = CorteModels;

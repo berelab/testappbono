@@ -1,95 +1,108 @@
 'use strict'
 
-const construpanelBaseData = {
-        message: 'Construpanel',
-        city: 'Culiacan',
-        base0: 300,
-        dias_sucios:0,
-        equipo_proteccion:'OK',
-        desc_seguridad:'OK',
-        asistencia_total: 14,
-        dias: 6,
-        factor_dias_laborados: 1,
-        horas_por_turno:12,
-        $_extra_m3: 3.5,
-        colaboradores: {
-            lunes: 2.8,
-            martes: 2.8,
-            miercoles: 2.8,
-            jueves: 2.8,
-            viernes: 2.8,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 1545,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        tiempo_extra: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        equipo: [
-            {
-                nombre: 'IVAN IBARRA CASTRO',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+class PanelModel {
+    
+    constructor(repository){
+        this.repository = repository;
+    }
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Construpanel',
+            city: 'Culiacan',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            equipo_proteccion:'OK',
+            desc_seguridad:'OK',
+            horas_por_turno:0,
+            m3_desplazados: {
+                lunes: 309,
+                martes: 309,
+                miercoles: 309,
+                jueves: 309,
+                viernes: 309,
+                sabado: 0,
+                
             },
-             {
-                nombre: 'JOSE ENRIQUE COPEL VILLA',
-                num:'',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+            tiempo_extra: {
+                lunes: 0,
+                martes: 0,
+                miercoles: 0,
+                jueves: 0,
+                viernes: 0,
+                sabado: 0,
+                
             },
-            {
-                nombre: 'BRAYAN FERNANDO LOPEZ RIVERA',
-                num:'',
-                asistencia: {
-                    lunes: 0.4,
-                    martes: 0.4,
-                    miercoles: 0.4,
-                    jueves: 0.4,
-                    viernes: 0.4,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-             
-            
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
         
-        ]
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
         
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = construpanelBaseData;
+module.exports = PanelModel;
