@@ -93,6 +93,7 @@ import mantenimientoVillahermosa from '../controllers/villahermosa/mantenimiento
 
 //--------------------------------------------------------------------------------------------------
 // CDMX
+import cdmex from '../controllers/cdmx/cdmex';
 import preexpMoldeoCdmx from '../controllers/cdmx/preexpMoldeoController';
 import almacenCdmx from '../controllers/cdmx/almacenController';
 import mantenimientoCdmx from '../controllers/cdmx/mantenimientoController';
@@ -473,37 +474,33 @@ router.get('/villahermosa/mantenimiento/', mantenimientoVillahermosa.home);
 router.get('/villahermosa/mantenimiento/calculator', mantenimientoVillahermosa.calculator);
 router.get('/villahermosa/mantenimiento/calculator/:index', mantenimientoVillahermosa.calculator);
 
-
 //--------------------------------------------------------------------------------------------------
 // CDMX
 
+router.get('/cdmexico', cdmex.data)
+router.get('/cdmexico/almacen/', almacenCdmx.home);
+router.get('/cdmexico/almacen/calculator', almacenCdmx.calculator);
+router.get('/cdmexico/almacen/calculator/:index', almacenCdmx.calculator);
 
-router.get('/cdmx/almacen/', almacenCdmx.home);
-router.get('/cdmx/almacen/calculator', almacenCdmx.calculator);
-router.get('/cdmx/almacen/calculator/:index', almacenCdmx.calculator);
+router.get('/cdmexico/bloquera/', preexpMoldeoCdmx.home);
+router.get('/cdmexico/bloquera/calculator', preexpMoldeoCdmx.calculator);
+router.get('/cdmexico/bloquera/calculator/:index', preexpMoldeoCdmx.calculator);
 
-router.get('/cdmx/preexpymoldeo/', preexpMoldeoCdmx.home);
-router.get('/cdmx/preexpymoldeo/calculator', preexpMoldeoCdmx.calculator);
-router.get('/cdmx/preexpymoldeo/calculator/:index', preexpMoldeoCdmx.calculator);
+router.get('/cdmexico/mantenimiento/', mantenimientoCdmx.home);
+router.get('/cdmexico/mantenimiento/calculator', mantenimientoCdmx.calculator);
+router.get('/cdmexico/mantenimiento/calculator/:index', mantenimientoCdmx.calculator);
 
+router.get('/cdmexico/corte/', corteConstCdmx.home);
+router.get('/cdmexico/corte/calculator', corteConstCdmx.calculator);
+router.get('/cdmexico/corte/calculator/:index', corteConstCdmx.calculator);
 
-router.get('/cdmx/mantenimiento/', mantenimientoCdmx.home);
-router.get('/cdmx/mantenimiento/calculator', mantenimientoCdmx.calculator);
-router.get('/cdmx/mantenimiento/calculator/:index', mantenimientoCdmx.calculator);
+router.get('/cdmexico/cortemaquila/', corteMaquilaCdmx.home);
+router.get('/cdmexico/cortemaquila/calculator', corteMaquilaCdmx.calculator);
+router.get('/cdmexico/cortemaquila/calculator/:index', corteMaquilaCdmx.calculator);
 
-
-router.get('/cdmx/corteconst/', corteConstCdmx.home);
-router.get('/cdmx/corteconst/calculator', corteConstCdmx.calculator);
-router.get('/cdmx/corteconst/calculator/:index', corteConstCdmx.calculator);
-
-router.get('/cdmx/cortemaquila/', corteMaquilaCdmx.home);
-router.get('/cdmx/cortemaquila/calculator', corteMaquilaCdmx.calculator);
-router.get('/cdmx/cortemaquila/calculator/:index', corteMaquilaCdmx.calculator);
-
-router.get('/cdmx/vitro/', vitroCdmx.home);
-router.get('/cdmx/vitro/calculator', vitroCdmx.calculator);
-router.get('/cdmx/vitro/calculator/:index', vitroCdmx.calculator);
-
+router.get('/cdmexico/vitro/', vitroCdmx.home);
+router.get('/cdmexico/vitro/calculator', vitroCdmx.calculator);
+router.get('/cdmexico/vitro/calculator/:index', vitroCdmx.calculator);
 
 //--------------------------------------------------------------------------------------------------
 // Monterrey

@@ -1,148 +1,99 @@
 'use strict'
 
-const corteConstBaseData = {
-        message: 'CorteConst',
-        city: 'CDMX',
-        base0: 65,
-        dias_sucios:0,
-        dias: 6,
-        amp: 11.8,
-        num_quejas:0,
-        factor_dias_laborados: 1,
-        horas_por_turno: 9.5, 
-        asistencia_total: 30, 
-        $_extra_m3: 4,
-        m3_cortados: {
-            lunes: 650,
-            martes:0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0
-        },
-        colaboradores: {
-            lunes: 0,
-            martes: 8,
-            miercoles: 8,
-            jueves: 7,
-            viernes: 7,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'JOSE GUADALUPE LEON HERNANDEZ',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
+class CorteModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'CorteConst',
+            city: 'CDMX',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            amp: 11.8,
+            num_quejas: 0,       
+            horas_por_turno: 0,              
+            m3_cortados: {
+                lunes: 0,
+                martes: 162.5,
+                miercoles: 162.5,
+                jueves: 162.5,
+                viernes: 162.5,
+                sabado: 0
             },
-            {
-                nombre: 'AGUSTIN PLIEGO CRUZ',
-                num: 200648,
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
                 asistencia: {
-                    lunes:  0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 0,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'NICOLAS LOBATO MORALES',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOSE JONATHAN TAPIA HERNANDEZ',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MOISES CORTES VELASCO',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'RAMON HERNANDEZ RAMIREZ',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JORGE ONTIVEROS RIOS',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARCOS SUAREZ ANDRES',
-                num: 200648,
-                asistencia: {
-                    lunes:  0,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            
-        ]
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = corteConstBaseData;
+module.exports = CorteModel;
