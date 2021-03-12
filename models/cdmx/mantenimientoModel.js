@@ -37,7 +37,7 @@ class MantenimientoModel {
 
     _convertData(response, team, entries, extra) {
         return {
-            message: 'CorteConst',
+            message: 'Mantenimiento',
             city: 'CDMX',
             base0: response.base,
             dias_sucios: response.dirty_days,

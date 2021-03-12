@@ -86,11 +86,9 @@ const controller = {
         );
 
         let sumatoria_asistencia = calc.totalAsistencia;
-        console.log({'1': sumatoria_asistencia});
         let asistencias_colaborador = calc.totalAsistencia;
-        console.log({'2': asistencias_colaborador});
         let total_mantenimiento = calc.totalMantenimiento
-        console.log({'3': total_mantenimiento});
+
         let pago_colaboradores = calc.pagoTotal;
         console.log({'4': pago_colaboradores});
         let pago_total = calc.pagoTotalSinPenalizacion;
