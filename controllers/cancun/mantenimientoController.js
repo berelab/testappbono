@@ -132,7 +132,7 @@ const controller = {
             return res.status(200).send({   
                 depto: mantenimiento.message,
                 day: weekdayName,
-                bono_depto: percepcion_total,
+                bono_depto: total_mantenimiento,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total, 
                 bono_persona: bono_total_colaborador, 
