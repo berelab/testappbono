@@ -96,34 +96,43 @@ export default class BonusPenalties {
         if(city == 'Juarez') {
             this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicios2;
         }else if(city == 'Guadalajara'){
-            premio_castigo_amp =calc.desperdicio7;
+            //premio_castigo_amp =calc.desperdicio7;
+            premio_castigo_amp = calc.desperdicio13;
         }else if(city=='Queretaro'){
-            premio_castigo_amp= calc.aprovechamientoMP4;
+            //premio_castigo_amp= calc.aprovechamientoMP4;
+            premio_castigo_amp = calc.desperdicio13;
         }else if(city=='Villahermosa'){
             if(this.depto =='Corte'){
-                premio_castigo_amp= calc.desperdicio8;
+                //premio_castigo_amp= calc.desperdicio8;
+                premio_castigo_amp = calc.desperdicio13;
             }else{
-                premio_castigo_amp= calc.aprovechamientoMP5;
+                //premio_castigo_amp= calc.aprovechamientoMP5;
+                premio_castigo_amp = calc.desperdicio13;
             }
             
         }else if(city=='CDMX'){
             if(this.depto=='CorteConst'){
-                premio_castigo_amp = calc.desperdicio9;
+               // premio_castigo_amp = calc.desperdicio9;
+               premio_castigo_amp = calc.desperdicio13;
             }else if(this.depto=='CorteMaquila'){
-                premio_castigo_amp = calc.desperdicio10;
+                //premio_castigo_amp = calc.desperdicio10;
+                premio_castigo_amp = calc.desperdicio13;
             }else{
-                premio_castigo_amp= this.amp;
+                //premio_castigo_amp= this.amp;
+                premio_castigo_amp = calc.desperdicio13;
             }
            
         }else if(city =='Monterrey'){
             if(this.depto=='EMCO' || this.depto=='Corte NIP'  || this.depto=='Corte L'){
-                premio_castigo_amp = calc.desperdicio11;
+                //premio_castigo_amp = calc.desperdicio11;
+                premio_castigo_amp = calc.desperdicio13;
             }else if(this.depto=='Bloquera'){
-                premio_castigo_amp= calc.aprovechamientoMP6;
+                //premio_castigo_amp= calc.aprovechamientoMP6;
+                premio_castigo_amp = calc.desperdicio13;
             }else if(this.depto=='Herramental'){
                 premio_castigo_amp = this.amp/100;
             }
-        }else if(city=='Merida' || city=='Veracruz' || city=='Cancun' || city=='Tijuana' || city=='Culiacan' ){
+        }else if(city=='Nogales' || city=='Merida' || city=='Veracruz' || city=='Cancun' || city=='Tijuana' || city=='Culiacan' ){
             if(this.depto=='Corte' || this.depto=='EMCO' ||this.depto=='Bloquera' || this.depto=='PreexpYMoldeo'){
                 premio_castigo_amp = calc.desperdicio13;
             }else if(this.depto=='Moldeo'){
@@ -280,11 +289,14 @@ export default class BonusPenalties {
         let premio_castigo_amp;
 
         if(this.depto=='Moldeo'){
-            p_pc_amp = calc.aprovechamientoMP2;
+           // p_pc_amp = calc.aprovechamientoMP2;
+            p_pc_amp = calc.desperdicio14; //estandar moldeo
         }else if(this.depto=='PreexpYMoldeo'){   
-           this.city =='Queretaro' ? p_pc_amp = calc.aprovechamientoMP4 :p_pc_amp = calc.aprovechamientoMP3;
+           //this.city =='Queretaro' ? p_pc_amp = calc.aprovechamientoMP4 :p_pc_amp = calc.aprovechamientoMP3;
+           p_pc_amp = calc.desperdicio13
         }else{ // bloquera
-            p_pc_amp = calc.aprovechamientoMP;
+           // p_pc_amp = calc.aprovechamientoMP;
+            p_pc_amp = calc.desperdicio13
         }
         p_pc_amp ? premio_castigo_amp = percepcion_total_m3_base * p_pc_amp : premio_castigo_amp = 0;
      
@@ -298,8 +310,9 @@ export default class BonusPenalties {
         if(this.depto=='Steelfoam'){
             p_desperdicio = calc.desperdicio5
             p_desperdicio = p_desperdicio*.2
-        }else{
-            p_desperdicio = calc.desperdicio4
+        }else{ //moldeo nogales
+            //p_desperdicio = calc.desperdicio4
+            p_desperdicio  = calc.desperdicio14; //estandar moldeo
         }
        
         p_desperdicio ? premio_castigo_desperdicio = percepcion_total_m3_base * p_desperdicio : premio_castigo_desperdicio = 0;

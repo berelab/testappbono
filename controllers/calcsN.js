@@ -330,7 +330,8 @@ class CalcsN {
         }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
             preOCas = calc.desperdicio12;
         }else{
-            preOCas = calc.desperdicioN;
+            //preOCas = calc.desperdicioN;
+            preOCas = calc.desperdicio13; 
 
         }
        
