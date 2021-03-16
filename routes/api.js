@@ -758,12 +758,12 @@ router.get('/culiacan/bloquera/', preexpYMoldeoCuliacan.home);
 router.get('/culiacan/bloquera/calculator', preexpYMoldeoCuliacan.calculator);
 router.get('/culiacan/bloquera/calculator/:index', preexpYMoldeoCuliacan.calculator);
 
-// router.put('/culiacan/admin/corte', corteCuliacan.editInfo);
+router.put('/culiacan/admin/corte', corteCuliacan.editInfo);
 router.get('/culiacan/corte/', corteCuliacan.home);
 router.get('/culiacan/corte/calculator', corteCuliacan.calculator);
 router.get('/culiacan/corte/calculator/:index', corteCuliacan.calculator);
 
-// router.put('/culiacan/admin/panel', construpanelCuliacan.editInfo);
+router.put('/culiacan/admin/panel', construpanelCuliacan.editInfo);
 router.get('/culiacan/panel/', construpanelCuliacan.home);
 router.get('/culiacan/panel/calculator', construpanelCuliacan.calculator);
 router.get('/culiacan/panel/calculator/:index', construpanelCuliacan.calculator);
@@ -776,7 +776,7 @@ router.get('/culiacan/almacen-eps/', almacenCuliacan.home);
 router.get('/culiacan/almacen-eps/calculator', almacenCuliacan.calculator);
 router.get('/culiacan/almacen-eps/calculator/:index', almacenCuliacan.calculator);
 
-// router.put('/culiacan/admin/choferlocal', choferesLocalesCuliacan.editInfo);
+router.put('/culiacan/admin/choferlocal', choferesLocalesCuliacan.editInfo);
 router.get('/culiacan/choferlocal/', choferesLocalesCuliacan.home);
 router.get('/culiacan/choferlocal/calculator', choferesLocalesCuliacan.calculator);
 router.get('/culiacan/choferlocal/calculator/:index', choferesLocalesCuliacan.calculator);
