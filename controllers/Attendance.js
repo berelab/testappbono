@@ -403,7 +403,7 @@ export default class Attendance {
                 return equivalente;
                 }
         }else if(city=='Cancun'){
-            if(depto=='Mantenimiento' || depto=='Corte' ||depto == 'PreexpYMoldeo'  ||depto == 'Almacen' || depto=='Almacen Playa'){
+            if(depto=='Mantenimiento' || depto=='Corte' ||depto == 'PreexpYMoldeo'  ||depto == 'Almacen' || depto=='Almacen Playa' || depto=='Empaque Perla'){
                 let equivalente=[];
                 let len = sumatoria_asistencia.length;
     
@@ -417,12 +417,9 @@ export default class Attendance {
                 }
                 
                 return equivalente;
-             }else if(depto=='Empaque Perla'){
-                let equivalente= sumatoria_asistencia;
-                return equivalente
              }
         }else if(city=='Tijuana'){
-            if(depto=='Silo Molino' || depto=='Mantenimiento'  || depto=='Almacen' ){
+            if(depto=='Silo Molino' || depto=='Mantenimiento'  || depto=='Almacen' || depto=='Corte' || depto=='PreexpYMoldeo' || depto=='Choferes Locales' ){
                 let equivalente=[];
                 let len = sumatoria_asistencia.length;
     
@@ -436,8 +433,6 @@ export default class Attendance {
                 }
                 
                 return equivalente;
-             }else if(depto=='Corte' || depto=='PreexpYMoldeo' || depto=='Choferes Locales'){
-                 return sumatoria_asistencia;
              }else if(depto=='Bono TYG'){
                 let equivalente = [];
                 let len = sumatoria_asistencia.length;
@@ -446,7 +441,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/12));
+                        var total = (sumatoria_asistencia[i] * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/12);
                         equivalente.push(total);
                     }
                 }
@@ -454,7 +449,7 @@ export default class Attendance {
                 return equivalente;
              }
         }else if(city=='Culiacan'){
-            if(depto=='Mantenimiento'){
+            if(depto=='Mantenimiento' || depto=='PreexpYMoldeo' || depto=='Mantenimiento Edificios' || depto=='Molienda' || depto=='Corte' || depto=='Construpanel'  || depto=='Almacen' || depto=='Almacen Const' || depto=='Choferes Locales'){
                 let equivalente=[];
                 let len = sumatoria_asistencia.length;
     
@@ -468,8 +463,6 @@ export default class Attendance {
                 }
                 
                 return equivalente;
-             }else if(depto=='PreexpYMoldeo' || depto=='Mantenimiento Edificios' || depto=='Molienda' || depto=='Corte' || depto=='Construpanel'  || depto=='Almacen' || depto=='Almacen Const' || depto=='Choferes Locales'){
-                return sumatoria_asistencia;
              }
         }else{
 

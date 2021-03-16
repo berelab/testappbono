@@ -12,7 +12,7 @@ const empaquePerlaBaseData = {
         dias_sucios:0,
         amp:0, 
         asistencia_total:2.4,
-        factor_dias_laborados: 1.5,
+        factor_dias_laborados: 1,
         $_extra_m3: .45,
         colaboradores: {
             lunes: 0,

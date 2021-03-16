@@ -291,14 +291,17 @@ class MainCalcs {
         let premio_castigo_preexpandido;
         let premio_castigo_rechazo;
 
-        if(depto == 'CEDI' || depto == 'Chofer Local' || depto =='Choferes'  || depto== 'Almacen' ){
+        /*if(depto == 'CEDI' || depto == 'Chofer Local' || depto =='Choferes'  || depto== 'Almacen' ){
             extra_diasSucios = dirtyDaysCalcs.auditoriaDiasSucios;
         }else{
             extra_diasSucios = clacs.extraDiasSucios;
-        }
+        }*/
+
+        extra_diasSucios = clacs.extraDiasSucios; //estandarizado
+
         if(depto == 'Corte' || depto == 'Placa' || depto == 'Aligerante'){
             extra_amp = clacs.extraDesperdicio;
-            if( city =='Guadalajara'){ //corte gdl
+            if( city =='Guadalajara'){ 
                 premio_castigo_quejas=clacs.quejas;
                 premio_castigo_boletaspnc=clacs.pcblocksfe;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios+ premio_castigo_boletaspnc + extra_amp + premio_castigo_quejas;
@@ -321,11 +324,15 @@ class MainCalcs {
             }else{
                percepcion_total = percepcion_total_m3_base + extra_amp + extra_diasSucios;
             }
-        }else if(depto == 'Moldeo' && city == 'La Paz'){
+        }else if((depto == 'Moldeo' || depto == 'Almacén') && city == 'La Paz'){
+            if(depto== 'Moldeo'){
             premio_castigo_desperdicio = clacs.desperdicios;
             premio_castigo_densidad = clacs.densidades;
             premio_castigo_combustible = clacs.combustibles;
             percepcion_total = percepcion_total_m3_base + premio_castigo_desperdicio + extra_diasSucios + premio_castigo_densidad + premio_castigo_combustible;
+            }else{
+                percepcion_total =  percepcion_total_m3_base  + extra_diasSucios //+ premio_castigo_difinvt
+            }
         }else if(depto == 'Moldeo' && city == 'Juarez'){
             premio_castigo_desperdicio = clacs.desperdicios;
             premio_castigo_densidad_bobedilla = clacs.densidadBobedilla;
@@ -336,69 +343,59 @@ class MainCalcs {
             premio_castigo_ordenLimpieza = clacs.ordenLimpieza;
             premio_castigo_quejas = clacs.quejas;
             percepcion_total =  percepcion_total_m3_base  + premio_castigo_desperdicio + premio_castigo_ordenLimpieza + premio_castigo_quejas;
-        }else if((depto == 'Almacen' || depto =='Choferes' )  && city== 'Nogales'){
-            if(depto == 'Almacen'){
-                extra_diasSucios = clacs.extraDiasSucios;
-            }else if(depto== 'Choferes'){
-                extra_diasSucios = dirtyDaysCalcs.auditoriaDiasSucios2;
-            }
-           percepcion_total =  percepcion_total_m3_base + extra_diasSucios;
+        }else if((depto == 'Almacen' || depto =='Choferes' || depto =='Bloquera' )  && city== 'Nogales'){
+           if(depto == 'Bloquera'){
+            extra_amp = clacs.extraDesperdicio;
+            percepcion_total =  percepcion_total_m3_base + extra_diasSucios + extra_amp;
+          }else{
+            percepcion_total =  percepcion_total_m3_base + extra_diasSucios;
+          }
         }else if((depto == 'Bloquera' || depto =='Steelfoam' || depto =='Almacen' || depto =='Moldeo')&& city== 'Hermosillo'){
             if(depto=='Bloquera' ){
                 extra_amp = clacs.aprovechamientoMP;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + extra_amp;
             }else if(depto == 'Steelfoam'){
                 premio_castigo_desperdicio = clacs.desperdicios2;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_desperdicio +extra_diasSucios ;
             }else if(depto =='Almacen'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_quejas  = clacs.quejas;
-                percepcion_total = percepcion_total_m3_base +extra_diasSucios + premio_castigo_quejas;
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios  + premio_castigo_quejas;
             }else if(depto == 'Moldeo'){
-                extra_diasSucios=clacs.extraDiasSucios;
                 premio_castigo_desperdicio= clacs.aprovechamientoMP;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios+ premio_castigo_desperdicio;
             } 
         }else if((depto =='PreexpYMoldeo' || depto =='Almacen' || depto =='Recupera' || depto=='Choferes'  || depto=='Molienda de MR' )  &&  this.city =='Guadalajara'){
              if(depto == 'PreexpYMoldeo'){
                 premio_castigo_desperdicio=clacs.aprovechamientoMP;
-                extra_diasSucios=clacs.extraDiasSucios;
                 premio_castigo_blocksfe=clacs.pcblocksfe;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_desperdicio + extra_diasSucios +premio_castigo_blocksfe;
              }else if(depto =='Almacen'){
                 premio_castigo_usoequiseg=clacs.pcblocksfe;
                 premio_castigo_quejas =clacs.quejas;
-                extra_diasSucios =clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base +premio_castigo_usoequiseg +premio_castigo_quejas+  extra_diasSucios;
              }else if(depto =='Recupera'){
                 percepcion_total = percepcion_total_m3_base;
              }else if(depto =='Choferes'){
                 premio_castigo_quejas =clacs.quejas;
-                percepcion_total = percepcion_total_m3_base  + premio_castigo_quejas;
-                this.dias_sucios ==0 ? percepcion_total+=100:percepcion_total-=100;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_quejas;
+                //this.dias_sucios ==0 ? percepcion_total+=100:percepcion_total-=100;
              }else if(depto=='Molienda de MR'){
-                extra_diasSucios =clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios;
              }
 
         }else if((depto =='PreexpYMoldeo' || depto=='Hielera' || depto =='Almacen' || depto=='Choferes'  ) &&  city =='Queretaro'){
             if(depto == 'PreexpYMoldeo'){
                 premio_castigo_desperdicio=clacs.aprovechamientoMP;
-                extra_diasSucios=clacs.extraDiasSucios;
                 premio_castigo_blocksfe=clacs.pcblocksfe;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_desperdicio + extra_diasSucios + premio_castigo_blocksfe;
              }else if(depto=='Hielera'){
-               extra_diasSucios=clacs.extraDiasSucios;
                premio_castigo_blocksfe=clacs.pcblocksfe;
                percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe;
              }else if(depto =='Almacen'){
-                extra_diasSucios=clacs.extraDiasSucios;
                 premio_castigo_quejas =clacs.quejas;
                 premio_castigo_usoequiseg=clacs.pcblocksfe;
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios + premio_castigo_quejas + premio_castigo_usoequiseg;
              }else if(depto =='Choferes'){
-                extra_diasSucios=dirtyDaysCalcs.diasSucios10;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios;
              }
         }else if((depto == 'PreexpYMoldeo' || depto=='Almacen' ) && city =='Villahermosa'){
@@ -409,69 +406,55 @@ class MainCalcs {
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios+premio_castigo_blocksfe+ extra_amp +premio_castigo_preexpandido;
         
             }else if(depto=='Almacen'){
-                extra_diasSucios = clacs.extraDiasSucios;
-                percepcion_total = percepcion_total_m3_base +extra_diasSucios;
-               
+                percepcion_total = percepcion_total_m3_base +extra_diasSucios;   
             }
         }else if((depto == 'PreexpYMoldeo' || depto=='Almacen'  || depto=='CorteConst'  || depto=='CorteMaquila' || depto=='Vitro') && city =='CDMX'){
            if(depto=='Almacen'){
-            extra_diasSucios = clacs.extraDiasSucios;
             premio_castigo_blocksfe=clacs.pcblocksfe
             percepcion_total = percepcion_total_m3_base +extra_diasSucios + premio_castigo_blocksfe;
            }else if(depto == 'PreexpYMoldeo'){
-             extra_diasSucios = clacs.extraDiasSucios;
              premio_castigo_quejas =clacs.quejas;
              extra_amp = clacs.extraDesperdicio;
              percepcion_total = percepcion_total_m3_base +extra_diasSucios - extra_amp;
            
            }else if(depto == 'CorteConst' || depto=='CorteMaquila'){
             extra_amp = clacs.extraDesperdicio;
-            extra_diasSucios = clacs.extraDiasSucios;
             premio_castigo_quejas =clacs.quejas;
             percepcion_total = percepcion_total_m3_base +extra_diasSucios + extra_amp + premio_castigo_quejas;
-            
-            
           }else if(depto == 'Vitro'){
-            extra_diasSucios = clacs.extraDiasSucios;
             premio_castigo_quejas =clacs.quejas;
             percepcion_total = percepcion_total_m3_base +extra_diasSucios  + premio_castigo_quejas;
           }
          }else if((depto == 'EMCO' || depto == 'Choferes Locales' || depto == 'Choferes CEDI' || depto=='Molienda de MR' || depto=='Almacen CEDI' || depto=='Almacen'  || depto=='Moldeo' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='Herramental' || depto =='PreExpansion') && city =='Monterrey'){
             if(depto =='Choferes Locales' ||  depto == 'Choferes CEDI'){
                 premio_castigo_quejas =clacs.quejas;
-                percepcion_total = percepcion_total_m3_base  + premio_castigo_quejas;
-                this.dias_sucios ==0 ? percepcion_total+=100:percepcion_total-=100;
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios   + premio_castigo_quejas;
+                // this.dias_sucios ==0 ? percepcion_total+=100:percepcion_total-=100;
              }else if(depto=='Molienda de MR'){
-                extra_diasSucios = clacs.extraDiasSucios;
-                // percepcion_total = percepcion_total_m3_base + extra_diasSucios;
-                percepcion_total = percepcion_total_m3_base
+                percepcion_total = percepcion_total_m3_base + extra_diasSucios;
+               
              }else if( depto=='Almacen CEDI'){
                 premio_castigo_ordenLimpieza = dirtyDaysCalcs.auditoriaSol6;
                 percepcion_total = percepcion_total_m3_base +premio_castigo_ordenLimpieza
             }else if( depto=='Almacen' || depto=='Moldeo'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_quejas =clacs.quejas;
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios +premio_castigo_quejas;
                
              }else if(depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L'){
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_quejas =clacs.quejas;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + extra_amp + premio_castigo_quejas;
                
             }else if(depto=='Bloquera'){
                 premio_castigo_blocksfe =clacs.pcblocksfe;
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_blocksfe +extra_amp + extra_diasSucios;
                
             }else if(depto=='Herramental'){
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_amp + extra_diasSucios;
             }else if(depto =='PreExpansion'){
                 let calc = new TableOfProportions(this.amp, null,null,null,null,this.blocks_fe);
-                extra_diasSucios=clacs.extraDiasSucios;
                 let pc_amp =  calc.aprovechamientoMP7;
                 let pc_q  = calc.quejas2;
                 extra_amp = (percepcion_total_m3_base + extra_diasSucios)*pc_amp;
@@ -480,38 +463,30 @@ class MainCalcs {
             }
          }else if((depto == 'Almacen' || depto == 'Choferes' || depto=='Moldeo' || depto=='Bloquera' || depto=='Rotulado') && city =='Merida'){
              if(depto == 'Almacen' || depto == 'Choferes'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios
              }else if(depto =='Moldeo'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_quejas =clacs.quejas;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_quejas +extra_diasSucios
              }else if( depto=='Bloquera'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 extra_amp = clacs.extraDesperdicio;
                 premio_castigo_blocksfe=clacs.pcblocksfe
                 percepcion_total = percepcion_total_m3_base+ premio_castigo_blocksfe +extra_diasSucios + extra_amp
              }else if(depto=='Rotulado'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_blocksfe=clacs.pcblocksfe
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios + premio_castigo_blocksfe
              }
          }else if(( depto=='Bloquera' || depto =='EMCO' || depto =='Moldeo' || depto=='Almacen' || depto=='Almacen CEDI' || depto =='Steelfoam' || depto=='Choferes' || depto=='Choferes CEDI' || depto=='Construpanel') && city =='Veracruz'){
             if( depto=='Bloquera'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 extra_amp = clacs.extraDesperdicio;
                 premio_castigo_blocksfe=clacs.pcblocksfe
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp +premio_castigo_blocksfe
             }else if(depto=='EMCO' || depto =='Moldeo'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 extra_amp = clacs.extraDesperdicio;
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp
             }else if(depto =='Steelfoam'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 extra_amp = clacs.extraDesperdicio;
                 percepcion_total = percepcion_total_m3_base +extra_diasSucios  + extra_amp
             }else if(depto=='Almacen' || depto=='Choferes CEDI'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_quejas =clacs.quejas;
                 percepcion_total = percepcion_total_m3_base + premio_castigo_quejas +extra_diasSucios
             }else if( depto=='Almacen CEDI'){
@@ -519,10 +494,8 @@ class MainCalcs {
                 limpieza_unidades =='Si' || limpieza_unidades =='SI' ? premio_castigo_ordenLimpieza = 100:  premio_castigo_ordenLimpieza = -100
                 percepcion_total = percepcion_total_m3_base +  premio_castigo_ordenLimpieza
             }else if(depto=='Choferes'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base  +extra_diasSucios
             }else if(depto=='Construpanel'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 premio_castigo_rechazo =clacs.pcblocksfe
                 extra_amp = clacs.extraDesperdicio;
                 premio_castigo_usoequiseg = clacs.pc_equipoProtecc;
@@ -530,12 +503,10 @@ class MainCalcs {
             }
          }else if( (depto=='Choferes' || depto=='Rotulado')&& city=='Mexicali'){
              if(depto=='Choferes'){
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios
              }else if(depto=='Rotulado'){
                 premio_castigo_blocksfe =clacs.pcblocksfe
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe +extra_amp
              }
            
@@ -543,48 +514,39 @@ class MainCalcs {
             if(depto=='PreexpYMoldeo'){
                 premio_castigo_blocksfe =clacs.pcblocksfe
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe +extra_amp;
             }else if(depto == 'Almacen' || depto=='Almacen Playa'){
                 premio_castigo_blocksfe =clacs.pcblocksfe
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_blocksfe
             }
          }else if((depto=='Silo Molino' || depto=='Almacen' || depto == 'PreexpYMoldeo' || depto=='Choferes Locales' || depto=='Bono TYG')&&city =='Tijuana'){
              if(depto=='Silo Molino' || depto=='Almacen' ){
-                 extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios;
              }else if(depto == 'PreexpYMoldeo'){
                 extra_amp = clacs.extraDesperdicio;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios + extra_amp
              }else if(depto=='Choferes Locales'){
-                 this.dias_sucios ==0? extra_diasSucios = 100: extra_diasSucios= -100
+                // this.dias_sucios ==0? extra_diasSucios = 100: extra_diasSucios= -100
                  percepcion_total = percepcion_total_m3_base + extra_diasSucios
              }else if(depto=='Bono TYG'){
-                premio_castigo_blocksfe =clacs.pcblocksfe
-                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_blocksfe =clacs.pcblocksfe;
                 extra_amp = clacs.extraDesperdicio;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios +extra_amp +premio_castigo_blocksfe
              }
          }else if(( depto == 'PreexpYMoldeo'  || depto=='Molienda'   || depto=='Construpanel'  || depto=='Choferes Locales'  || depto=='Almacen' || depto=='Almacen Const') &&city=='Culiacan'){
             if( depto == 'PreexpYMoldeo'){
-                premio_castigo_blocksfe =clacs.pcblocksfe
-                extra_diasSucios = clacs.extraDiasSucios;
+                premio_castigo_blocksfe =clacs.pcblocksfe;
                 extra_amp = clacs.extraDesperdicio;
                 percepcion_total = percepcion_total_m3_base + extra_diasSucios +extra_amp +premio_castigo_blocksfe
             }else if(depto=='Construpanel' || depto=='Almacen Const' || depto=='Almacen'){
                 premio_castigo_quejas=clacs.quejas;
                 premio_castigo_blocksfe=clacs.pcblocksfe;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total =percepcion_total_m3_base + extra_diasSucios  + premio_castigo_quejas + premio_castigo_blocksfe;
             }else if(depto=='Choferes Locales'){
                 premio_castigo_quejas=clacs.quejas;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total =percepcion_total_m3_base  + extra_diasSucios  + premio_castigo_quejas;
             }else if(depto=='Molienda'){
                 premio_castigo_blocksfe=clacs.pcblocksfe;
-                extra_diasSucios = clacs.extraDiasSucios;
                 percepcion_total =percepcion_total_m3_base  +   premio_castigo_blocksfe
             }
          }else { 
@@ -767,13 +729,14 @@ class MainCalcs {
                 var pago=[];
               
 
-                if(depto=='CEDI' || depto =='Chofer Local'){
+                 /* if(depto=='CEDI' || depto =='Chofer Local'){
                       let percepcion_total = this.percepcion_total(depto, this.city);
                     for(var i =0; i <sumatoria_asistencia.length; i++){
                         var total = percepcion_total/dias*(sumatoria_asistencia[i]);
                         pago.push(total);
                     }
-                }else if(depto == 'Mantenimiento'){
+                }else */
+                if(depto == 'Mantenimiento'){
                     var pago=[];
                         let total_bono_calidad = this.total_mantenimiento(this.montos_recibidos_area, this.rendimiento_agua, this.rendimiento_combustible, this.rendimiento_electricidad, this.fugas_aire,this.fugas_perla , this.fugas_vapor, this.fugas_aceite , this.faltas_uso_epp);
                         for(var i =0; i <equivalecia_asistencia.length; i++){
@@ -1346,6 +1309,8 @@ class MainCalcs {
         
         let pc_epp; 
         let epp = dias_sucios;
+
+        /*
         if(epp >=0 && epp <1 ){
             epp = 0
         }else if(epp >=1 && epp <2){
@@ -1354,6 +1319,23 @@ class MainCalcs {
             epp = -.5;
         }else if(epp >=3 ){
             epp =  -1;
+        }else{
+            epp =  0;
+        }*/
+
+        //estandar
+        if(epp >=0 && epp <1 ){
+            epp = 0
+        }else if(epp >=1 && epp <2){
+            epp =  -.1;
+        }else if(epp >=2 && epp <3){
+            epp = -.15;
+        }else if(epp >=3 && epp <4){
+            epp =  -.2;
+        }else if(epp >=4 && epp <5 ){
+            epp =  -.3;
+        }else if(epp >=5 ){
+            epp =  -.4;
         }else{
             epp =  0;
         }

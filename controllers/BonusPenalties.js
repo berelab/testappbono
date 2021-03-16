@@ -124,9 +124,9 @@ export default class BonusPenalties {
                 premio_castigo_amp = this.amp/100;
             }
         }else if(city=='Merida' || city=='Veracruz' || city=='Cancun' || city=='Tijuana' || city=='Culiacan' ){
-            if(this.depto=='Corte' || this.depto=='EMCO' ||this.depto=='Bloquera'){
+            if(this.depto=='Corte' || this.depto=='EMCO' ||this.depto=='Bloquera' || this.depto=='PreexpYMoldeo'){
                 premio_castigo_amp = calc.desperdicio13;
-            }else if(this.depto=='Moldeo' || this.depto=='PreexpYMoldeo'){
+            }else if(this.depto=='Moldeo'){
                 premio_castigo_amp = calc.desperdicio14;
             }else if(this.depto=='Steelfoam'){
                 premio_castigo_amp = calc.desperdicio15;
@@ -165,6 +165,7 @@ export default class BonusPenalties {
         let extra_diasSucios;
         let premio_castigo_diasSucios;
 
+        /*
         if(depto == 'Almacén' || depto == 'Choferes') {
             premio_castigo_diasSucios = dirtyDaysCalcs.auditoriaSol;
         }else if(depto == 'Moldeo' && city == 'Juarez'){
@@ -219,6 +220,10 @@ export default class BonusPenalties {
         }else{
             premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios;
         }
+        */
+
+        premio_castigo_diasSucios = dirtyDaysCalcs.diasSucios14 // estandar
+
         premio_castigo_diasSucios ? extra_diasSucios = percepcion_total_m3_base * premio_castigo_diasSucios : extra_diasSucios = 0
         
         return extra_diasSucios;

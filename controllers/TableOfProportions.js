@@ -703,7 +703,7 @@ export default class TableOfProportions {
     }
 
      _quejas(value){ 
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.35; 
@@ -711,11 +711,12 @@ export default class TableOfProportions {
             return -.7; 
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     _quejas2(value){ 
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.25; 
@@ -723,11 +724,12 @@ export default class TableOfProportions {
             return -.5;
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     _quejas3(value){
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.05; 
@@ -739,11 +741,12 @@ export default class TableOfProportions {
             return -.2; 
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     _quejas4(value){
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.1; 
@@ -755,12 +758,13 @@ export default class TableOfProportions {
             return -.4; 
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     
     _quejas5(value){ 
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.25; 
@@ -770,11 +774,12 @@ export default class TableOfProportions {
             return -1;
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     _quejas6(value){ 
-        if(value == 0){
+        /*if(value == 0){
             return 0;
         }else if(value == 1){
             return -.3; 
@@ -782,11 +787,12 @@ export default class TableOfProportions {
             return -1;
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
     _quejas7(value){ 
-        if(value ==0){
+        /*if(value ==0){
             return 0;
         }else if(value == 1 ){
             return .15;
@@ -800,7 +806,8 @@ export default class TableOfProportions {
             return .50;
         }else{
             return 0;
-        }
+        }*/
+        return 0;
     }
 
 

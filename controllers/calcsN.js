@@ -359,12 +359,15 @@ class CalcsN {
        
         /** % en premio o castigo */
         if(this.depto=='RotuladoT1'){
-            preOCas = calcs.diasSucios6;
+            //preOCas = calcs.diasSucios6;
+            preOCas = calcs.diasSucios14;
 
         }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
-            preOCas = calcs.auditoriaSol7;
+            //preOCas = calcs.auditoriaSol7;
+            preOCas = calcs.diasSucios14;
         }else{
-            preOCas= calc.auditoriasolN;
+           // preOCas= calc.auditoriasolN;
+           preOCas = calcs.diasSucios14;
 
         }
 

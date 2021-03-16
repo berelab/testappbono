@@ -113,7 +113,7 @@ export default class DirtyDays {
             return -.20
         }else if(value ==4){
             return -.30
-        }else if(value >=5){
+        }else if(value ==5){
             return -.40
         }else{
             return 0;

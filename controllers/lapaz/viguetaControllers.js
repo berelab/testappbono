@@ -108,6 +108,26 @@ const controller = {
 
 };
 
+//estandar
+let auditoria = (value) => {
+    if(value == 0){
+        return 0;
+    }else if(value ==1){
+        return -.10
+    }else if(value ==2){
+        return -.15
+    }else if(value ==3){
+        return -.20
+    }else if(value ==4){
+        return -.30
+    }else if(value ==5){
+        return -.40
+    }else{
+        return 0;
+    }
+}
+
+/*
 let auditoria = (value) => {
     if(value >= 60 && value < 70){
         return -.04;
@@ -126,7 +146,7 @@ let auditoria = (value) => {
     }else{
         return 0;
     }
-}
+}*/
 
 
 let asistencias = (equipo) =>{
