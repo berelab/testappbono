@@ -680,17 +680,17 @@ router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
 router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
 router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
 
-// router.put('/cancun/admin/corte', corteCancun.editInfo);
+router.put('/cancun/admin/corte', corteCancun.editInfo);
 router.get('/cancun/corte/', corteCancun.home);
 router.get('/cancun/corte/calculator', corteCancun.calculator);
 router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
 
-// router.put('/cancun/admin/bloquera', preexpYMoldeoCancun.editInfo);
+router.put('/cancun/admin/bloquera', preexpYMoldeoCancun.editInfo);
 router.get('/cancun/bloquera/', preexpYMoldeoCancun.home);
 router.get('/cancun/bloquera/calculator', preexpYMoldeoCancun.calculator);
 router.get('/cancun/bloquera/calculator/:index', preexpYMoldeoCancun.calculator);
 
-// router.put('/cancun/admin/almacen', almacenCancun.editInfo);
+router.put('/cancun/admin/almacen', almacenCancun.editInfo);
 router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
