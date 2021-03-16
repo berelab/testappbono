@@ -142,7 +142,7 @@ const controller ={
             });
         }       
     },
-
+    
     editInfo: async(req, res)=>{
         let base = req.body.base;
         let dias_sucios = req.body.dias_sucios;        

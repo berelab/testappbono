@@ -482,7 +482,7 @@ router.get('/cdmexico/almacen/', almacenCdmx.home);
 router.get('/cdmexico/almacen/calculator', almacenCdmx.calculator);
 router.get('/cdmexico/almacen/calculator/:index', almacenCdmx.calculator);
 
-// router.put('/cdmexico/admin/bloquera', preexpMoldeoCdmx.editInfo);
+router.put('/cdmexico/admin/bloquera', preexpMoldeoCdmx.editInfo);
 router.get('/cdmexico/bloquera/', preexpMoldeoCdmx.home);
 router.get('/cdmexico/bloquera/calculator', preexpMoldeoCdmx.calculator);
 router.get('/cdmexico/bloquera/calculator/:index', preexpMoldeoCdmx.calculator);
@@ -491,7 +491,7 @@ router.get('/cdmexico/mantenimiento/', mantenimientoCdmx.home);
 router.get('/cdmexico/mantenimiento/calculator', mantenimientoCdmx.calculator);
 router.get('/cdmexico/mantenimiento/calculator/:index', mantenimientoCdmx.calculator);
 
-// router.put('/cdmexico/admin/corte', corteConstCdmx.editInfo);
+router.put('/cdmexico/admin/corte', corteConstCdmx.editInfo);
 router.get('/cdmexico/corte/', corteConstCdmx.home);
 router.get('/cdmexico/corte/calculator', corteConstCdmx.calculator);
 router.get('/cdmexico/corte/calculator/:index', corteConstCdmx.calculator);
