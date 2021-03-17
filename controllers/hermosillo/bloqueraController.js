@@ -65,14 +65,14 @@ const controller = {
             bloquera.horas_por_turno
         );
 
+        console.log({'equipo - bloquera': equipo});
         let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
         let blocks_persona = calc.m3Persona;
         let percepcion_total = calc.percepcionTotal;
-        
-        let pago_colaboradores = calc.pagoTotal;
-        console.log({'bloquera': pago_colaboradores});
+    
+        let pago_colaboradores = calc.pagoTotal;        
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
