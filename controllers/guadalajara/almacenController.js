@@ -53,9 +53,10 @@ const controller ={
         let asistenciaTotal = asistencia_total;
 
         console.log({'asistenciaTotal1': asistenciaTotal });
-        console.log({'horas extra semana': he[i].horas_extras.horas_extras_dobles });
+        
 
         for(var i =0; i<len; i++){
+            console.log({'horas extra semana': he[i].horas_extras.horas_extras_dobles });
             var total = ((he[i].horas_extras.horas_extras_dobles * 2) +  (he[i].horas_extras.horas_extras_triples * 3))/almacen.horas_por_turno;
             total_turnos_extras.push(total);
         }        
