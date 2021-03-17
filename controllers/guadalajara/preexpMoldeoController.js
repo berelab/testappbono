@@ -16,16 +16,16 @@ const controller = {
         let equipo = cd.convert;
 
         return res.status(200).send({
-            message: blquera.message,
-            base0: blquera.base0,
-            dias_sucios: blquera.dias_sucios,
-            $_extra_m3: blquera.$_extra_m3,
-            blocks_fuera_especificacion: blquera.blocks_fe,           
+            message: bloquera.message,
+            base0: bloquera.base0,
+            dias_sucios: bloquera.dias_sucios,
+            $_extra_m3: bloquera.$_extra_m3,
+            blocks_fuera_especificacion: bloquera.blocks_fe,           
             amp: bloquera.amp,
-            dias: blquera.dias,
-            factor_dias_laborados: blquera.factor_dias_laborados,
-            blocks_cortados: blquera.blocks_cortados,
-            asistencia: blquera.team_asis,
+            dias: bloquera.dias,
+            factor_dias_laborados: bloquera.factor_dias_laborados,
+            blocks_cortados: bloquera.blocks_cortados,
+            asistencia: bloquera.team_asis,
             equipo_convertido: equipo  
         });
     },
@@ -37,7 +37,7 @@ const controller = {
         const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
         let equipo = cd.convert;
 
-        const calcAtt = new att( equipo, blquera.factor_dias_laborados);
+        const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
@@ -99,11 +99,11 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: blquera.message,
+                    depto: bloquera.message,
                     day: weekdayName,
-                    meta_semana: blquera.base0,
-                    dias_laborados: blquera.dias, 
-                    $_extra_m3: blquera.$_extra_m3,       
+                    meta_semana: bloquera.base0,
+                    dias_laborados: bloquera.dias, 
+                    $_extra_m3: bloquera.$_extra_m3,       
                     progress: progress,
                     blocks_persona: blocks_persona,
                     bono_depto: percepcion_total,  
@@ -119,11 +119,11 @@ const controller = {
             }
         }else{
             return res.status(200).send({      
-                depto: blquera.message,
+                depto: bloquera.message,
                 day: weekdayName,
-                meta_semana: blquera.base0,
-                dias_laborados: blquera.dias,
-                $_extra_m3: blquera.$_extra_m3,
+                meta_semana: bloquera.base0,
+                dias_laborados: bloquera.dias,
+                $_extra_m3: bloquera.$_extra_m3,
                 progress: progress,
                 blocks_persona: blocks_persona,
                 bono_depto: percepcion_total,

@@ -83,9 +83,11 @@ const controller ={
         );
         
         let daily_prod = calc.dailyProd;
+        console.log({'daily prod': daily_prod})
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
         let bultos_dia = calc.m3Persona;
+        console.log({'m3 persona':bultos_dia})
         let percepcion_total = calc.percepcionTotal;
         let pago_colaboradores = calc.pagoTotal;
         let pago_total = calc.pagoTotalSinPenalizacion;
