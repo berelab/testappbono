@@ -71,7 +71,9 @@ const controller = {
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
         let blocks_persona = calc.m3Persona;
+
         let percepcion_total = calc.percepcionTotal;
+        console.log({'percepcion total': percepcion_total})
         let pago_colaboradores = calc.pagoTotal;
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
@@ -106,6 +108,7 @@ const controller = {
                     $_extra_m3: bloquera.$_extra_m3,       
                     progress: progress,
                     blocks_persona: blocks_persona,
+
                     bono_depto: percepcion_total,  
                     pago_persona:pago_colaboradores[i], 
                     bono_persona: bono_total_colaborador[i],
@@ -126,6 +129,7 @@ const controller = {
                 $_extra_m3: bloquera.$_extra_m3,
                 progress: progress,
                 blocks_persona: blocks_persona,
+
                 bono_depto: percepcion_total,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total, 
