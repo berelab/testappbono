@@ -56,18 +56,14 @@ const controller ={
             var total = ((he[i].horas_extras.horas_extras_dobles * 2) +  (he[i].horas_extras.horas_extras_triples * 3))// /almacen.horas_por_turno;
             total_turnos_extras.push(total);
         }        
-        console.log({'total': total });
 
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }        
 
         asistenciaTotal = asistenciaTotal + total_extras;
-        console.log({'total extras': total_extras });
-        asistenciaTotal == NaN || asistenciaTotal == undefined ? asistenciaTotal = 0 : asistenciaTotal;
-        
-        console.log({'asistenciaTotal': asistenciaTotal });
-        
+       // asistenciaTotal == NaN || asistenciaTotal == undefined ? asistenciaTotal = 0 : asistenciaTotal;
+
         const calc = new mainCalcs(
             almacen.dias, 
             almacen.m3_cortados, 
