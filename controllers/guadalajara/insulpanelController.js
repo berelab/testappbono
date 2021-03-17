@@ -36,7 +36,7 @@ const controller = {
         let equipo = cd.convert;
         
         const calcAtt = new att( equipo, insulpanel.factor_dias_laborados);
-        //let colaboradores = calcAtt.colaboradoresPorDia;
+        let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
@@ -44,23 +44,31 @@ const controller = {
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
+        let bono = 495; //bono fijo
+
         const calc = new mainCalcs(
             insulpanel.dias, 
             insulpanel.m2_producidos, 
-            null, 
+            colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
             null, 
             null, 
             null, 
-            null,
+            insulpanel.factor_dias_laborados,
             insulpanel.message,
             insulpanel.city,
             insulpanel.retardos_entrega,
             insulpanel.falla_calidad,
         );
             
+        let daily_prod = calc.dailyProd;
+        let progress = calc.progress_bar;       
+        let m3_persona = calc.m3Persona;
+        
+        let sumatoria_asistencia = calc.totalAsistencia;
+
         let bono_total = calc.bonoTotalColaborador;
         let bonoXdiasLaborados = calc.pagoTotal;
         let TotalbonoXdiasLaborados  = calc.pagoTotalSinPenalizacion;
@@ -94,17 +102,17 @@ const controller = {
                     meta_semana: insulpanel.base0,
                     dias_laborados: insulpanel.dias, 
                     $_extra_m3: insulpanel.$_extra_m3,       
-                    //falta progress: progress, 
-                    m3_persona: insulpanel.m2_producidos,
-                    bono_depto: bono_total[i],
+                    progress: progress, 
+                    m3_persona: m3_persona,
+                    bono_depto: bono,
                     pago_persona: bonoXdiasLaborados[i],
                     bono_persona: bonoXpenalizacion[i],
                     bono_productividad: bono_productividad,
                     bono_metas: bono_metas,
-                    asistencia: equipo[i].asistencia,
-                    // datos_extra: {
-                    //    //falta m3_persona_dia: daily_prod 
-                    // }, 
+                    asistencia: sumatoria_asistencia[i],
+                    datos_extra: {
+                     m3_persona_dia: daily_prod 
+                    }, 
                 });
             }
         }else{
@@ -114,18 +122,18 @@ const controller = {
                 meta_semana: insulpanel.base0,
                 dias_laborados: insulpanel.dias,
                 $_extra_m3: insulpanel.$_extra_m3,
-                //progress: progress,
-                m3_persona: insulpanel.m2_producidos,
-                bono_depto: bono_total,
+                progress: progress,
+                m3_persona: m3_persona,
+                bono_depto: bono,
                 pago_persona: bonoXdiasLaborados, 
                 pago_total: TotalbonoXdiasLaborados, 
                 bono_persona: bonoXpenalizacion, 
                 bono_total: totalbonoXpenalizacion,
                 bono_productividad: bono_productividad,
                 bono_metas: bono_metas,
-                asistencia: asistencia_total,
+                asistencia: sumatoria_asistencia,
                 datos_extra: {
-                    //m3_persona_dia: daily_prod,
+                    m3_persona_dia: daily_prod,
                     retardos_entrega: insulpanel.retardos_entrega, 
                     falla_calidad: insulpanel.falla_calidad, 
                 }

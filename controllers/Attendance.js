@@ -234,14 +234,14 @@ export default class Attendance {
                 return equivalente;
             }else if(depto=='Insulpanel'){
                 let equivalente=[];
-                let len = equipo.length;
+                let len = sumatoria_asistencia.length;
     
                 for(var i =0; i< len; i++){
-                    if(equipo[i].asistencia > 0){
-                        var total = equipo[i].asistencia;
-                        equivalente.push(total);
-                    }else{
+                    if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        equivalente.push(total);
                     }
                 }
                 
