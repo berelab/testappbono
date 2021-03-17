@@ -51,16 +51,24 @@ const controller ={
         let total_extras = 0;
         let asistenciaTotal = asistencia_total;
 
+        console.log({'asistenciaTotal1': asistenciaTotal });
+        console.log({'horas extra semana': almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles });
+
         for(var i =0; i<len; i++){
             var total = ((almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (almacen.horas_extras_semana[i].horas_extras.horas_extras_triples*3))/almacen.horas_por_turno;
             total_turnos_extras.push(total);
         }        
+        console.log({'total': total });
+
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }        
+
         asistenciaTotal = asistenciaTotal + total_extras;
         console.log({'total extras': total_extras });
-        asistenciaTotal == NaN || asistenciaTotal == undefined ? asistenciaTotal = 0 : asistenciaTotal
+        asistenciaTotal == NaN || asistenciaTotal == undefined ? asistenciaTotal = 0 : asistenciaTotal;
+        
+        console.log({'asistenciaTotal': asistenciaTotal });
         
         const calc = new mainCalcs(
             almacen.dias, 
