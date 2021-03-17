@@ -46,16 +46,17 @@ const controller ={
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
         
+        let he = almacen.horas_extras_semana;
         let total_turnos_extras = [];
-        let len = almacen.horas_extras_semana.length;
+        let len = he.length;
         let total_extras = 0;
         let asistenciaTotal = asistencia_total;
 
         console.log({'asistenciaTotal1': asistenciaTotal });
-        console.log({'horas extra semana': almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles });
+        console.log({'horas extra semana': he[i].horas_extras.horas_extras_dobles });
 
         for(var i =0; i<len; i++){
-            var total = ((almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (almacen.horas_extras_semana[i].horas_extras.horas_extras_triples*3))/almacen.horas_por_turno;
+            var total = ((he[i].horas_extras.horas_extras_dobles * 2) +  (he[i].horas_extras.horas_extras_triples * 3))/almacen.horas_por_turno;
             total_turnos_extras.push(total);
         }        
         console.log({'total': total });
