@@ -28,7 +28,7 @@ const controller = {
             equipo_convertido: equipo  
         });
     },
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
         const repository = new insulpanelSQL();
         const model = new insulpanelModel(repository);
         let insulpanel = await model.execute(); 
