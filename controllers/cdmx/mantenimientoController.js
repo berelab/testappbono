@@ -89,14 +89,10 @@ const controller = {
         let asistencias_colaborador = calc.totalAsistencia;
         let total_mantenimiento = calc.totalMantenimiento
 
-        let pago_colaboradores = calc.pagoTotal;
-        console.log({'4': pago_colaboradores});
-        let pago_total = calc.pagoTotalSinPenalizacion;
-        console.log({'5': pago_total});
-        let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
-        console.log({'6': bono_total_colaborador});
-        let bono_total = calc.bonoTotalConPenalizacion;
-        console.log({'7': bono_total});
+        let pago_colaboradores = calc.pagoTotal;        
+        let pago_total = calc.pagoTotalSinPenalizacion;        
+        let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;        
+        let bono_total = calc.bonoTotalConPenalizacion;        
         // let bono_productividad = calc.bonoProductividad;  
         // let bono_metas = calc.pc_metas;  
 
