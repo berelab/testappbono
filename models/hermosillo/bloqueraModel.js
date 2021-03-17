@@ -1,67 +1,100 @@
 'use strict'
 
+class BloqueraModel {
+    constructor(repository){
+        this.repository = repository;
+    }
 
-const bloqueraBaseData = {
-        message: 'Bloquera',
-        city: 'Hermosillo',
-        base0: 80,
-        dias_sucios: 0,
-        bloques_fuera_especificacion: 0,
-        Extra: 0,
-        dias: 6,
-        amp: .95,
-        factor_dias_laborados: 1.2,
-        horas_por_turno: 12,
-        asistencia_total: 7.2, 
-        $_extra_m3: 9.5,
-        colaboradores: {
-            lunes: 2,
-            martes: 2,
-            miercoles: 0,
-            jueves: 2,
-            viernes: 0,
-            sabado: 0
-        },
-        blocks_moldeados: {
-            lunes: 291,
-            martes:0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'JESUS MOLINA FIGUEROA',
-                num: '100236',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 0.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
-                },
-                horas_extras: 13,
-                faltas : 0,
-                retardos: 0
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Bloquera',
+            city: 'Hermosillo',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,            
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            bloques_fuera_especificacion: 0,
+            Extra: 0,
+            amp: .95,
+            horas_por_turno: 0,
+            blocks_moldeados: {
+                lunes: 97,
+                martes: 97,
+                miercoles: 0,
+                jueves: 97,
+                viernes: 0,
+                sabado: 0
             },
-            {
-                nombre: 'MANUEL TANORI ANDRADE',
-                num: '100236',
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
                 asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 0.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
-                },
-                horas_extras: 0,
-                faltas : 0,
-                retardos: 0
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
             }
-        ]
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = bloqueraBaseData;
+module.exports = BloqueraModel;

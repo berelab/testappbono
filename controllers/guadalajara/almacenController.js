@@ -60,9 +60,7 @@ const controller ={
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }        
-
         asistenciaTotal = asistenciaTotal + total_extras;
-       // asistenciaTotal == NaN || asistenciaTotal == undefined ? asistenciaTotal = 0 : asistenciaTotal;
 
         const calc = new mainCalcs(
             almacen.dias, 
