@@ -107,7 +107,7 @@ const controller = {
                     dias_laborados: bloquera.dias, 
                     $_extra_m3: bloquera.$_extra_m3,       
                     progress: progress,
-                    blocks_persona: blocks_persona,
+                    m3_persona: blocks_persona,
 
                     bono_depto: percepcion_total,  
                     pago_persona:pago_colaboradores[i], 
@@ -128,7 +128,7 @@ const controller = {
                 dias_laborados: bloquera.dias,
                 $_extra_m3: bloquera.$_extra_m3,
                 progress: progress,
-                blocks_persona: blocks_persona,
+                m3_persona: blocks_persona,
 
                 bono_depto: percepcion_total,
                 pago_persona:pago_colaboradores, 
