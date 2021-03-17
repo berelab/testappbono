@@ -1,122 +1,144 @@
 'use strict'
 
-const almacenBaseData = {
-        message: 'Almacen',
-        city: 'Guadalajara',
-        base0: 710,
-        dias_sucios:0,
-        num_quejas:0,
-        uso_equipo_seg:0,
-        dias: 6,
-        factor_dias_laborados: 1.2,
-        horas_por_turno: 9.5, 
-        asistencia_total: 18, 
-        $_extra_m3: .85,
-        m3_cortados: {
-            lunes: 4294,
-            martes:0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0
-        },
-        colaboradores: {
-            lunes: 3,
-            martes: 3,
-            miercoles: 3,
-            jueves: 3,
-            viernes: 3,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'OSCAR DAVID VALLE RIVERA',
-                num: 200648,
-                asistencia: {
-                    lunes: 1,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
+class AlmacenModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Almacen',
+            city: 'Guadalajara',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,            
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            num_quejas: 0,
+            uso_equipo_seg: 0,      
+            horas_por_turno: 0, 
+            m3_cortados: {
+                lunes: 858.8,
+                martes: 858.8,
+                miercoles: 858.8,
+                jueves: 858.8,
+                viernes: 858.8,
+                sabado: 0
+            },
+            horas_extras_semana: [
+                {
+                    dia: 'lunes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'EDUARDO SANCHEZ RODRIGO',
-                num: 200648,
-                asistencia: {
-                    lunes: 1,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
+                {
+                    dia: 'martes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'BRIAN ALEJANDRO SANCHEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0.0,
+                {
+                    dia: 'miercoles',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-        ],
-        horas_extras_semana: [
-            {
-                dia: 'lunes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
+                {
+                    dia: 'jueves',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
+                },
+                {
+                    dia: 'viernes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
+                },
+                {
+                    dia: 'sabado',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 }
-            },
-            {
-                dia: 'martes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'miercoles',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'jueves',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'viernes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'sabado',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            }
+            
+            ],
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
         
-        ]
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = almacenBaseData;
+module.exports = AlmacenModel;

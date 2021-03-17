@@ -64,6 +64,7 @@ import insulpanelHermosillo from '../controllers/hermosillo/insulpanelController
 import rotuladoT1Hermosillo from '../controllers/hermosillo/rotuladoT1Controller';
 
 //GUADALAJARA
+import guadalajara from '../controllers/guadalajara/guadalajara';
 import preexpMoldeoGuadalajara from '../controllers/guadalajara/preexpMoldeoController';
 import corteGuadalajara from '../controllers/guadalajara/corteController';
 import almacenGuadalajara from '../controllers/guadalajara/almacenController';
@@ -383,14 +384,18 @@ router.get('/hermosillo/rotuladot1/calculator/:index', rotuladoT1Hermosillo.calc
 //--------------------------------------------------------------------------------------------------
 // GUADALAJARA 
 
-router.get('/guadalajara/preexpmoldeo/', preexpMoldeoGuadalajara.home);
-router.get('/guadalajara/preexpmoldeo/calculator', preexpMoldeoGuadalajara.calculator);
-router.get('/guadalajara/preexpmoldeo/calculator/:index', preexpMoldeoGuadalajara.calculator);
+router.get('/guadalajara', guadalajara.data)
+router.put('/guadalajara/admin/bloquera', preexpMoldeoGuadalajara.editInfo);
+router.get('/guadalajara/bloquera/', preexpMoldeoGuadalajara.home);
+router.get('/guadalajara/bloquera/calculator', preexpMoldeoGuadalajara.calculator);
+router.get('/guadalajara/bloquera/calculator/:index', preexpMoldeoGuadalajara.calculator);
 
+router.put('/guadalajara/admin/corte', corteGuadalajara.editInfo);
 router.get('/guadalajara/corte/', corteGuadalajara.home);
 router.get('/guadalajara/corte/calculator', corteGuadalajara.calculator);
 router.get('/guadalajara/corte/calculator/:index', corteGuadalajara.calculator);
 
+router.put('/guadalajara/admin/almacen', almacenGuadalajara.editInfo);
 router.get('/guadalajara/almacen/', almacenGuadalajara.home);
 router.get('/guadalajara/almacen/calculator', almacenGuadalajara.calculator);
 router.get('/guadalajara/almacen/calculator/:index', almacenGuadalajara.calculator);
@@ -403,9 +408,10 @@ router.get('/guadalajara/insulpanel/', insulpanelGuadalajara.home);
 router.get('/guadalajara/insulpanel/calculator', insulpanelGuadalajara.calculator);
 router.get('/guadalajara/insulpanel/calculator/:index', insulpanelGuadalajara.calculator);
 
-router.get('/guadalajara/choferes/', choferesGuadalajara.home);
-router.get('/guadalajara/choferes/calculator', choferesGuadalajara.calculator);
-router.get('/guadalajara/choferes/calculator/:index', choferesGuadalajara.calculator);
+router.put('/guadalajara/admin/choferlocal', choferesGuadalajara.editInfo);
+router.get('/guadalajara/choferlocal/', choferesGuadalajara.home);
+router.get('/guadalajara/choferlocal/calculator', choferesGuadalajara.calculator);
+router.get('/guadalajara/choferlocal/calculator/:index', choferesGuadalajara.calculator);
 
 router.get('/guadalajara/molino/', moliendaMRGuadalajara.home);
 router.get('/guadalajara/molino/calculator', moliendaMRGuadalajara.calculator);
@@ -417,7 +423,6 @@ router.get('/guadalajara/mantenimiento/calculator/:index', mantenimientoGuadalaj
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
-
 
 router.get('/queretaro/preexpmoldeo/', preexpMoldeoQueretaro.home);
 router.get('/queretaro/preexpmoldeo/calculator', preexpMoldeoQueretaro.calculator);

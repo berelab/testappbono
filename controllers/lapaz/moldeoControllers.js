@@ -123,7 +123,6 @@ const controller = {
                
             }
         }else{
-
             return res.status(200).send({      
                 depto: moldeo.message,
                 day: weekdayName,

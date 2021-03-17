@@ -1,316 +1,100 @@
 'use strict'
 
-const corteBaseData = {
-        message: 'Corte',
-        city: 'Guadalajara',
-        base0: 140,
-        dias_sucios:0,
-        dias: 6,
-        amp:100,
-        num_quejas:0,
-        boletas_pnc:0,
-        factor_dias_laborados: 1.2,
-        horas_por_turno: 9.5, 
-        asistencia_total: 117.6, 
-        $_extra_m3: 4.5,
-        m3_cortados: {
-            lunes: 749.59,
-            martes:749.59,
-            miercoles: 749.59,
-            jueves: 749.59,
-            viernes: 749.59,
-            sabado: 0
-        },
-        colaboradores: {
-            lunes: 20,
-            martes: 20,
-            miercoles: 20,
-            jueves: 20,
-            viernes: 18,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'FRANCISCO GARNICA PADILLA',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
+class CorteModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Corte',
+            city: 'Guadalajara',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,            
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            amp: 100,
+            num_quejas: 0,
+            boletas_pnc: 0,
+            horas_por_turno: 0, 
+            m3_cortados: {
+                lunes: 749.59,
+                martes:749.59,
+                miercoles: 749.59,
+                jueves: 749.59,
+                viernes: 749.59,
+                sabado: 0
             },
-            {
-                nombre: 'MANUEL SALINAS VAZQUEZ',
-                num: 200648,
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+        
+            return {
+                code: element.userid,
                 asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARTIN RIVERA RUIZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'HECTOR ULISES HERNANDEZ TOVAR',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'RUBEN CAMPOS MEDINA',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARIO GONZALEZ BARAJA',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'BENJAMIN CASTILLO VALLE',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'VICTOR SANCHEZ LOPEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOSE DE JESUS PRECIADO GRIMALDO',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ALVARO ARELLANO CASILLAS',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'IVAN ALEJANDRO FAUSTO MARTINEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOSE LUIS LARA ORTIZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JORGE LUIS LOPEZ ROBLES',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ROSA CLETO TORRES',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'DANIEL GARCIA HERNANDEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JESUS GARCIA HERNANDEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARTHA MARTINEZ LOPEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'DILAN GARCIA CASTILLO',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ARTURO SOLIS ALBA',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ERIKA SALINAS VAZQUEZ',
-                num: 200648,
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-        ]
+                  [dayName]: asis
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            var previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];
+                previous.asistencia.push(entry.asistencia);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = corteBaseData;
+module.exports = CorteModel;
