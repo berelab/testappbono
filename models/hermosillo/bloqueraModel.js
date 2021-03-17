@@ -47,7 +47,7 @@ class BloqueraModel {
             bloques_fuera_especificacion: 0,
             Extra: 0,
             amp: .95,
-            horas_por_turno: 0,
+            horas_por_turno: 12,
             blocks_moldeados: {
                 lunes: 97,
                 martes: 97,
