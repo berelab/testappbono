@@ -181,7 +181,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i] * factor_dias_laborados) + ((equipo[i].horas_extras*2)/horas_por_turno);
+                        var total =  (sumatoria_asistencia[i] * factor_dias_laborados)+ ((equipo[i].horas_extras*2)/horas_por_turno);
                         equivalente.push(total);
                     }
                 }
@@ -349,7 +349,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/horas_por_turno)) * factor_dias_laborados;
+                        var total = (sumatoria_asistencia[i]  * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno) ;
                         equivalente.push(total);
                     }
                 }
@@ -379,7 +379,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i]  + ((equipo[i].horas_extras*2)/horas_por_turno)) * factor_dias_laborados;
+                        var total = (sumatoria_asistencia[i]   * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno);
                         equivalente.push(total);
                     }
                 }
@@ -441,7 +441,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i] * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/12);
+                        var total = (sumatoria_asistencia[i] * factor_dias_laborados)   + ((equipo[i].horas_extras*2)/12);
                         equivalente.push(total);
                     }
                 }

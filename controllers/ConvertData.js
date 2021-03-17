@@ -182,7 +182,8 @@ class FormatData {
                           domingo:domingo
                       },
                       faltas : 0,
-                      retardos: 0
+                      retardos: 0,
+                      horas_extras: 0
                     }
 
                     asistenciaConvert.push(persona); 
@@ -217,7 +218,8 @@ class FormatData {
                   domingo: 0
               },
               faltas : 0,
-              retardos: 0
+              retardos: 0,
+              horas_extras: 0
             }
 
             equipoConvert.push(persona); 
