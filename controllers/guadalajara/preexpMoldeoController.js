@@ -54,7 +54,7 @@ const controller = {
             weekdayName, 
             equipo, 
             bloquera.base0, 
-            bloquera.$_extra, 
+            bloquera.$_extra_m3, 
             bloquera.dias_sucios, 
             bloquera.factor_dias_laborados,
             bloquera.message,
