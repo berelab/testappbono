@@ -68,13 +68,11 @@ const controller = {
         );
 
         let daily_prod = calc.dailyProd;
-        console.log({'daily_prod': daily_prod})
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
         let blocks_persona = calc.m3Persona;
 
-        let percepcion_total = calc.percepcionTotal;
-        console.log({'percepcion total': percepcion_total})
+        let percepcion_total = calc.percepcionTotal;        
         let pago_colaboradores = calc.pagoTotal;
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
@@ -109,15 +107,10 @@ const controller = {
                     $_extra_m3: bloquera.$_extra_m3,       
                     progress: progress,
                     m3_persona: blocks_persona,
-
-                    bono_depto: percepcion_total,  
-                    pago_persona:pago_colaboradores[i], 
-                    bono_persona: bono_total_colaborador[i],
-                    bono_productividad: bono_productividad,
-                    bono_metas: bono_metas,
-
-                    asistencia: sumatoria_asistencia[i], 
-                    
+                    bono_depto: percepcion_total,
+                    pago_persona: pago_colaboradores[i],
+                    bono_persona:bono_total_colaborador[i],  
+                    asistencia: sumatoria_asistencia[i],                   
                     datos_extra: {
                         m3_persona_dia: daily_prod
                     },                    
