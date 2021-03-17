@@ -22,7 +22,7 @@ const controller = {
             $_extra_m3: bloquera.$_extra_m3,
             dias: bloquera.dias,
             factor_dias_laborados: bloquera.factor_dias_laborados,
-            m3_cortados: bloquera.blocks_moldeados,
+            blocks_moldeados: bloquera.blocks_moldeados,
             asistencia: bloquera.team_asis,
             equipo_convertido: equipo,
         });
@@ -70,7 +70,9 @@ const controller = {
         let progress = calc.progress_bar;  
         let blocks_persona = calc.m3Persona;
         let percepcion_total = calc.percepcionTotal;
+        
         let pago_colaboradores = calc.pagoTotal;
+        console.log({'bloquera': pago_colaboradores});
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
