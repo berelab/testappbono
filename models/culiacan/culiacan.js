@@ -2,13 +2,19 @@
 
 const CuliacanData = {
         city: 'Culiacán',
-        departamentos: [                     
+        departamentos: [   
+            {
+                nombre: 'Bloquera',
+            },                  
             {
                 nombre: 'Corte',
             },
             {
                 nombre: 'Chofer Local',
             },
+            {
+                nombre: 'Mantenimiento',
+            }, 
             {
                 nombre: 'Panel',
             },

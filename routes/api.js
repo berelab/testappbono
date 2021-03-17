@@ -759,6 +759,7 @@ router.get('/culiacan/mantenimiento/', mantenimientoCuliacan.home);
 router.get('/culiacan/mantenimiento/calculator', mantenimientoCuliacan.calculator);
 router.get('/culiacan/mantenimiento/calculator/:index', mantenimientoCuliacan.calculator);
 
+router.put('/culiacan/admin/bloquera', preexpYMoldeoCuliacan.editInfo);
 router.get('/culiacan/bloquera/', preexpYMoldeoCuliacan.home);
 router.get('/culiacan/bloquera/calculator', preexpYMoldeoCuliacan.calculator);
 router.get('/culiacan/bloquera/calculator/:index', preexpYMoldeoCuliacan.calculator);
