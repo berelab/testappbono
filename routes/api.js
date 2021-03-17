@@ -53,6 +53,7 @@ import preexpansionNogales from '../controllers/nogales/preexpansionController';
 import mantenimientoNogales from '../controllers/nogales/mantenimientoController';
 
 //HERMOSILLO
+import hermosillo from '../controllers/hermosillo/hermosillo';
 import bloqueraHermosillo from '../controllers/hermosillo/bloqueraController';
 import corteHermosillo from '../controllers/hermosillo/corteController';
 import steelfoamHermosillo from '../controllers/hermosillo/steelfoamController';
@@ -344,6 +345,9 @@ router.get('/nogales/mantenimiento/calculator/:index', mantenimientoNogales.calc
 
 //------------------------------------------------------------------------------------------
 //HERMOSILLO
+
+router.get('/hermosillo', hermosillo.data)
+router.put('/hermosillo/admin/bloquera', bloqueraHermosillo.editInfo);
 router.get('/hermosillo/bloquera', bloqueraHermosillo.home);
 router.get('/hermosillo/bloquera/calculator/', bloqueraHermosillo.calculator);
 router.get('/hermosillo/bloquera/calculator/:index', bloqueraHermosillo.calculator);
@@ -364,6 +368,7 @@ router.get('/hermosillo/mantenimiento', mantenimientoHermosillo.home);
 router.get('/hermosillo/mantenimiento/calculator/', mantenimientoHermosillo.calculator);
 router.get('/hermosillo/mantenimiento/calculator/:index', mantenimientoHermosillo.calculator);
 
+router.put('/hermosillo/admin/almacen', almacenoHermosillo.editInfo);
 router.get('/hermosillo/almacen', almacenoHermosillo.home);
 router.get('/hermosillo/almacen/calculator', almacenoHermosillo.calculator);
 router.get('/hermosillo/almacen/calculator/:index', almacenoHermosillo.calculator);
@@ -551,7 +556,6 @@ router.get('/monterrey/corte-nip/calculator/:index', corteNIPMonterrey.calculato
 router.get('/monterrey/corte-l/', corteLMonterrey.home);
 router.get('/monterrey/corte-l/calculator', corteLMonterrey.calculator);
 router.get('/monterrey/corte-l/calculator/:index', corteLMonterrey.calculator);
-
 
 router.get('/monterrey/bloquera/', bloqueraMonterrey.home);
 router.get('/monterrey/bloquera/calculator', bloqueraMonterrey.calculator);
