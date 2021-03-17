@@ -68,6 +68,7 @@ const controller = {
         );
 
         let daily_prod = calc.dailyProd;
+        console.log({'daily_prod': daily_prod})
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
         let blocks_persona = calc.m3Persona;
@@ -114,7 +115,9 @@ const controller = {
                     bono_persona: bono_total_colaborador[i],
                     bono_productividad: bono_productividad,
                     bono_metas: bono_metas,
+
                     asistencia: sumatoria_asistencia[i], 
+                    
                     datos_extra: {
                         m3_persona_dia: daily_prod
                     },                    

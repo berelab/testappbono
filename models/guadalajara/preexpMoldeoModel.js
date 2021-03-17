@@ -46,7 +46,7 @@ class BloqueraModel {
             factor_dias_laborados: extra.factor,
             amp:98,
             blocks_fe: 0,
-            horas_por_turno: 0,           
+            horas_por_turno: 1,           
             blocks_cortados: {
                 lunes: 0,
                 martes: 214.67,
