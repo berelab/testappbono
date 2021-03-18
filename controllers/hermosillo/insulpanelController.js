@@ -46,7 +46,7 @@ const controller = {
         const calc = new mainCalcs(
             insulpanel.dias, 
             insulpanel.m2_producidos, 
-            null, 
+            colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
