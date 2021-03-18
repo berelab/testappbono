@@ -36,7 +36,7 @@ class AlmacenModels {
     }
 
     _convertData(response, team, entries, extra) {
-        console.log(entries);
+        console.log(entries.retardos);
         return {
             message: 'Almacen',
             city: 'Cancun',
@@ -71,8 +71,7 @@ class AlmacenModels {
             let retardo = 0;
             let limit = element.entrada + 10;
         
-            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
-            
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
             element.entrada_real >= limit ? retardo = 0 : retardo = 1;
 
             return {
@@ -90,20 +89,17 @@ class AlmacenModels {
         let result = orderedData.filter(function(entry) {
             let previous;
             if (seen.hasOwnProperty(entry.code)) {
-                previous = seen[entry.code];
-                
+                previous = seen[entry.code];                
                 previous.asistencia.push(entry.asistencia);
                 previous.retardos.push(entry.retardos);
                 return false;
             }
-
             if (!Array.isArray(entry.asistencia)) {
                 entry.asistencia = [entry.asistencia];
             }
             if (!Array.isArray(entry.retardos)) {
                 entry.retardos = [entry.retardos];
             }            
-            console.log({'entry': entry});
             seen[entry.code] = entry;
             return true;
         });
