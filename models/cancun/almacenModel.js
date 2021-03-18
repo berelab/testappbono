@@ -91,11 +91,13 @@ class AlmacenModels {
             let previous;
             if (seen.hasOwnProperty(entry.code)) {
                 previous = seen[entry.code];
+                console.log({'previous':previous});
                 previous.asistencia.push(entry.asistencia);
-                previous.retardos.push(entry.retardos);
+                // previous.retardos.push(entry.retardos);
                 return false;
             }
             if (!Array.isArray(entry.asistencia)) {
+                console.log({'entry asistencia': [entry.asistencia]});
                 entry.asistencia = [entry.asistencia];
             }
             seen[entry.code] = entry;
