@@ -73,12 +73,8 @@ class AlmacenModels {
         
             !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
             
-            if(element.entrada_real >= limit){
-                retardo = 0;
-            }else {
-                retardo += 1;
-            }
-            
+            element.entrada_real >= limit ? retardo = 0 : retardo += 1;
+
             return {
                 code: element.userid,
                 asistencia: {
