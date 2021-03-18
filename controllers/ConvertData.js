@@ -230,10 +230,14 @@ class FormatData {
         for(var a =0; a<len_eq; a++){
              let nombre = equipo[a].nombre + ' ' + equipo[a].a_paterno + ' ' +  equipo[a].a_materno;
              let codigo = equipo[a].userID;
+             let factor = equipo[a].factor;
+             let dias = equipo[a].dias;
              // llenar el objeto persona.
              persona ={
               nombre: nombre,
               num: codigo ,
+              factor_dias_laborados: factor,
+              dias: dias,
               asistencia: {
                   lunes: 0,
                   martes: 0,
