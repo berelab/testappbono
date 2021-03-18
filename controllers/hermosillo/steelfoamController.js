@@ -16,16 +16,16 @@ const controller = {
         let equipo = cd.convert;
 
 		return res.status(200).send({
-            message: moldeo.message, 
-            city: moldeo.city, 
-            base0: moldeo.base0, 
-            dias_sucios: moldeo.dias_sucios, 
-            $_extra_m2: moldeo.$_extra_m2, 
-            dias: moldeo.dias, 
-            factor_dias_laborados: moldeo.factor_dias_laborados,  
-            amp: moldeo.amp,           
-            m2_cortados: moldeo.m3_cortados, 
-            asistencia: moldeo.team_asis,
+            message: steelfoam.message, 
+            city: steelfoam.city, 
+            base0: steelfoam.base0, 
+            dias_sucios: steelfoam.dias_sucios, 
+            $_extra_m2: steelfoam.$_extra_m2, 
+            dias: steelfoam.dias, 
+            factor_dias_laborados: steelfoam.factor_dias_laborados,  
+            amp: steelfoam.amp,           
+            m2_cortados: steelfoam.m3_cortados, 
+            asistencia: steelfoam.team_asis,
             equipo_convertido: equipo,  
         });
     },
