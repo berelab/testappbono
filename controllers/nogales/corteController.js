@@ -1,6 +1,6 @@
 'use strict'
 
-import {message, city, base0, auditoria_sol,num_quejas_cliente, rechazo_interno,dias, desperdicio, factor_dias_laborados,horas_por_turno,asistencia_total,$_extra_m3,tiempo_extra,colaboradores,m3_cortados,equipo} from '../../models/nogales/corteModel';
+import {message, city, base0, auditoria_sol,num_quejas_cliente, rechazo_interno,dias, desperdicio, factor_dias_laborados,horas_por_turno,asistencia_total,$_extra_m3,colaboradores,m3_cortados,equipo} from '../../models/nogales/corteModel';
 import mainCalcs from '../mainCalcs';
 import calcsN from  '../calcsN';
 
@@ -23,7 +23,6 @@ const controller = {
             horas_por_turno,
             asistencia_total, 
             $_extra_m3,
-            tiempo_extra,
             colaboradores,
             m3_cortados,
             equipo
@@ -54,7 +53,7 @@ const controller = {
             null,
             null,
             null,
-            tiempo_extra,
+            null,
             horas_por_turno,
             num_quejas_cliente,
              rechazo_interno,
@@ -72,7 +71,7 @@ const controller = {
             factor_dias_laborados,
             equipo,
             dias,
-            tiempo_extra,
+            null,
             horas_por_turno,
             $_extra_m3,
             m3_cortados,

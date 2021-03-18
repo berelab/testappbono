@@ -13,14 +13,6 @@ const corteBaseData = {
         horas_por_turno: 10,
         asistencia_total: 33.60, 
         $_extra_m3: 6.8,
-        tiempo_extra: {
-            lunes: 2,
-            martes: 2,
-            miercoles: 2,
-            jueves: 2,
-            viernes: 2,
-            sabado: 0
-        },
         colaboradores: {
             lunes: 4,
             martes: 6,

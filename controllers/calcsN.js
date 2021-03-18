@@ -50,7 +50,7 @@ class CalcsN {
     }
 
     get asistenciaFactor () {
-        return this.asistenciasTotalesPorFactor(this.factor_dias_laborados);
+        return this.asistenciasTotalesPorFactor(this.equipo, this.dias);
     }
 
     get asistenciaMasTiempoExtra () {
@@ -142,13 +142,7 @@ class CalcsN {
         asistencia_total.push(total_viernes);
         asistencia_total.push(total_sabado);
 
-        if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
-            let total_domingo=0;
-            for (var i = 0; i <equipo.length; ++i) {
-                total_domingo  = total_domingo + equipo[i].asistencia.domingo;
-           }
-           asistencia_total.push(total_domingo);
-        }
+       
 
 
         return asistencia_total;
@@ -157,11 +151,11 @@ class CalcsN {
      /**
      * Retorna un arreglo de las asistencias multiplicadas por el facor,  por cada dia de la semana 
      */
-    asistenciasTotalesPorFactor(factor_dias_laborados){
-        let asistencia_total =  this.asistenciasTotalesPorDia(this.equipo,this.dias);
-
+    asistenciasTotalesPorFactor(equipo, dias){
+        let asistencia_total =  this.asistenciasTotalesPorDia(equipo,dias);
+        
         for(var i = 0; i < asistencia_total.length; i++ ){
-            asistencia_total[i] = asistencia_total[i] * factor_dias_laborados;
+            asistencia_total[i] = asistencia_total[i] * equipo[i].factor_dias_laborados;
         }
 
         return asistencia_total;

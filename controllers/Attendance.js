@@ -20,7 +20,7 @@ export default class Attendance {
     }
     //Getters
     get asistencias(){
-        return this.asistencia(this.equipo, this.city, this.depto);
+        return this.asistencia(this.equipo);
     }
 
     get asistenciasPorDias () {
@@ -28,7 +28,7 @@ export default class Attendance {
     }
 
     get equivaleciaAsistencias(){
-        return this.equivalencia_asistencia(this.equipo, this.factor_dias_laborados, this.city, this.depto, this.horas_por_turno);
+        return this.equivalencia_asistencia(this.equipo, this.city, this.depto, this.horas_por_turno);
     }
     get faltas(){
         return this.falta(this.equipo);
@@ -50,79 +50,29 @@ export default class Attendance {
     }
 
     get colaboradoresPorDia(){
-        return this.colaboradores_por_dia(this.equipo, this.factor_dias_laborados);
+        return this.colaboradores_por_dia(this.equipo);
     }
 
     get asistenciaTotal(){
-        return  this.asistencia_total(this.equipo, this.factor_dias_laborados);
+        return  this.asistencia_total(this.equipo);
     }
 
     //methods 
     // sumatoria de las asistencias en la semana por persona.
-    asistencia(equipo,city, depto) {
+    asistencia(equipo) {
         let asistencia_total  =[];
-       if(city=='Monterrey' && (depto=='Moldeo' || depto=='EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Bloquera' || depto=='PreExpansion' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3')){
-            for (var i = 0, len = equipo.length; i < len; ++i) {
-                var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado+ equipo[i].asistencia.domingo;
-                asistencia_total.push(total);
-            }
-        }else if(city=='Merida' && (depto=='Moldeo')){
-            for (var i = 0, len = equipo.length; i < len; ++i) {
-                var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado+ equipo[i].asistencia.domingo;
-                asistencia_total.push(total);
-            }
-        }else{
-            for (var i = 0, len = equipo.length; i < len; ++i) {
-                var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado;
-                asistencia_total.push(total);
-            }
+
+        for (var i = 0, len = equipo.length; i < len; ++i) {
+            var total =+ equipo[i].asistencia.lunes + equipo[i].asistencia.martes + equipo[i].asistencia.miercoles + equipo[i].asistencia.jueves + equipo[i].asistencia.viernes + equipo[i].asistencia.sabado;
+            asistencia_total.push(total);
         }
        
         return asistencia_total;
     }
 
-    /**
-     * Retorna un arreglo de las asistencias totales (sin factor), por cada dia de la semana
-     */
-    
-    asistenciasTotalesPorDia(equipo){
-        let len = equipo.length;
-        let asistencia_total = [];
-        let total_lunes=0;
-        let total_martes=0;
-        let total_miercoles=0;
-        let total_jueves=0;
-        let total_viernes=0;
-        let total_sabado=0;
-        let total_domingo=0;
-       
-        for (var i = 0; i <len; ++i) {
-             total_lunes = total_lunes + equipo[i].asistencia.lunes;
-             total_martes = total_martes+ equipo[i].asistencia.martes;
-             total_miercoles = total_miercoles + equipo[i].asistencia.miercoles;
-             total_jueves  = total_jueves + equipo[i].asistencia.jueves;
-             total_viernes  = total_viernes + equipo[i].asistencia.viernes;
-             total_sabado  = total_sabado + equipo[i].asistencia.sabado;
-        }
 
-        asistencia_total.push(total_lunes);
-        asistencia_total.push(total_martes);
-        asistencia_total.push(total_miercoles);
-        asistencia_total.push(total_jueves);
-        asistencia_total.push(total_viernes);
-        asistencia_total.push(total_sabado);
-        if(this.city=='Monterrey' && (this.depto=='Moldeo' || this.depto=='EMCO' || this.depto=='Corte NIP' || this.depto=='Corte l' || depto=='Bloquera')){
-            for (var i = 0; i <len; ++i) {
-                total_domingo  = total_domingo + equipo[i].asistencia.domingo;
-           }
 
-           asistencia_total.push(total_domingo);
-        }
-      
-        return asistencia_total;
-     }
-
-     equivalencia_asistencia(equipo, factor_dias_laborados, city, depto, horas_por_turno){
+     equivalencia_asistencia(equipo, city, depto, horas_por_turno){
        
         let sumatoria_asistencia = this.asistencia(equipo, city, depto );
 
@@ -134,7 +84,7 @@ export default class Attendance {
                 if(sumatoria_asistencia[i]==0){
                     equivalente.push(0);
                 }else{
-                    var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                    var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                     equivalente.push(total);
                 }
             }
@@ -150,7 +100,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -166,7 +116,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -181,7 +131,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total =  (sumatoria_asistencia[i] * factor_dias_laborados)+ ((equipo[i].horas_extras*2)/horas_por_turno);
+                        var total =  (sumatoria_asistencia[i] * equipo[i].factor_dias_laborados)+ ((equipo[i].horas_extras*2)/horas_por_turno);
                         equivalente.push(total);
                     }
                 }
@@ -195,22 +145,22 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
                 
                 return equivalente;
-            }else if(depto=='Insulpanel'){
+            }else if(depto=='Insulpanel'){ //checar
                 let equivalente=[];
-                let len = equipo.length;
+                let len = sumatoria_asistencia.length;
     
                 for(var i =0; i< len; i++){
-                    if(equipo[i].asistencia > 0){
-                        var total = equipo[i].asistencia;
-                        equivalente.push(total);
-                    }else{
+                    if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
+                        equivalente.push(total);
                     }
                 }
                 
@@ -226,7 +176,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -240,7 +190,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -257,22 +207,22 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
                 
                 return equivalente;
-             }else if(depto=='Insulpanel'){
+             }else if(depto=='Insulpanel'){ // checar
                 let equivalente=[];
-                let len = equipo.length;
+                let len = sumatoria_asistencia.length;
     
                 for(var i =0; i< len; i++){
-                    if(equipo[i].asistencia > 0){
-                        var total = equipo[i].asistencia;
-                        equivalente.push(total);
-                    }else{
+                    if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
+                    }else{
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
+                        equivalente.push(total);
                     }
                 }
                 
@@ -287,7 +237,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -303,7 +253,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -319,7 +269,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -335,7 +285,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -349,7 +299,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i]  * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno) ;
+                        var total = (sumatoria_asistencia[i]  * equipo[i].factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno) ;
                         equivalente.push(total);
                     }
                 }
@@ -365,7 +315,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -379,7 +329,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i]   * factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno);
+                        var total = (sumatoria_asistencia[i]   * equipo[i].factor_dias_laborados)  + ((equipo[i].horas_extras*2)/horas_por_turno);
                         equivalente.push(total);
                     }
                 }
@@ -395,7 +345,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -411,7 +361,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -427,7 +377,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -441,7 +391,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = (sumatoria_asistencia[i] * factor_dias_laborados)   + ((equipo[i].horas_extras*2)/12);
+                        var total = (sumatoria_asistencia[i] * equipo[i].factor_dias_laborados)   + ((equipo[i].horas_extras*2)/12);
                         equivalente.push(total);
                     }
                 }
@@ -457,7 +407,7 @@ export default class Attendance {
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
                     }else{
-                        var total = sumatoria_asistencia[i] * factor_dias_laborados;
+                        var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
                         equivalente.push(total);
                     }
                 }
@@ -465,10 +415,19 @@ export default class Attendance {
                 return equivalente;
              }
         }else{
+            let equivalente=[];
+            let len = sumatoria_asistencia.length;
 
-            let equivalecia_asistencia;
-            equivalecia_asistencia = sumatoria_asistencia[0] * factor_dias_laborados;
-            return equivalecia_asistencia;
+            for(var i =0; i< len; i++){
+                if(sumatoria_asistencia[i]==0){
+                    equivalente.push(0);
+                }else{
+                    var total = sumatoria_asistencia[i] * equipo[i].factor_dias_laborados;
+                    equivalente.push(total);
+                }
+            }
+            
+            return equivalente;
             
         }
 
@@ -490,7 +449,7 @@ export default class Attendance {
         return retardos_totales;
     }
 
-    colaboradores_por_dia(equipo, factor_dias_laborados){
+    colaboradores_por_dia(equipo){
         let len = equipo.length;
         let asistencia_total = [];
         let total_lunes=0;
@@ -512,13 +471,13 @@ export default class Attendance {
         }
     
        
-        total_lunes = total_lunes //* factor_dias_laborados;
-        total_martes = total_martes //* factor_dias_laborados;
-        total_miercoles = total_miercoles //* factor_dias_laborados;
-        total_jueves  = total_jueves //* factor_dias_laborados;
-        total_viernes = total_viernes //* factor_dias_laborados;
-        total_sabado = total_sabado //* factor_dias_laborados;
-        total_domingo = total_domingo //* factor_dias_laborados;
+        total_lunes = total_lunes;
+        total_martes = total_martes ;
+        total_miercoles = total_miercoles ;
+        total_jueves  = total_jueves ;
+        total_viernes = total_viernes ;
+        total_sabado = total_sabado;
+        total_domingo = total_domingo;
         
     
         asistencia_total.push(total_lunes);
@@ -544,10 +503,54 @@ export default class Attendance {
       
         return colaboradores;
      }
+
+
+    /**
+     * Retorna un arreglo de las asistencias totales * factor, por cada dia de la semana
+     */
     
-     asistencia_total(equipo, factor_dias_laborados){
-        let colaboradores = this.colaboradores_por_dia(equipo, factor_dias_laborados);
-        let total = (colaboradores.lunes * factor_dias_laborados) + (colaboradores.martes*factor_dias_laborados) + (colaboradores.miercoles*factor_dias_laborados) + (colaboradores.jueves*factor_dias_laborados) + (colaboradores.viernes*factor_dias_laborados) + (colaboradores.sabado*factor_dias_laborados) + (colaboradores.domingo*factor_dias_laborados)
+  asistenciasTotalesPorDia(equipo){
+    let len = equipo.length;
+    let asistencia_total = [];
+    let total_lunes=0;
+    let total_martes=0;
+    let total_miercoles=0;
+    let total_jueves=0;
+    let total_viernes=0;
+    let total_sabado=0;
+    let total_domingo=0;
+   
+    for (var i = 0; i <len; ++i) {
+         total_lunes = total_lunes + (equipo[i].asistencia.lunes  * equipo[i].factor_dias_laborados);
+         total_martes = total_martes+ (equipo[i].asistencia.martes  * equipo[i].factor_dias_laborados);
+         total_miercoles = total_miercoles + (equipo[i].asistencia.miercoles  * equipo[i].factor_dias_laborados);
+         total_jueves  = total_jueves + (equipo[i].asistencia.jueves * equipo[i].factor_dias_laborados);
+         total_viernes  = total_viernes + (equipo[i].asistencia.viernes * equipo[i].factor_dias_laborados);
+         total_sabado  = total_sabado + (equipo[i].asistencia.sabado * equipo[i].factor_dias_laborados);
+        // total_domingo  = total_domingo + (equipo[i].asistencia.domingo * equipo[i].factor_dias_laborados);
+    }
+
+    asistencia_total.push(total_lunes);
+    asistencia_total.push(total_martes);
+    asistencia_total.push(total_miercoles);
+    asistencia_total.push(total_jueves);
+    asistencia_total.push(total_viernes);
+    asistencia_total.push(total_sabado);
+   // asistencia_total.push(total_domingo);
+
+  
+    return asistencia_total;
+ }
+
+    
+     asistencia_total(equipo){
+        let asistenciasPorDia = this.asistenciasTotalesPorDia(equipo);
+        let total =0;
+
+        for(var i =0; i<asistenciasPorDia.length; i++){
+            total = total + asistenciasPorDia[i];
+        }
+
         return total;
     }
 

@@ -767,13 +767,7 @@ class MainCalcs {
         return pago;
     }
 
-     /**
-      * Retorna el total de pago por tiempo extra, realizando la sumatoria
-      * de las horas y multiplicandola por el factor de dias laborados
-      * @param {array  con las horas extra por dia} tiempo_extra 
-      * @param {factor de dias laborados} factor_dias_laborados 
-      * @param {numero de dias laborados en la semana} dias 
-      */
+     
     pago_TiempoExtra(tiempo_extra, factor_dias_laborados, dias){
         let calc = new Attendance(equipo, this.factor_dias_laborados, this.city, dias, this.depto, this.horas_por_turno);
         let totalTiempoExtra;
@@ -811,13 +805,13 @@ class MainCalcs {
             pagoTotal = sumatoriaPagoColaboradores;
 
         }else{ //depto corte
-            let pagoTiempoExtra = this.pago_TiempoExtra(this.tiempo_extra,this.factor_dias_laborados, this.dias);
+           // let pagoTiempoExtra = this.pago_TiempoExtra(this.tiempo_extra,this.factor_dias_laborados, this.dias);
 
             for(var i=0; i<pagoPorColaborador.length; i++){
                 sumatoriaPagoColaboradores = sumatoriaPagoColaboradores + pagoPorColaborador[i];
             }
     
-            pagoTotal = pagoTiempoExtra + sumatoriaPagoColaboradores;
+            pagoTotal =  sumatoriaPagoColaboradores //+ pagoTiempoExtra ;
         }
 
     
@@ -887,20 +881,7 @@ class MainCalcs {
         let pago = this.pago_total(depto,dias);
         let penalizacion_falta_retardos;
 
-        if(city == 'Nogales' && depto =='Corte'){
-           
-                for(var i=0; i<pago.length; i++){
-                    penalizacion_falta_retardos = this.penalizacion_falta_retardos(faltas[i], retardos[i], pago[i]);
-                    if(penalizacion_falta_retardos >0){
-                        let total = (pago[i] - penalizacion_falta_retardos);
-                        bonototal.push(total);
-                    }else{
-                        bonototal.push(pago[i]);
-                    }
-                }
-            
-            
-        }else if( depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen'  || depto=='Almacen Const'  || depto=='Almacen CEDI' || depto=='Almacen Playa' || depto =='Choferes'  || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel'  || depto=='Empaque Perla'){
+        if( depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen'  || depto=='Almacen Const'  || depto=='Almacen CEDI' || depto=='Almacen Playa' || depto =='Choferes'  || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel'  || depto=='Empaque Perla'){
             for(var i=0; i<pago.length; i++){
                 penalizacion_falta_retardos = this.penalizacion_falta_retardos(faltas[i], retardos[i], pago[i]);
                 if(penalizacion_falta_retardos >0){
@@ -930,16 +911,7 @@ class MainCalcs {
         
         let pagoTotal;
 
-        if(city == 'Nogales' && depto == 'Corte'){
-            
-                let pagoTiempoExtra = this.pago_TiempoExtra(this.tiempo_extra,this.factor_dias_laborados, this.dias);
-                for(var i=0; i<bonoPorColaborador.length; i++){
-                    sumatoriaBonoColaboradores = sumatoriaBonoColaboradores + bonoPorColaborador[i];
-                }
-    
-                pagoTotal = pagoTiempoExtra + sumatoriaBonoColaboradores;
-            
-         }else if(depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen Const'  || depto=='Almacen Playa' || depto=='Almacen CEDI' || depto =='Choferes'  || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel' || depto=='Empaque Perla'){
+        if(depto=='Mantenimiento Edificios' || depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen' || depto=='Almacen Const'  || depto=='Almacen Playa' || depto=='Almacen CEDI' || depto =='Choferes'  || depto =='Choferes Locales'  ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel' || depto=='Empaque Perla'){
             for(var i=0; i<bonoPorColaborador.length; i++){
                 sumatoriaBonoColaboradores = sumatoriaBonoColaboradores + bonoPorColaborador[i];
             }
