@@ -77,7 +77,7 @@ class AlmacenRepository {
     async extraData(){
         let response;
         let pool;
-        const queryString = "SELECT TOP(1) u.CB_CODIGO as userid, u.CB_NIVEL5 as planta, n.TB_ELEMENT AS depto, t.[TU_CODIGO] as turno, t.[TU_DIAS] as dias, t.[TU_VACA_HA] as factor FROM APP_TURNO t JOIN APP_COLABORA u ON u.CB_TURNO = t.TU_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE u.CB_NIVEL5 = 'CUN' AND n.TB_ELEMENT = 'Almacén Variable'";
+        const queryString = "SELECT u.CB_CODIGO as userid, u.CB_NIVEL5 as planta, n.TB_ELEMENT AS depto, t.[TU_CODIGO] as turno, t.[TU_DIAS] as dias, t.[TU_VACA_HA] as factor FROM APP_TURNO t JOIN APP_COLABORA u ON u.CB_TURNO = t.TU_CODIGO JOIN APP_NIVEL2 n ON u.CB_NIVEL2 = n.TB_CODIGO WHERE u.CB_NIVEL5 = 'CUN' AND n.TB_ELEMENT = 'Almacén Variable'";
 
         try {
             pool = await prodPoolPromise
