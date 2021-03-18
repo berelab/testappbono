@@ -16,13 +16,13 @@ const controller = {
         let equipo = cd.convert;
 
 		return res.status(200).send({
-            message: corte.message, 
-            city: corte.city,           
-            dias: corte.dias, 
-            factor_dias_laborados: corte.factor_dias_laborados,  
+            message: mantenimiento.message, 
+            city: mantenimiento.city,           
+            dias: mantenimiento.dias, 
+            factor_dias_laborados: mantenimiento.factor_dias_laborados,  
             areas: mantenimiento.areas, 
             montos_recibidos_area: mantenimiento.montos_recibidos_area, 
-            asistencia: corte.team_asis,
+            asistencia: mantenimiento.team_asis,
             equipo_convertido: equipo,                
         });
     },
