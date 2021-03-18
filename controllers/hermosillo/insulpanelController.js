@@ -102,7 +102,7 @@ const controller = {
                     $_extra_m3: insulpanel.$_extra_m3,       
                     progress: progress, 
                     m3_persona: m3_persona,
-                    bono_depto: bono_total,
+                    bono_depto: bono_total[i],
                     pago_persona: bonoXdiasLaborados[i],
                     bono_persona: bonoXpenalizacion[i],
                     bono_productividad: bono_productividad,
