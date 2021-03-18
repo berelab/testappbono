@@ -69,6 +69,7 @@ class AlmacenModels {
             let asis;
         
             !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
+            console.log({'reorder data asis':element})
         
             return {
                 code: element.userid,

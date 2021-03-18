@@ -45,7 +45,7 @@ class AlmacenModel {
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             error_de_carga:0,
-            horas_por_turno: 1,       
+            horas_por_turno: 0,       
             m3_cortados: {
                 lunes: 568.6,
                 martes: 568.6,
