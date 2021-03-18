@@ -68,7 +68,7 @@ class AlmacenModels {
             var d = new Date(dateString);
             var dayName = days[d.getDay()];
             let asis;
-            let retardo;
+            let retardo = 0;
             let limit = element.entrada + 10;
         
             !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
