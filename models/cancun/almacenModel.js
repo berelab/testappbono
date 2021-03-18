@@ -36,7 +36,6 @@ class AlmacenModels {
     }
 
     _convertData(response, team, entries, extra) {
-        console.log(entries.retardos);
         return {
             message: 'Almacen',
             city: 'Cancun',
@@ -72,7 +71,7 @@ class AlmacenModels {
             let limit = element.entrada + 10;
         
             !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
-            element.entrada_real >= limit ? retardo = 0 : retardo = 1;
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
 
             return {
                 code: element.userid,

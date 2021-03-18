@@ -66,28 +66,38 @@ class CorteModel {
             var d = new Date(dateString);
             var dayName = days[d.getDay()];
             let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
-            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';
-        
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
             return {
                 code: element.userid,
                 asistencia: {
                   [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
                 }
             };
         });
         
         let seen = {};
         let result = orderedData.filter(function(entry) {
-            var previous;
+            let previous;
             if (seen.hasOwnProperty(entry.code)) {
-                previous = seen[entry.code];
+                previous = seen[entry.code];                
                 previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
                 return false;
             }
             if (!Array.isArray(entry.asistencia)) {
                 entry.asistencia = [entry.asistencia];
             }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
             seen[entry.code] = entry;
             return true;
         });
