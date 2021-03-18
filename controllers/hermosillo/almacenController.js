@@ -40,6 +40,9 @@ const controller = {
         let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
+        console.log({'almacen controller colab': colaboradores});
+        console.log({'almacen controller asistencia': asistencia_total});
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
@@ -66,6 +69,9 @@ const controller = {
             almacen.horas_por_turno,
             almacen.error_de_carga
         );
+        console.log({'almacen controller dias ': almacen.dias});
+        console.log({'almacen controller m3': almacen.m3_cortados});
+
 
         let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
