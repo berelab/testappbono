@@ -44,7 +44,14 @@ class InsulpanelModel {
             $_extra_m3: response.extra,            
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
-            m2_producidos: 0,
+            m2_producidos: {
+                lunes: 160,
+                martes: 160,
+                miercoles: 160,
+                jueves: 160,
+                viernes: 160,
+                sabado: 0.00
+            },
             retardos_entrega:0,
             falla_calidad:0,
             limpieza:0,
