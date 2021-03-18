@@ -91,16 +91,19 @@ class AlmacenModels {
             let previous;
             if (seen.hasOwnProperty(entry.code)) {
                 previous = seen[entry.code];
-                console.log({'previous':previous});
+                
                 previous.asistencia.push(entry.asistencia);
-                // previous.retardos.push(entry.retardos);
+                previous.retardos.push(entry.retardos);
                 return false;
             }
-            console.log({'condicion asis': !Array.isArray(entry.asistencia)})
-            console.log({'condicion ret': !Array.isArray(entry.retardos)})
+
             if (!Array.isArray(entry.asistencia)) {
                 entry.asistencia = [entry.asistencia];
             }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            console.log({'entry': entry});
             seen[entry.code] = entry;
             return true;
         });
