@@ -53,7 +53,7 @@ const controller = {
             null, 
             null, 
             null, 
-            null,
+            insulpanel.factor_dias_laborados,
             insulpanel.message,
             insulpanel.city,
             insulpanel.retardos_entrega,
