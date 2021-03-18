@@ -96,8 +96,9 @@ class AlmacenModels {
                 // previous.retardos.push(entry.retardos);
                 return false;
             }
+            console.log({'condicion asis': !Array.isArray(entry.asistencia)})
+            console.log({'condicion ret': !Array.isArray(entry.retardos)})
             if (!Array.isArray(entry.asistencia)) {
-                console.log({'entry asistencia': [entry.asistencia]});
                 entry.asistencia = [entry.asistencia];
             }
             seen[entry.code] = entry;
