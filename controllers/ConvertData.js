@@ -18,7 +18,7 @@ class FormatData {
     _convert(equipo, asistencia){
       let  equipoResult = []
       let  persona = {} //molde
-      let asistenciaConvert= this._asistenciaConvert(asistencia);
+      let asistenciaConvert= this._asistenciaConvert(asistencia);  
       let equipoConvert = this._equipoConvert(equipo);
       let dias = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo']
      
@@ -48,6 +48,7 @@ class FormatData {
 
                 if(encontrado!='no'){ //encontro la asistencia del colaborador 
                     equipoConvert[i].asistencia = asistenciaConvert[encontrado].asistencia //asigno las asistencias 
+                    equipoConvert[i].retardos = asistenciaConvert[encontrado].retardos
                     equipoResult.push(equipoConvert[i]);
                 }else{
                     equipoResult.push(equipoConvert[i]);
@@ -68,6 +69,7 @@ class FormatData {
 
               if(encontrado!='no'){ //encontro la asistencia del colaborador 
                   equipoConvert[encontrado].asistencia = asistenciaConvert[i].asistencia //asigno las asistencias 
+                  equipoConvert[encontrado].retardos = asistenciaConvert[i].retardos
                   equipoResult.push(equipoConvert[encontrado]);
               }else{
                   equipoResult.push(asistenciaConvert[i]);
@@ -114,60 +116,84 @@ class FormatData {
                   // Asignamos las asistencias
                     let indice_lunes=indices_dias[0]; // obtenemos la pocision de cada dia  
                     let lunes;
+                    let lunesR;
                     if(indice_lunes=='no encontrado'){ //si no se encontro el dia
                         lunes =0;
+                        lunesR = 0;
                     }else{  //si fue encontrado 
-                      lunes = parseFloat(asistencia[a].asistencia[indice_lunes].lunes);
+                      lunes = parseFloat(asistencia[a].asistencia[indice_lunes].lunes);  
+                      lunesR =  parseFloat(asistencia[a].retardos[indice_lunes].lunes);           
                     }
                           
                     let indice_martes=indices_dias[1];
                     let martes;
+                    let martesR;
                     if(indice_martes=='no encontrado'){
                         martes =0;
+                        martesR = 0;
                     }else{
                       martes = parseFloat(asistencia[a].asistencia[indice_martes].martes);
+                      martesR =  parseFloat(asistencia[a].retardos[indice_martes].martes);     
+                     // console.log({'parse float': asistencia[a].retardos});
                     }
 
                     let indice_miercoles=indices_dias[2];
                     let miercoles;
+                    let miercolesR;
                     if(indice_miercoles=='no encontrado'){
                         miercoles =0;
+                        miercolesR = 0;
                     }else{
                       miercoles = parseFloat(asistencia[a].asistencia[indice_miercoles].miercoles);
+                      miercolesR =  parseFloat(asistencia[a].retardos[indice_miercoles].miercoles);   
                     }
 
                     let indice_jueves=indices_dias[3];
                     let jueves;
+                    let juevesR;
                     if(indice_jueves=='no encontrado'){
                         jueves =0;
+                        juevesR = 0;
                     }else{
                       jueves = parseFloat(asistencia[a].asistencia[indice_jueves].jueves);
+                      juevesR =  parseFloat(asistencia[a].retardos[indice_jueves].jueves);  
                     }
 
                     let indice_viernes=indices_dias[4];
                     let viernes;
+                    let viernesR;
                     if(indice_viernes=='no encontrado'){
                         viernes =0;
+                        viernesR = 0;
                     }else{
                       viernes = parseFloat(asistencia[a].asistencia[indice_viernes].viernes);
+                      viernesR =  parseFloat(asistencia[a].retardos[indice_viernes].viernes);  
                     }
 
                     let indice_sabado=indices_dias[5];
                     let sabado;
+                    let sabadoR;
                     if(indice_sabado=='no encontrado'){
                         sabado =0;
+                        sabadoR = 0;
                     }else{
                       sabado = parseFloat(asistencia[a].asistencia[indice_sabado].sabado);
+                      sabadoR =  parseFloat(asistencia[a].retardos[indice_sabado].sabado); 
                     }
 
                     let indice_domingo=indices_dias[6];
                     let domingo;
+                    let domingoR
                     if(indice_domingo=='no encontrado'){
                         domingo =0;
+                        domingoR = 0;
                     }else{
                       domingo = parseFloat(asistencia[a].asistencia[indice_domingo].domingo);
+                      domingoR =  parseFloat(asistencia[a].retardos[indice_domingo].domingo); 
                     }
-                  
+                    
+                    let retardos = lunesR + martesR + miercolesR + juevesR + viernesR + sabadoR + domingoR;
+
                   // llenar el objeto persona.
                     persona ={
                       nombre: '',
@@ -182,7 +208,7 @@ class FormatData {
                           domingo:domingo
                       },
                       faltas : 0,
-                      retardos: 0,
+                      retardos: retardos,
                       horas_extras: 0
                     }
 
