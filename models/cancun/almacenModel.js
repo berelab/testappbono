@@ -84,7 +84,9 @@ class AlmacenModels {
                 asistencia: {
                   [dayName]: asis
                 },
-                retardos: retardo
+                retardos: {
+                    [dayName] : retardo
+                }
             };
         });
         
