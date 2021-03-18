@@ -1,65 +1,73 @@
 'use strict'
 
-import {message, city, base0, auditoria_sol, dias, rechazo_interno,amp,  factor_dias_laborados, horas_por_turno,asistencia_total,$_extra_m2, m2_cortados, colaboradores, equipo} from '../../models/hermosillo/steelfoamModel';
+import steelfoamModel from '../../models/hermosillo/steelfoamModel';
+import steelfoamSQL from '../../infrastructure/hermosillo/steelfoamRepo';
 import mainCalcs from '../MainCalcs';
-
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
 	
-	home: (req, res) => {
+	home: async(req, res) => {
+        const repository = new steelfoamSQL();
+        const model = new steelfoamModel(repository);
+        let steelfoam = await model.execute(); 
+        const cd =  new convertData(steelfoam.equipo, steelfoam.team_asis);
+        let equipo = cd.convert;
+
 		return res.status(200).send({
-            message, 
-            city, 
-            base0, 
-            auditoria_sol, 
-            dias, 
-            rechazo_interno,
-            amp,  
-            factor_dias_laborados, 
-            horas_por_turno,
-            asistencia_total,
-            $_extra_m2, 
-            m2_cortados, 
-            colaboradores, equipo
+            message: moldeo.message, 
+            city: moldeo.city, 
+            base0: moldeo.base0, 
+            dias_sucios: moldeo.dias_sucios, 
+            $_extra_m2: moldeo.$_extra_m2, 
+            dias: moldeo.dias, 
+            factor_dias_laborados: moldeo.factor_dias_laborados,  
+            amp: moldeo.amp,           
+            m2_cortados: moldeo.m3_cortados, 
+            asistencia: moldeo.team_asis,
+            equipo_convertido: equipo,  
         });
     },
- 
-     
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
+        const repository = new steelfoamSQL();
+        const model = new steelfoamModel(repository);
+        let steelfoam = await model.execute(); 
+        const cd =  new convertData(steelfoam.equipo, steelfoam.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att(equipo, steelfoam.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
-        
-        
 
         const calc = new mainCalcs(
-            dias, 
-            m2_cortados, 
+            steelfoam.dias, 
+            steelfoam.m2_cortados, 
             colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
-            base0, 
-            $_extra_m2, 
-            auditoria_sol, 
-            factor_dias_laborados,
-            message,
-            city,
-            amp,
+            steelfoam.base0, 
+            steelfoam.$_extra_m2, 
+            steelfoam.dias_sucios, 
+            steelfoam.factor_dias_laborados,
+            steelfoam.message,
+            steelfoam.city,
+            steelfoam.amp,
             null,
             null,
             null,
             null,
-            horas_por_turno,
+            steelfoam.horas_por_turno,
             null,
-            rechazo_interno
+            steelfoam.rechazo_interno
         );
 
-        
-        
-        
         let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
         let progress = calc.progress_bar;  
@@ -69,78 +77,84 @@ const controller = {
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-        
-        if(req.params.index){
-            let i = parseInt(req.params.index); 
+        let bono_productividad = calc.bonoProductividad; 
+        let bono_metas = calc.pc_metas; 
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
-            }
+        if(req.params.index){
+            let codigo = parseInt(req.params.index); 
 
             let len = equipo.length;
-           
+            let i = 'no encontrado';
 
-            if(i < 0 || i >= len ){
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
+            }
+            
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: steelfoam.message,
                     day: weekdayName,
-                    meta_semana: base0,
-                    dias_laborados: dias,       
+                    meta_semana: steelfoam.base0,
+                    dias_laborados: steelfoam.dias, 
+                    $_extra_m3: steelfoam.$_extra_m2,       
                     progress: progress,
-                    m3_persona: m3cortados_persona ,
-                    bono_depto: percepcion_total,
-                    pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i],
-                    $_extra_m3: $_extra_m2,     
-                    asistencia: sumatoria_asistencia[i],
+                    m3_persona: m3cortados_persona,
+                    bono_depto: percepcion_total,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-
+                    }, 
                 });
- 
             }
         }else{
             return res.status(200).send({
-               
-                depto: message,
+                depto: steelfoam.message,
                 day: weekdayName,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra_m2,            
+                meta_semana: steelfoam.base0,
+                dias_laborados: steelfoam.dias,
+                $_extra_m3: steelfoam.$_extra_m2,
                 progress: progress,
                 m3_persona: m3cortados_persona,
                 bono_depto: percepcion_total,
-                pago_persona: pago_colaboradores,
-                pago_total:pago_total,
-                bono_persona:bono_total_colaborador,
-                bono_total: bono_total,
+                pago_persona:pago_colaboradores, 
+                pago_total: pago_total, 
+                bono_persona: bono_total_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia,
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                asistencia: sumatoria_asistencia, 
-                equipo
-                
+                }
             });
-        }
+        }        
+    },
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
+        
+        const repository = new steelfoamSQL();
+        const model = new steelfoamModel(repository);     
+        let steelfoam = await model.refresh(base, dias_sucios, extra_m3); 
 
-       
+        return res.status(200).send({
+            message : 'OK',
+            steelfoam
+        });  
     }
- 
-    
 
 };
 

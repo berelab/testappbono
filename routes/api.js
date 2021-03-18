@@ -352,17 +352,20 @@ router.get('/hermosillo/bloquera', bloqueraHermosillo.home);
 router.get('/hermosillo/bloquera/calculator/', bloqueraHermosillo.calculator);
 router.get('/hermosillo/bloquera/calculator/:index', bloqueraHermosillo.calculator);
 
+router.put('/hermosillo/admin/corte', corteHermosillo.editInfo);
 router.get('/hermosillo/corte',  corteHermosillo.home);
 router.get('/hermosillo/corte/calculator/', corteHermosillo.calculator);
 router.get('/hermosillo/corte/calculator/:index',  corteHermosillo.calculator);
 
+router.put('/hermosillo/admin/steelfoam', steelfoamHermosillo.editInfo);
 router.get('/hermosillo/steelfoam',  steelfoamHermosillo.home);
 router.get('/hermosillo/steelfoam/calculator/',  steelfoamHermosillo.calculator);
 router.get('/hermosillo/steelfoam/calculator/:index',  steelfoamHermosillo.calculator);
 
-router.get('/hermosillo/choferes',  choferesHermosillo.home);
-router.get('/hermosillo/choferes/calculator/',  choferesHermosillo.calculator);
-router.get('/hermosillo/choferes/calculator/:index',  choferesHermosillo.calculator);
+router.put('/hermosillo/admin/choferlocal', choferesHermosillo.editInfo);
+router.get('/hermosillo/choferlocal',  choferesHermosillo.home);
+router.get('/hermosillo/choferlocal/calculator/',  choferesHermosillo.calculator);
+router.get('/hermosillo/choferlocal/calculator/:index',  choferesHermosillo.calculator);
 
 router.get('/hermosillo/mantenimiento', mantenimientoHermosillo.home);
 router.get('/hermosillo/mantenimiento/calculator/', mantenimientoHermosillo.calculator);
@@ -373,6 +376,7 @@ router.get('/hermosillo/almacen', almacenoHermosillo.home);
 router.get('/hermosillo/almacen/calculator', almacenoHermosillo.calculator);
 router.get('/hermosillo/almacen/calculator/:index', almacenoHermosillo.calculator);
 
+router.put('/hermosillo/admin/moldeo', moldeoHermosillo.editInfo);
 router.get('/hermosillo/moldeo', moldeoHermosillo.home);
 router.get('/hermosillo/moldeo/calculator/', moldeoHermosillo.calculator);
 router.get('/hermosillo/moldeo/calculator/:index', moldeoHermosillo.calculator);

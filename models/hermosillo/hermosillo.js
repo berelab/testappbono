@@ -8,7 +8,26 @@ const HermosilloData = {
             },
             {
                 nombre: 'Bloquera',
-            }
+            },
+            {
+                nombre: 'Chofer Local',
+            },
+            {
+                nombre: 'Corte',
+            },
+            {
+                nombre: 'Insulpanel',
+            },
+            {
+                nombre: 'Mantenimiento',
+            },
+            {
+                nombre: 'Moldeo',
+            },
+            {
+                nombre: 'Steelfoam',
+            },
+
         ]
 };
 

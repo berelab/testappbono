@@ -65,11 +65,10 @@ const controller = {
             
         let daily_prod = calc.dailyProd;
         let progress = calc.progress_bar;       
-        let m3_persona = calc.m3Persona;
-        
+        let m3_persona = calc.m3Persona;        
         let sumatoria_asistencia = calc.totalAsistencia;
 
-        let bono_total = calc.bonoTotalColaborador;
+        //let bono_total = calc.bonoTotalColaborador;
         let bonoXdiasLaborados = calc.pagoTotal;
         let TotalbonoXdiasLaborados  = calc.pagoTotalSinPenalizacion;
         let bonoXpenalizacion= calc.bonoTotalConPenalizacionPorColaborador;
