@@ -50,10 +50,10 @@ class Corte {
             horas_extra_triples: 0,
             asistencia: 4.20,
             m3_cortados: {
-                lunes: 103.68,
-                martes: 103.68,
+                lunes: 303.68,
+                martes: 303.68,
                 miercoles: 0,
-                jueves: 103.68,
+                jueves: 303.68,
                 viernes: 0,
                 sabado: 0
             },

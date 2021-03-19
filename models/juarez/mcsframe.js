@@ -49,11 +49,11 @@ class Mcsframe {
             horas_extra_triples: 0,
             asistencia: 30,
             m3_cortados: {
-                lunes: 1.55,
-                martes: 1.55,
-                miercoles: 1.55,
-                jueves: 1.55,
-                viernes: 1.55,
+                lunes: 20.55,
+                martes: 20.55,
+                miercoles: 20.55,
+                jueves: 20.55,
+                viernes: 20.55,
                 sabado: 0.00
             },
             equipo: team,
