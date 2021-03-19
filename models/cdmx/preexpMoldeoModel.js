@@ -69,6 +69,8 @@ class BloqueraModel {
                 {
                     nombre: 'ANTONIO ALBERTO TOMAS',
                     num: 200648,
+                    factor_dias_laborados: 1.2,
+                    dias: 5,
                     asistencia: {
                         lunes: 0,
                         martes: 1,
@@ -83,6 +85,8 @@ class BloqueraModel {
                 {
                     nombre: 'ERNESTO HERNANDEZ ROMERO',
                     num: 200648,
+                    factor_dias_laborados: 1.2,
+                    dias: 5,
                     asistencia: {
                         lunes: 0,
                         martes: 1,
@@ -97,6 +101,8 @@ class BloqueraModel {
                 {
                     nombre: 'LUIS ANGEL LOPEZ CHAVEZ',
                     num: 200648,
+                    factor_dias_laborados: 1.2,
+                    dias: 5,
                     asistencia: {
                         lunes: 0,
                         martes: 1,
