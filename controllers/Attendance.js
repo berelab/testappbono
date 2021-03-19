@@ -73,9 +73,8 @@ export default class Attendance {
 
 
      equivalencia_asistencia(equipo, city, depto, horas_por_turno){
-       
-        let sumatoria_asistencia = this.asistencia(equipo, city, depto );
-
+        horas_por_turno = 1;        
+        let sumatoria_asistencia = this.asistencia(equipo, city, depto );        
         if(city == 'Nogales'){
             let equivalente=[];
             let len = sumatoria_asistencia.length;
@@ -130,12 +129,11 @@ export default class Attendance {
                 for(var i =0; i< len; i++){
                     if(sumatoria_asistencia[i]==0){
                         equivalente.push(0);
-                    }else{
+                    }else{                        
                         var total =  (sumatoria_asistencia[i] * equipo[i].factor_dias_laborados)+ ((equipo[i].horas_extras*2)/horas_por_turno);
                         equivalente.push(total);
                     }
                 }
-
                 return equivalente;
             }else if(depto=='Choferes'  || depto=='Mantenimiento' || depto =='RotuladoT1'){
                 let equivalente=[];
