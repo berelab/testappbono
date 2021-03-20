@@ -30,6 +30,8 @@ class userModel {
             let pass = response.response.recordset[i].CB_CODIGO;
             let city = response.response.recordset[i].CB_NIVEL5;
             let depto = response.response.recordset[i].TB_ELEMENT;
+            
+            let clncity = city.replace(/\s+/g, ''); //limpiar espacios en blanco
             let clnrole = role.replace(/\s+/g, '');
     
            let user = {
@@ -39,7 +41,7 @@ class userModel {
                 email: email ,
                 password: pass,
                 role: clnrole, 
-                city: city,
+                city: clncity,
                 depto: depto    
             }
 
