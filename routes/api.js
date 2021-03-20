@@ -3,8 +3,8 @@
 import express from 'express';
 const router = express.Router();
 
-// Admins
-import admin from '../controllers/admin/adminController';
+// users
+import users from '../controllers/users/usersController';
 
 //LA PAZ
 import lapaz from '../controllers/lapaz/lapaz';
@@ -189,9 +189,9 @@ import choferesLocalesCuliacan  from '../controllers/culiacan/choferesLocalesCon
 import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
 import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
 
-// Admin
-router.post('/test', admin.home);
-router.post('/login', admin.login);
+// users
+router.post('/test', users.home);
+router.post('/login', users.login);
 
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ

@@ -1,6 +1,6 @@
 'use strict'
 
-class adminModel {
+class userModel {
     constructor(repository){
         this.repository = repository;
     }
@@ -19,35 +19,39 @@ class adminModel {
     }
     
     _convertData(response) {
-        let admins = []
+        let users = []
         let len =response.response.recordset.length;
 
         for(var i =0; i<len; i++){
             let role =  response.response.recordset[i].CB_PUESTO;
             let name = response.response.recordset[i].CB_NOMBRES  + ' ' + response.response.recordset[i].CB_APE_PAT  + ' ' +  response.response.recordset[i].CB_APE_MAT; 
             let userID = response.response.recordset[i].CB_CODIGO;
-            let email = response.response.recordset[i].CB_E_MAIL;
+            let email = response.response.recordset[i].CB_G_TEX_4;
             let pass = response.response.recordset[i].CB_CODIGO;
+            let city = response.response.recordset[i].CB_NIVEL5;
+            let depto = response.response.recordset[i].TB_ELEMENT;
             let clnrole = role.replace(/\s+/g, '');
     
-           let admin = {
+           let user = {
                 id: userID,
                 name: name,
                 num: userID,
                 email: email ,
                 password: pass,
-                role: clnrole,     
+                role: clnrole, 
+                city: city,
+                depto: depto    
             }
 
-            admins.push(admin)
+            users.push(user)
         }
 
        
        
-        return  admins
+        return users
     }
 
    
 };
 
-module.exports = adminModel;
+module.exports = userModel;
