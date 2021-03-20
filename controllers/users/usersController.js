@@ -61,6 +61,11 @@ const controller = {
                 
                 //Generar token de jwt y devolverlo
                 //Devolver 
+                return res.status(200).send({
+                    status: 'success',
+                    token: jwt.createToken(users[index])
+                });
+                /*
                 if (params.gettoken) {
                     return res.status(200).send({
                         status: 'success',
@@ -72,7 +77,7 @@ const controller = {
                         user: users[index]
                     });
                 }    
-                
+                */
 
            }else{
             return res.status(404).send({
