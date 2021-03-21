@@ -13,6 +13,18 @@ const controller = {
         const modelUsr = new usersModel(repository);
     
         let  users = await modelUsr.execute(); 
+        let  pruebas =    {
+            id: 200123,
+            name: 'Admin de pruebas',
+            num: 200123,
+            email: 'admin@admin.com' ,
+            password: '123',
+            role: '230', 
+            city: 'SC',
+            depto: 'TEST'    
+        }
+
+        users.push(pruebas);
     
 		return res.status(200).send({
             message: 'Metodo de pruebas.',
@@ -28,6 +40,18 @@ const controller = {
         const modelUsr = new usersModel(repository);
     
         let  users = await modelUsr.execute(); 
+        let  pruebas =    {
+            id: 200123,
+            name: 'Admin de pruebas',
+            num: 200123,
+            email: 'admin@admin.com' ,
+            password: '123',
+            role: '230', 
+            city: 'SC',
+            depto: 'TEST'    
+        }
+
+        users.push(pruebas);
 
         //recoger parametros 
         var params = req.body;
