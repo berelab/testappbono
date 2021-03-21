@@ -190,7 +190,7 @@ import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
 import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
 
 // users
-router.post('/test', users.home);
+router.get('/test', users.home);
 router.post('/login', users.login);
 
 //------------------------------------------------------------------------------------------------------------

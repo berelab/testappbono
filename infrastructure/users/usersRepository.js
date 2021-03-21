@@ -8,25 +8,24 @@ class usersRepository {
         let response; 
         let pool;
         const queryString = `SELECT 
-        [APP_COLABORA].[CB_NOMBRES], 
-        [APP_COLABORA].[CB_APE_PAT],
-        [APP_COLABORA].[CB_APE_MAT],
-        [APP_COLABORA].[CB_CODIGO],
-        [APP_COLABORA].[CB_PUESTO],
-        [APP_COLABORA].[CB_G_TEX_4],
-        [APP_COLABORA].[CB_ACTIVO],
-        [APP_NIVEL2].[TB_ELEMENT],
-        [APP_COLABORA].[CB_NIVEL2],
-        [APP_COLABORA].[CB_NIVEL5]
-
-        FROM [APP_COLABORA]
+        COLABORADOR.CB_NOMBRES AS nombre, 
+        COLABORADOR.CB_APE_PAT AS a_paterno, 
+        COLABORADOR.CB_APE_MAT AS a_materno, 
+        COLABORADOR.CB_CODIGO AS codigo, 
+        COLABORADOR.CB_PUESTO AS puesto,
+        COLABORADOR.CB_E_MAIL AS email,
+        APP_NIVEL2.TB_ELEMENT AS depto,
+        COLABORADOR.CB_NIVEL5 AS planta,
+        APP_NIVEL1.TB_ELEMENT AS ciudad 
         
-        INNER JOIN [APP_NIVEL2] 
-        ON [APP_COLABORA].[CB_NIVEL2] = [APP_NIVEL2].[TB_CODIGO]
         
-        WHERE [APP_COLABORA].[CB_ACTIVO] = 'S'
-
-        ORDER BY  [APP_COLABORA].[CB_NIVEL5] , [APP_NIVEL2].[TB_ELEMENT] `;
+        FROM APP_COLABORA AS COLABORADOR
+        
+        INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO 
+        INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO 
+        
+        WHERE  COLABORADOR.CB_ACTIVO = 'S' 
+        ORDER BY  COLABORADOR.CB_NIVEL5 , APP_NIVEL2.TB_ELEMENT `;
 
         try {
             pool = await prodPoolPromise
