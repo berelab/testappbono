@@ -105,6 +105,7 @@ import vitroCdmx from '../controllers/cdmx/vitroController';
 
 //--------------------------------------------------------------------------------------------------
 // MONTERREY
+import monterrey from '../controllers/monterrey/monterrey';
 import mantenimientoMonterrey from '../controllers/monterrey/mantenimientoController';
 import choferesLocalesMonterrey from '../controllers/monterrey/choferesLocalesController';
 import choferesCEDIMonterrey from '../controllers/monterrey/choferesCEDIController';
@@ -520,6 +521,7 @@ router.get('/cdmexico/vitro/calculator/:index', vitroCdmx.calculator);
 
 //--------------------------------------------------------------------------------------------------
 // Monterrey
+router.get('/monterrey', monterrey.data)
 router.get('/monterrey/mantenimiento/', mantenimientoMonterrey.home);
 router.get('/monterrey/mantenimiento/calculator', mantenimientoMonterrey.calculator);
 router.get('/monterrey/mantenimiento/calculator/:index', mantenimientoMonterrey.calculator);
@@ -540,27 +542,30 @@ router.get('/monterrey/almacen-cedi/', almacenCEDIMonterrey.home);
 router.get('/monterrey/almacen-cedi/calculator', almacenCEDIMonterrey.calculator);
 router.get('/monterrey/almacen-cedi/calculator/:index', almacenCEDIMonterrey.calculator);
 
+router.put('/monterrey/admin/almacen', almacenMonterrey.editInfo);
 router.get('/monterrey/almacen/', almacenMonterrey.home);
 router.get('/monterrey/almacen/calculator', almacenMonterrey.calculator);
 router.get('/monterrey/almacen/calculator/:index', almacenMonterrey.calculator);
 
+router.put('/monterrey/admin/moldeo', moldeoMonterrey.editInfo);
 router.get('/monterrey/moldeo/', moldeoMonterrey.home);
 router.get('/monterrey/moldeo/calculator', moldeoMonterrey.calculator);
 router.get('/monterrey/moldeo/calculator/:index', moldeoMonterrey.calculator);
 
-router.get('/monterrey/emco/', emcoMonterrey.home);
-router.get('/monterrey/emco/calculator', emcoMonterrey.calculator);
-router.get('/monterrey/emco/calculator/:index', emcoMonterrey.calculator);
+router.put('/monterrey/admin/emcorte', emcoMonterrey.editInfo);
+router.get('/monterrey/emcorte/', emcoMonterrey.home);
+router.get('/monterrey/emcorte/calculator', emcoMonterrey.calculator);
+router.get('/monterrey/emcorte/calculator/:index', emcoMonterrey.calculator);
 
 router.get('/monterrey/corte-nip/', corteNIPMonterrey.home);
 router.get('/monterrey/corte-nip/calculator', corteNIPMonterrey.calculator);
 router.get('/monterrey/corte-nip/calculator/:index', corteNIPMonterrey.calculator);
 
-
 router.get('/monterrey/corte-l/', corteLMonterrey.home);
 router.get('/monterrey/corte-l/calculator', corteLMonterrey.calculator);
 router.get('/monterrey/corte-l/calculator/:index', corteLMonterrey.calculator);
 
+router.put('/monterrey/admin/bloquera', bloqueraMonterrey.editInfo);
 router.get('/monterrey/bloquera/', bloqueraMonterrey.home);
 router.get('/monterrey/bloquera/calculator', bloqueraMonterrey.calculator);
 router.get('/monterrey/bloquera/calculator/:index', bloqueraMonterrey.calculator);
@@ -568,7 +573,6 @@ router.get('/monterrey/bloquera/calculator/:index', bloqueraMonterrey.calculator
 router.get('/monterrey/herramental/', herramentalMonterrey.home);
 router.get('/monterrey/herramental/calculator', herramentalMonterrey.calculator);
 router.get('/monterrey/herramental/calculator/:index', herramentalMonterrey.calculator);
-
 
 router.get('/monterrey/preexpansion/', preexpansionMonterrey.home);
 router.get('/monterrey/preexpansion/calculator', preexpansionMonterrey.calculator);

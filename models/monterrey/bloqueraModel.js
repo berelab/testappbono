@@ -1,66 +1,109 @@
 'use strict'
 
-const bloqueraBaseData = {
-        message: 'Bloquera',
-        city: 'Monterrey',
-        base0: 110,
-        amp:95,
-        dias_sucios: 90,
-        blocks_fe:0,
-        asistencia_total: 12,
-        dias: 6,
-        factor_dias_laborados: 1.2,
-        $_extra_m3: 6,
-        colaboradores: {
-            lunes: 2,
-            martes: 2,
-            miercoles: 2,
-            jueves: 2,
-            viernes: 2,
-            sabado: 0,
-            domingo: 0
-        },
-        m3_desplazados: {
-            lunes: 138,
-            martes: 138,
-            miercoles:138,
-            jueves: 138,
-            viernes: 138,
-            sabado: 0,
-            domingo: 0
-        },
-        equipo: [
-            {
-                nombre: 'JOSE FERNANDO PEREZ',
-                asistencia: {
-                    lunes: 1,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0,
-                    domingo: 0,
-                },
-                faltas : 0,
-                retardos: 0
+class BloqueraModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Bloquera',
+            city: 'Monterrey',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            amp:95,    
+            blocks_fe:0,
+            m3_desplazados: {
+                lunes: 138,
+                martes: 138,
+                miercoles:138,
+                jueves: 138,
+                viernes: 138,
+                sabado: 0,
+                domingo: 0
             },
-            {
-                nombre: 'JAIRO MARTINEZ',
-                asistencia: {
-                    lunes: 1,
-                    martes: 1,
-                    miercoles: 1,
-                    jueves: 1,
-                    viernes: 1,
-                    sabado: 0,
-                    domingo: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            }
-            
-        ]
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = bloqueraBaseData;
+module.exports = BloqueraModel;
