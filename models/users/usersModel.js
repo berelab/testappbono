@@ -64,8 +64,10 @@ class userModel {
                     city: cityrute,
                     depto: deptorute    
                 }
-    
-                users.push(user)
+                if(deptorute != 'no-valido'){ //solo agregar los colaboradores con departamentos que si estan en la app
+                    users.push(user)  
+                } 
+                //users.push(user)
             }
           
         }
@@ -99,7 +101,7 @@ class userModel {
             }else if(depto == 'Mantenimiento Ind. Variable'){
                 return 'mantenimiento'
             }else{
-                return 'no-filtrado'
+                return 'no-valido'
             } 
         }else if(citycode == 'JRZ'){ //-----------------------------------------
             if(depto == 'Aligerante'){
@@ -129,38 +131,122 @@ class userModel {
             }else if(depto == 'Mantenimiento Ind. Variable'){
                 return 'mantenimiento'
             }else{
-                return 'no-filtrado' //deptos que faltan de asignar
+                return 'no-valido' //deptos que no se encuentran en la app
             } 
         }else if(citycode == 'CUN'){//-----------------------------------------
-            return depto
-        }else if(citycode == 'GDL'){//-----------------------------------------
-            return depto
-        }else if(citycode == 'HMO'){//-----------------------------------------
-            return depto
-        }else if(citycode == 'CMX'){//-----------------------------------------
-            return depto
+            if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Corte Variable'){
+                return 'corte'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
         }else if(citycode == 'CLN'){//-----------------------------------------
-            return depto
+           if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Corte Variable'){
+                return 'corte'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Panel'){
+                return 'panel'
+            }else if(depto == 'Ventas Distibución'){
+                return 'choferlocal'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
+        }else if(citycode == 'HMO'){//-----------------------------------------
+            if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Corte'){
+                return 'corte'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Insulpanel Variable'){
+                return 'insulpanel'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else if(depto == 'Moldeo Variable'){
+                return 'moldeo'
+            }else if(depto == 'Steelfoam'){
+                return 'steelfoam'
+            }else{
+                return 'no-valido'
+            } 
+        }else if(citycode == 'GDL'){//-----------------------------------------
+            if(depto == 'Corte Variable'){
+                return 'corte'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Insulpanel Variable'){
+                return 'insulpanel'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
         }else if(citycode == 'MDA'){//-----------------------------------------
-            return depto
+            if(depto == 'Corte Variable'  || depto == 'EM Cortado'  ){
+                return 'corte'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Moldeo Variable'){
+                return 'moldeo'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
         }else if(citycode == 'MTY'){//-----------------------------------------
-            return depto
+            if(depto == 'EM Cortado'  ){
+                return 'emcorte'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Almacén'){
+                return 'almacen'
+            }else if(depto == 'Moldeo'){
+                return 'moldeo'
+            }else if(depto == 'Mantenimiento Industrial'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
+        }else if(citycode == 'CMX'){//-----------------------------------------
+            return 'no-valido'
         }else if(citycode == 'MXL'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'NOG'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'QRO'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'RSA'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'TIJ'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'VH'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else if(citycode == 'VZ'){//-----------------------------------------
-            return depto
+            return 'no-valido'
         }else{
-            return  citycode;
+            return  'no-valido';
         }
     }
 

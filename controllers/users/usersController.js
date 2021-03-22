@@ -104,7 +104,7 @@ const controller = {
                 */
 
            }else{
-            return res.status(404).send({
+            return res.status(200).send({
                 status: 'error',
                 message: 'Contraseña no valida',
             
@@ -113,7 +113,7 @@ const controller = {
            }
 
         }else{
-            return res.status(404).send({
+            return res.status(200).send({
                 status: 'error',
                 message: 'Email no valido'
              });
