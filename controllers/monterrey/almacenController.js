@@ -45,7 +45,7 @@ const controller ={
         let weekdayName = arrayOfWeekdays[weekdayNumber];
         
         let total_turnos_extras =[];
-        let len = horas_extras_semana.length;
+        let len = almacen.horas_extras_semana.length;
 
         for(var i =0; i<len; i++){
             var total = ((almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (almacen.horas_extras_semana[i].horas_extras.horas_extras_triples*3))/9.5;
