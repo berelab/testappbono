@@ -1,28 +1,42 @@
 'use strict'
 
-import {message, city, base0, dias_sucios, dias, factor_dias_laborados,horas_por_turno, asistencia_total, $_extra_m3, m3_cortados, colaboradores, equipo, horas_extras_semana} from '../../models/merida/almacenModel';
+import almacenModel from '../../models/merida/almacenModel';
+import almacenSQL from '../../infrastructure/merida/almacenRepo';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller ={
-    home: (req,res) =>{
+    home: async(req,res) =>{
+        const repository = new almacenSQL();
+        const model = new almacenModel(repository);
+        let almacen = await model.execute(); 
+        const cd =  new convertData(almacen.equipo, almacen.team_asis);
+        let equipo = cd.convert;
+
         return res.status(200).send({
-            message, 
-            city, 
-            base0, 
-            dias_sucios, 
-            horas_por_turno, 
-            dias, 
-            factor_dias_laborados, 
-            asistencia_total, 
-            $_extra_m3, 
-            m3_cortados, 
-            colaboradores, 
-            equipo, 
-            horas_extras_semana
+            message: almacen.message,
+            base0: almacen.base0,
+            dias_sucios: almacen.dias_sucios,
+            $_extra_m3: almacen.$_extra_m3,        
+            dias: almacen.dias,
+            factor_dias_laborados: almacen.factor_dias_laborados,
+            m3_cortados: almacen.m3_cortados,
+            asistencia: almacen.team_asis,
+            equipo_convertido: equipo   
         });
     },
 
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
+        const repository = new almacenSQL();
+        const model = new almacenModel(repository);
+        let almacen = await model.execute(); 
+        const cd =  new convertData(almacen.equipo, almacen.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, almacen.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -30,41 +44,39 @@ const controller ={
         let weekdayName = arrayOfWeekdays[weekdayNumber];
         
         let total_turnos_extras =[];
-        let len = horas_extras_semana.length;
+        let len = almacen.horas_extras_semana.length;
 
         for(var i =0; i<len; i++){
-            var total = ((horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (horas_extras_semana[i].horas_extras.horas_extras_triples*3))/horas_por_turno;
+            let horas_por_turno = 1;
+            var total = ((almacen.horas_extras_semana[i].horas_extras.horas_extras_dobles*2) +  (almacen.horas_extras_semana[i].horas_extras.horas_extras_triples*3))/horas_por_turno;
             total_turnos_extras.push(total);
         }
 
         let total_extras=0;
-
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }
-        let asistenciaTotal = asistencia_total;
-        asistenciaTotal = asistenciaTotal + total_extras;
-
+        let asistenciaTotal = asistencia_total + total_extras;
         
         const calc = new mainCalcs(
-            dias, 
-            m3_cortados, 
+            almacen.dias, 
+            almacen.m3_cortados, 
             colaboradores, 
             asistenciaTotal, 
             weekdayName, 
             equipo, 
-            base0, 
-            $_extra_m3, 
-            dias_sucios, 
-            factor_dias_laborados,
-            message,
-            city,
+            almacen.base0, 
+            almacen.$_extra_m3, 
+            almacen.dias_sucios, 
+            almacen.factor_dias_laborados,
+            almacen.message,
+            almacen.city,
             null,
             null,
             null,
             null,
-            total_turnos_extras,
-            horas_por_turno
+            almacen.total_turnos_extras,
+            almacen.horas_por_turno
         );
         
         let daily_prod = calc.dailyProd;
@@ -72,84 +84,86 @@ const controller ={
         let progress = calc.progress_bar;  
         let bultos_dia = calc.m3Persona;
         let percepcion_total = calc.percepcionTotal;
-
-        
         let pago_colaboradores = calc.pagoTotal;
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-        
-        if(req.params.index){
-            let i = parseInt(req.params.index); 
+        let bono_productividad = calc.bonoProductividad;  
+        let bono_metas = calc.pc_metas;     
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+        if(req.params.index){
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                
-                    city: city,
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: almacen.message,
                     day: weekdayName,
-                    meta_semana: base0,
-                    dias_laborados: dias,       
+                    meta_semana: almacen.base0,
+                    dias_laborados: almacen.dias, 
+                    $_extra_m3: almacen.$_extra_m3,       
                     progress: progress,
                     m3_persona: bultos_dia,
-                    bono_depto: percepcion_total,
-                    pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i],
-                    $_extra_m3: $_extra_m3,     
-                    asistencia: sumatoria_asistencia[i],
+                    bono_depto: percepcion_total,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-    
-                    
-                });
-               
+                    },                    
+                });               
             }
-            
-        
         }else{
-            return res.status(200).send({
-               
-                depto: message,
+            return res.status(200).send({      
+                depto: almacen.message,
                 day: weekdayName,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra_m3,            
+                meta_semana: almacen.base0,
+                dias_laborados: almacen.dias,
+                $_extra_m3: almacen.$_extra_m3,
                 progress: progress,
                 m3_persona: bultos_dia,
                 bono_depto: percepcion_total,
-                pago_persona: pago_colaboradores,
-                pago_total:pago_total,
-                bono_persona:bono_total_colaborador,
-                bono_total: bono_total,
+                pago_persona:pago_colaboradores, 
+                pago_total: pago_total, 
+                bono_persona: bono_total_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                asistencia: sumatoria_asistencia, 
-                equipo
-
+                }
             });
         }
+    },
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
         
+        const repository = new almacenSQL();
+        const model = new almacenModel(repository);
+        let almacen = await model.refresh(base, dias_sucios, extra_m3); 
+
+        return res.status(200).send({
+            message : 'OK',
+            almacen
+        });  
     }
 
 

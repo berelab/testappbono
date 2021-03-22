@@ -124,6 +124,7 @@ import rotuladoHielera3Monterrey from '../controllers/monterrey/rotuladoHielera3
 
 //--------------------------------------------------------------------------------------------------
 // MERIDA
+import merida from '../controllers/merida/merida';
 import mantenimientoMerida from '../controllers/merida/mantenimientoController';
 import almacenMerida from '../controllers/merida/almacenController';
 import choferesMerida from '../controllers/merida/choferesController';
@@ -145,7 +146,6 @@ import steelfoamVeracruz from '../controllers/veracruz/steelfoamController';
 import choferesVeracruz from '../controllers/veracruz/choferesController';
 import choferCediVeracruz from '../controllers/veracruz/choferCediController';
 import construpanelVeracruz from '../controllers/veracruz/construpanelController';
-
 
 //--------------------------------------------------------------------------------------------------
 // MEXICALI
@@ -591,27 +591,31 @@ router.get('/merida/mantenimiento/', mantenimientoMerida.home);
 router.get('/merida/mantenimiento/calculator',mantenimientoMerida.calculator);
 router.get('/merida/mantenimiento/calculator/:index', mantenimientoMerida.calculator);
 
+router.get('/merida', merida.data)
+router.put('/merida/admin/almacen', almacenMerida.editInfo);
 router.get('/merida/almacen/', almacenMerida.home);
 router.get('/merida/almacen/calculator', almacenMerida.calculator);
 router.get('/merida/almacen/calculator/:index', almacenMerida.calculator);
 
-router.get('/merida/choferes/', choferesMerida.home);
-router.get('/merida/choferes/calculator', choferesMerida.calculator);
-router.get('/merida/choferes/calculator/:index', choferesMerida.calculator);
+router.put('/merida/admin/choferlocal', choferesMerida.editInfo);
+router.get('/merida/choferlocal/', choferesMerida.home);
+router.get('/merida/choferlocal/calculator', choferesMerida.calculator);
+router.get('/merida/choferlocal/calculator/:index', choferesMerida.calculator);
 
+router.put('/merida/admin/moldeo', moldeoMerida.editInfo);
 router.get('/merida/moldeo/', moldeoMerida.home);
 router.get('/merida/moldeo/calculator', moldeoMerida.calculator);
 router.get('/merida/moldeo/calculator/:index', moldeoMerida.calculator);
 
+router.put('/merida/admin/corte', corteMerida.editInfo);
 router.get('/merida/corte/', corteMerida.home);
 router.get('/merida/corte/calculator', corteMerida.calculator);
 router.get('/merida/corte/calculator/:index', corteMerida.calculator);
 
-
+router.put('/merida/admin/bloquera', bloqueraMerida.editInfo);
 router.get('/merida/bloquera/', bloqueraMerida.home);
 router.get('/merida/bloquera/calculator', bloqueraMerida.calculator);
 router.get('/merida/bloquera/calculator/:index', bloqueraMerida.calculator);
-
 
 router.get('/merida/rotulado/', rotuladoMerida.home);
 router.get('/merida/rotulado/calculator', rotuladoMerida.calculator);
