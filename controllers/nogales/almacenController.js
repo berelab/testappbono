@@ -57,7 +57,7 @@ const controller = {
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }
-        asistenciaTotal = asistencia_total + total_extras;
+        let asistenciaTotal = asistencia_total + total_extras;
         
         const calc = new mainCalcs(
             almacen.dias, 
