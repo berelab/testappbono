@@ -136,6 +136,7 @@ import rotuladoMerida from '../controllers/merida/rotuladoController';
 
 //--------------------------------------------------------------------------------------------------
 // VERACRUZ
+import veracruz from '../controllers/veracruz/veracruz';
 import bloqueraVeracruz from '../controllers/veracruz/bloqueraController';
 import corteVeracruz from '../controllers/veracruz/corteController';
 import emcoVeracruz from '../controllers/veracruz/emcoController';
@@ -635,11 +636,13 @@ router.get('/veracruz/corte/', corteVeracruz.home);
 router.get('/veracruz/corte/calculator', corteVeracruz.calculator);
 router.get('/veracruz/corte/calculator/:index', corteVeracruz.calculator);
 
+router.get('/veracruz', veracruz.data)
+router.put('/veracruz/admin/emcorte', emcoVeracruz.editInfo);
+router.get('/veracruz/emcorte/', emcoVeracruz.home);
+router.get('/veracruz/emcorte/calculator', emcoVeracruz.calculator);
+router.get('/veracruz/emcorte/calculator/:index', emcoVeracruz.calculator);
 
-router.get('/veracruz/emco/', emcoVeracruz.home);
-router.get('/veracruz/emco/calculator', emcoVeracruz.calculator);
-router.get('/veracruz/emco/calculator/:index', emcoVeracruz.calculator);
-
+router.put('/veracruz/admin/moldeo', moldeoVeracruz.editInfo);
 router.get('/veracruz/moldeo/', moldeoVeracruz.home);
 router.get('/veracruz/moldeo/calculator', moldeoVeracruz.calculator);
 router.get('/veracruz/moldeo/calculator/:index', moldeoVeracruz.calculator);

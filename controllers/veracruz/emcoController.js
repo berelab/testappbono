@@ -1,78 +1,68 @@
 'use strict'
 
-import {message, city, base0, dias_sucios, num_quejas, rechazo_interno, colaboradores,asistencia_total, amp, horas_por_turno, dias, factor_dias_laborados, $_extra_m3, m3_desplazados, equipo} from '../../models/veracruz/emcoModel';
+import emcoModel from '../../models/veracruz/emcoModel';
+import emcoSQL from '../../infrastructure/veracruz/emcoRepo';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
 import att from '../Attendance';
 
 const controller = {
 	
-    home: (req, res) => {
-        const calcAtt = new att(
-            equipo,
-            factor_dias_laborados,
-            city,
-            null,
-            message,
-        );
+    home: async(req, res) => {
+        const repository = new emcoSQL();
+        const model = new emcoModel(repository);
+        let emco = await model.execute(); 
+        const cd =  new convertData(emco.equipo, emco.team_asis);
+        let equipo = cd.convert;
 
+		return res.status(200).send({
+            message: emco.message,
+            base0: emco.base0,
+            dias_sucios: emco.dias_sucios,
+            $_extra_m3: emco.$_extra_m3,        
+            dias: emco.dias,
+            factor_dias_laborados: emco.factor_dias_laborados,
+            m3_desplazados: emco.m3_desplazados,
+            asistencia: emco.team_asis,
+            equipo_convertido: equipo                       
+        });
+    },
+    calculator: async(req, res)=>{
+        const repository = new emcoSQL();
+        const model = new emcoModel(repository);
+        let emco = await model.execute(); 
+        const cd =  new convertData(emco.equipo, emco.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, emco.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
-		return res.status(200).send({
-            message, 
-            city, 
-            base0, 
-            dias_sucios, 
-            num_quejas, 
-            rechazo_interno,
-            asistencia_total, 
-            dias, 
-            amp,
-            horas_por_turno,
-            factor_dias_laborados, 
-            $_extra_m3, 
-            colaboradores, 
-            m3_desplazados, 
-            equipo
-        });
-    },
-    calculator: (req, res)=>{
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
-        let weekdayName = arrayOfWeekdays[weekdayNumber];
-        
-        const calcAtt = new att(
-            equipo,
-            factor_dias_laborados,
-            city,
-            null,
-            message,
-        );
-
-        let colaboradores = calcAtt.colaboradoresPorDia;
-        let asistencia_total = calcAtt.asistenciaTotal;
+        let weekdayName = arrayOfWeekdays[weekdayNumber];        
 
         const calc = new mainCalcs(
-            dias, 
-            m3_desplazados, 
+            emco.dias, 
+            emco.m3_desplazados, 
             colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
-            base0, 
-            $_extra_m3, 
-            dias_sucios, 
-            factor_dias_laborados,
-            message,
-            city,
-            amp,
-            rechazo_interno,
+            emco.base0, 
+            emco.$_extra_m3, 
+            emco.dias_sucios, 
+            emco.factor_dias_laborados,
+            emco.message,
+            emco.city,
+            emco.amp,
+            emco.rechazo_interno,
             null,
             null,
             null,
-            horas_por_turno,
-            num_quejas
+            emco.horas_por_turno,
+            emco.num_quejas
         );
 
         let daily_prod = calc.dailyProd;
@@ -84,137 +74,83 @@ const controller = {
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;   
-        
-        if(req.params.index){
-            let i = parseInt(req.params.index); 
+        let bono_productividad = calc.bonoProductividad;  
+        let bono_metas = calc.pc_metas;     
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+        if(req.params.index){
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                    
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: emco.message,
                     day: weekdayName,
-                    meta_semana: base0,
-                    dias_laborados: dias,       
+                    meta_semana: emco.base0,
+                    dias_laborados: emco.dias, 
+                    $_extra_m3: emco.$_extra_m3,       
                     progress: progress,
                     m3_persona: bultos_dia,
-                    bono_depto: percepcion_total,
-                    pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i],
-                    $_extra_m3: $_extra_m3,     
-                    asistencia: sumatoria_asistencia[i],
+                    bono_depto: percepcion_total,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                });
-               
+                    },                    
+                });               
             }
-            
-        
         }else{
-            return res.status(200).send({
-                
-                depto: message,
+            return res.status(200).send({      
+                depto: emco.message,
                 day: weekdayName,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra_m3,            
+                meta_semana: emco.base0,
+                dias_laborados: emco.dias,
+                $_extra_m3: emco.$_extra_m3,
                 progress: progress,
                 m3_persona: bultos_dia,
                 bono_depto: percepcion_total,
-                pago_persona: pago_colaboradores,
-                pago_total:pago_total,
-                bono_persona:bono_total_colaborador,
-                bono_total: bono_total,
+                pago_persona:pago_colaboradores, 
+                pago_total: pago_total, 
+                bono_persona: bono_total_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                asistencia: sumatoria_asistencia, 
-                equipo
-                
+                }
             });
-        }
+        }          
+    },
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
         
+        const repository = new emcoSQL();
+        const model = new emcoModel(repository);
+        let emco = await model.refresh(base, dias_sucios, extra_m3); 
 
-
+        return res.status(200).send({
+            message : 'OK',
+            emco
+        });  
     }
     
-   
-    
-
 };
-
-let colaboradoresPorDia = (equipo, factor_dias_laborados) =>{
-    let len = equipo.length;
-    let asistencia_total = [];
-    let total_lunes=0;
-    let total_martes=0;
-    let total_miercoles=0;
-    let total_jueves=0;
-    let total_viernes=0;
-    let total_sabado=0;
- 
-   
-    for (var i = 0; i <len; ++i) {
-         total_lunes = total_lunes + equipo[i].asistencia.lunes;
-         total_martes = total_martes+ equipo[i].asistencia.martes;
-         total_miercoles = total_miercoles + equipo[i].asistencia.miercoles;
-         total_jueves  = total_jueves + equipo[i].asistencia.jueves;
-         total_viernes  = total_viernes + equipo[i].asistencia.viernes;
-         total_sabado  = total_sabado + equipo[i].asistencia.sabado;
-         
-    }
-
-   
-    total_lunes = total_lunes * factor_dias_laborados;
-    total_martes = total_martes* factor_dias_laborados;
-    total_miercoles = total_miercoles * factor_dias_laborados;
-    total_jueves  = total_jueves * factor_dias_laborados;
-    total_viernes = total_viernes * factor_dias_laborados;
-    total_sabado = total_sabado * factor_dias_laborados;
-    
-
-    asistencia_total.push(total_lunes);
-    asistencia_total.push(total_martes);
-    asistencia_total.push(total_miercoles);
-    asistencia_total.push(total_jueves);
-    asistencia_total.push(total_viernes);
-    asistencia_total.push(total_sabado);
-   
-    let colaboradores = {
-        lunes: asistencia_total[0],
-        martes: asistencia_total[1],
-        miercoles: asistencia_total[2],
-        jueves: asistencia_total[3],
-        viernes: asistencia_total[4],
-        sabado: asistencia_total[5],
-    }
-  
-    return colaboradores;
- }
-
- let asistenciaTotal = (colaboradores) =>{
-     
-     let total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles + colaboradores.jueves + colaboradores.viernes +colaboradores.sabado
-     return total;
- }
- 
 module.exports = controller; 
