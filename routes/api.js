@@ -44,6 +44,7 @@ import choferesJuarez from '../controllers/juarez/choferes';
 import mantenimientoJuarez from '../controllers/juarez/mantenimientoController';
 
 //NOGALES
+import nogales from '../controllers/nogales/nogales';
 import corteNogales from '../controllers/nogales/corteController';
 import bloqueraNogales from '../controllers/nogales/bloqueraController';
 import moldeoNogales from '../controllers/nogales/moldeoController';
@@ -316,26 +317,31 @@ router.get('/juarez/mantenimiento/calculator', mantenimientoJuarez.calculator);
 router.get('/juarez/mantenimiento/calculator/:index', mantenimientoJuarez.calculator);
 //------------------------------------------------------------------------------------------------------------
 //NOGALES
+router.get('/nogales', nogales.data)
+router.put('/nogales/admin/corte', corteNogales.editInfo);
 router.get('/nogales/corte', corteNogales.home);
 router.get('/nogales/corte/calculator/', corteNogales.calculator);
 router.get('/nogales/corte/calculator/:index', corteNogales.calculator);
 
+router.put('/nogales/admin/bloquera', bloqueraNogales.editInfo);
 router.get('/nogales/bloquera', bloqueraNogales.home);
 router.get('/nogales/bloquera/calculator/', bloqueraNogales.calculator);
 router.get('/nogales/bloquera/calculator/:index', bloqueraNogales.calculator);
 
+router.put('/nogales/admin/moldeo', moldeoNogales.editInfo);
 router.get('/nogales/moldeo', moldeoNogales.home);
 router.get('/nogales/moldeo/calculator/', moldeoNogales.calculator);
 router.get('/nogales/moldeo/calculator/:index', moldeoNogales.calculator);
 
+router.put('/nogales/admin/almacen', almacenNogales.editInfo);
 router.get('/nogales/almacen', almacenNogales.home);
 router.get('/nogales/almacen/calculator/', almacenNogales.calculator);
 router.get('/nogales/almacen/calculator/:index', almacenNogales.calculator);
 
-router.get('/nogales/choferes', choferesNogales.home);
-router.get('/nogales/choferes/calculator/', choferesNogales.calculator);
-router.get('/nogales/choferes/calculator/:index', choferesNogales.calculator);
-
+router.put('/nogales/admin/choferlocal', choferesNogales.editInfo);
+router.get('/nogales/choferlocal', choferesNogales.home);
+router.get('/nogales/choferlocal/calculator/', choferesNogales.calculator);
+router.get('/nogales/choferlocal/calculator/:index', choferesNogales.calculator);
 
 router.get('/nogales/preexpansion', preexpansionNogales.home);
 router.get('/nogales/preexpansion/calculator/', preexpansionNogales.calculator);
@@ -344,7 +350,6 @@ router.get('/nogales/preexpansion/calculator/:index', preexpansionNogales.calcul
 router.get('/nogales/mantenimiento', mantenimientoNogales.home);
 router.get('/nogales/mantenimiento/calculator/', mantenimientoNogales.calculator);
 router.get('/nogales/mantenimiento/calculator/:index', mantenimientoNogales.calculator);
-
 
 //------------------------------------------------------------------------------------------
 //HERMOSILLO
@@ -456,17 +461,13 @@ router.get('/queretaro/insulpanel/', insulpanelQueretaro.home);
 router.get('/queretaro/insulpanel/calculator',insulpanelQueretaro.calculator);
 router.get('/queretaro/insulpanel/calculator/:index', insulpanelQueretaro.calculator);
 
-
 router.get('/queretaro/mantenimiento/', mantenimientoQueretaro.home);
 router.get('/queretaro/mantenimiento/calculator',mantenimientoQueretaro.calculator);
 router.get('/queretaro/mantenimiento/calculator/:index', mantenimientoQueretaro.calculator);
 
-
 router.get('/queretaro/choferes/', choferesQueretaro.home);
 router.get('/queretaro/choferes/calculator',choferesQueretaro.calculator);
 router.get('/queretaro/choferes/calculator/:index', choferesQueretaro.calculator);
-
-
 
 //--------------------------------------------------------------------------------------------------
 // VILLAHERMOSA

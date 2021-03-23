@@ -1,39 +1,56 @@
 'use strict'
 
-import {message, city, dias, equivalencia, aprove_perla_corte, aprove_perla_moldeo, quejas_clientes, areas, montos_recibidos_area, participacion, asistencia_total, colaboradores, equipo} from '../../models/nogales/preexpansionModel';
+import preexpansionModel from '../../models/nogales/preexpansionModel';
+import preexpansionSQL from '../../infrastructure/nogales/preexpansionRepo';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
-const controller = {
-	
-	home: (req, res) => {
+const controller = {	
+	home: async(req, res) => { 
+        const repository = new preexpansionSQL();
+        const model = new preexpansionModel(repository);
+        let preexpansion = await model.execute(); 
+        const cd =  new convertData(preexpansion.equipo, preexpansion.team_asis);
+        let equipo = cd.convert;
+
 		return res.status(200).send({
-            message, 
-            city, 
-            dias, 
-            equivalencia,
-            aprove_perla_corte, 
-            aprove_perla_moldeo, 
-            quejas_clientes,
-            areas, 
-            montos_recibidos_area, 
-            participacion,
-            asistencia_total,
-            colaboradores,
-            equipo
+            message: preexpansion.message,
+            base0: preexpansion.base0,
+            dias_sucios: preexpansion.dias_sucios,
+            $_extra_m3: preexpansion.$_extra_m3,
+            blocks_fuera_especificacion: preexpansion.blocks_fuera_especificacion,           
+            dias: preexpansion.dias,
+            factor_dias_laborados: preexpansion.equivalencia,
+            aprove_perla_corte: preexpansion.aprove_perla_corte,
+            aprove_perla_moldeo: preexpansion.aprove_perla_moldeo,
+            quejas_clientes: preexpansion.quejas_clientes,
+            areas: preexpansion.areas,
+            montos_recibidos_area: preexpansion.montos_recibidos_area,
+            participacion: preexpansion.participacion,
+            asistencia: preexpansion.team_asis,
+            equipo_convertido: equipo 
         });
     },
     
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
+        const repository = new preexpansionSQL();
+        const model = new preexpansionModel(repository);
+        let preexpansion = await model.execute(); 
+        const cd =  new convertData(preexpansion.equipo, preexpansion.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, preexpansion.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-      
-       
         const calc = new mainCalcs(
-            dias, 
+            preexpansion.dias, 
             null, 
             colaboradores, 
             asistencia_total, 
@@ -42,90 +59,85 @@ const controller = {
             null, 
             null, 
             null, 
-            equivalencia,
-            message,
-            city,
+            preexpansion.equivalencia,
+            preexpansion.message,
+            preexpansion.city,
             null,
             null,
             null,
             null,
             null,
             null,
-            quejas_clientes,
+            preexpansion.quejas_clientes,
             null,
-            montos_recibidos_area, 
-            participacion,
-            aprove_perla_corte, 
-            aprove_perla_moldeo, 
+            preexpansion.montos_recibidos_area, 
+            preexpansion.participacion,
+            preexpansion.aprove_perla_corte, 
+            preexpansion.aprove_perla_moldeo, 
         );
-        
-        
-        let sumatoria_asistencia = calc.totalAsistencia;
-        
-        let asistencias_colaborador = calc.totalAsistencia;
-        let monto_para_calidad_area = calc.montoCalidadArea;
-        let total_monto_calidad = calc.totalMontoCalidad;
-        let total_de_bono_calidad = calc.totalBonoCalidad;
+
+        let sumatoria_asistencia = calc.totalAsistencia;        
+        // let monto_para_calidad_area = calc.montoCalidadArea;
+        // let total_monto_calidad = calc.totalMontoCalidad;
+        // let total_de_bono_calidad = calc.totalBonoCalidad;
         let pago_colaboradores = calc.pagoTotal;
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
+        // let bono_productividad = calc.bonoProductividad;  
+        // let bono_metas = calc.pc_metas;     
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: preexpansion.message,
                     day: weekdayName,
-                    dias_laborados: dias,
-                    asistencia: sumatoria_asistencia[i],
-                    pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i]
-    
-                    
-                });
-               
+                    meta_semana: preexpansion.base0,
+                    dias_laborados: preexpansion.dias, 
+                    $_extra_m3: preexpansion.$_extra_m3,                                              
+                    bono_depto: pago_total,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    // bono_productividad: bono_productividad,
+                    // bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i]                
+                });               
             }
-            
-        
         }else{
-            return res.status(200).send({
-                ciudad: city,
-                depto: message,
+            return res.status(200).send({      
+                depto: preexpansion.message,
                 day: weekdayName,
-                asistencia:asistencias_colaborador,
-                monto_ca:monto_para_calidad_area,
-                total_montoc:total_monto_calidad,
-                total_bonoc:total_de_bono_calidad,
-                pago_persona:pago_colaboradores,
-                pato_total: pago_total,
-                bono_persona:bono_total_colaborador,
+                meta_semana: preexpansion.base0,
+                dias_laborados: preexpansion.dias,
+                $_extra_m3: preexpansion.$_extra_m3,
+                // monto_ca:monto_para_calidad_area,
+                // total_montoc:total_monto_calidad,
+                // total_bonoc:total_de_bono_calidad,
+                bono_depto: pago_total,
+                pago_persona:pago_colaboradores, 
+                bono_persona: bono_total_colaborador, 
                 bono_total:bono_total,
-                equipo
-                
+                // bono_productividad: bono_productividad,
+                // bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
             });
-        }
+        } 
     }
 
 };

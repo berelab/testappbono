@@ -1,162 +1,157 @@
 'use strict'
 
-import {message, city, base0, auditoria_sol,num_quejas_cliente, rechazo_interno,dias, desperdicio, factor_dias_laborados,horas_por_turno,asistencia_total,$_extra_m3,colaboradores,m3_cortados,equipo} from '../../models/nogales/corteModel';
-import mainCalcs from '../mainCalcs';
-import calcsN from  '../calcsN';
+import corteModel from '../../models/nogales/corteModel';
+import corteSQL from '../../infrastructure/nogales/corteRepo';
+import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
+const controller = {   
+	home: async(req, res) => {
+        const repository = new corteSQL();
+        const model = new corteModel(repository);
+        let corte = await model.execute(); 
+        const cd =  new convertData(corte.equipo, corte.team_asis);
+        let equipo = cd.convert;
 
-
-const controller = {
-   
-
-	home: (req, res) => {
 		return res.status(200).send({
-            message: message,
-            city: city,
-            base0,
-            auditoria_sol,
-            num_quejas_cliente,
-            rechazo_interno,
-            dias,
-            desperdicio,
-            factor_dias_laborados,
-            horas_por_turno,
-            asistencia_total, 
-            $_extra_m3,
-            colaboradores,
-            m3_cortados,
-            equipo
+            message: corte.message,
+            base0: corte.base0,
+            dias_sucios: corte.auditoria_sol,
+            $_extra_m3: corte.$_extra_m3,
+            amp: corte.desperdicio,           
+            dias: corte.dias,
+            factor_dias_laborados: corte.factor_dias_laborados,
+            m3_cortados: corte.m3_cortados,
+            asistencia: corte.team_asis,
+            equipo_convertido: equipo 
         });
     },
 
-    calculator: (req, res) =>{
+    calculator: async(req, res) =>{
+        const repository = new corteSQL();
+        const model = new corteModel(repository);
+        let corte = await model.execute(); 
+        const cd =  new convertData(corte.equipo, corte.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, corte.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
         
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];;
-        let amp = desperdicio;
+        
         const calc = new mainCalcs(
-            dias, 
-            m3_cortados, 
+            corte.dias, 
+            corte.m3_cortados, 
             colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
-            base0, 
-            $_extra_m3, 
-            auditoria_sol, 
-            factor_dias_laborados,
-            message,
-            city,
-            amp,
+            corte.base0, 
+            corte.$_extra_m3, 
+            corte.auditoria_sol, 
+            corte.factor_dias_laborados,
+            corte.message,
+            corte.city,
+            corte.desperdicio,
             null,
             null,
             null,
             null,
-            horas_por_turno,
-            num_quejas_cliente,
-             rechazo_interno,
+            corte.horas_por_turno,
+            corte.num_quejas_cliente,
+            corte.rechazo_interno,
         );
 
         let daily_prod = calc.dailyProd;
         let m3cortados_persona = calc.m3Persona;
         let progress = calc.progress_bar;       
         let sumatoria_asistencia = calc.totalAsistencia;
-        
-        /** calculos especificos */
-        let asistencias = sumatoria_asistencia;
-        const calN = new calcsN(
-            asistencias,
-            factor_dias_laborados,
-            equipo,
-            dias,
-            null,
-            horas_por_turno,
-            $_extra_m3,
-            m3_cortados,
-            base0,
-            desperdicio,
-            auditoria_sol,
-            num_quejas_cliente,
-            rechazo_interno
-            );
-        
-     
         let pago_por_colaborador = calc.pagoTotal;
         let pago_total_sin_penalizacion = calc.pagoTotalSinPenalizacion;
         let bono_Total_con_penalizacion_por_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total= calc.bonoTotalConPenalizacion;
         let percepcion_total = calc.percepcionTotal;
+        let bono_productividad = calc.bonoProductividad;  
+        let bono_metas = calc.pc_metas;     
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                    
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: corte.message,
                     day: weekdayName,
-                    meta_semana: base0,
-                    dias_laborados: dias,
+                    meta_semana: corte.base0,
+                    dias_laborados: corte.dias, 
+                    $_extra_m3: corte.$_extra_m3,       
                     progress: progress,
-                    m3_persona: m3cortados_persona ,
-                    bono_depto: percepcion_total,
-                    pago_persona: pago_por_colaborador[i],
-                    bono_persona:bono_Total_con_penalizacion_por_colaborador[i],
-                    $_extra_m3: $_extra_m3,
-                    asistencia: sumatoria_asistencia[i],
+                    m3_persona: m3cortados_persona,
+                    bono_depto: percepcion_total,  
+                    pago_persona: pago_por_colaborador[i], 
+                    bono_persona: bono_Total_con_penalizacion_por_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-
-                });
-               
+                    },                    
+                });               
             }
-            
-        
         }else{
-            return res.status(200).send({
-                
-                depto: message,
+            return res.status(200).send({      
+                depto: corte.message,
                 day: weekdayName,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra_m3,            
+                meta_semana: corte.base0,
+                dias_laborados: corte.dias,
+                $_extra_m3: corte.$_extra_m3,
                 progress: progress,
                 m3_persona: m3cortados_persona,
                 bono_depto: percepcion_total,
-                pago_persona: pago_por_colaborador,
-                pago_total:pago_total_sin_penalizacion,
-                bono_persona:bono_Total_con_penalizacion_por_colaborador,
-                bono_total: bono_total,
+                pago_persona:pago_por_colaborador, 
+                pago_total: pago_total_sin_penalizacion, 
+                bono_persona: bono_Total_con_penalizacion_por_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                asistencia: sumatoria_asistencia, 
-                equipo
-                
+                }
             });
         }
+    },
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
+        
+        const repository = new corteSQL();
+        const model = new corteModel(repository);
+        let corte = await model.refresh(base, dias_sucios, extra_m3); 
 
+        return res.status(200).send({
+            message : 'OK',
+            corte
+        });  
     }
     
 

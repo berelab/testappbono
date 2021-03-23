@@ -1,172 +1,155 @@
 'use strict'
 
-const moldeoBaseData = {
-        message: 'Moldeo',
-        city: 'Nogales',
-        base0: 100,
-        desperdicio: .95,
-        asistencia_total: 30.0,
-        orden_limpieza:0,
-        num_quejas:0,
-        dias: 6,
-        factor_dias_laborados: 1.5,
-        horas_por_turno: 12,
-        $_extra_m3: 4.00,
-        colaboradores: {
-            lunes: 5,
-            martes: 7,
-            miercoles: 7,
-            jueves: 6,
-            viernes: 2,
-            sabado: 0
-        },
-        bultos_fabricados: {
-            lunes: 242,
-            martes:242,
-            miercoles: 242,
-            jueves: 242,
-            viernes: 242,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'JOSE GPE CORTEZ MARQUEZ',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
+class MoldeoModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Moldeo',
+            city: 'Nogales',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            desperdicio: .95,       
+            orden_limpieza:0,
+            num_quejas:0,        
+            horas_por_turno: 0,              
+            bultos_fabricados: {
+                lunes: 242,
+                martes:242,
+                miercoles: 242,
+                jueves: 242,
+                viernes: 242,
+                sabado: 0
             },
-            {
-                nombre: 'MANUEL GILBERT BABICHI MOLINA',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
+            horas_extras_semana: [
+                {
+                    dia: 'lunes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JAVIER ORANTES HINOSTRO',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
+                {
+                    dia: 'martes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JESUS MENDEZ CORRALES',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 0.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
+                {
+                    dia: 'miercoles',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ALEJANDRO HERNANDEZ FIGUEROA',
-                asistencia: {
-                    lunes: 1.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 0.0,
-                    sabado: 0.0,
+                {
+                    dia: 'jueves',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'BRAYAN SILVA AGUILAR',
-                asistencia: {
-                    lunes: 0.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
+                {
+                    dia: 'viernes',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'RICARDO ESPINOZA JOCOBI',
-                asistencia: {
-                    lunes: 0.0,
-                    martes: 1.0,
-                    miercoles: 1.0,
-                    jueves: 1.0,
-                    viernes: 1.0,
-                    sabado: 0.0,
-                },
-                faltas : 0,
-                retardos: 0
-            }
-        ],
-        horas_extras_semana: [
-            {
-                dia: 'lunes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
+                {
+                    dia: 'sabado',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
                 }
-            },
-            {
-                dia: 'martes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'miercoles',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'jueves',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'viernes',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            },
-            {
-                dia: 'sabado',
-                horas_extras:{
-                    horas_extras_dobles: 0,
-                    horas_extras_triples: 0,
-                }
-            }
+            
+            ],
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
-        ]
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
         
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = moldeoBaseData;
+module.exports = MoldeoModel;
