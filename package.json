@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "mssql": "^6.3.1",
+    "nodemailer": "^6.5.0",
     "nodemon": "^2.0.6",
     "oracledb": "^5.1.0",
     "validator": "^13.5.2"

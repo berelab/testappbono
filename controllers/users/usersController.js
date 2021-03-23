@@ -4,6 +4,7 @@ import usersRepository from '../../infrastructure/users/usersRepository';
 
 var validator = require('validator');
 var jwt = require('../../services/jwt');
+var nodemailer = require('nodemailer'); // email sender 
 
 const controller = {
 	home: async (req, res) => {
@@ -81,13 +82,21 @@ const controller = {
             let userPass = String(users[index].password);
             let paramsPass = String(params.password);
             if(paramsPass === userPass){
-                
+
+                //generar el codigo de auth
+                var ctrs = "ABCDEFGHJKMNPQRTUVWXYZ123456789";
+                var code = "";
+                for (var k=0; k<6; k++){
+                    code +=ctrs.charAt(Math.floor(Math.random()*ctrs.length)); 
+                }
+
+                //Enviar email con el codigo de auth
+                /*pendiente*/
                 
                 //Generar token de jwt y devolverlo
-                //Devolver 
                 return res.status(200).send({
                     status: 'success',
-                    token: jwt.createToken(users[index])
+                    token: jwt.createToken(users[index] , code)
                 });
                 /*
                 if (params.gettoken) {
@@ -127,6 +136,71 @@ const controller = {
     }
 
 };
+
+
+let sendEmail = (user)=>{
+   
+    // Definimos el transporter
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'correo remitente',
+            pass: 'pass'
+        }
+    });
+
+    // Definimos el email
+    var mailOptions = {
+        from: 'FANOSA APP',
+        to: user.email,
+        subject: 'Clave de acceso APP FANOSA',
+        text: `Hola ${user.name} el motivo de este mensaje es para compartirte tu primera clave para acceso a la APP DE FANOSA, posteriormente podras cambiarla dentro de la misma App. CLAVE: ${user.password}`
+        };
+
+       
+        // Enviamos el email
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error){
+            return 'Email no enviado'
+        } else {
+           return   'Email enviado'
+        }
+        });
+
+        
+}
+ 
+let sendCode = (user, code)=>{
+   
+    // Definimos el transporter
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'correo remitente',
+            pass: 'pass'
+        }
+    });
+
+    // Definimos el email
+    var mailOptions = {
+        from: 'FANOSA APP',
+        to: user.email,
+        subject: 'Clave de acceso APP FANOSA',
+        text: `Hola ${user.name}, tu codigo de autentificación es: ${code}`
+        };
+
+       
+        // Enviamos el email
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error){
+            return 'Email no enviado'
+        } else {
+           return   'Email enviado'
+        }
+        });
+
+        
+}
 
  
 module.exports = controller; 
