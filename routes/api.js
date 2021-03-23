@@ -87,6 +87,7 @@ import choferesQueretaro from '../controllers/queretaro/choferesController';
 
 //--------------------------------------------------------------------------------------------------
 // VILLAHERMOSA
+import villahermosa from '../controllers/villahermosa/villahermosa';
 import traficoVillahermosa from '../controllers/villahermosa/traficoController';
 import preexpMoldeoVillahermosa from '../controllers/villahermosa/preexpMoldeoController';
 import corteVillahermosa from '../controllers/villahermosa/corteController';
@@ -469,15 +470,17 @@ router.get('/queretaro/choferes/calculator/:index', choferesQueretaro.calculator
 
 //--------------------------------------------------------------------------------------------------
 // VILLAHERMOSA
-
+router.get('/villahermosa', villahermosa.data)
 router.get('/villahermosa/trafico/', traficoVillahermosa.home);
 router.get('/villahermosa/trafico/calculator' ,traficoVillahermosa.calculator);
 router.get('/villahermosa/trafico/calculator/:index', traficoVillahermosa.calculator);
 
-router.get('/villahermosa/preexpmoldeo/', preexpMoldeoVillahermosa.home);
-router.get('/villahermosa/preexpmoldeo/calculator', preexpMoldeoVillahermosa.calculator);
-router.get('/villahermosa/preexpmoldeo/calculator/:index', preexpMoldeoVillahermosa.calculator);
+router.put('/villahermosa/admin/bloquera', preexpMoldeoVillahermosa.editInfo);
+router.get('/villahermosa/bloquera/', preexpMoldeoVillahermosa.home);
+router.get('/villahermosa/bloquera/calculator', preexpMoldeoVillahermosa.calculator);
+router.get('/villahermosa/bloquera/calculator/:index', preexpMoldeoVillahermosa.calculator);
 
+router.put('/villahermosa/admin/corte', corteVillahermosa.editInfo);
 router.get('/villahermosa/corte/', corteVillahermosa.home);
 router.get('/villahermosa/corte/calculator', corteVillahermosa.calculator);
 router.get('/villahermosa/corte/calculator/:index', corteVillahermosa.calculator);
