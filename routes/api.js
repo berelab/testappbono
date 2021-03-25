@@ -78,6 +78,7 @@ import mantenimientoGuadalajara from '../controllers/guadalajara/mantenimientoCo
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
+import queretaro from '../controllers/queretaro/queretaro';
 import preexpMoldeoQueretaro from '../controllers/queretaro/preexpMoldeoController';
 import hieleraQueretaro from '../controllers/queretaro/hieleraController';
 import corteQueretaro from '../controllers/queretaro/corteController';
@@ -448,19 +449,23 @@ router.get('/guadalajara/mantenimiento/calculator/:index', mantenimientoGuadalaj
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
+router.get('/queretaro', queretaro.data)
+router.put('/queretaro/admin/bloquera', preexpMoldeoQueretaro.editInfo);
+router.get('/queretaro/bloquera/', preexpMoldeoQueretaro.home);
+router.get('/queretaro/bloquera/calculator', preexpMoldeoQueretaro.calculator);
+router.get('/queretaro/bloquera/calculator/:index', preexpMoldeoQueretaro.calculator);
 
-router.get('/queretaro/preexpmoldeo/', preexpMoldeoQueretaro.home);
-router.get('/queretaro/preexpmoldeo/calculator', preexpMoldeoQueretaro.calculator);
-router.get('/queretaro/preexpmoldeo/calculator/:index', preexpMoldeoQueretaro.calculator);
+router.put('/queretaro/admin/moldeo', hieleraQueretaro.editInfo);
+router.get('/queretaro/moldeo/', hieleraQueretaro.home);
+router.get('/queretaro/moldeo/calculator', hieleraQueretaro.calculator);
+router.get('/queretaro/moldeo/calculator/:index', hieleraQueretaro.calculator);
 
-router.get('/queretaro/hielera/', hieleraQueretaro.home);
-router.get('/queretaro/hielera/calculator', hieleraQueretaro.calculator);
-router.get('/queretaro/hielera/calculator/:index', hieleraQueretaro.calculator);
-
+router.put('/queretaro/admin/corte', corteQueretaro.editInfo);
 router.get('/queretaro/corte/', corteQueretaro.home);
 router.get('/queretaro/corte/calculator',corteQueretaro.calculator);
 router.get('/queretaro/corte/calculator/:index', corteQueretaro.calculator);
 
+router.put('/queretaro/admin/almacen', almacenQueretaro.editInfo);
 router.get('/queretaro/almacen/', almacenQueretaro.home);
 router.get('/queretaro/almacen/calculator',almacenQueretaro.calculator);
 router.get('/queretaro/almacen/calculator/:index', almacenQueretaro.calculator);
@@ -473,9 +478,10 @@ router.get('/queretaro/mantenimiento/', mantenimientoQueretaro.home);
 router.get('/queretaro/mantenimiento/calculator',mantenimientoQueretaro.calculator);
 router.get('/queretaro/mantenimiento/calculator/:index', mantenimientoQueretaro.calculator);
 
-router.get('/queretaro/choferes/', choferesQueretaro.home);
-router.get('/queretaro/choferes/calculator',choferesQueretaro.calculator);
-router.get('/queretaro/choferes/calculator/:index', choferesQueretaro.calculator);
+router.put('/queretaro/admin/choferlocal', choferesQueretaro.editInfo);
+router.get('/queretaro/choferlocal/', choferesQueretaro.home);
+router.get('/queretaro/choferlocal/calculator',choferesQueretaro.calculator);
+router.get('/queretaro/choferlocal/calculator/:index', choferesQueretaro.calculator);
 
 //--------------------------------------------------------------------------------------------------
 // VILLAHERMOSA

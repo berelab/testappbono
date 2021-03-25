@@ -1,60 +1,69 @@
 'use strict'
 
-import {message, city, base0, auditoria_sol, hielera_fe, extra, dias, factor_dias_laborados, horas_por_turno, asistencia_total, $_extra,  hieleras_producidas,colaboradores, equipo } from '../../models/queretaro/hieleraModel';
+import moldeoModel from '../../models/queretaro/hieleraModel';
+import moldeoSQL from '../../infrastructure/queretaro/Moldeo';
 import mainCalcs from '../MainCalcs';
-
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
 const controller = {
+    home: async(req, res) =>{
+        const repository = new moldeoSQL();
+        const model = new moldeoModel(repository);
+        let moldeo = await model.execute(); 
+        const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert;
 
-    home: (req, res) =>{
         return res.status(200).send({
-            message, 
-            city, 
-            base0, 
-            auditoria_sol, 
-            hielera_fe, 
-            extra, 
-            dias, 
-            factor_dias_laborados, 
-            horas_por_turno, 
-            asistencia_total, 
-            $_extra,  
-            hieleras_producidas,
-            colaboradores, 
-            equipo 
+            message: moldeo.message,
+            base0: moldeo.base0,
+            dias_sucios: moldeo.dias_sucios,
+            $_extra_m3: moldeo.$_extra_m3,        
+            dias: moldeo.dias,
+            factor_dias_laborados: moldeo.factor_dias_laborados,
+            hielera_fe: moldeo.hielera_fe,
+            hieleras_producidas: moldeo.hieleras_producidas,
+            asistencia: moldeo.team_asis,
+            equipo_convertido: equipo 
         });
     },
 
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
+        const repository = new moldeoSQL();
+        const model = new moldeoModel(repository);
+        let moldeo = await model.execute(); 
+        const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, moldeo.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
-        
-        
 
         const calc = new mainCalcs(
-            dias, 
-            hieleras_producidas, 
+            moldeo.dias, 
+            moldeo.hieleras_producidas, 
             colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
-            base0, 
-            $_extra, 
-            auditoria_sol, 
-            factor_dias_laborados,
-            message,
-            city,
+            moldeo.base0, 
+            moldeo.$_extra_m3, 
+            moldeo.dias_sucios, 
+            moldeo.factor_dias_laborados,
+            moldeo.message,
+            moldeo.city,
             null,
-            hielera_fe,
-            extra,
+            moldeo.hielera_fe,
+            moldeo.extra,
             null,
             null,
-            horas_por_turno
+            moldeo.horas_por_turno
         );
-
         
         let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
@@ -65,72 +74,83 @@ const controller = {
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-        
-        if(req.params.index){
-            let i = parseInt(req.params.index); 
+        let bono_productividad = calc.bonoProductividad;  
+        let bono_metas = calc.pc_metas;     
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+        if(req.params.index){
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
+
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                    
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: moldeo.message,
                     day: weekdayName,
-                    meta_semana: base0,
-                    dias_laborados: dias,       
+                    meta_semana: moldeo.base0,
+                    dias_laborados: moldeo.dias, 
+                    $_extra_m3: moldeo.$_extra_m3,       
                     progress: progress,
                     m3_persona: blocks_persona,
-                    bono_depto: percepcion_total,
-                    pago_persona: pago_colaboradores[i],
-                    bono_persona:bono_total_colaborador[i],
-                    $_extra_m3: $_extra,     
-                    asistencia: sumatoria_asistencia[i],
+                    bono_depto: percepcion_total,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     datos_extra: {
                         m3_persona_dia: daily_prod
-                    },
-                    
-                });
+                    },                    
+                });               
             }
         }else{
-            return res.status(200).send({
-                
-                depto: message,
+            return res.status(200).send({      
+                depto: moldeo.message,
                 day: weekdayName,
-                meta_semana: base0,
-                dias_laborados: dias,
-                $_extra_m3: $_extra,            
+                meta_semana: moldeo.base0,
+                dias_laborados: moldeo.dias,
+                $_extra_m3: moldeo.$_extra_m3,
                 progress: progress,
                 m3_persona: blocks_persona,
                 bono_depto: percepcion_total,
-                pago_persona: pago_colaboradores,
-                pago_total:pago_total,
-                bono_persona:bono_total_colaborador,
-                bono_total: bono_total,
+                pago_persona:pago_colaboradores, 
+                pago_total: pago_total, 
+                bono_persona: bono_total_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
                 datos_extra: {
                     m3_persona_dia: daily_prod
-                },
-                asistencia: sumatoria_asistencia, 
-                equipo
+                }
             });
-        }
-    }
+        }  
+    },
+    editInfo: async(req, res)=>{
+        let base = req.body.base;
+        let dias_sucios = req.body.dias_sucios;        
+        let extra_m3 =  req.body.extra_m3;
+        
+        const repository = new moldeoSQL();
+        const model = new moldeoModel(repository);
+        let moldeo = await model.refresh(base, dias_sucios, extra_m3); 
+
+        return res.status(200).send({
+            message : 'OK',
+            moldeo
+        });  
+    } 
 
 };
 

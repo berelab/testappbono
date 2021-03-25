@@ -1,136 +1,117 @@
 'use strict'
 
-const mantenimientoBaseData = {
-        message: 'Mantenimiento',
-        city: 'Queretaro',
-        dias: 6,
-        areas: [
-            'Corte',
-            'Hielera',
-            'Preexpansion y Moldeo'
-        ],
-        montos_recibidos_area:[
-           1015.68, 
-           2322.92,
-           556.08
-        ],
-        rendimiento_agua: 'Amarillo',
-        rendimiento_combustible: 'Verde',
-        rendimiento_electricidad: 'Verde',
-        faltas_uso_epp: 0,
-        fugas_perla:0,
-        fugas_vapor:0,
-        fugas_aceite:0,
-        fugas_aire:0,
-        factor_dias_laborados:1,
-        horas_por_turno:9.5,
-        asistencia_total: 42,
-        colaboradores: {
-            lunes: 9,
-            martes: 9,
-            miercoles: 9,
-            jueves: 9,
-            viernes: 9,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'FABIAN ACHO ARCE',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARTINEANO VELAZQUEZ MARTINEZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOSE ANTONIO FERRUSCA MONTOYA',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'HONORIO MEDINA HERNANDEZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LUIS SALINAS BECERRA',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'GUILLERMO VALENCIA CARRILLO',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'FELIX NAVARRO TORRES',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            
-            
-        ]
+class MantenimientoModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Mantenimiento',
+            city: 'Queretaro',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            areas: [
+                'Corte',
+                'Hielera',
+                'Preexpansion y Moldeo'
+            ],
+            montos_recibidos_area:[
+               1015.68, 
+               2322.92,
+               556.08
+            ],
+            rendimiento_agua: 'Amarillo',
+            rendimiento_combustible: 'Verde',
+            rendimiento_electricidad: 'Verde',
+            faltas_uso_epp: 0,
+            fugas_perla:0,
+            fugas_vapor:0,
+            fugas_aceite:0,
+            fugas_aire:0,      
+            horas_por_turno: 0,
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
         
-        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = mantenimientoBaseData;
+module.exports = MantenimientoModel;
