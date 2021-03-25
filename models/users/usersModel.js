@@ -17,18 +17,82 @@ class userModel {
      
         return this._convertData(response);
     }
+
+    async executeUsers() {
+        let response;
+
+        try {
+            response = await this.repository.findUsers();
+        } catch(error) {
+            throw error;
+        }
+
+        return  response.response.recordset;
+    }
+
+    async executeClr() {
+        let response;
+
+        try {
+            response = await this.repository.clear();
+        } catch(error) {
+            throw error;
+        }
+
+        return  response.response.recordset;
+    }
+
+    async saveUsers(users) {
+        let response;
+
+        try {
+            response = await this.repository.insert(users);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    //usado para enviar un email despues de actualizar la password.  pendiente implementar
+    async getUser(num) {
+        let response;
+
+        try {
+            response = await this.repository.findUser(num);
+        } catch(error) {
+            throw error;
+        }
+
+        return  response;
+    }
+
+    //pendiente implemetar
+    async updatePass(num, password) {
+        let response;
+
+        try {
+            response = await this.repository.update(num, password);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
     
     _convertData(response) {
         let users = []
         let admins = [];
         let len =response.response.recordset.length;
 
+        let caracteres = "abcdefghijkmnpqrtuvwxyzABCDEFGHJKMNPQRTUVWXYZ123456789";
+
         for(var i =0; i<len; i++){
             let role =  response.response.recordset[i].puesto;
             let name = response.response.recordset[i].nombre  + ' ' + response.response.recordset[i].a_paterno  + ' ' +  response.response.recordset[i].a_materno; 
             let userID = response.response.recordset[i].codigo;
             let email = response.response.recordset[i].email;
-            let pass = response.response.recordset[i].codigo;
+            // let pass = response.response.recordset[i].codigo; 
             let planta = response.response.recordset[i].planta;
             let depto = response.response.recordset[i].depto;
 
@@ -39,6 +103,11 @@ class userModel {
             
             let cityrute = this._convertCity(clncity); // planta convertida para ser usada en la ruta en el front.
             let deptorute = this. _convertDepto(clncity, depto, ciudad); // depto convertido para ser usada en la ruta en el front.
+
+            let pass = "";
+            for (var k=0; k<8; k++){
+                pass +=caracteres.charAt(Math.floor(Math.random()*caracteres.length)); 
+            }
 
             if(clnrole == '039' || clnrole == '230' || clnrole == '056'){
                 let admin = {
@@ -229,21 +298,49 @@ class userModel {
             }else{
                 return 'no-valido'
             } 
-        }else if(citycode == 'CMX'){//-----------------------------------------
-            return 'no-valido'
+        }else if(citycode == 'NOG'){//-----------------------------------------
+            if(depto == 'Almacén Variable'){
+                return 'almacen'
+            }else if(depto == 'Bloqueras'){
+                return 'bloquera'
+            }else if(depto == 'Corte Variable'  || depto == 'EM Cortado'  ){
+                return 'corte'
+            }else if(depto == 'Moldeo Variable'){
+                return 'moldeo'
+            }else if(depto == 'Preexpanción Moldeo'){
+                return 'preexpansion'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
+            }else{
+                return 'no-valido'
+            } 
+        }else if(citycode == 'VH'){//----------------------------------------- pendiente almacen y mantenimiento
+            if(depto == 'Preexpansión Bloquera'){
+                return 'bloquera'
+            }else if(depto == 'Corte Variable'){
+                return 'corte'
+            }else{
+                return 'no-valido'
+            } 
+        }else if(citycode == 'VZ'){//----------------------------------------- pendiente bloquera,corte,contruspanel, almacen, choferes,almacen cedi, mantenimiento, chofercedi, steelfoam
+            if(depto == 'EM Cortado'){
+                return 'emcorte'
+            }else if(depto == 'Moldeo'){
+                return 'moldeo'
+            }else{
+                return 'no-valido'
+            } 
         }else if(citycode == 'MXL'){//-----------------------------------------
             return 'no-valido'
-        }else if(citycode == 'NOG'){//-----------------------------------------
+        }else if(citycode == 'CMX'){//-----------------------------------------
             return 'no-valido'
         }else if(citycode == 'QRO'){//-----------------------------------------
             return 'no-valido'
         }else if(citycode == 'RSA'){//-----------------------------------------
             return 'no-valido'
         }else if(citycode == 'TIJ'){//-----------------------------------------
-            return 'no-valido'
-        }else if(citycode == 'VH'){//-----------------------------------------
-            return 'no-valido'
-        }else if(citycode == 'VZ'){//-----------------------------------------
             return 'no-valido'
         }else{
             return  'no-valido';

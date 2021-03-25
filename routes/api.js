@@ -197,6 +197,14 @@ import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimien
 router.get('/test', users.home);
 router.post('/login', users.login);
 
+/* pendientes adaptar
+router.post('/reenviar-codigo', users.resendCode);
+router.post('/cambiar-contrasena', users.changePass);
+*/
+
+//router.get('/guardar', users.save); // ejecutar solo si esta vacia la tabla.
+//router.get('/vaciar-tabla', users.clear); 
+
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ
 router.get('/lapaz', lapaz.data)

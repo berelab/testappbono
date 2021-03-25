@@ -7,25 +7,37 @@ var jwt = require('../../services/jwt');
 var nodemailer = require('nodemailer'); // email sender 
 
 const controller = {
+    clear: async (req, res) => {  
+        
+        const repository = new usersRepository();
+        const modelUsr = new usersModel(repository);
+        let  clear = await modelUsr.executeClr(); 
+        
+		return res.status(200).send({
+            message: 'Tabla limpiada.'
+        });
+    
+    },
+
+    save: async (req, res) => {  
+        
+        const repository = new usersRepository();
+        const modelUsr = new usersModel(repository);
+        let  users = await modelUsr.execute(); 
+        let saveUsers = await modelUsr.saveUsers(users);
+
+        
+		return res.status(200).send({
+            message: 'Metodo para guardar los usuarios.',
+        });
+    
+    },
+
 	home: async (req, res) => {
         const repository = new usersRepository();
-    
-        
         const modelUsr = new usersModel(repository);
-    
-        let  users = await modelUsr.execute(); 
-        let  pruebas =    {
-            id: 200123,
-            name: 'Admin de pruebas',
-            num: 200123,
-            email: 'admin@admin.com' ,
-            password: '123',
-            role: '230', 
-            city: 'SC',
-            depto: 'TEST'    
-        }
-
-        users.push(pruebas);
+        
+        let  users = await modelUsr.executeUsers(); 
     
 		return res.status(200).send({
             message: 'Metodo de pruebas.',
@@ -40,19 +52,7 @@ const controller = {
         
         const modelUsr = new usersModel(repository);
     
-        let  users = await modelUsr.execute(); 
-        let  pruebas =    {
-            id: 200123,
-            name: 'Admin de pruebas',
-            num: 200123,
-            email: 'admin@admin.com' ,
-            password: '123',
-            role: '230', 
-            city: 'SC',
-            depto: 'TEST'    
-        }
-
-        users.push(pruebas);
+        let  users = await modelUsr.executeUsers(); 
 
         //recoger parametros 
         var params = req.body;
@@ -91,26 +91,18 @@ const controller = {
                 }
 
                 //Enviar email con el codigo de auth
-                /*pendiente*/
+                /*no activar aun
+                
+                 if(users[index].role == '230' || users[index].role == '039' || users[index].role == '056'){
+                    //sendCode(users[index], code); // enviar codigo de autentificacion solo a admins
+                 }
+                */
                 
                 //Generar token de jwt y devolverlo
                 return res.status(200).send({
                     status: 'success',
                     token: jwt.createToken(users[index] , code)
                 });
-                /*
-                if (params.gettoken) {
-                    return res.status(200).send({
-                        status: 'success',
-                        token: jwt.createToken(users[index])
-                    });
-                } else {
-                    return res.status(200).send({
-                        status: 'success',
-                        user: users[index]
-                    });
-                }    
-                */
 
            }else{
             return res.status(200).send({
@@ -128,12 +120,36 @@ const controller = {
              });
         }
 
-        
-        
+    },
+
+    // pendiente adaptar en repository
+    changePass:  async (req, res)=>{
+        const repository = new usersRepository();
+        const modelUsr = new usersModel(repository);
+        var params = req.body;
+
+        let  changepass = await modelUsr.updatePass(params.num, params.password); 
+        let user = await modelUsr.getUser(params.num); 
+
+      
+        if(user.length > 0){
+            sendInfo(user[0]);
+        }
+
+        return res.status(200).send({
+            changepass
+         });
+    },
 
     
-      
-    }
+    resendCode:  async (req, res)=>{
+        var params = req.body;
+        sendCode(params,params.code); 
+        return res.status(200).send({
+            message: 'Codigo reenviado',
+            dest: params.email
+         });
+    },
 
 };
 
@@ -200,6 +216,37 @@ let sendCode = (user, code)=>{
         });
 
         
+}
+
+
+let sendInfo = (user)=>{
+   
+    // Definimos el transporter
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'correo remitente',
+            pass: 'pass'
+        }
+    });
+
+    // Definimos el email
+    var mailOptions = {
+        from: 'FANOSA APP',
+        to: user.email,
+        subject: 'Actualizacion de contraseña',
+        text: `Hola ${user.name}, el motivo de este mensaje es informar que el cambio de contraseña para su cuenta de APP FANOSA se ha realizado con exito.`
+        };
+
+       
+        // Enviamos el email
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error){
+            return 'Email no enviado'
+        } else {
+            return   'Email enviado'
+        }
+        });
 }
 
  

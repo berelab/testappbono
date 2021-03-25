@@ -1,6 +1,6 @@
 'use strict'
 const { prodPoolPromise } = require ('../prodSQLClient');
-
+const { appPoolPromise } = require ('../appSQLClient');
 
 class usersRepository {
 
@@ -40,6 +40,116 @@ class usersRepository {
             response
         }
     }
+
+    async insert(users) {
+        let response;
+        let pool;
+        let len = users.length;
+        for(var i=0; i<len; i++){
+         let queryString = `INSERT INTO colaboradores (name, num, email, password,role, city, depto) VALUES ('${users[i].name}', '${users[i].num}' , '${users[i].email}', '${users[i].password}', '${users[i].role}' ,'${users[i].city}', '${users[i].depto}')`;
+             try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+           
+            
+        } catch(error) {
+            console.log(error);
+        }
+ 
+        }
+
+        return {
+            response
+        }
+
+    }
+
+    async findUsers() {
+    
+        let response; 
+        let pool;
+        const queryString = `SELECT * FROM colaboradores`;
+
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return {
+            response
+        }
+    }
+
+
+    async clear() {
+    
+        let response; 
+        let pool;
+        const queryString = `TRUNCATE TABLE colaboradores`;
+
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return {
+            response
+        }
+    }
+
+    //pendiente
+    async findUser(num) {
+        let response;
+        //const queryString = `SELECT * FROM usuarios WHERE num = '${num}' `;
+
+        try {
+            response = await new Promise((resolve, reject) => {
+                db.query(queryString,  (err, result) => {
+                    if (err) throw err;
+                    resolve(result);  
+                });
+            });
+        } catch(error) {
+            throw error
+        }
+
+        return response
+    }
+
+    //pendiente
+    async update(num, password) {
+        let response;
+        //const query = `UPDATE usuarios SET password = '${password}'  WHERE num = '${num}'`;
+    
+        try {
+            response = await new Promise((resolve, reject) => {
+                db.query(query, (err, result)=>{
+                    if(err) throw err           
+                    resolve(result);   
+                });
+            });
+            response = {
+                status:'success',
+                message: 'contraseña actualizada.',
+            }
+           
+        } catch(error) {
+            throw error
+            
+        }
+
+        return response;
+    }
+
 
     
 };
