@@ -26,7 +26,7 @@ const controller = {
             equipo_convertido: equipo 
         });
     },
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
         const repository = new bonoTYGSQL();
         const model = new bonoTYGModel(repository);
         let bonotyg = await model.execute(); 
