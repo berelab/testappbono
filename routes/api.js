@@ -161,7 +161,7 @@ import produccionMexicali from '../controllers/mexicali/produccionController';
 import mantenimientoMexicali from '../controllers/mexicali/mantenimientoController';
 
 //--------------------------------------------------------------------------------------------------
-// Cancun
+// CANCUN
 import cancun from '../controllers/cancun/cancun';
 import mantenimientoCancun from '../controllers/cancun/mantenimientoController';
 import corteCancun from '../controllers/cancun/corteController';
@@ -172,6 +172,7 @@ import empaquePerlaCancun from '../controllers/cancun/empaquePerlaController';
 import traficoCancun from '../controllers/cancun/traficoController';
 
 // TIJUANA -----------------------------------------------------------------------------------------------
+import tijuana from '../controllers/tijuana/tijuana';
 import mantenimientoTijuana from '../controllers/tijuana/mantenimientoController';
 import bonoGarantiaTijuana from '../controllers/tijuana/bonoGarantiaController';
 import siloMolinoTijuana from '../controllers/tijuana/siloMolinoController';
@@ -737,7 +738,6 @@ router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
 
-
 router.get('/cancun/almacen-playa/', almacenPlayaCancun.home);
 router.get('/cancun/almacen-playa/calculator', almacenPlayaCancun.calculator);
 router.get('/cancun/almacen-playa/calculator/:index', almacenPlayaCancun.calculator);
@@ -759,35 +759,41 @@ router.get('/tijuana/bono-garantia/', bonoGarantiaTijuana.home);
 router.get('/tijuana/bono-garantia/calculator', bonoGarantiaTijuana.calculator);
 router.get('/tijuana/bono-garantia/calculator/:index', bonoGarantiaTijuana.calculator);
 
-router.get('/tijuana/silo-molino/', siloMolinoTijuana.home);
-router.get('/tijuana/silo-molino/calculator', siloMolinoTijuana.calculator);
-router.get('/tijuana/silo-molino/calculator/:index', siloMolinoTijuana.calculator);
+router.get('/tijuana', tijuana.data)
+router.put('/tijuana/admin/molino', siloMolinoTijuana.editInfo);
+router.get('/tijuana/molino/', siloMolinoTijuana.home);
+router.get('/tijuana/molino/calculator', siloMolinoTijuana.calculator);
+router.get('/tijuana/molino/calculator/:index', siloMolinoTijuana.calculator);
 
+router.put('/tijuana/admin/almacen', almacenTijuana.editInfo);
 router.get('/tijuana/almacen/', almacenTijuana.home);
 router.get('/tijuana/almacen/calculator', almacenTijuana.calculator);
 router.get('/tijuana/almacen/calculator/:index', almacenTijuana.calculator);
 
-
+router.put('/tijuana/admin/corte', corteTijuana.editInfo);
 router.get('/tijuana/corte/', corteTijuana.home);
 router.get('/tijuana/corte/calculator', corteTijuana.calculator);
 router.get('/tijuana/corte/calculator/:index', corteTijuana.calculator);
 
+router.put('/tijuana/admin/cortemaq', corteMaqTijuana.editInfo);
+router.get('/tijuana/cortemaq/', corteMaqTijuana.home);
+router.get('/tijuana/cortemaq/calculator', corteMaqTijuana.calculator);
+router.get('/tijuana/cortemaq/calculator/:index', corteMaqTijuana.calculator);
 
-router.get('/tijuana/corte-maq/', corteMaqTijuana.home);
-router.get('/tijuana/corte-maq/calculator', corteMaqTijuana.calculator);
-router.get('/tijuana/corte-maq/calculator/:index', corteMaqTijuana.calculator);
+router.put('/tijuana/admin/bloquera', preexpYMoldeoTijuana.editInfo);
+router.get('/tijuana/bloquera/', preexpYMoldeoTijuana.home);
+router.get('/tijuana/bloquera/calculator', preexpYMoldeoTijuana.calculator);
+router.get('/tijuana/bloquera/calculator/:index', preexpYMoldeoTijuana.calculator);
 
-router.get('/tijuana/preexpymoldeo/', preexpYMoldeoTijuana.home);
-router.get('/tijuana/preexpymoldeo/calculator', preexpYMoldeoTijuana.calculator);
-router.get('/tijuana/preexpymoldeo/calculator/:index', preexpYMoldeoTijuana.calculator);
+router.put('/tijuana/admin/choferlocal', choferesLocalesTijuana.editInfo);
+router.get('/tijuana/choferlocal/', choferesLocalesTijuana.home);
+router.get('/tijuana/choferlocal/calculator', choferesLocalesTijuana.calculator);
+router.get('/tijuana/choferlocal/calculator/:index', choferesLocalesTijuana.calculator);
 
-router.get('/tijuana/choferes-locales/', choferesLocalesTijuana.home);
-router.get('/tijuana/choferes-locales/calculator', choferesLocalesTijuana.calculator);
-router.get('/tijuana/choferes-locales/calculator/:index', choferesLocalesTijuana.calculator);
-
-router.get('/tijuana/bono-tyg/', bonoTYGTijuana.home);
-router.get('/tijuana/bono-tyg/calculator', bonoTYGTijuana.calculator);
-router.get('/tijuana/bono-tyg/calculator/:index', bonoTYGTijuana.calculator);
+router.put('/tijuana/admin/bonotyg', bonoTYGTijuana.editInfo);
+router.get('/tijuana/bonotyg/', bonoTYGTijuana.home);
+router.get('/tijuana/bonotyg/calculator', bonoTYGTijuana.calculator);
+router.get('/tijuana/bonotyg/calculator/:index', bonoTYGTijuana.calculator);
 
 // CULIACAN -------------------------------------------------------------------------------------
 
