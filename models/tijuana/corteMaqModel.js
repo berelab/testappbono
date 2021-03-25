@@ -1,289 +1,111 @@
 'use strict'
 
-const corteBaseData = {
-        message: 'Corte',
-        city: 'Tijuana',
-        base0: 8,
-        dias_sucios:0,
-        amp:92,
-        num_quejas:0,
-        rechazo_interno:0,
-        horas_por_turno:9.5,
-        asistencia_total: 96,
-        dias: 6,
-        factor_dias_laborados: 1,
-        $_extra_m3: 32,
-        colaboradores: {
-            lunes: 0,
-            martes: 24.0,
-            miercoles: 24.0,
-            jueves: 24.0,
-            viernes: 24.0,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 279,
-            sabado: 0,
-            
-        },
-        tiempo_extra: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 0,
-            
-        },
-        equipo: [
-            {
-                nombre: 'EZEQUIEL GONZALEZ ANTEMATE',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'FRANCISCO ANTONIO GOMEZ MENDEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ORAN MARROQUIN VELAZQUEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LOURDES ALCANTAR LOPEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'BRAYAN ALEXIS GARCIA ESPEJO',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'DAMILLER ESPEJO',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'GUADALUPE NUÑEZ HERNANDEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MARIA DE LOS ANGELES BRAVO CRUZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ELIESER PEREZ SALAS',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'DAVID ORTEGA',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'MEJIA SARINA MORALES',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JOVANNY FLORES SANCHEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'RUBIEL MARROQUIN MORALES',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'BILLANEY RIVERA GONZALEZ',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ALEXIS CAMACHO',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'ROBERTO RANGEL',
-                num:'',
-                asistencia: {
-                    lunes: 0,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes:1.5,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
+class CorteModel {
+    constructor(repository){
+        this.repository = repository;
+    }
 
-        ]
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Corte',
+            city: 'Tijuana',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            amp:92,
+            num_quejas:0,
+            rechazo_interno:0,
+            horas_por_turno: 0,
+            m3_desplazados: {
+                lunes: 0,
+                martes: 69.75,
+                miercoles: 69.75,
+                jueves: 69.75,
+                viernes: 69.75,
+                sabado: 0,
+                domingo: 0            
+            },
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = corteBaseData;
+module.exports = CorteModel;

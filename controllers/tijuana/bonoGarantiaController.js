@@ -1,119 +1,127 @@
 'use strict'
 
-import {message, city,sipo,semana, dias, pago,  equipo} from '../../models/tijuana/bonoGarantiaModel';
-import att from '../Attendance'
+import bonoGModel from '../../models/tijuana/bonoGarantiaModel';
+import bonoGSQL from '../../infrastructure/tijuana/bonogRepo';
 import mainCalcs from '../MainCalcs';
+import convertData from '../ConvertData';
+import att from '../Attendance';
 
-const controller = {
-	
-    home: (req, res) => {
-        const calc = new att(
-            equipo
-        );
-        let asistencia = calc.asistenciaPersona;
-        let asistencia_total = calc.totalAsistencias;
+const controller = {	
+    home: async(req, res) => {
+        const repository = new bonoGSQL();
+        const model = new bonoGModel(repository);
+        let bonog = await model.execute(); 
+        const cd =  new convertData(bonog.equipo, bonog.team_asis);
+        let equipo = cd.convert;
 
 		return res.status(200).send({
-            message, 
-            city,
-            sipo, 
-            semana,
-            dias, 
-            pago,  
-            asistencia,
-            asistencia_total,
-            equipo,
+            message: bonog.message,
+            base0: bonog.base0,
+            dias_sucios: bonog.dias_sucios,
+            $_extra_m3: bonog.$_extra_m3,                   
+            dias: bonog.dias,
+            factor_dias_laborados: bonog.factor_dias_laborados,
+            semana: bonog.semana,
+            asistencia: bonog.team_asis,
+            equipo_convertido: equipo            
         });
     },
-    calculator: (req, res)=>{
+    calculator: async(req, res)=>{
+        const repository = new bonogSQL();
+        const model = new bonogModel(repository);
+        let bonog = await model.execute(); 
+        const cd =  new convertData(bonog.equipo, bonog.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, bonog.factor_dias_laborados);
+        // let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
-           
-        const calcAtt = new att(
-            equipo
-        );
-        let asistencia = calcAtt.asistenciaPersona;
-        let asistencia_total = calcAtt.totalAsistencias;
         
         const calc = new mainCalcs(
-            dias, 
+            bonog.dias, 
             null, 
-            asistencia, 
+            null, 
             asistencia_total, 
             weekdayName, 
             equipo, 
             null, 
-            pago, 
+            bonog.pago, 
             null, 
             null,
-            message,
-            city,
+            bonog.message,
+            bonog.city,
         );
         
         let bono_total_colaborador  = calc.montoAPagar;
         let bono_total = calc.montoTotal;
+        let bono_productividad = calc.bonoProductividad;  
+        let bono_metas = calc.pc_metas;     
 
         if(req.params.index){
-            let i = parseInt(req.params.index); 
+            let codigo = parseInt(req.params.index); 
+            let len = equipo.length;
+            let i = 'no encontrado';
 
-            
-            if(isNaN(i)){
-                return res.status(400).send({
-                    status: 'error',
-                    code:400,
-                    message: 'Index invalido',
-                });
+            for(var a=0; a<len; a++){
+                equipo[a].num == codigo?  i = a: i
             }
 
-            let len = equipo.length;
-           
-
-            if(i < 0 || i >= len ){
+            if(i =='no encontrado'){
                 return res.status(400).send({
                     status: 'error',
                     code:400,
                     message: 'No existe el colaborador',
                 });
             }else{
-                return res.status(200).send({
-                    
+                return res.status(200).send({             
                     nombre: equipo[i].nombre,
-                    depto: message,
+                    code: equipo[i].num,
+                    depto: bonog.message,
+                    day: weekdayName,
+                    meta_semana: bonog.base0,
+                    dias_laborados: bonog.dias, 
+                    $_extra_m3: bonog.$_extra_m3,       
+                    // progress: progress,
+                    // m3_persona: bultos_dia,
                     sipo: sipo,
                     semana: semana,
-                    day: weekdayName,
-                    dias_laborados: dias,       
-                    bono_depto: pago,
-                    bono_persona:bono_total_colaborador[i],  
-                    asistencia: asistencia[i],
-
-                });
-               
+                    bono_depto: pago,  
+                    pago_persona:pago_colaboradores[i], 
+                    bono_persona: bono_total_colaborador[i],
+                    bono_productividad: bono_productividad,
+                    bono_metas: bono_metas,
+                    // asistencia: sumatoria_asistencia[i], 
+                    // datos_extra: {
+                    //     m3_persona_dia: daily_prod
+                    // },                    
+                });               
             }
-            
-        
         }else{
-            return res.status(200).send({
-                
-                depto: message,
-                sipo: sipo,
-                semana: semana,
+            return res.status(200).send({      
+                depto: bonog.message,
                 day: weekdayName,
-                dias_laborados: dias,
+                meta_semana: bonog.base0,
+                dias_laborados: bonog.dias,
+                $_extra_m3: bonog.$_extra_m3,
+                // progress: progress,
+                // m3_persona: bultos_dia,
                 bono_depto: pago,
-                bono_persona:bono_total_colaborador,
-                bono_total: bono_total,
-                asistencia: asistencia, 
-                asistencia_total: asistencia_total,
-                equipo
-                
+                pago_persona:pago_colaboradores, 
+                bono_persona: bono_total_colaborador, 
+                bono_total:bono_total,
+                bono_productividad: bono_productividad,
+                bono_metas: bono_metas,
+                // asistencia: sumatoria_asistencia, 
+                // datos_extra: {
+                //     m3_persona_dia: daily_prod
+                // }
             });
-        }
-        
-
-
+        }  
     }
     
 };

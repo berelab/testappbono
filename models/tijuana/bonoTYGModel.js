@@ -1,134 +1,113 @@
 'use strict'
 
-const bonoTYGBaseData = {
-        message: 'Bono TYG',
-        city: 'Tijuana',
-        semana:{
-            del:'11/03/2019',
-            al:'17/03/2019'
-        },
-        dias: 6,
-        base0: 50,
-        dias_sucios:0,
-        amp:0,
-        epp:0,
-        asistencia_total:33.6,
-        factor_dias_laborados: 1.2,
-        $_extra_m3: 2.35,
-        colaboradores: {
-            lunes: 7.2,
-            martes: 6,
-            miercoles: 7.2,
-            jueves: 6,
-            viernes: 7.2,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 0,
-            sabado: 9000,
-            
-        },
-        equipo: [
-            {
-                nombre: 'RAMON AGUILAR PEREZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles:1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
+class BonoTYGModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Bono TYG',
+            city: 'Tijuana',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            semana:{
+                del:'11/03/2019',
+                al:'17/03/2019'
             },
-             {
-                nombre: 'MARIA DEL CARMEN LUJAN',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles:1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
+            amp:0,
+            epp:0,
+            m3_desplazados: {
+                lunes: 1800,
+                martes: 1800,
+                miercoles: 1800,
+                jueves: 1800,
+                viernes: 1800,
+                sabado: 0,
+                domingo: 0            
             },
-             {
-                nombre: 'MILAGRO DE LOS ANGELES GOMEZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles:1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
-            },
-             {
-                nombre: 'ESTEBAN RAMOS ABEL',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles:1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
-            },
-             {
-                nombre: 'PEDRO GUTIERREZ CHAVEZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles:1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
-            },
-             {
-                nombre: 'ABILMAIN GONZALEZ ORTIZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 0,
-                    miercoles:1.2,
-                    jueves: 0,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                horas_extras:0,
-                faltas : 0,
-                retardos: 0
-            },
-             
-        ]
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
-       
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
         
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = bonoTYGBaseData;
+module.exports = BonoTYGModel;

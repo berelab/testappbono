@@ -1,93 +1,115 @@
 'use strict'
 
-const mantenimientoBaseData = {
-        message: 'Mantenimiento',
-        city: 'Tijuana',
-        dias: 6,
-        areas: [
-            'Corte',
-            'Preexpansion y Moldeo',
-        ],
-        montos_recibidos_area:[
-           1339.59, 
-           235.64,
-        ],
-        rendimiento_agua: 'Azul',
-        rendimiento_combustible: 'Azul',
-        rendimiento_electricidad: 'Azul',
-        faltas_uso_epp: 0,
-        fugas_perla:0,
-        fugas_vapor:0,
-        fugas_aceite:0,
-        fugas_aire:0,
-        factor_dias_laborados:1.2,
-        horas_por_turno:9.5,
-        asistencia_total: 6,
-        colaboradores: {
-            lunes: 1,
-            martes: 1,
-            miercoles: 1,
-            jueves: 1,
-            viernes: 0,
-            sabado: 0
-        },
-        equipo: [
-            {
-                nombre: 'ALEXANDRO LOPEZ BONILLA',
-                asistencia: {
-                    lunes: 1.5,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes: 0,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LIMA MARTINEZ ROBERTO',
-                asistencia: {
-                    lunes: 0,
-                    martes: 0,
-                    miercoles: 0,
-                    jueves: 0,
-                    viernes: 0,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'LARA GARCIA DELFINO',
-                asistencia: {
-                    lunes: 0,
-                    martes: 0,
-                    miercoles: 0,
-                    jueves: 0,
-                    viernes: 0,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'CUEN TORRES RUBEN MANUEL',
-                asistencia: {
-                    lunes: 0,
-                    martes: 0,
-                    miercoles: 0,
-                    jueves: 0,
-                    viernes: 0,
-                    sabado: 0,
-                },
-                faltas : 0,
-                retardos: 0
-            },
-        ]
+class MantenimientoModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Mantenimiento',
+            city: 'Tijuana',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            areas: [
+                'Corte',
+                'Preexpansion y Moldeo',
+            ],
+            montos_recibidos_area:[
+               1339.59, 
+               235.64,
+            ],
+            rendimiento_agua: 'Azul',
+            rendimiento_combustible: 'Azul',
+            rendimiento_electricidad: 'Azul',
+            faltas_uso_epp: 0,
+            fugas_perla:0,
+            fugas_vapor:0,
+            fugas_aceite:0,
+            fugas_aire:0,       
+            horas_por_turno: 0,
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
         
-        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = mantenimientoBaseData;
+module.exports = MantenimientoModel;

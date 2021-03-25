@@ -1,77 +1,107 @@
 'use strict'
 
-const siloMolinoBaseData = {
-        message: 'Silo Molino',
-        city: 'Tijuana',
-        base0: 2,
-        dias_sucios:0,
-        asistencia_total:18,
-        dias: 6,
-        factor_dias_laborados: 1,
-        $_extra_m3: 25,
-        colaboradores: {
-            lunes: 3.9,
-            martes: 3.9,
-            miercoles: 3.9,
-            jueves: 3.9,
-            viernes: 2.4,
-            sabado: 0,
-            
-        },
-        m3_desplazados: {
-            lunes: 0,
-            martes: 0,
-            miercoles: 0,
-            jueves: 0,
-            viernes: 30,
-            sabado: 0,
-            
-        },
-        equipo: [
-            {
-                nombre: 'JOSE MANUEL GARCIA',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
+class MolinoModel {
+    constructor(repository){
+        this.repository = repository;
+    }
+
+    async execute() {
+        let response;
+        let teamResponse;
+        let entries;
+        let extra;
+
+        try {
+            response = await this.repository.find();
+            teamResponse = await this.repository.findTeam();
+            entries = await this.repository.entryTimes();
+            extra = await this.repository.extraData();
+        } catch(error) {
+            throw error;
+        }
+
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+    }
+
+    async refresh(base, dias_sucios, extra_m3) {
+        let response;
+
+        try {
+            response = await this.repository.update(base, dias_sucios, extra_m3);
+        } catch(error) {
+            throw error;
+        }
+
+        return response;
+    }
+
+    _convertData(response, team, entries, extra) {
+        return {
+            message: 'Silo Molino',
+            city: 'Tijuana',
+            base0: response.base,
+            dias_sucios: response.dirty_days,
+            $_extra_m3: response.extra,
+            dias: extra.dias,
+            factor_dias_laborados: extra.factor,
+            m3_desplazados: {
+                lunes: 6,
+                martes: 6,
+                miercoles: 6,
+                jueves: 6,
+                viernes: 6,
+                sabado: 0,
+                domingo: 0            
             },
-            {
-                nombre: 'ANASTACIO GARCIA MARTINEZ',
-                asistencia: {
-                    lunes: 1.2,
-                    martes: 1.2,
-                    miercoles: 1.2,
-                    jueves: 1.2,
-                    viernes: 1.2,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            },
-            {
-                nombre: 'JUAN DIEGO GIL HERRERA',
-                asistencia: {
-                    lunes: 1.5,
-                    martes: 1.5,
-                    miercoles: 1.5,
-                    jueves: 1.5,
-                    viernes: 0,
-                    sabado: 0,
-                   
-                },
-                faltas : 0,
-                retardos: 0
-            }
-        ]
+            equipo: team,
+            team_asis: entries
+        };
+    }
+    _reorderData(entries){
+        let orderedData = entries.map(element => {
+            let dateString = element.fecha
+            var days = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+            var d = new Date(dateString);
+            var dayName = days[d.getDay()];
+            let asis;
+            let retardo = 0;
+            let limit = element.entrada + 10;
         
+            !isNaN(element.entrada_real) ? asis = '1.0' : asis = '0.0';            
+            element.entrada_real <= limit ? retardo = 0 : retardo = 1;
+
+            return {
+                code: element.userid,
+                asistencia: {
+                  [dayName]: asis
+                },
+                retardos: {
+                    [dayName] : retardo
+                }
+            };
+        });
+        
+        let seen = {};
+        let result = orderedData.filter(function(entry) {
+            let previous;
+            if (seen.hasOwnProperty(entry.code)) {
+                previous = seen[entry.code];                
+                previous.asistencia.push(entry.asistencia);
+                previous.retardos.push(entry.retardos);
+                return false;
+            }
+            if (!Array.isArray(entry.asistencia)) {
+                entry.asistencia = [entry.asistencia];
+            }
+            if (!Array.isArray(entry.retardos)) {
+                entry.retardos = [entry.retardos];
+            }            
+            seen[entry.code] = entry;
+            return true;
+        });
+
+        return result;
+    }
 };
 
-module.exports = siloMolinoBaseData;
+module.exports = MolinoModel;
