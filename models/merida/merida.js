@@ -21,6 +21,9 @@ const MeridaData = {
             {
                 nombre: 'Moldeo',
             },
+            {
+                nombre: 'Rotulado',
+            },
         ]
 };
 

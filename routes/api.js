@@ -643,6 +643,7 @@ router.get('/merida/bloquera/', bloqueraMerida.home);
 router.get('/merida/bloquera/calculator', bloqueraMerida.calculator);
 router.get('/merida/bloquera/calculator/:index', bloqueraMerida.calculator);
 
+router.put('/merida/admin/rotulado', rotuladoMerida.editInfo);
 router.get('/merida/rotulado/', rotuladoMerida.home);
 router.get('/merida/rotulado/calculator', rotuladoMerida.calculator);
 router.get('/merida/rotulado/calculator/:index', rotuladoMerida.calculator);
