@@ -25,6 +25,9 @@ const HermosilloData = {
                 nombre: 'Moldeo',
             },
             {
+                nombre: 'Rotulado',
+            },
+            {
                 nombre: 'Steelfoam',
             },
 

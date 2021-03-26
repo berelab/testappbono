@@ -403,9 +403,10 @@ router.get('/hermosillo/insulpanel', insulpanelHermosillo.home);
 router.get('/hermosillo/insulpanel/calculator/', insulpanelHermosillo.calculator);
 router.get('/hermosillo/insulpanel/calculator/:index', insulpanelHermosillo.calculator);
 
-router.get('/hermosillo/rotuladot1', rotuladoT1Hermosillo.home);
-router.get('/hermosillo/rotuladot1/calculator/', rotuladoT1Hermosillo.calculator);
-router.get('/hermosillo/rotuladot1/calculator/:index', rotuladoT1Hermosillo.calculator);
+router.put('/hermosillo/admin/rotulado', rotuladoT1Hermosillo.editInfo);
+router.get('/hermosillo/rotulado', rotuladoT1Hermosillo.home);
+router.get('/hermosillo/rotulado/calculator/', rotuladoT1Hermosillo.calculator);
+router.get('/hermosillo/rotulado/calculator/:index', rotuladoT1Hermosillo.calculator);
 
 
 //--------------------------------------------------------------------------------------------------
