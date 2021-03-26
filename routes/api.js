@@ -198,9 +198,9 @@ import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimien
 // users
 router.get('/test', users.home);
 router.post('/login', users.login);
+router.post('/reenviar-codigo', users.resendCode);
 
 /* pendientes adaptar
-router.post('/reenviar-codigo', users.resendCode);
 router.post('/cambiar-contrasena', users.changePass);
 */
 
