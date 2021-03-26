@@ -18,6 +18,9 @@ const MonterreyData = {
             {
                 nombre: 'Moldeo',
             },
+            {
+                nombre: 'Rotulado',
+            },
         ]
 };
 

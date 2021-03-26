@@ -548,14 +548,16 @@ router.get('/monterrey/mantenimiento/', mantenimientoMonterrey.home);
 router.get('/monterrey/mantenimiento/calculator', mantenimientoMonterrey.calculator);
 router.get('/monterrey/mantenimiento/calculator/:index', mantenimientoMonterrey.calculator);
 
-router.get('/monterrey/choferes-locales/', choferesLocalesMonterrey.home);
-router.get('/monterrey/choferes-locales/calculator', choferesLocalesMonterrey.calculator);
-router.get('/monterrey/choferes-locales/calculator/:index', choferesLocalesMonterrey.calculator);
+router.put('/monterrey/admin/choferlocal', choferesLocalesMonterrey.editInfo);
+router.get('/monterrey/choferlocal/', choferesLocalesMonterrey.home);
+router.get('/monterrey/choferlocal/calculator', choferesLocalesMonterrey.calculator);
+router.get('/monterrey/choferlocal/calculator/:index', choferesLocalesMonterrey.calculator);
 
 router.get('/monterrey/choferes-cedi/', choferesCEDIMonterrey.home);
 router.get('/monterrey/choferes-cedi/calculator', choferesCEDIMonterrey.calculator);
 router.get('/monterrey/choferes-cedi/calculator/:index', choferesCEDIMonterrey.calculator);
 
+router.put('/monterrey/admin/molino', moliendaMRMonterrey.editInfo);
 router.get('/monterrey/molino/', moliendaMRMonterrey.home);
 router.get('/monterrey/molino/calculator', moliendaMRMonterrey.calculator);
 router.get('/monterrey/molino/calculator/:index', moliendaMRMonterrey.calculator);
@@ -579,9 +581,10 @@ router.get('/monterrey/emcorte/', emcoMonterrey.home);
 router.get('/monterrey/emcorte/calculator', emcoMonterrey.calculator);
 router.get('/monterrey/emcorte/calculator/:index', emcoMonterrey.calculator);
 
-router.get('/monterrey/corte-nip/', corteNIPMonterrey.home);
-router.get('/monterrey/corte-nip/calculator', corteNIPMonterrey.calculator);
-router.get('/monterrey/corte-nip/calculator/:index', corteNIPMonterrey.calculator);
+router.put('/monterrey/admin/cortenip', corteNIPMonterrey.editInfo);
+router.get('/monterrey/cortenip/', corteNIPMonterrey.home);
+router.get('/monterrey/cortenip/calculator', corteNIPMonterrey.calculator);
+router.get('/monterrey/cortenip/calculator/:index', corteNIPMonterrey.calculator);
 
 router.get('/monterrey/corte-l/', corteLMonterrey.home);
 router.get('/monterrey/corte-l/calculator', corteLMonterrey.calculator);
@@ -600,9 +603,10 @@ router.get('/monterrey/preexpansion/', preexpansionMonterrey.home);
 router.get('/monterrey/preexpansion/calculator', preexpansionMonterrey.calculator);
 router.get('/monterrey/preexpansion/calculator/:index', preexpansionMonterrey.calculator);
 
-router.get('/monterrey/rotulado-hielera-1/', rotuladoHielera1Monterrey.home);
-router.get('/monterrey/rotulado-hielera-1/calculator', rotuladoHielera1Monterrey.calculator);
-router.get('/monterrey/rotulado-hielera-1/calculator/:index', rotuladoHielera1Monterrey.calculator);
+router.put('/monterrey/admin/rotulado', rotuladoHielera1Monterrey.editInfo);
+router.get('/monterrey/rotulado/', rotuladoHielera1Monterrey.home);
+router.get('/monterrey/rotulado/calculator', rotuladoHielera1Monterrey.calculator);
+router.get('/monterrey/rotulado/calculator/:index', rotuladoHielera1Monterrey.calculator);
 
 router.get('/monterrey/rotulado-hielera-2/', rotuladoHielera2Monterrey.home);
 router.get('/monterrey/rotulado-hielera-2/calculator', rotuladoHielera2Monterrey.calculator);
