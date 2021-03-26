@@ -440,6 +440,7 @@ router.get('/guadalajara/choferlocal/', choferesGuadalajara.home);
 router.get('/guadalajara/choferlocal/calculator', choferesGuadalajara.calculator);
 router.get('/guadalajara/choferlocal/calculator/:index', choferesGuadalajara.calculator);
 
+router.put('/guadalajara/admin/molino', moliendaMRGuadalajara.editInfo);
 router.get('/guadalajara/molino/', moliendaMRGuadalajara.home);
 router.get('/guadalajara/molino/calculator', moliendaMRGuadalajara.calculator);
 router.get('/guadalajara/molino/calculator/:index', moliendaMRGuadalajara.calculator);

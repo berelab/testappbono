@@ -20,6 +20,9 @@ const GuadalajaraData = {
             },
             {
                 nombre: 'Mantenimiento',
+            },
+            {
+                nombre: 'Molino',
             }
         ]
 };
