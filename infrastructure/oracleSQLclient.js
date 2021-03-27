@@ -1,12 +1,18 @@
 'use strict'
-let connection;
+//let connection;
 var oracledb = require('oracledb');
 
-const config = {
+/*const config = {
     user: 'appbono',
     password: 'Bshb1WIktB',
     connectString: 'pfanoi'
-}
+}*/
+
+oracledb.getConnection({
+  user: 'appbono',
+  password: 'Bshb1WIktB',
+  connectString: 'pfanoi'
+})
 
 /*
 (async function() {

@@ -247,6 +247,8 @@ class userModel {
                 return 'moldeo'
             }else if(depto == 'Steelfoam'){
                 return 'steelfoam'
+            }else if(depto == 'Rotulado'){
+                return 'rotulado'
             }else{
                 return 'no-valido'
             } 
@@ -263,6 +265,8 @@ class userModel {
                 return 'insulpanel'
             }else if(depto == 'Mantenimiento Ind. Variable'){
                 return 'mantenimiento'
+            }else if(depto == 'Molino'){
+                return 'molino'
             }else{
                 return 'no-valido'
             } 
@@ -279,12 +283,22 @@ class userModel {
                 return 'moldeo'
             }else if(depto == 'Mantenimiento Ind. Variable'){
                 return 'mantenimiento'
+            }else if(depto == 'Rotulado'){
+                return 'rotulado'
             }else{
                 return 'no-valido'
             } 
         }else if(citycode == 'MTY'){//-----------------------------------------
             if(depto == 'EM Cortado'  ){
                 return 'emcorte'
+            }else if(depto == 'Corte NIP'){
+                return 'cortenip'
+            }else if(depto == 'Corte'){
+                return 'cortel'
+            }else if(depto == 'Rotulado'){
+                return 'rotulado'
+            }else if(depto == 'Molino'){
+                return 'molino'
             }else if(depto == 'Ventas Distibución Local'){
                 return 'choferlocal'
             }else if(depto == 'Bloqueras'){
