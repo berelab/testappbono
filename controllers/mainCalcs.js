@@ -1207,15 +1207,25 @@ class MainCalcs {
     /**Mexicali*/
 
     monto_a_pagar(asistencias, pago, dias, depto, dias_comida, pago_dia_comida){
+        let calc = new Attendance(this.equipo);
+        let sumatoria_asistencia = calc.asistencias;
         let dias_laborados = dias;
         let monto =[];
         let len = asistencias.length;
         
         if(depto=='Almacen' || depto=='Bono Garantia'){
-            for(var i =0; i<len; i++){
-                let total = (pago/dias_laborados)*asistencias[i]
-                monto.push(total);
+            if(depto=='Bono Garantia'){
+                for(var i =0; i<sumatoria_asistencia.length; i++){
+                    let total = (pago/dias_laborados)*sumatoria_asistencia[i]
+                    monto.push(total);
+                }
+            }else{
+                for(var i =0; i<len; i++){
+                    let total = (pago/dias_laborados)*asistencias[i]
+                    monto.push(total);
+                }
             }
+           
         }else if(depto=='Produccion' || depto=='Mantenimiento'){
             for(var i =0; i<len; i++){
                 let total = ((pago/dias_laborados)*asistencias[i])+(dias_comida[i]*pago_dia_comida);

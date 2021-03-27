@@ -48,11 +48,11 @@ class BloqueraModel {
             amp:100,        
             horas_por_turno: 0,       
             m3_desplazados: {
-                lunes: 63.9,
-                martes: 63.9,
-                miercoles: 63.9,
-                jueves: 63.9,
-                viernes: 63.9,
+                lunes: 163.9,
+                martes: 163.9,
+                miercoles: 163.9,
+                jueves: 163.9,
+                viernes: 163.9,
                 sabado: 0,
                 domingo: 0            
             },

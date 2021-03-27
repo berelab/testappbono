@@ -37,7 +37,7 @@ class BloqueraModel {
 
     _convertData(response, team, entries, extra) {
         return {
-            message: 'Bloquera',
+            message: 'PreexpYMoldeo',
             city: 'Queretaro',
             base0: response.base,
             dias_sucios: response.dirty_days,

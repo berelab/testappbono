@@ -27,14 +27,14 @@ const controller = {
         });
     },
     calculator: async(req, res)=>{
-        const repository = new bonogSQL();
-        const model = new bonogModel(repository);
+        const repository = new bonoGSQL();
+        const model = new bonoGModel(repository);
         let bonog = await model.execute(); 
         const cd =  new convertData(bonog.equipo, bonog.team_asis);
         let equipo = cd.convert;
 
         const calcAtt = new att( equipo, bonog.factor_dias_laborados);
-        // let colaboradores = calcAtt.colaboradoresPorDia;
+        let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
@@ -45,7 +45,7 @@ const controller = {
         const calc = new mainCalcs(
             bonog.dias, 
             null, 
-            null, 
+            colaboradores, 
             asistencia_total, 
             weekdayName, 
             equipo, 
@@ -56,11 +56,11 @@ const controller = {
             bonog.message,
             bonog.city,
         );
-        
+        let sumatoria_asistencia = calc.totalAsistencia;
         let bono_total_colaborador  = calc.montoAPagar;
         let bono_total = calc.montoTotal;
-        let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;     
+       // let bono_productividad = calc.bonoProductividad;  
+       // let bono_metas = calc.pc_metas;     
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
@@ -90,12 +90,11 @@ const controller = {
                     // m3_persona: bultos_dia,
                     sipo: sipo,
                     semana: semana,
-                    bono_depto: pago,  
-                    pago_persona:pago_colaboradores[i], 
+                    bono_depto: bonog.pago,  
                     bono_persona: bono_total_colaborador[i],
-                    bono_productividad: bono_productividad,
-                    bono_metas: bono_metas,
-                    // asistencia: sumatoria_asistencia[i], 
+                    //bono_productividad: bono_productividad,
+                    //bono_metas: bono_metas,
+                    asistencia: sumatoria_asistencia[i], 
                     // datos_extra: {
                     //     m3_persona_dia: daily_prod
                     // },                    
@@ -110,13 +109,12 @@ const controller = {
                 $_extra_m3: bonog.$_extra_m3,
                 // progress: progress,
                 // m3_persona: bultos_dia,
-                bono_depto: pago,
-                pago_persona:pago_colaboradores, 
+                bono_depto: bonog.pago,
                 bono_persona: bono_total_colaborador, 
                 bono_total:bono_total,
-                bono_productividad: bono_productividad,
-                bono_metas: bono_metas,
-                // asistencia: sumatoria_asistencia, 
+                //bono_productividad: bono_productividad,
+                //bono_metas: bono_metas,
+                asistencia: sumatoria_asistencia, 
                 // datos_extra: {
                 //     m3_persona_dia: daily_prod
                 // }
