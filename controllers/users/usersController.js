@@ -4,7 +4,10 @@ import usersRepository from '../../infrastructure/users/usersRepository';
 
 var validator = require('validator');
 var jwt = require('../../services/jwt');
-var nodemailer = require('nodemailer'); // email sender 
+var nodemailer = require('nodemailer'); 
+var fs = require('fs'); 
+var handlebars = require('handlebars'); 
+
 
 const controller = {
     clear: async (req, res) => {  
@@ -165,6 +168,24 @@ const controller = {
          });
     },
 
+    // envia su contraseña a cada uno de los colaboradores.
+    email: async (req, res) => {
+        const repository = new usersRepository();
+        const modelUsr = new usersModel(repository);
+        
+        /*
+        let  users = await modelUsr.executeUsers(); 
+       
+       for(var i =0; i<users.length; i++){
+         //sendEmail(users[i]); 
+       }
+       */
+
+       return res.status(200).send({
+        message: 'Emails enviados'
+        });
+},
+
     
     resendCode:  async (req, res)=>{
         var params = req.body;
@@ -177,101 +198,99 @@ const controller = {
 
 };
 
-
-let sendEmail = (user)=>{
-   
-    // Definimos el transporter
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'correo remitente',
-            pass: 'pass'
-        }
-    });
-
-    // Definimos el email
-    var mailOptions = {
-        from: 'FANOSA APP',
-        to: user.email,
-        subject: 'Clave de acceso APP FANOSA',
-        text: `Hola ${user.name} el motivo de este mensaje es para compartirte tu primera clave para acceso a la APP DE FANOSA, posteriormente podras cambiarla dentro de la misma App. CLAVE: ${user.password}`
-        };
-
-       
-        // Enviamos el email
-        transporter.sendMail(mailOptions, function(error, info){
-        if (error){
-            return 'Email no enviado'
-        } else {
-           return   'Email enviado'
-        }
-        });
-
-        
-}
  
 let sendCode = (user, code)=>{
-   
-    // Definimos el transporter
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'correo remitente',
-            pass: 'pass'
-        }
-    });
 
-    // Definimos el email
-    var mailOptions = {
-        from: 'FANOSA APP',
-        to: user.email,
-        subject: 'Clave de acceso APP FANOSA',
-        text: `Hola ${user.name}, tu codigo de autentificación es: ${code}`
+    var readHTMLFile = function(path, callback) {
+     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+         if (err) {
+             throw err;
+             callback(err);
+         }
+         else {
+             callback(null, html);
+         }
+     });
+     };
+ 
+ 
+     // Definimos el transporter
+     var transporter = nodemailer.createTransport({
+         service: 'Gmail',
+         auth: {
+             user: 'berengena117@gmail.com',
+             pass: 'tsumiki97'
+         }
+     });
+ 
+     readHTMLFile(__dirname + '/views/sendcode.html', function(err, html) {
+         var template = handlebars.compile(html);
+         var replacements = {
+             username: user.name,
+             usercode: code
         };
-
-       
-        // Enviamos el email
-        transporter.sendMail(mailOptions, function(error, info){
-        if (error){
-            return 'Email no enviado'
-        } else {
-           return   'Email enviado'
-        }
-        });
-
-        
-}
-
-
-let sendInfo = (user)=>{
-   
-    // Definimos el transporter
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'correo remitente',
-            pass: 'pass'
-        }
-    });
-
-    // Definimos el email
-    var mailOptions = {
-        from: 'FANOSA APP',
-        to: user.email,
-        subject: 'Actualizacion de contraseña',
-        text: `Hola ${user.name}, el motivo de este mensaje es informar que el cambio de contraseña para su cuenta de APP FANOSA se ha realizado con exito.`
-        };
-
-       
-        // Enviamos el email
-        transporter.sendMail(mailOptions, function(error, info){
-        if (error){
-            return 'Email no enviado'
-        } else {
-            return   'Email enviado'
-        }
-        });
-}
+         var htmlToSend = template(replacements);
+         var mailOptions = {
+             from: 'no-reply@gmail.com',
+             to : user.email,
+             subject : 'Código de acceso APP FANOSA',
+             html : htmlToSend
+          };
+          transporter.sendMail(mailOptions, function (error, response) {
+             if (error) {
+                 console.log(error);
+                 callback(error);
+             }
+         });
+     });
+ 
+    
+ }
+ 
+ let sendInfo = (user)=>{
+    
+     var readHTMLFile = function(path, callback) {
+         fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+             if (err) {
+                 throw err;
+                 callback(err);
+             }
+             else {
+                 callback(null, html);
+             }
+         });
+         };
+     
+     
+         // Definimos el transporter
+         var transporter = nodemailer.createTransport({
+             service: 'Gmail',
+             auth: {
+                 user: 'berengena117@gmail.com',
+                 pass: 'tsumiki97'
+             }
+         });
+     
+         readHTMLFile(__dirname + '/views/sendinfo.html', function(err, html) {
+             var template = handlebars.compile(html);
+             var replacements = {
+                 username: user.name
+            };
+             var htmlToSend = template(replacements);
+             var mailOptions = {
+                 from: 'no-reply@gmail.com',
+                 to : user.email,
+                 subject : 'Actualización de contraseña',
+                 html : htmlToSend
+              };
+              transporter.sendMail(mailOptions, function (error, response) {
+                 if (error) {
+                     console.log(error);
+                     callback(error);
+                 }
+             });
+         });
+ }
 
  
 module.exports = controller; 

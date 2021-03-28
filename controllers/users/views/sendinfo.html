@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Código de autentificación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <style>
+        
+        body {
+        margin:0px !important;
+        height: 100vh;
+        }
+
+        #app {
+        
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+        height: inherit;
+        }
+
+        .container {
+          
+           margin-top: 2vw;
+           
+        }
+
+        .logo {
+            width: 75%;
+            height: 15vw;
+            margin-bottom: 1vw;
+            margin-left: 24%;
+            background-image: url(https://legrafica.mx/wp-content/uploads/2021/03/logo.png);
+            background-size: 70%;
+            background-repeat: no-repeat;
+        }
+
+        .info {
+            color: #005cc3;
+            text-align: center;
+            margin-bottom: 3vw;
+        }
+
+        .info h1{
+            font-family: Arial;
+            font-size: 3.1vw;
+        }
+
+        .info p{
+            font-size: 2.4vw;
+            font-family: Arial;
+
+        }
+
+        .code{
+            margin-left: 12%;
+            position: relative;
+            display: inline-block;
+            width: 75%;
+            height: 30vw;
+            background-image: url(https://legrafica.mx/wp-content/uploads/2021/03/banner.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+        .code  h2{
+            
+            font-size: 5vw;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-family: Arial;
+            color: #FFFEFF;
+            margin-top: 17%;
+           
+        }
+
+        .code img{
+            width: 100%;
+            height: 100%;
+            
+        }
+        
+        .pie{
+            margin-top: 5vw;
+            width: 78%;
+            text-align: center;
+        }
+
+        .pie p{
+            color: #8E8E8E;
+            font-family: Arial;
+           
+            margin-left: 27%;
+            font-size: 1.6vw;
+            font-style: normal;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <div class="logo">
+           
+        </div>
+        <div class="info">
+            <h1>¡Hola, {{username}}!</h1>
+            <p>Se ha actualizado con exito tu contraseña para acceder a APP FANOSA</p>
+        </div>
+        <div class="code">
+           <h2></h2>
+         
+        </div>
+        <div class="pie">
+            <p>Si no has  sido tú quien ha realizado esta acción ponte en contacto con nosotros.</p>
+        </div>
+    </div>
+</body>
+</html>
