@@ -23,6 +23,7 @@ const controller = {
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
             factor_dias_laborados: corte.factor_dias_laborados,
+            amp: corte.amp,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,
             equipo_convertido: equipo

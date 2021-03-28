@@ -218,8 +218,8 @@ let sendCode = (user, code)=>{
      var transporter = nodemailer.createTransport({
          service: 'Gmail',
          auth: {
-             user: 'berengena117@gmail.com',
-             pass: 'tsumiki97'
+            user: 'correo remitente',
+            pass: 'pass'
          }
      });
  
@@ -266,8 +266,8 @@ let sendCode = (user, code)=>{
          var transporter = nodemailer.createTransport({
              service: 'Gmail',
              auth: {
-                 user: 'berengena117@gmail.com',
-                 pass: 'tsumiki97'
+                 user: 'correo remitente',
+                 pass: 'pass'
              }
          });
      

@@ -130,3 +130,41 @@ INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO
 
 WHERE  COLABORADOR.CB_ACTIVO = 'S' 
 ORDER BY  COLABORADOR.CB_NIVEL5 , APP_NIVEL2.TB_ELEMENT 
+
+
+--indicadores BD TABLEROS
+
+-- plantas -- tabla Entidad
+/*
+ EntidadID	Nombre
+    1	Tijuana
+    2	Mexicali
+    3	Nogales
+    4	Cd. Juárez
+    5	La Paz
+    6	Hermosillo
+    7	Culiacan
+    8	Monterrey
+    9	Querétaro
+    10	Guadalajara
+    11	Villahermosa
+    12	Mérida
+    13	Cancún
+    14	Veracruz
+    15	Ciudad de México
+    99	Division Exportacion
+    100	Global
+*/
+
+-- tabla indicador
+/*
+ IndicadorID	| Nombre	                   |  NombreCorto	 |    
+|    15	        | % de desperdicio en corte    |       P3-1	     |   
+*/
+
+
+--desperdicio corte lapaz para marzo 2021
+-- ValorReal3 seria para abril... ValorReal4 para mayo ...
+SELECT 
+      ValorReal2 as desperdicio 
+  FROM DatoReporte where IndicadorID = 15 and EntidadID = 5 and Periodo = 2021

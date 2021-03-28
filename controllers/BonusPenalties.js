@@ -95,6 +95,12 @@ export default class BonusPenalties {
         let premio_castigo_amp;
         if(city == 'Juarez') {
             this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicios2;
+        }else if(city == 'La Paz'){
+            if(this.depto=='Corte'){
+                premio_castigo_amp = calc.desperdicio13;
+            }else{
+                premio_castigo_amp = calc.desperdicios;
+            }
         }else if(city == 'Guadalajara'){
             //premio_castigo_amp =calc.desperdicio7;
             premio_castigo_amp = calc.desperdicio13;
@@ -247,7 +253,7 @@ export default class BonusPenalties {
     }
     pc_densidad_moldeo(percepcion_total_m3_base){
         let calc = new TableOfProportions(this.amp, this.blocks_fe, this.densidad, this.id_combustible);
-        let p_pc_densidad = calc.densidades;
+        let p_pc_densidad  = calc.desperdicio13; ; //calc.densidades; bloquera la paz
         let premio_castigo_densidad;
         p_pc_densidad ? premio_castigo_densidad = percepcion_total_m3_base * p_pc_densidad : premio_castigo_densidad = 0;
 

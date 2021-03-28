@@ -10,17 +10,20 @@ class CorteModels {
         let teamResponse;
         let entries;
         let extra;
-
+        let amp;
+        let valorReal = this._convertMonth();
+        let year = this._getYear();
         try {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
             entries = await this.repository.entryTimes();
             extra = await this.repository.extraData();
+            amp = await this.repository.indicator(year, valorReal);
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, amp);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -35,7 +38,7 @@ class CorteModels {
         return response;
     }
 
-    _convertData(response, team, entries, extra) {
+    _convertData(response, team, entries, extra,amp) {
         return {
             message: 'Corte',
             city: 'La Paz',
@@ -45,7 +48,7 @@ class CorteModels {
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             asistencia_total: '18.00',
-            amp: '96.98',
+            amp: amp,
             m3_cortados: {
                 lunes: 328.32,
                 martes: 81.93,
@@ -103,6 +106,43 @@ class CorteModels {
         });
 
         return result;
+    }
+
+    _convertMonth(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        if(month==0){ //enero
+            return 'ValorReal12' //toma el de diciembre del año pasado
+        }else if(month==1){
+            return 'ValorReal1'
+        }else if(month==2){
+            return 'ValorReal2'
+        }else if(month==3){
+            return 'ValorReal3'
+        }else if(month==4){
+            return 'ValorReal4'
+        }else if(month==5){
+            return 'ValorReal5'
+        }else if(month==6){
+            return 'ValorReal6'
+        }else if(month==7){
+            return 'ValorReal7'
+        }else if(month==8){
+            return 'ValorReal8'
+        }else if(month==9){
+            return 'ValorReal9'
+        }else if(month==10){
+            return 'ValorReal10'
+        }else if(month==11){
+            return 'ValorReal11'
+        }
+    }
+    _getYear(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        let year = dateObj.getFullYear();
+        month == 0? year = year-1: year  // si es enero mandamos el año anterior para tomar el mes de diciembre.
+        return year
     }
 
 
