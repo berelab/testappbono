@@ -64,7 +64,7 @@ class userModel {
             throw error;
         }
 
-        return  response;
+        return  response.response.recordset;
     }
 
     
@@ -77,7 +77,7 @@ class userModel {
             throw error;
         }
 
-        return response;
+        return response.response.rowsAffected;
     }
     
     _convertData(response) {
@@ -136,7 +136,7 @@ class userModel {
                 if(deptorute != 'no-valido'){ //solo agregar los colaboradores con departamentos que si estan en la app
                     users.push(user)  
                 } 
-                //users.push(user)
+                
             }
           
         }
@@ -145,8 +145,19 @@ class userModel {
             users.push(admins[i]);
         }
 
-
+        
+        let userprueba = {
+            id: 1010101,
+            name: 'admin pruebas',
+            num: 1010101,
+            email: 'admin@pruebas.com' ,
+            password: 'admin12345p',
+            role: '230', 
+            city: 'pruebas',
+            depto: 'pruebas'  
+        }
        
+        users.push(userprueba)
        
         return users
     }
@@ -338,11 +349,21 @@ class userModel {
             }else{
                 return 'no-valido'
             } 
-        }else if(citycode == 'VZ'){//----------------------------------------- pendiente bloquera,corte,contruspanel, almacen, choferes,almacen cedi, mantenimiento, chofercedi, steelfoam
+        }else if(citycode == 'VZ'){//----------------------------------------- 
             if(depto == 'EM Cortado'){
                 return 'emcorte'
-            }else if(depto == 'Moldeo'){
+            }else if(depto == 'Moldeo Variable'){
                 return 'moldeo'
+            }else if(depto == 'Corte Variable'){
+                return 'corte'
+            }else if(depto == 'Panel'){
+                return 'panel'
+            }else if(depto == 'Ventas Distibución Local'){
+                return 'choferlocal'
+            }else if(depto == 'Steelfoam'){
+                return 'steelfoam'
+            }else if(depto == 'Mantenimiento Ind. Variable'){
+                return 'mantenimiento'
             }else{
                 return 'no-valido'
             } 
@@ -373,6 +394,8 @@ class userModel {
                 return 'almacen'
             }else if(depto == 'Bloqueras'){
                 return 'bloquera'
+            }else if(depto == 'Moldeo Variable'){
+                return 'moldeo'
             }else if(depto == 'Corte Variable'  || depto == 'EM Cortado'  ){
                 return 'corte'
             }else if(depto == 'Ventas Distibución Local'){

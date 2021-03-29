@@ -201,8 +201,7 @@ router.post('/login', users.login);
 router.post('/reenviar-codigo', users.resendCode);
 router.post('/cambiar-pass', users.changePass);
 
-
-//router.get('/guardar', users.save); // ejecutar solo si esta vacia la tabla.
+router.get('/guardar', users.save); 
 //router.get('/vaciar-tabla', users.clear); 
 
 //------------------------------------------------------------------------------------------------------------

@@ -27,7 +27,7 @@ const controller = {
         const repository = new usersRepository();
         const modelUsr = new usersModel(repository);
         let  users = await modelUsr.execute(); 
-        /*
+        
         let  users2 = await modelUsr.executeUsers(); 
 
         let newUsers =[];
@@ -47,13 +47,14 @@ const controller = {
                 newUsers.push(users[i]);
             }
         }
-        */
+       
 
-        let saveUsers = await modelUsr.saveUsers(users);
+        let saveUsers = await modelUsr.saveUsers(newUsers);
 
         
 		return res.status(200).send({
-            message: 'Metodo para guardar los usuarios.',
+            message: 'Usuarios guardados.',
+            newUsers
            
         });
     
@@ -118,7 +119,7 @@ const controller = {
                 }
 
                 //Enviar email con el codigo de auth
-                /*no activar aun
+                /* pendiente falta correo de fanosa
                 
                  if(users[index].role == '230' || users[index].role == '039' || users[index].role == '056'){
                     //sendCode(users[index], code); // enviar codigo de autentificacion solo a admins
@@ -158,15 +159,22 @@ const controller = {
         let  changepass = await modelUsr.updatePass(params.num, params.password); 
         let user = await modelUsr.getUser(params.num); 
 
-        /*
+        if(changepass[0]==1){
+          changepass[0] = 'success'
+        }else{
+            changepass[0] = 'error'
+        }
+
+        /* pendiente falta correo de fanosa
         if(user.length > 0){
             sendInfo(user[0]);
         }
         */
 
         return res.status(200).send({
-            changepass,
-            user
+            status: changepass[0],
+            user:{name: user[0].name, num: user[0].num}
+            
          });
     },
 
@@ -175,7 +183,7 @@ const controller = {
         const repository = new usersRepository();
         const modelUsr = new usersModel(repository);
         
-        /*
+        /*pendiente falta correo de fanosa
         let  users = await modelUsr.executeUsers(); 
        
        for(var i =0; i<users.length; i++){
