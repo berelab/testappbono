@@ -158,13 +158,15 @@ const controller = {
         let  changepass = await modelUsr.updatePass(params.num, params.password); 
         let user = await modelUsr.getUser(params.num); 
 
-      
+        /*
         if(user.length > 0){
             sendInfo(user[0]);
         }
+        */
 
         return res.status(200).send({
-            changepass
+            changepass,
+            user
          });
     },
 

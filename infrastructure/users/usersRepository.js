@@ -106,48 +106,44 @@ class usersRepository {
         }
     }
 
-    //pendiente
+   
     async findUser(num) {
         let response;
-        //const queryString = `SELECT * FROM usuarios WHERE num = '${num}' `;
+        let pool;
+        const queryString = `SELECT * FROM colaboradores WHERE num = '${num}' `;
 
         try {
-            response = await new Promise((resolve, reject) => {
-                db.query(queryString,  (err, result) => {
-                    if (err) throw err;
-                    resolve(result);  
-                });
-            });
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
         } catch(error) {
-            throw error
+            console.log(error);
         }
 
-        return response
+        return {
+            response
+        }
     }
 
-    //pendiente
+   
     async update(num, password) {
         let response;
-        //const query = `UPDATE usuarios SET password = '${password}'  WHERE num = '${num}'`;
+        let pool;
+        const queryString = `UPDATE colaboradores SET password = '${password}'  WHERE num = '${num}'`;
     
         try {
-            response = await new Promise((resolve, reject) => {
-                db.query(query, (err, result)=>{
-                    if(err) throw err           
-                    resolve(result);   
-                });
-            });
-            response = {
-                status:'success',
-                message: 'contraseña actualizada.',
-            }
-           
-        } catch(error) {
-            throw error
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
             
+        } catch(error) {
+            console.log(error);
         }
 
-        return response;
+        return {
+            response
+        }
     }
 
 

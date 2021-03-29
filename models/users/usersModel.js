@@ -54,7 +54,7 @@ class userModel {
         return response;
     }
 
-    //usado para enviar un email despues de actualizar la password.  pendiente implementar
+    //usado para enviar un email despues de actualizar la password. 
     async getUser(num) {
         let response;
 
@@ -67,7 +67,7 @@ class userModel {
         return  response;
     }
 
-    //pendiente implemetar
+    
     async updatePass(num, password) {
         let response;
 
