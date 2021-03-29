@@ -7,8 +7,20 @@ const VeracruzData = {
             nombre: 'Em Corte',
         },
         {
+            nombre: 'Chofer Local',
+        },
+        {
+            nombre: 'Corte',
+        },
+        {
+            nombre: 'Mantenimiento',
+        },
+        {
             nombre: 'Moldeo',
-        }
+        },
+        {
+            nombre: 'Panel',
+        },
     ]
 };
 module.exports = VeracruzData;

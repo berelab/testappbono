@@ -658,6 +658,7 @@ router.get('/veracruz/bloquera/', bloqueraVeracruz.home);
 router.get('/veracruz/bloquera/calculator', bloqueraVeracruz.calculator);
 router.get('/veracruz/bloquera/calculator/:index', bloqueraVeracruz.calculator);
 
+router.put('/veracruz/admin/corte', corteVeracruz.editInfo);
 router.get('/veracruz/corte/', corteVeracruz.home);
 router.get('/veracruz/corte/calculator', corteVeracruz.calculator);
 router.get('/veracruz/corte/calculator/:index', corteVeracruz.calculator);
@@ -685,22 +686,24 @@ router.get('/veracruz/mantenimiento/', mantenimientoVeracruz.home);
 router.get('/veracruz/mantenimiento/calculator', mantenimientoVeracruz.calculator);
 router.get('/veracruz/mantenimiento/calculator/:index', mantenimientoVeracruz.calculator);
 
+router.put('/veracruz/admin/steelfoam', steelfoamVeracruz.editInfo);
 router.get('/veracruz/steelfoam/', steelfoamVeracruz.home);
 router.get('/veracruz/steelfoam/calculator', steelfoamVeracruz.calculator);
 router.get('/veracruz/steelfoam/calculator/:index', steelfoamVeracruz.calculator);
 
-router.get('/veracruz/choferes/', choferesVeracruz.home);
-router.get('/veracruz/choferes/calculator', choferesVeracruz.calculator);
-router.get('/veracruz/choferes/calculator/:index', choferesVeracruz.calculator);
+router.put('/veracruz/admin/choferlocal', choferesVeracruz.editInfo);
+router.get('/veracruz/choferlocal/', choferesVeracruz.home);
+router.get('/veracruz/choferlocal/calculator', choferesVeracruz.calculator);
+router.get('/veracruz/choferlocal/calculator/:index', choferesVeracruz.calculator);
 
 router.get('/veracruz/chofer-cedi/', choferCediVeracruz.home);
 router.get('/veracruz/chofer-cedi/calculator', choferCediVeracruz.calculator);
 router.get('/veracruz/chofer-cedi/calculator/:index', choferCediVeracruz.calculator);
 
-
-router.get('/veracruz/construpanel/', construpanelVeracruz.home);
-router.get('/veracruz/construpanel/calculator', construpanelVeracruz.calculator);
-router.get('/veracruz/construpanel/calculator/:index', construpanelVeracruz.calculator);
+router.put('/veracruz/admin/panel', construpanelVeracruz.editInfo);
+router.get('/veracruz/panel/', construpanelVeracruz.home);
+router.get('/veracruz/panel/calculator', construpanelVeracruz.calculator);
+router.get('/veracruz/panel/calculator/:index', construpanelVeracruz.calculator);
 
 //MEXICALI ---------------------------------------------------------------------
 router.get('/mexicali/choferes/', choferesMexicali.home);

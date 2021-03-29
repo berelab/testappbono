@@ -13,10 +13,19 @@ const MonterreyData = {
                 nombre: 'Em Corte',
             },
             {
+                nombre: 'Chofer Local',
+            },
+            {
+                nombre: 'Corte Nip',
+            },
+            {
                 nombre: 'Mantenimiento',
             },
             {
                 nombre: 'Moldeo',
+            },
+            {
+                nombre: 'Molino',
             },
             {
                 nombre: 'Rotulado',
