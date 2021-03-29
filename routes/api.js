@@ -831,9 +831,10 @@ router.get('/culiacan/almacen-const/', almacenConstCuliacan.home);
 router.get('/culiacan/almacen-const/calculator', almacenConstCuliacan.calculator);
 router.get('/culiacan/almacen-const/calculator/:index', almacenConstCuliacan.calculator);
 
-router.get('/culiacan/almacen-eps/', almacenCuliacan.home);
-router.get('/culiacan/almacen-eps/calculator', almacenCuliacan.calculator);
-router.get('/culiacan/almacen-eps/calculator/:index', almacenCuliacan.calculator);
+router.put('/culiacan/admin/almacen', almacenCuliacan.editInfo);
+router.get('/culiacan/almacen/', almacenCuliacan.home);
+router.get('/culiacan/almacen/calculator', almacenCuliacan.calculator);
+router.get('/culiacan/almacen/calculator/:index', almacenCuliacan.calculator);
 
 router.put('/culiacan/admin/choferlocal', choferesLocalesCuliacan.editInfo);
 router.get('/culiacan/choferlocal/', choferesLocalesCuliacan.home);

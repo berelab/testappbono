@@ -1,3 +1,3 @@
-INSERT INTO plantas (base0, dias_sucios, [$_extra_m3], depto, ciudad) VALUES (125, '0', '6.2', 'corte', 'veracruz');
+INSERT INTO plantas (base0, dias_sucios, [$_extra_m3], depto, ciudad) VALUES (135, '0', '4.4', 'almacen', 'culiacan');
 
 

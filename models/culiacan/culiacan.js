@@ -4,6 +4,9 @@ const CuliacanData = {
         city: 'Culiacán',
         departamentos: [   
             {
+                nombre: 'Almacén',
+            },
+            {
                 nombre: 'Bloquera',
             },                  
             {
