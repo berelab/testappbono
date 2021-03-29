@@ -21,6 +21,9 @@ const VeracruzData = {
         {
             nombre: 'Panel',
         },
+        {
+            nombre: 'Steelfoam',
+        },
     ]
 };
 module.exports = VeracruzData;
