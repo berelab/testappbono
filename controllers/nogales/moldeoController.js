@@ -20,6 +20,7 @@ const controller = {
             dias_sucios: moldeo.dias_sucios,
             $_extra_m3: moldeo.$_extra_m3,        
             dias: moldeo.dias,
+            amp: moldeo.desperdicio,
             factor_dias_laborados: moldeo.factor_dias_laborados,
             bultos_fabricados: moldeo.bultos_fabricados,
             asistencia: moldeo.team_asis,

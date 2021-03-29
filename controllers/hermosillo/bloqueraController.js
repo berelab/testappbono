@@ -21,6 +21,7 @@ const controller = {
             dias_sucios: bloquera.dias_sucios,
             $_extra_m3: bloquera.$_extra_m3,
             dias: bloquera.dias,
+            amp: bloquera.amp,
             factor_dias_laborados: bloquera.factor_dias_laborados,
             blocks_moldeados: bloquera.blocks_moldeados,
             asistencia: bloquera.team_asis,

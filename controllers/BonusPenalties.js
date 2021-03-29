@@ -94,7 +94,7 @@ export default class BonusPenalties {
         let extra_amp;
         let premio_castigo_amp;
         if(city == 'Juarez') {
-            this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicios2;
+            this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicio13//calc.desperdicios2;
         }else if(city == 'La Paz'){
             if(this.depto=='Corte'){
                 premio_castigo_amp = calc.desperdicio13;
@@ -104,6 +104,13 @@ export default class BonusPenalties {
         }else if(city == 'Guadalajara'){
             //premio_castigo_amp =calc.desperdicio7;
             premio_castigo_amp = calc.desperdicio13;
+        }else if(city == 'Hermosillo'){
+            if(this.depto =='Corte'){
+                premio_castigo_amp = calc.desperdicio13;
+            }else{
+                premio_castigo_amp = calc.aprovechamientoMP2;
+            }
+
         }else if(city=='Queretaro'){
             //premio_castigo_amp= calc.aprovechamientoMP4;
             premio_castigo_amp = calc.desperdicio13;

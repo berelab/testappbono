@@ -21,6 +21,7 @@ const controller = {
             dias_sucios: emco.dias_sucios,
             $_extra_m3: emco.$_extra_m3,        
             dias: emco.dias,
+            amp: emco.amp,
             factor_dias_laborados: emco.factor_dias_laborados,
             m3_desplazados: emco.m3_desplazados,
             asistencia: emco.team_asis,

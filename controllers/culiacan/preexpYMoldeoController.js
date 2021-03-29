@@ -20,6 +20,7 @@ const controller = {
             base0: bloquera.base0,
             dias_sucios: bloquera.dias_sucios,
             dias: bloquera.dias,
+            amp: bloquera.amp,
             $_extra_m3: bloquera.$_extra_m3,
             factor_dias_laborados: bloquera.factor_dias_laborados,
             m3_desplazados: bloquera.m3_desplazados,

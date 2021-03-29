@@ -21,6 +21,7 @@ const controller = {
             dias_sucios: corte.auditoria_sol,
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
+            desperdicio: corte.desperdicio,
             factor_dias_laborados: corte.factor_dias_laborados,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,

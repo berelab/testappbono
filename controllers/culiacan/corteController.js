@@ -20,6 +20,7 @@ const controller = {
             base0: corte.base0,
             dias_sucios: corte.dias_sucios,
             dias: corte.dias,
+            amp: corte.amp,
             $_extra_m3: corte.$_extra_m3,
             factor_dias_laborados: corte.factor_dias_laborados,
             m3_desplazados: corte.m3_desplazados,

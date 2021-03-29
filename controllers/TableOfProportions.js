@@ -1159,8 +1159,8 @@ export default class TableOfProportions {
         }
     }
 
-    /**rotulado T1 */
-    desperdicio_6(value){
+    /**rotulado T1 
+    desperdicio_6(value){ rechazo de piezas
         if(value==0){
             return 0;
         }else if(value>=1 && value < 11){
@@ -1169,6 +1169,36 @@ export default class TableOfProportions {
             return -.10;
         }else if(value>=21){
             return -.20;
+        }else{
+            return 0;
+        }
+        
+    }*/
+    desperdicio_6(value){
+        if(value==0){
+            return 0;
+        }else if(value>=17 && value < 18){
+            return .05;
+        }else if(value>=18 && value < 19){
+            return .04;
+        }else if(value>=19 && value < 20){
+            return .05;
+        }else if(value>=20 && value < 21){
+            return .02;
+        }else if(value>=21 && value < 22){
+            return .01;
+        }else if(value>=22 && value < 23){
+            return 0;
+        }else if(value>=23 && value < 24){
+            return -.01;
+        }else if(value>=24 && value < 25){
+            return -.02;
+        }else if(value>=25 && value < 26){
+            return -.03;
+        }else if(value>=26 && value < 27){
+            return -.04;
+        }else if(value>=27 && value < 28){
+            return -.05;
         }else{
             return 0;
         }

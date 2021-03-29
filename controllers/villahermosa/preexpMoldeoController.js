@@ -22,6 +22,7 @@ const controller = {
             $_extra_m3: bloquera.$_extra_m3,
             blocks_fuera_especificacion: bloquera.blocks_fe,           
             dias: bloquera.dias,
+            amp: bloquera.amp,
             factor_dias_laborados: bloquera.factor_dias_laborados,
             blocks_cortados: bloquera.blocks_cortados,
             asistencia: bloquera.team_asis,

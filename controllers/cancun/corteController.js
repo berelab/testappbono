@@ -21,6 +21,7 @@ const controller = {
             dias_sucios: corte.dias_sucios,
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
+            amp: corte.amp,
             factor_dias_laborados: corte.factor_dias_laborados,
             m3_desplazados: corte.m3_desplazados,
             asistencia: corte.team_asis,

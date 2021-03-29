@@ -21,6 +21,7 @@ const controller = {
             dias_sucios: moldeo.dias_sucios,
             $_extra_m3: moldeo.$_extra_m3,
             dias: moldeo.dias,
+            amp: moldeo.amp,
             factor_dias_laborados: moldeo.factor_dias_laborados,
             blocks_fe: moldeo.blocks_fe,
             m3_desplazados: moldeo.m3_desplazados,

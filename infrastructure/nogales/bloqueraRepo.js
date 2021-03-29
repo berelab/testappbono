@@ -2,6 +2,7 @@
 
 const { prodPoolPromise } = require ('../prodSQLClient');
 const { appPoolPromise } = require ('../appSQLClient');
+const { tablPoolPromise } = require ('../prodSQLClientTab');
 
 class BloqueraRepository {
 
@@ -92,6 +93,24 @@ class BloqueraRepository {
             'dias': response.recordset[0].dias,
             'factor': response.recordset[0].factor
         }
+    }
+
+    async indicator(year, valorReal){
+        let response;
+        let pool;
+         
+        const queryString = `SELECT 
+                             ${valorReal} as desperdicio
+                            FROM DatoReporte 
+                            WHERE IndicadorID = 16 and EntidadID = 3 and Periodo = ${year}`;
+        try {
+            pool = await tablPoolPromise
+            response = await pool.request()
+            .query(queryString);
+        } catch (error) {
+            console.log(error);
+        }
+        return  response.recordset[0].desperdicio
     }
 
 };

@@ -319,7 +319,7 @@ class CalcsN {
         let preOCas;
         /** % en premio o castigo */
         if(this.depto=='RotuladoT1'){
-            preOCas = calc.desperdicio6;
+            preOCas = 0//calc.desperdicio6;
 
         }else if(this.city=='Monterrey' &&(this.depto=='Rotulado Hielera 1' ||this.depto=='Rotulado Hielera 2' ||this.depto=='Rotulado Hielera 3')){
             preOCas = calc.desperdicio12;
