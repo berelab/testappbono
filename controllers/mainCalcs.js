@@ -586,9 +586,9 @@ class MainCalcs {
                 let percepcion_total = this.percepcion_total(depto, this.city);
                 
                 if(this.city=='Queretaro' && depto=='Almacen'){
-                    let pagoxAsistCargasIP = this.pago_cargas_ip;
+                    //let pagoxAsistCargasIP = this.pago_cargas_ip;
                     for(var i =0; i <equivalecia_asistencia.length; i++){
-                        var total = (percepcion_total/dias*(equivalecia_asistencia[i]))+(pagoxAsistCargasIP*(equivalecia_asistencia[i]));
+                        var total = percepcion_total/dias*(equivalecia_asistencia[i])//(percepcion_total/dias*(equivalecia_asistencia[i]))+(pagoxAsistCargasIP*(equivalecia_asistencia[i]));
                         pago.push(total);
                     }
                 }else{

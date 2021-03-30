@@ -27,7 +27,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, vlsAgua,vlsCombustible, vlsElectricidad);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -59,9 +59,9 @@ class MantenimientoModel {
                363.92, 
                130
             ],
-            rendimiento_agua: 'Azul',
-            rendimiento_combustible: 'Azul',
-            rendimiento_electricidad: 'Azul',
+            rendimiento_agua: agua,
+            rendimiento_combustible: combustible,
+            rendimiento_electricidad: electricidad,
             faltas_uso_epp: 0,
             fugas_perla:0,
             fugas_vapor:0,

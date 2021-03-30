@@ -21,7 +21,10 @@ const controller = {
             dias: mantenimiento.dias, 
             factor_dias_laborados: mantenimiento.factor_dias_laborados,  
             areas: mantenimiento.areas, 
-            montos_recibidos_area: mantenimiento.montos_recibidos_area, 
+            montos_recibidos_area: mantenimiento.montos_recibidos_area,
+            rendimiento_agua: mantenimiento.rendimiento_agua, 
+            rendimiento_combustible: mantenimiento.rendimiento_combustible, 
+            rendimiento_electricidad: mantenimiento.rendimiento_electricidad,  
             asistencia: mantenimiento.team_asis,
             equipo_convertido: equipo,                
         });
