@@ -91,7 +91,8 @@ const controller = {
             colaboradores
         );
 
-        let m3_persona =  calN.m3CortadosPersona;
+        //let m3_persona =  calN.m3CortadosPersona; 
+        let m3cortados_persona = calc.m3Persona;
         let bono_depto = calN.percepcionTotalPorSemana;
         let pago_colaboradores = calc.pagoTotal;
         let pago_total_sin_penalizacion = calc.pagoTotalSinPenalizacion;
@@ -126,7 +127,7 @@ const controller = {
                     dias_laborados: rotulado.dias, 
                     $_extra_m3: rotulado.$_extra_m3,       
                     progress: progress,
-                    m3_persona: m3_persona[i],
+                    m3_persona: m3cortados_persona,
                     bono_depto: bono_depto,  
                     pago_persona:pago_colaboradores[i], 
                     bono_persona: bono_Total_con_penalizacion_por_colaborador[i],
@@ -146,7 +147,7 @@ const controller = {
                 dias_laborados: rotulado.dias,
                 $_extra_m3: rotulado.$_extra_m3,
                 progress: progress,
-                m3_persona: m3_persona,
+                m3_persona: m3cortados_persona,
                 bono_depto: bono_depto,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total_sin_penalizacion, 
