@@ -2,6 +2,7 @@
 
 const { prodPoolPromise } = require ('../prodSQLClient');
 const { appPoolPromise } = require ('../appSQLClient');
+const { tablPoolPromise } = require ('../prodSQLClientTab');
 
 class MantenimientoRepository {
 
@@ -92,6 +93,87 @@ class MantenimientoRepository {
             'dias': response.recordset[0].dias,
             'factor': response.recordset[0].factor
         }
+    }
+
+    async indicatorCombustible(year, valor){
+        let response;
+        let pool;
+         
+        const queryString = `
+                            SELECT 
+                            ${valor[0]} as vreal,
+                            ${valor[1]} as vminimo,
+                            ${valor[2]} as vsatisfactorio,
+                            ${valor[3]} as vsobresaliente
+                             FROM DatoReporte where IndicadorID = 40 and EntidadID = 9 and Periodo = ${year}`;
+        try {
+            pool = await tablPoolPromise
+            response = await pool.request()
+            .query(queryString);
+        } catch (error) {
+            console.log(error);
+        }
+        return  {
+           'vreal':  response.recordset[0].vreal,
+           'vmin':  response.recordset[0].vminimo,
+           'vsatis':  response.recordset[0].vsatisfactorio,
+           'vsobre': response.recordset[0].vsobresaliente,
+        }
+
+    }
+
+    async indicatorAgua(year, valor){
+        let response;
+        let pool;
+         
+        const queryString = `
+                            SELECT 
+                            ${valor[0]} as vreal,
+                            ${valor[1]} as vminimo,
+                            ${valor[2]} as vsatisfactorio,
+                            ${valor[3]} as vsobresaliente
+                             FROM DatoReporte where IndicadorID = 41 and EntidadID = 9 and Periodo = ${year}`;
+        try {
+            pool = await tablPoolPromise
+            response = await pool.request()
+            .query(queryString);
+        } catch (error) {
+            console.log(error);
+        }
+        return  {
+           'vreal':  response.recordset[0].vreal,
+           'vmin':  response.recordset[0].vminimo,
+           'vsatis':  response.recordset[0].vsatisfactorio,
+           'vsobre': response.recordset[0].vsobresaliente,
+        }
+
+    }
+
+    async indicatorElectricidad(year, valor){
+        let response;
+        let pool;
+         
+        const queryString = `
+                            SELECT 
+                            ${valor[0]} as vreal,
+                            ${valor[1]} as vminimo,
+                            ${valor[2]} as vsatisfactorio,
+                            ${valor[3]} as vsobresaliente
+                             FROM DatoReporte where IndicadorID = 39 and EntidadID = 9 and Periodo = ${year}`;
+        try {
+            pool = await tablPoolPromise
+            response = await pool.request()
+            .query(queryString);
+        } catch (error) {
+            console.log(error);
+        }
+        return  {
+           'vreal':  response.recordset[0].vreal,
+           'vmin':  response.recordset[0].vminimo,
+           'vsatis':  response.recordset[0].vsatisfactorio,
+           'vsobre': response.recordset[0].vsobresaliente,
+        }
+
     }
 
 };

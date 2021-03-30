@@ -10,17 +10,24 @@ class MantenimientoModel {
         let teamResponse;
         let entries;
         let extra;
-
+        let vlsCombustible;
+        let vlsAgua;
+        let vlsElectricidad;
+        let valor = this._convertMonth();
+        let year = this._getYear(); 
         try {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
             entries = await this.repository.entryTimes();
             extra = await this.repository.extraData();
+            vlsCombustible = await this.repository.indicatorCombustible(year, valor);
+            vlsAgua = await this.repository.indicatorAgua(year, valor);
+            vlsElectricidad = await this.repository.indicatorElectricidad(year, valor);
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, vlsAgua, vlsCombustible,vlsElectricidad);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -35,7 +42,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra) {
+    _convertData(response, team, entries, extra, agua,  combustible, electricidad) {
         return {
             message: 'Mantenimiento',
             city: 'Merida',
@@ -109,6 +116,99 @@ class MantenimientoModel {
         });
 
         return result;
+    }
+    
+    _convertMonth(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        let valor;
+        if(month==0){ 
+            valor = ['ValorReal12', 'ValorMinimo12', 'ValorSatisfactorio12','ValorSobresaliente12']
+            return valor
+        }else if(month==1){
+            valor = ['ValorReal1', 'ValorMinimo1', 'ValorSatisfactorio1','ValorSobresaliente1']
+            return valor
+        }else if(month==2){
+            valor = ['ValorReal2', 'ValorMinimo2', 'ValorSatisfactorio2','ValorSobresaliente2']
+            return valor
+        }else if(month==3){
+            valor = ['ValorReal3', 'ValorMinimo3', 'ValorSatisfactorio3','ValorSobresaliente3']
+            return valor
+        }else if(month==4){
+            valor = ['ValorReal4', 'ValorMinimo4', 'ValorSatisfactorio4','ValorSobresaliente4']
+            return valor
+        }else if(month==5){
+            valor = ['ValorReal2', 'ValorMinimo5', 'ValorSatisfactorio5','ValorSobresaliente5']
+            return valor
+        }else if(month==6){
+            valor = ['ValorReal6', 'ValorMinimo6', 'ValorSatisfactorio6','ValorSobresaliente6']
+            return valor
+        }else if(month==7){
+            valor = ['ValorReal7', 'ValorMinimo7', 'ValorSatisfactorio7','ValorSobresaliente7']
+            return valor
+        }else if(month==8){
+            valor = ['ValorReal8', 'ValorMinimo8', 'ValorSatisfactorio8','ValorSobresaliente8']
+            return valor
+        }else if(month==9){
+            valor = ['ValorReal9', 'ValorMinimo9', 'ValorSatisfactorio9','ValorSobresaliente9']
+            return valor
+        }else if(month==10){
+            valor = ['ValorReal10', 'ValorMinimo10', 'ValorSatisfactorio10','ValorSobresaliente10']
+            return valor
+        }else if(month==11){
+            valor = ['ValorReal11', 'ValorMinimo11', 'ValorSatisfactorio11','ValorSobresaliente11']
+            return valor
+        }
+    }
+    
+    _getYear(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        let year = dateObj.getFullYear();
+        month == 0? year = year-1: year  
+        return year
+    }
+
+    _convertCombustible(valores){ 
+        if(valores.vreal > valores.vmin){
+            return 'Rojo'
+        }else if(valores.vreal < valores.vmin &&  valores.vreal > valores.vsatis){
+            return 'Amarillo'
+        }else if(valores.vreal < valores.vsatis &&  valores.vreal > valores.vsobre){
+            return 'Verde'
+        }else if(valores.vreal < valores.vsobre){
+            return 'Azul'
+        }else{
+            return 'Azul'
+        }
+    }
+
+    _convertAgua(valores){
+        if(valores.vreal > valores.vmin){
+            return 'Rojo'
+        }else if(valores.vreal < valores.vmin &&  valores.vreal > valores.vsatis){
+            return 'Amarillo'
+        }else if(valores.vreal < valores.vsatis &&  valores.vreal > valores.vsobre){
+            return 'Verde'
+        }else if(valores.vreal < valores.vsobre){
+            return 'Azul'
+        }else{
+            return 'Azul'
+        }
+    }
+
+    _convertElectricidad(valores){ 
+        if(valores.vreal > valores.vmin){
+            return 'Rojo'
+        }else if(valores.vreal < valores.vmin &&  valores.vreal > valores.vsatis){
+            return 'Amarillo'
+        }else if(valores.vreal < valores.vsatis &&  valores.vreal > valores.vsobre){
+            return 'Verde'
+        }else if(valores.vreal < valores.vsobre){
+            return 'Azul'
+        }else{
+            return 'Azul'
+        }
     }
 };
 

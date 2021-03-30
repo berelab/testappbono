@@ -168,3 +168,29 @@ ORDER BY  COLABORADOR.CB_NIVEL5 , APP_NIVEL2.TB_ELEMENT
 SELECT 
       ValorReal2 as desperdicio 
   FROM DatoReporte where IndicadorID = 15 and EntidadID = 5 and Periodo = 2021
+
+
+-- combustible 
+  SELECT 
+     ValorReal2 as vreal,
+	 ValorMinimo2 as vminimo,
+	 ValorSatisfactorio2 as vsatisfactorio,
+	 ValorSobresaliente2 as vsobresaliente
+  FROM DatoReporte where IndicadorID = 40 and EntidadID = 13 and Periodo = 2021
+
+  -- agua
+  SELECT 
+     ValorReal2 as vreal,
+	 ValorMinimo2 as vminimo,
+	 ValorSatisfactorio2 as vsatisfactorio,
+	 ValorSobresaliente2 as vsobresaliente
+  FROM DatoReporte where IndicadorID = 41 and EntidadID = 13 and Periodo = 2021
+
+
+  -- electricidad
+  SELECT 
+     ValorReal2 as vreal,
+	 ValorMinimo2 as vminimo,
+	 ValorSatisfactorio2 as vsatisfactorio,
+	 ValorSobresaliente2 as vsobresaliente
+  FROM DatoReporte where IndicadorID = 39 and EntidadID = 13 and Periodo = 2021 
