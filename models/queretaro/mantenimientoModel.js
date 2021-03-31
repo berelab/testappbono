@@ -180,7 +180,7 @@ class MantenimientoModel {
         }else if(valores.vreal < valores.vsobre){
             return 'Azul'
         }else{
-            return 'Azul'
+            return 'Verde'
         }
     }
 
@@ -194,7 +194,7 @@ class MantenimientoModel {
         }else if(valores.vreal < valores.vsobre){
             return 'Azul'
         }else{
-            return 'Azul'
+            return 'Verde'
         }
     }
 
@@ -208,7 +208,7 @@ class MantenimientoModel {
         }else if(valores.vreal < valores.vsobre){
             return 'Azul'
         }else{
-            return 'Azul'
+            return 'Verde'
         }
     }
 };
