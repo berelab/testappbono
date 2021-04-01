@@ -1,12 +1,20 @@
 'use strict'
 
+import cron from 'node-cron';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
+import generarReporteLP  from  './services/reportes/lapaz';
 
 const app = express();
 const local_port = 3000;
+
+
+cron.schedule('00 12 * * 7', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
+     generarReporteLP.generar();
+
+});
 
 app.use(morgan('tiny'));
 app.use(cors());

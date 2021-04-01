@@ -1,5 +1,7 @@
 'use strict'
 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import moldeoModels from '../../models/lapaz/moldeoModels';
 import SQLMoldeoRepository from '../../infrastructure/lapaz/MoldeoRepository';
 import mainCalcs from '../MainCalcs';
@@ -45,7 +47,7 @@ const controller = {
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
-        let weekdayName = arrayOfWeekdays[weekdayNumber];
+        let weekdayName = arrayOfWeekdays[0];
 
         const calc = new mainCalcs(
             moldeo.dias, 
@@ -79,6 +81,19 @@ const controller = {
         
         let bono_productividad = calc.bonoProductividad;  
         let bono_metas = calc.pc_metas;     
+
+          //guardar reporte
+          if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, 'Bloquera', moldeo.city); 
+           
+           }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

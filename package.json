@@ -21,6 +21,8 @@
     "nodemailer": "^6.5.0",
     "nodemon": "^2.0.6",
     "oracledb": "^5.1.0",
+    "axios": "^0.21.1",
+    "node-cron": "^3.0.0",
     "validator": "^13.5.2"
   },
   "devDependencies": {

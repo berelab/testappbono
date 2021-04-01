@@ -5,6 +5,8 @@ const router = express.Router();
 
 // users
 import users from '../controllers/users/usersController';
+// reportes
+import reporte from '../controllers/users/reporteController';
 
 //LA PAZ
 import lapaz from '../controllers/lapaz/lapaz';
@@ -203,6 +205,10 @@ router.post('/cambiar-pass', users.changePass);
 
 router.get('/guardar', users.save); 
 //router.get('/vaciar-tabla', users.clear); 
+
+//Reportes
+router.get('/reporte-semanas', reporte.home);
+
 
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ
