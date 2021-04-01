@@ -6,58 +6,55 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    axios.get('/culiacan/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
+    }); 
+ 
+    axios.get('/culiacan/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
+    axios.get('/culiacan/corte/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+ 
+    axios.get('/culiacan/panel/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    axios.get('/culiacan/almacen/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+   
+    axios.get('/culiacan/choferlocal/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    /*
+    axios.get('/culiacan/molienda/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
-
-    axios.get('/lapaz/vigueta/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    }); 
-    
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    }); 
-    */
-    
+    */ 
 
 }

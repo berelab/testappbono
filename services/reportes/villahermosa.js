@@ -6,58 +6,41 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    axios.get('/villahermosa/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
+    }); 
+ 
+    axios.get('/villahermosa/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/vigueta/calculator')
+    axios.get('/villahermosa/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
-    
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
+ 
+    axios.get('/villahermosa/mantenimiento/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    /*
+    axios.get('/villahermosa/trafico/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     */
-    
 
 }

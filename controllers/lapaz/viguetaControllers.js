@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import viguetaModels from '../../models/lapaz/viguetaModels';
 import viguetaSQLRepo from '../../infrastructure/lapaz/ViguetaRepository';
 import convertData from '../ConvertData';
@@ -40,6 +41,19 @@ const controller = {
         let asistencia_persona = asistencias(equipo);
         let total_base = total_base_persona(asistencia_persona, vigueta.pago_dia);
         let bono_total = bono_total_persona(total_base,condicion_auditoria);
+
+          //generar reporte
+          if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total, vigueta.message, vigueta.city); 
+            
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

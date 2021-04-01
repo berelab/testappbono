@@ -6,58 +6,53 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    }); 
-
-    axios.get('/lapaz/chofercedi/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/vigueta/calculator')
+    axios.get('/merida/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
+    axios.get('/merida/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
-    */
-    
 
+    axios.get('/merida/choferlocal/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    axios.get('/merida/moldeo/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+    
+    axios.get('/merida/corte/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    axios.get('/merida/bloquera/calculator')
+    .then(response => {
+     // console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+ 
+    axios.get('/merida/rotulado/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+    
 }

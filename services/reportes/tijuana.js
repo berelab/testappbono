@@ -6,58 +6,67 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    axios.get('/tijuana/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
+    }); 
+ 
+    axios.get('/tijuana/bono-garantia/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
+    axios.get('/tijuana/molino/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
+    }); 
+ 
+    axios.get('/tijuana/almacen/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
 
-    axios.get('/lapaz/vigueta/calculator')
+    axios.get('/tijuana/corte/calculator')
+    .then(response => {
+     // console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+ 
+    axios.get('/tijuana/cortemaq/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
+    axios.get('/tijuana/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
-    */
+
+    axios.get('/tijuana/choferlocal/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
     
+    axios.get('/tijuana/bonotyg/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
 
 }

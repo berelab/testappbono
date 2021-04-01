@@ -6,58 +6,41 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    //pendientes todos.
+    /*
+    axios.get('/mexicali/choferes/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
+    }); 
+ 
+    axios.get('/mexicali/rotulado/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/vigueta/calculator')
+    axios.get('/mexicali/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
-    
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
+ 
+    axios.get('/mexicali/produccion/calculator')
     .then(response => {
       //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+
+    axios.get('/mexicali/mantenimiento/calculator')
+    .then(response => {
+     // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     */
-    
-
 }

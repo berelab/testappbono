@@ -6,58 +6,46 @@ axios.defaults.baseURL = 'http://localhost:3000/api';
 
 exports.generar = () =>{
 
-    // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    axios.get('/queretaro/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
-
-    axios.get('/lapaz/bloquera/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });  
-
-     
-    axios.get('/lapaz/almacen/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    });
-
-    axios.get('/lapaz/choferlocal/calculator')
+    }); 
+ 
+    axios.get('/queretaro/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
+    axios.get('/queretaro/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
-    });
+    }); 
+ 
+    axios.get('/queretaro/almacen/calculator')
+    .then(response => {
+      //console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
 
-    axios.get('/lapaz/vigueta/calculator')
+    axios.get('/queretaro/mantenimiento/calculator')
+    .then(response => {
+     // console.log(response.data);
+    }).catch(error => {
+      console.log(error);
+    }); 
+ 
+    axios.get('/queretaro/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
-    
-    /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
-    .then(response => {
-      //console.log(response.data);
-    }).catch(error => {
-      console.log(error);
-    }); 
-    */
-    
 
 }
