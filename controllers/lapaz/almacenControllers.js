@@ -132,8 +132,7 @@ const controller = {
                 });               
             }
         }else{
-            return res.status(200).send({        
-                asistencia_total,      
+            return res.status(200).send({             
                 depto: almacen.message,
                 day: weekdayName,
                 meta_semana: almacen.base0,
