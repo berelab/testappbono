@@ -53,6 +53,11 @@ const controller = {
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total, vigueta.message, vigueta.city); 
             
+            let total =0;
+            for(var i=0; i<bono_total.length; i++){
+                total =  total + bono_total[i];
+            }
+            let bonosDepto = await model.saveBonosDepto(semana, total, vigueta.message, vigueta.city); 
         }
 
         if(req.params.index){

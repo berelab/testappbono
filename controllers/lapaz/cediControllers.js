@@ -83,7 +83,11 @@ const controller = {
             const repository = new mySqlReporteRepository();
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, cedi.message, cedi.city); 
-            
+            let produccionColab = await model.saveProdColab(equipo,semana, m3_persona, cedi.message, cedi.city); 
+
+            let m3_cortados_totales = cedi.m3_desplazados.lunes +  cedi.m3_desplazados.martes + cedi.m3_desplazados.miercoles +  cedi.m3_desplazados.jueves + cedi.m3_desplazados.viernes + cedi.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,cedi.message, cedi.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total, cedi.message, cedi.city); 
         }
 
         if(req.params.index){

@@ -47,7 +47,7 @@ const controller = {
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
-        let weekdayName = arrayOfWeekdays[0];
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
 
         const calc = new mainCalcs(
             moldeo.dias, 
@@ -92,7 +92,11 @@ const controller = {
             const repository = new mySqlReporteRepository();
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, 'Bloquera', moldeo.city); 
-           
+            let produccionColab = await model.saveProdColab(equipo,semana,blocks_persona,  'Bloquera', moldeo.city); 
+
+            let m3_cortados_totales = moldeo.blocks_moldeados.lunes +   moldeo.blocks_moldeados.martes + moldeo.blocks_moldeados.miercoles +  moldeo.blocks_moldeados.jueves + moldeo.blocks_moldeados.viernes + moldeo.blocks_moldeados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Bloquera', moldeo.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total, 'Bloquera', moldeo.city); 
            }
 
         if(req.params.index){

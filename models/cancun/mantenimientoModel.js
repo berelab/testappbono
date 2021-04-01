@@ -1,5 +1,8 @@
 'use strict'
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3000/api';
+
 class MantenimientoModel {
     constructor(repository){
         this.repository = repository;
@@ -15,6 +18,7 @@ class MantenimientoModel {
         let vlsElectricidad;
         let valor = this._convertMonth();
         let year = this._getYear(); 
+        //let percepcionTotal = this._percepcionTotal();
         try {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
@@ -41,7 +45,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra,agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra , agua,  combustible, electricidad) {
         return {
             message: 'Mantenimiento',
             city: 'Cancun',
@@ -210,6 +214,26 @@ class MantenimientoModel {
         }else{
             return 'Verde'
         }
+    }
+
+    _percepcionTotal(){
+        let percepciones=[]
+      
+        axios.get('/cancun/corte/calculator')
+        .then(response => {
+            percepciones.push(response.data.bono_depto)
+        }).catch(error => {
+          console.log(error);
+        }); 
+    
+        axios.get('/cancun/bloquera/calculator')
+        .then(response => {
+            percepciones.push(response.data.bono_depto)
+        }).catch(error => {
+          console.log(error);
+        }); 
+        
+        return percepciones
     }
 };
 

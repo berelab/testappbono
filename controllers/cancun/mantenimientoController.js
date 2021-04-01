@@ -32,6 +32,7 @@ const controller = {
             asistencia: mantenimiento.team_asis,
             equipo_convertido: equipo   
         });
+      
     },
     
     calculator: async (req, res)=>{

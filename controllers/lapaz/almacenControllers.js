@@ -87,7 +87,11 @@ const controller = {
             const repository = new mySqlReporteRepository();
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, almacen.message, almacen.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, m3_persona, almacen.message, almacen.city); 
     
+            let m3_cortados_totales = almacen.m3_desplazados.lunes +  almacen.m3_desplazados.martes + almacen.m3_desplazados.miercoles + almacen.m3_desplazados.jueves + almacen.m3_desplazados.viernes + almacen.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,almacen.message, almacen.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,almacen.message, almacen.city); 
         }
 
         if(req.params.index){
@@ -128,7 +132,8 @@ const controller = {
                 });               
             }
         }else{
-            return res.status(200).send({              
+            return res.status(200).send({        
+                asistencia_total,      
                 depto: almacen.message,
                 day: weekdayName,
                 meta_semana: almacen.base0,

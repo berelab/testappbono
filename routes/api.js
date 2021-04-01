@@ -207,8 +207,10 @@ router.get('/guardar', users.save);
 //router.get('/vaciar-tabla', users.clear); 
 
 //Reportes
-router.get('/reporte-semanas', reporte.home);
-
+router.get('/colab-bonos', reporte.getBonosColab);
+router.get('/colab-produccion', reporte.getProdColab);
+router.get('/deptos-bonos', reporte.getBonosDepto);
+router.get('/deptos-produccion', reporte.getProdDepto);
 
 //------------------------------------------------------------------------------------------------------------
 //LA PAZ

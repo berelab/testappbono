@@ -47,7 +47,7 @@ const controller = {
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
-        let weekdayName = arrayOfWeekdays[0];;
+        let weekdayName = arrayOfWeekdays[weekdayNumber];;
 
         const calc = new mainCalcs(
             corte.dias, 
@@ -77,6 +77,8 @@ const controller = {
         let bono_productividad = calc.bonoProductividad; 
         let bono_metas = calc.pc_metas;  
 
+        
+        
          //num, semana, bono, depto, city
          if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
@@ -84,13 +86,17 @@ const controller = {
             let año = dateObj.getFullYear();
             let semana = dia+"/"+mes+"/"+año;
             
+           
+
             const repository = new mySqlReporteRepository();
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador,corte.message, corte.city); 
-            
-           /* return res.status(200).send({
-                reporte
-            });  */ 
+            let produccionColab = await model.saveProdColab(equipo,semana, m3_persona, corte.message, corte.city); 
+
+            let m3_cortados_totales = corte.m3_cortados.lunes +   corte.m3_cortados.martes + corte.m3_cortados.miercoles +  corte.m3_cortados.jueves + corte.m3_cortados.viernes + corte.m3_cortados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales, corte.message, corte.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total, corte.message, corte.city); 
+          
            
         }
 
