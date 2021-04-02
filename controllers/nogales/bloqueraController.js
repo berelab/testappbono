@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import bloqueraModel from '../../models/nogales/bloqueraModel';
 import bloqueraSQL from '../../infrastructure/nogales/bloqueraRepo';
 import mainCalcs from '../MainCalcs';
@@ -77,7 +78,27 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;     
+        let bono_metas = calc.pc_metas;   
+        
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, bloquera.message, bloquera.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, blocks_persona, bloquera.message, bloquera.city); 
+    
+            let m3_cortados_totales = bloquera.blocks_moldeados.lunes +  bloquera.blocks_moldeados.martes +bloquera.blocks_moldeados.miercoles + bloquera.blocks_moldeados.jueves + bloquera.blocks_moldeados.viernes + bloquera.blocks_moldeados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,bloquera.message, bloquera.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,bloquera.message, bloquera.city); 
+        }*/
+
+
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

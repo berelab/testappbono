@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import rotuladoModel from '../../models/merida/rotuladoModel';
 import rotuladoSQL from '../../infrastructure/merida/rotuladoRepo';
 import mainCalcs from '../MainCalcs';
@@ -74,7 +75,25 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;   
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;     
+        let bono_metas = calc.pc_metas;   
+        
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, rotulado.message, rotulado.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, rotulado.message, rotulado.city); 
+    
+            let m3_cortados_totales = rotulado.m3_desplazados.lunes +  rotulado.m3_desplazados.martes + rotulado.m3_desplazados.miercoles + rotulado.m3_desplazados.jueves + rotulado.m3_desplazados.viernes + rotulado.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,rotulado.message, rotulado.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,rotulado.message, rotulado.city); 
+        }*/
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

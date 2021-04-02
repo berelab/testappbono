@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import electroluxModel from '../../models/juarez/electrolux';
 import SQLElectroluxRepository from '../../infrastructure/juarez/ElectroluxRepository';
 import mainCalcs from '../MainCalcs';
@@ -72,6 +73,25 @@ const controller = {
         let bono_total = calc.bonoTotalConPenalizacion;
         let bono_productividad = calc.bonoProductividad;  
         let bono_metas = calc.pc_metas;   
+
+        //generar reporte
+        /*pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, electrolux.message, electrolux.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, m3_persona, electrolux.message, electrolux.city); 
+    
+            let m3_cortados_totales = electrolux.produccion.lunes +  electrolux.produccion.martes + electrolux.produccion.miercoles + electrolux.produccion.jueves + electrolux.produccion.viernes + electrolux.produccion.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,electrolux.message, electrolux.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,electrolux.message, electrolux.city); 
+        }*/
+
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

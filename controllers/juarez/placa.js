@@ -1,5 +1,7 @@
 'use strict'
 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import placaModel from '../../models/juarez/placa';
 import SQLPlacaRepository from '../../infrastructure/juarez/PlacaRepository';
 import mainCalcs from '../MainCalcs';
@@ -73,7 +75,26 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;   
+        let bono_metas = calc.pc_metas;  
+
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, placa.message, placa.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, m3_persona, placa.message, placa.city); 
+    
+            let m3_cortados_totales = placa.m3_cortados.lunes +  placa.m3_cortados.martes + placa.m3_cortados.miercoles + placa.m3_cortados.jueves + placa.m3_cortados.viernes + placa.m3_cortados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,placa.message, placa.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,placa.message, placa.city); 
+        }*/
+
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

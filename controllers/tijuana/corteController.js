@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import corteModel from '../../models/tijuana/corteModel';
 import corteSQL from '../../infrastructure/tijuana/corteRepo';
 import mainCalcs from '../MainCalcs';

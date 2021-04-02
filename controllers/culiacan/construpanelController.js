@@ -1,5 +1,8 @@
 'use strict'
 
+ 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import panelModel from '../../models/culiacan/construpanelModel';
 import SQLPanel from '../../infrastructure/culiacan/panelRepo';
 import mainCalcs from '../MainCalcs';
@@ -85,7 +88,26 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;   
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;   
+        let bono_metas = calc.pc_metas; 
+        
+                
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, 'Panel', panel.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, 'Panel', panel.city); 
+
+            let m3_cortados_totales = panel.m3_desplazados.lunes +  panel.m3_desplazados.martes + panel.m3_desplazados.miercoles + panel.m3_desplazados.jueves + panel.m3_desplazados.viernes + panel.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Panel', panel.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,'Panel', panel.city); 
+        }*/
         
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

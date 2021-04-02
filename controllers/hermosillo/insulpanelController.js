@@ -1,5 +1,7 @@
 'use strict'
-
+ 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import insulpanelModel from '../../models/hermosillo/insulpanelModel';
 import insulpanelSQL from '../../infrastructure/hermosillo/insulpanelRepo';
 import mainCalcs from '../MainCalcs';
@@ -75,6 +77,20 @@ const controller = {
         let bono_productividad = calc.bonoProductividad; 
         let bono_metas = calc.pc_metas; 
 
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bonoXpenalizacion, insulpanel.message,  insulpanel.city); 
+            
+            let bonosDepto = await model.saveBonosDepto(semana,  totalbonoXpenalizacion, insulpanel.message,  insulpanel.city); 
+        }*/
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
 

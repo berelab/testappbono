@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import molinoModel from '../../models/tijuana/siloMolinoModel';
 import molinoSQL from '../../infrastructure/tijuana/molinoRepo';
 import mainCalcs from '../MainCalcs';

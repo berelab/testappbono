@@ -1,5 +1,6 @@
 'use strict'
-
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import bonoTYGModel from '../../models/tijuana/bonoTYGModel';
 import bonoTYGSQL from '../../infrastructure/tijuana/bonotygRepo';
 import mainCalcs from '../MainCalcs';
@@ -69,7 +70,25 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;   
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;     
+        let bono_metas = calc.pc_metas;   
+        
+        //generar reporte
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, bonotyg.message, bonotyg.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, bonotyg.message, bonotyg.city); 
+    
+            let m3_cortados_totales = bonotyg.m3_desplazados.lunes +  bonotyg.m3_desplazados.martes + bonotyg.m3_desplazados.miercoles + bonotyg.m3_desplazados.jueves + bonotyg.m3_desplazados.viernes + bonotyg.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,bonotyg.message, bonotyg.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,bonotyg.message, bonotyg.city); 
+        }*/
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

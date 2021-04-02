@@ -1,5 +1,7 @@
 'use strict'
-
+ 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import preexpansionModel from '../../models/nogales/preexpansionModel';
 import preexpansionSQL from '../../infrastructure/nogales/preexpansionRepo';
 import mainCalcs from '../MainCalcs';
@@ -86,6 +88,21 @@ const controller = {
         let bono_total = calc.bonoTotalConPenalizacion;
         // let bono_productividad = calc.bonoProductividad;  
         // let bono_metas = calc.pc_metas;     
+
+        //generar reporte 
+        /* pendiente activar
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, preexpansion.message, preexpansion.city); 
+            
+            let bonosDepto = await model.saveBonosDepto(semana,  bono_total, preexpansion.message, preexpansion.city); 
+        }*/
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
