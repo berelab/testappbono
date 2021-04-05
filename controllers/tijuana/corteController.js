@@ -71,7 +71,27 @@ const controller = {
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;   
         let bono_productividad = calc.bonoProductividad;  
-        let bono_metas = calc.pc_metas;     
+        let bono_metas = calc.pc_metas;   
+        
+        //generar reporte
+        /*
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, corte.message, corte.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, corte.message, corte.city); 
+    
+            let m3_cortados_totales = corte.m3_desplazados.lunes +  corte.m3_desplazados.martes + corte.m3_desplazados.miercoles + corte.m3_desplazados.jueves + corte.m3_desplazados.viernes + corte.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,corte.message, corte.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,corte.message, corte.city); 
+        }*/
+
+
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
