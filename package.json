@@ -1,7 +1,7 @@
 {
   "name": "departamento_corte",
   "version": "1.0.0",
-  "description": "First example using Corte",
+  "description": "Test appbono",
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",

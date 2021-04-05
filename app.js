@@ -8,6 +8,7 @@ import path from 'path';
 import generarReporteLP  from  './services/reportes/lapaz';
 import fs from 'fs';
 import https from 'https';
+import http from 'http';
 
 const app = express();
 const httpapp = express();
@@ -50,8 +51,3 @@ http.createServer(httpapp).listen(httpapp.get('port'), function() {
 https.createServer(options, app).listen(app.get('port'), ()=> {
     console.log('HTTPS Server Listening on port: ', app.get('port'));
 })
-
-
-// app.listen(app.get('port'), () => {
-//     console.log('Listening on port: ', app.get('port'));
-// });
