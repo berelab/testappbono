@@ -33,8 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || local_port);
 
 https.createServer({
-    key: fs.readFileSync(''),
-    cert: fs.readFileSync('')
+    key: fs.readFileSync('C:\certificates\appbono.fanosa.com-crt.pem'),
+    cert: fs.readFileSync('C:\certificates\appbono.fanosa.com-key.pem')
 }, app).listen(app.get('port'), ()=> {
     console.log('https Listening on port: ', app.get('port'));
 })
