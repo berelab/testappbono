@@ -5,10 +5,11 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
-import generarReporteLP  from  './services/reportes/lapaz';
 import fs from 'fs';
 import https from 'https';
 import http from 'http';
+import generarReporteLP  from  './services/reportes/lapaz';
+
 
 const app = express();
 const httpapp = express();
