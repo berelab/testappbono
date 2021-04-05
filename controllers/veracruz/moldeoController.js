@@ -1,5 +1,7 @@
 'use strict'
-
+ 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import moldeoModel from '../../models/veracruz/moldeoModel';
 import moldeoSQL from '../../infrastructure/veracruz/moldeoRepo';
 import mainCalcs from '../MainCalcs';
@@ -76,6 +78,26 @@ const controller = {
         let bono_total = calc.bonoTotalConPenalizacion;   
         let bono_productividad = calc.bonoProductividad;  
         let bono_metas = calc.pc_metas;     
+
+        
+        //generar reporte
+        /*
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, moldeo.message, moldeo.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, moldeo.message, moldeo.city); 
+
+            let m3_cortados_totales = moldeo.m3_desplazados.lunes +  moldeo.m3_desplazados.martes + moldeo.m3_desplazados.miercoles + moldeo.m3_desplazados.jueves + moldeo.m3_desplazados.viernes + moldeo.m3_desplazados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,moldeo.message, moldeo.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,moldeo.message, moldeo.city); 
+        }*/
+
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

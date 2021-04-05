@@ -1,5 +1,7 @@
 'use strict'
-
+ 
+import reporteModel from '../../models/users/reporteModel';
+import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import almacenModel from '../../models/monterrey/almacenModel';
 import almacenSQL from '../../infrastructure/monterrey/almacenRepo';
 import mainCalcs from '../MainCalcs';
@@ -92,6 +94,24 @@ const controller ={
         let bono_total = calc.bonoTotalConPenalizacion;
         let bono_productividad = calc.bonoProductividad;  
         let bono_metas = calc.pc_metas;     
+
+        //generar reporte
+        /*
+        if(weekdayName =='domingo'){
+            let dia = dateObj.getDate();
+            let mes = dateObj.getMonth() + 1;
+            let año = dateObj.getFullYear();
+            let semana = dia+"/"+mes+"/"+año;
+            
+            const repository = new mySqlReporteRepository();
+            const model = new reporteModel(repository);
+            let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, almacen.message, almacen.city); 
+            let produccionColab = await model.saveProdColab(equipo,semana, bultos_dia, almacen.message, almacen.city); 
+    
+            let m3_cortados_totales = almacen.m3_cortados.lunes +  almacen.m3_cortados.martes + almacen.m3_cortados.miercoles + almacen.m3_cortados.jueves + almacen.m3_cortados.viernes + almacen.m3_cortados.sabado
+            let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,almacen.message, almacen.city); 
+            let bonosDepto = await model.saveBonosDepto(semana, bono_total,almacen.message, almacen.city); 
+        }*/
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

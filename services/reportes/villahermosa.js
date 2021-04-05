@@ -19,7 +19,7 @@ exports.generar = () =>{
     }).catch(error => {
       console.log(error);
     }); 
-
+  /*
     axios.get('/villahermosa/almacen/calculator')
     .then(response => {
       //console.log(response.data);
@@ -34,7 +34,7 @@ exports.generar = () =>{
       console.log(error);
     }); 
 
-    /*
+   
     axios.get('/villahermosa/trafico/calculator')
     .then(response => {
       //console.log(response.data);
