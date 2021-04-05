@@ -12,6 +12,8 @@ import https from 'https';
 const app = express();
 const local_port = 3000;
 
+const key = 'C:\\certificates\\appbono.fanosa.com-crt.pem';
+const cert = 'C:\\certificates\\appbono.fanosa.com-key.pem';
 
 cron.schedule('00 12 * * 7', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
      generarReporteLP.generar();
@@ -33,9 +35,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || local_port);
 
 https.createServer({
-    key: fs.readFileSync('C:\certificates\appbono.fanosa.com-crt.pem'),
-    cert: fs.readFileSync('C:\certificates\appbono.fanosa.com-key.pem')
-}, app).listen(app.get('port'), ()=> {
+    key: fs.readFileSync(key),
+    cert: fs.readFileSync(cert)
+}).listen(app.get('port'), ()=> {
     console.log('https Listening on port: ', app.get('port'));
 })
 
