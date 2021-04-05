@@ -12,7 +12,6 @@ import http from 'http';
 
 const app = express();
 const httpapp = express();
-// const local_port = 3000;
 const local_port = 80;
 
 const options = {
