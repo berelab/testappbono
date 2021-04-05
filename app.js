@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import generarReporteLP  from  './services/reportes/lapaz';
+import fs from 'fs';
+import https from 'https';
 
 const app = express();
 const local_port = 3000;
@@ -29,8 +31,16 @@ app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('port', process.env.PORT || local_port);
-app.listen(app.get('port'), () => {
-    console.log('Listening on port: ', app.get('port'));
-});
+
+https.createServer({
+    key: fs.readFileSync(''),
+    cert: fs.readFileSync('')
+}, app).listen(app.get('port'), ()=> {
+    console.log('https Listening on port: ', app.get('port'));
+})
+
+// app.listen(app.get('port'), () => {
+//     console.log('Listening on port: ', app.get('port'));
+// });
 
 
