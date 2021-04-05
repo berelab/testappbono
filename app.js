@@ -10,10 +10,14 @@ import fs from 'fs';
 import https from 'https';
 
 const app = express();
-const local_port = 3000;
+const httpapp = express();
+// const local_port = 3000;
+const local_port = 80;
 
-const key = 'C:\\certificates\\appbono.fanosa.com-crt.pem';
-const cert = 'C:\\certificates\\appbono.fanosa.com-key.pem';
+const options = {
+    key: fs.readFileSync('C:\\certificates\\appbono.fanosa.com-key.pem'),
+    cert: fs.readFileSync('C:\\certificates\\appbono.fanosa.com-crt.pem')
+}
 
 cron.schedule('00 12 * * 7', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
      generarReporteLP.generar();
@@ -32,17 +36,22 @@ const history = require('connect-history-api-fallback');
 app.use(history());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.set('port', process.env.PORT || local_port);
+httpapp.set('port', process.env.PORT || local_port);
+httpapp.get("*", function (req, res, next) {
+    res.redirect("https://" + req.headers.host + "/" + req.path);
+});
 
-https.createServer({
-    key: fs.readFileSync(key),
-    cert: fs.readFileSync(cert)
-}).listen(app.get('port'), ()=> {
-    console.log('https Listening on port: ', app.get('port'));
+app.set('port', process.env.PORT || 443);
+
+http.createServer(httpapp).listen(httpapp.get('port'), function() {
+    console.log('HTTP Server listening on port ' + httpapp.get('port'));
+});
+
+https.createServer(options, app).listen(app.get('port'), ()=> {
+    console.log('HTTPS Server Listening on port: ', app.get('port'));
 })
+
 
 // app.listen(app.get('port'), () => {
 //     console.log('Listening on port: ', app.get('port'));
 // });
-
-
