@@ -8,6 +8,7 @@ import path from 'path';
 import generarReporteLP  from  './services/reportes/lapaz';
 import fs from 'fs';
 import https from 'https';
+import http from 'http';
 
 const app = express();
 const httpapp = express();
