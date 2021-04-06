@@ -90,11 +90,13 @@ exports.generar = () =>{
       console.log(error);
     }); 
 
+    /*
     axios.get('/juarez/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
+    */
 
 }

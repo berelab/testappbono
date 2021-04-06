@@ -47,15 +47,28 @@ import mantenimientoJuarez from '../controllers/juarez/mantenimientoController';
 
 import bonosAligeranteJuarez from '../controllers/juarez/aligeranteBonos';
 import produccionAligeranteJuarez from '../controllers/juarez/aligeranteProduccion';
-
 import bonosAlmacenJuarez from '../controllers/juarez/almacenBonos';
 import produccionAlmacenJuarez from '../controllers/juarez/almacenProduccion';
-
 import bonosAosmithJuarez from '../controllers/juarez/aosmithBonos';
 import produccionAosmithJuarez from '../controllers/juarez/aosmithProduccion';
-
 import bonosChoferLocalJuarez from '../controllers/juarez/choferesBonos';
 import produccionChoferLocalJuarez from '../controllers/juarez/choferesProduccion';
+import bonosCommscopeJuarez from '../controllers/juarez/commscopeBonos';
+import produccionCommscopeJuarez from '../controllers/juarez/commscopeProduccion';
+import bonosCorteJuarez from '../controllers/juarez/corteBonos';
+import produccionCorteJuarez from '../controllers/juarez/corteProduccion';
+import bonosElectroluxJuarez from '../controllers/juarez/electroluxBonos';
+import produccionElectroluxJuarez from '../controllers/juarez/electroluxProduccion';
+import bonosKbrsJuarez from '../controllers/juarez/kbrsBonos';
+import produccionKbrsJuarez from '../controllers/juarez/kbrsProduccion';
+import bonosMcsframeJuarez from '../controllers/juarez/mcsframeBonos';
+import produccionMcsframeJuarez from '../controllers/juarez/mcsframeProduccion';
+import bonosMolinoJuarez from '../controllers/juarez/molinoBonos';
+import produccionMolinoJuarez from '../controllers/juarez/molinoProduccion';
+import bonosMoldeoJuarez from '../controllers/juarez/moldeoBonos';
+import produccionMoldeoJuarez from '../controllers/juarez/moldeoProduccion';
+import bonosPlacaJuarez from '../controllers/juarez/placaBonos';
+import produccionPlacaJuarez from '../controllers/juarez/placaProduccion';
 
 //NOGALES
 import nogales from '../controllers/nogales/nogales';
@@ -298,8 +311,6 @@ router.put('/juarez/admin/aosmith', aosmithJuarez.editInfo);
 router.get('/juarez/aosmith', aosmithJuarez.home);
 router.get('/juarez/aosmith/calculator', aosmithJuarez.calculator);
 router.get('/juarez/aosmith/calculator/:index', aosmithJuarez.calculator);
-router.get('/juarez/aosmith/bonos', bonosAosmithJuarez.home);
-router.get('/juarez/aosmith/produccion', produccionAosmithJuarez.home);
 
 router.put('/juarez/admin/commscope', commscopeJuarez.editInfo);
 router.get('/juarez/commscope', commscopeJuarez.home);
@@ -325,15 +336,11 @@ router.put('/juarez/admin/aligerante', aligeranteJuarez.editInfo);
 router.get('/juarez/aligerante', aligeranteJuarez.home);
 router.get('/juarez/aligerante/calculator', aligeranteJuarez.calculator);
 router.get('/juarez/aligerante/calculator/:index', aligeranteJuarez.calculator);
-router.get('/juarez/aligerante/bonos', bonosAligeranteJuarez.home);
-router.get('/juarez/aligerante/produccion', produccionAligeranteJuarez.home);
 
 router.put('/juarez/admin/almacen', almacenJuarez.editInfo);
 router.get('/juarez/almacen', almacenJuarez.home);
 router.get('/juarez/almacen/calculator', almacenJuarez.calculator);
 router.get('/juarez/almacen/calculator/:index', almacenJuarez.calculator);
-router.get('/juarez/almacen/bonos', bonosAlmacenJuarez.home);
-router.get('/juarez/almacen/produccion', produccionAlmacenJuarez.home);
 
 router.put('/juarez/admin/molino', molinoJuarez.editInfo);
 router.get('/juarez/molino', molinoJuarez.home);
@@ -344,12 +351,48 @@ router.put('/juarez/admin/choferes', choferesJuarez.editInfo);
 router.get('/juarez/choferes', choferesJuarez.home);
 router.get('/juarez/choferes/calculator', choferesJuarez.calculator);
 router.get('/juarez/choferes/calculator/:index', choferesJuarez.calculator);
-router.get('/juarez/choferes/bonos', bonosChoferLocalJuarez.home);
-router.get('/juarez/choferes/produccion', produccionChoferLocalJuarez.home);
 
 router.get('/juarez/mantenimiento', mantenimientoJuarez.home);
 router.get('/juarez/mantenimiento/calculator', mantenimientoJuarez.calculator);
 router.get('/juarez/mantenimiento/calculator/:index', mantenimientoJuarez.calculator);
+
+/** produccion y bonos juarez */
+router.get('/juarez/choferes/bonos', bonosChoferLocalJuarez.home);
+router.get('/juarez/choferes/produccion', produccionChoferLocalJuarez.home);
+
+router.get('/juarez/almacen/bonos', bonosAlmacenJuarez.home);
+router.get('/juarez/almacen/produccion', produccionAlmacenJuarez.home);
+
+router.get('/juarez/aligerante/bonos', bonosAligeranteJuarez.home);
+router.get('/juarez/aligerante/produccion', produccionAligeranteJuarez.home);
+
+router.get('/juarez/commscope/bonos', bonosCommscopeJuarez.home);
+router.get('/juarez/commscope/produccion', produccionCommscopeJuarez.home);
+
+router.get('/juarez/aosmith/bonos', bonosAosmithJuarez.home);
+router.get('/juarez/aosmith/produccion', produccionAosmithJuarez.home);
+
+router.get('/juarez/corte/bonos', bonosCorteJuarez.home);
+router.get('/juarez/corte/produccion', produccionCorteJuarez.home);
+
+router.get('/juarez/electrolux/bonos', bonosElectroluxJuarez.home);
+router.get('/juarez/electrolux/produccion', produccionElectroluxJuarez.home);
+
+router.get('/juarez/kbrs/bonos', bonosKbrsJuarez.home);
+router.get('/juarez/kbrs/produccion', produccionKbrsJuarez.home);
+
+router.get('/juarez/mcsframe/bonos', bonosMcsframeJuarez.home);
+router.get('/juarez/mcsframe/produccion', produccionMcsframeJuarez.home);
+
+router.get('/juarez/moldeo/bonos', bonosMoldeoJuarez.home);
+router.get('/juarez/moldeo/produccion', produccionMoldeoJuarez.home);
+
+router.get('/juarez/molino/bonos', bonosMolinoJuarez.home);
+router.get('/juarez/molino/produccion', produccionMolinoJuarez.home);
+
+router.get('/juarez/placa/bonos', bonosPlacaJuarez.home);
+router.get('/juarez/placa/produccion', produccionPlacaJuarez.home);
+
 //------------------------------------------------------------------------------------------------------------
 //NOGALES
 router.get('/nogales', nogales.data)
