@@ -154,6 +154,10 @@ import corteVillahermosa from '../controllers/villahermosa/corteController';
 import almacenVillahermosa from '../controllers/villahermosa/almacenController';
 import mantenimientoVillahermosa from '../controllers/villahermosa/mantenimientoController';
 
+import bonosBloqueraVillahermosa from '../controllers/villahermosa/bloqueraBonosController';
+import produccionBloqueraVillahermosa from '../controllers/villahermosa/bloqueraProduccionController';
+import bonosCorteVillahermosa from '../controllers/villahermosa/corteBonosController';
+import produccionCorteVillahermosa from '../controllers/villahermosa/corteProduccionController';
 //--------------------------------------------------------------------------------------------------
 // CDMX
 import cdmex from '../controllers/cdmx/cdmex';
@@ -694,6 +698,12 @@ router.get('/villahermosa/almacen/calculator/:index', almacenVillahermosa.calcul
 router.get('/villahermosa/mantenimiento/', mantenimientoVillahermosa.home);
 router.get('/villahermosa/mantenimiento/calculator', mantenimientoVillahermosa.calculator);
 router.get('/villahermosa/mantenimiento/calculator/:index', mantenimientoVillahermosa.calculator);
+/** bonos y produccion rutas */
+router.get('/villahermosa/bloquera/bonos', bonosBloqueraVillahermosa.home);
+router.get('/villahermosa/bloquera/produccion', produccionBloqueraVillahermosa.home);
+
+router.get('/villahermosa/corte/bonos', bonosCorteVillahermosa.home);
+router.get('/villahermosa/corte/produccion', produccionCorteVillahermosa.home);
 
 //--------------------------------------------------------------------------------------------------
 // CDMX
