@@ -133,6 +133,11 @@ import corteConstCdmx from '../controllers/cdmx/corteConstController';
 import corteMaquilaCdmx from '../controllers/cdmx/corteMaquilaController';
 import vitroCdmx from '../controllers/cdmx/vitroController';
 
+import bonosBloqueraCdmx from '../controllers/cdmx/bloqueraBonosController';
+import produccionBloqueraCdmx from '../controllers/cdmx/bloqueraProduccionController';
+import bonosCorteCdmx from '../controllers/cdmx/corteBonosController';
+import produccionCorteCdmx from '../controllers/cdmx/corteProduccionController';
+import bonosMantenimientoCdmx from '../controllers/cdmx/mantenimientoBonosController';
 //--------------------------------------------------------------------------------------------------
 // MONTERREY
 import monterrey from '../controllers/monterrey/monterrey';
@@ -617,6 +622,15 @@ router.get('/cdmexico/vitro/', vitroCdmx.home);
 router.get('/cdmexico/vitro/calculator', vitroCdmx.calculator);
 router.get('/cdmexico/vitro/calculator/:index', vitroCdmx.calculator);
 
+/** bonos y produccion rutas */
+router.get('/cdmexico/bloquera/bonos', bonosBloqueraCdmx.home);
+router.get('/cdmexico/bloquera/produccion', produccionBloqueraCdmx.home);
+
+router.get('/cdmexico/corte/bonos', bonosCorteCdmx.home);
+router.get('/cdmexico/corte/produccion', produccionCorteCdmx.home);
+
+router.get('/cdmexico/corte/bonos', bonosMantenimientoCdmx.home);
+
 //--------------------------------------------------------------------------------------------------
 // Monterrey
 router.get('/monterrey', monterrey.data)
@@ -808,29 +822,34 @@ router.get('/cancun', cancun.data)
 router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
 router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
 router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
-router.get('/cancun/mantenimiento/bonos', bonosMantenimientoCancun.home);
-
 
 router.put('/cancun/admin/corte', corteCancun.editInfo);
 router.get('/cancun/corte/', corteCancun.home);
 router.get('/cancun/corte/calculator', corteCancun.calculator);
 router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
-router.get('/cancun/corte/bonos', bonosCorteCancun.home);
-router.get('/cancun/corte/produccion', produccionCorteCancun.home);
 
 router.put('/cancun/admin/bloquera', preexpYMoldeoCancun.editInfo);
 router.get('/cancun/bloquera/', preexpYMoldeoCancun.home);
 router.get('/cancun/bloquera/calculator', preexpYMoldeoCancun.calculator);
 router.get('/cancun/bloquera/calculator/:index', preexpYMoldeoCancun.calculator);
-router.get('/cancun/bloquera/bonos', bonosBloqueraCancun.home);
-router.get('/cancun/bloquera/produccion', produccionBloqueraCbonosBloqueraCancun.home);
 
 router.put('/cancun/admin/almacen', almacenCancun.editInfo);
 router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
+
+/** bonos y produccion rutas */
+router.get('/cancun/corte/bonos', bonosCorteCancun.home);
+router.get('/cancun/corte/produccion', produccionCorteCancun.home);
+
+router.get('/cancun/bloquera/bonos', bonosBloqueraCancun.home);
+router.get('/cancun/bloquera/produccion', produccionBloqueraCancun.home);
+
 router.get('/cancun/almacen/bonos', bonosAlmacenCancun.home);
 router.get('/cancun/almacen/produccion', produccionAlmacenCancun.home);
+
+router.get('/cancun/mantenimiento/bonos', bonosMantenimientoCancun.home);
+
 
 
 router.get('/cancun/almacen-playa/', almacenPlayaCancun.home);
@@ -844,6 +863,8 @@ router.get('/cancun/empaque-perla/calculator/:index', empaquePerlaCancun.calcula
 router.get('/cancun/trafico/', traficoCancun.home);
 router.get('/cancun/trafico/calculator', traficoCancun.calculator);
 router.get('/cancun/trafico/calculator/:index', traficoCancun.calculator);
+
+
 
 //TIJUANA--------------------------------------------------------------------------------------
 router.get('/tijuana/mantenimiento/', mantenimientoTijuana.home);

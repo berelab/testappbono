@@ -1,6 +1,6 @@
 'use strict'
 
-class produccionModel {
+class bonosModel {
     constructor(repository){
         this.repository = repository;
     }
@@ -23,28 +23,28 @@ class produccionModel {
         for(var i = 0;i<len; i++ ){
         let semana ={
             semana: response[i].fecha,
-            bono: response[i].produccion
+            bono: response[i].bono
         }
 
         semanas.push(semana);
         }
 
-        if(len <8){ //solo pasara en las primeras 7 semanas que aun no haya mas de 8 registros.
+        if(len <8){
             let len2 = 8-len;
             for(var i=0; i<len2; i++){
                 let semana ={
-                    semana:'../../..',
+                    semana:'...',
                     bono: 0
                 }
-            
+        
                 semanas.push(semana);
             }
         }
         
         return {
-            message: 'Produccion',
-            city: 'Cancun',
-            depto: 'Corte',
+            message: 'Bonos',
+            city: 'CDMX',
+            depto: 'Mantenimiento',
             semanas: semanas
         }
     }
@@ -53,4 +53,4 @@ class produccionModel {
    
 };
 
-module.exports = produccionModel;
+module.exports = bonosModel;

@@ -43,7 +43,7 @@ class produccionModel {
         
         return {
             message: 'Produccion',
-            city: 'Cancun',
+            city: 'CDMX',
             depto: 'Corte',
             semanas: semanas
         }
