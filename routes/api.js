@@ -92,6 +92,23 @@ import moldeoHermosillo from '../controllers/hermosillo/moldeoController';
 import insulpanelHermosillo from '../controllers/hermosillo/insulpanelController';
 import rotuladoT1Hermosillo from '../controllers/hermosillo/rotuladoT1Controller';
 
+import bonosBloqueraHermosillo from '../controllers/hermosillo/bloqueraBonosController';
+import produccionBloqueraHermosillo from '../controllers/hermosillo/bloqueraProduccionController';
+import bonosCorteHermosillo from '../controllers/hermosillo/corteBonosController';
+import produccionCorteHermosillo from '../controllers/hermosillo/corteProduccionController';
+import bonosAlmacenHermosillo from '../controllers/hermosillo/almacenBonosController';
+import produccionAlmacenHermosillo from '../controllers/hermosillo/almacenProduccionController';
+import bonosSteelfoamHermosillo from '../controllers/hermosillo/steelfoamBonosController';
+import produccionSteelfoamHermosillo from '../controllers/hermosillo/steelfoamProduccionController';
+import bonosChoferLocalHermosillo from '../controllers/hermosillo/choferLocalBonosController';
+import produccionChoferLocalHermosillo from '../controllers/hermosillo/choferLocalProduccionController';
+import bonosMoldeoHermosillo from '../controllers/hermosillo/moldeoBonosController';
+import produccionMoldeoHermosillo from '../controllers/hermosillo/moldeoProduccionController';
+import bonosRotuladoHermosillo from '../controllers/hermosillo/rotuladoBonosController';
+import produccionRotuladoHermosillo from '../controllers/hermosillo/rotuladoProduccionController';
+import bonosMantenimientoHermosillo from '../controllers/hermosillo/mantenimientoBonosController';
+import bonosInsulpanelHermosillo from '../controllers/hermosillo/insulpanelBonosController';
+
 //GUADALAJARA
 import guadalajara from '../controllers/guadalajara/guadalajara';
 import preexpMoldeoGuadalajara from '../controllers/guadalajara/preexpMoldeoController';
@@ -516,6 +533,31 @@ router.get('/hermosillo/rotulado', rotuladoT1Hermosillo.home);
 router.get('/hermosillo/rotulado/calculator/', rotuladoT1Hermosillo.calculator);
 router.get('/hermosillo/rotulado/calculator/:index', rotuladoT1Hermosillo.calculator);
 
+/** bonos y produccion rutas */
+router.get('/hermosillo/bloquera/bonos', bonosBloqueraHermosillo.home);
+router.get('/hermosillo/bloquera/produccion', produccionBloqueraHermosillo.home);
+
+router.get('/hermosillo/almacen/bonos', bonosAlmacenHermosillo.home);
+router.get('/hermosillo/almacen/produccion', produccionAlmacenHermosillo.home);
+
+router.get('/hermosillo/corte/bonos', bonosCorteHermosillo.home);
+router.get('/hermosillo/corte/produccion', produccionCorteHermosillo.home);
+
+router.get('/hermosillo/moldeo/bonos', bonosMoldeoHermosillo.home);
+router.get('/hermosillo/moldeo/produccion', produccionMoldeoHermosillo.home);
+
+router.get('/hermosillo/steelfoam/bonos', bonosSteelfoamHermosillo.home);
+router.get('/hermosillo/steelfoam/produccion', produccionSteelfoamHermosillo.home);
+
+router.get('/hermosillo/rotulado/bonos', bonosRotuladoHermosillo.home);
+router.get('/hermosillo/rotulado/produccion', produccionRotuladoHermosillo.home);
+
+router.get('/hermosillo/choferlocal/bonos', bonosChoferLocalHermosillo.home);
+router.get('/hermosillo/choferlocal/produccion', produccionChoferLocalHermosillo.home);
+
+router.get('/hermosillo/insulpanel/bonos', bonosInsulpanelHermosillo.home);
+
+router.get('/hermosillo/mantenimiento/bonos', bonosMantenimientoHermosillo.home);
 
 //--------------------------------------------------------------------------------------------------
 // GUADALAJARA 
