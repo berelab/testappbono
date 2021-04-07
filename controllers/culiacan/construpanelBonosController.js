@@ -1,6 +1,6 @@
 'use strict'
 import bonosModel from '../../models/deptos/BonosModel';
-import SQLBonosRepository from '../../infrastructure/juarez/ElectroluxBonosRepository';
+import SQLBonosRepository from '../../infrastructure/culiacan/panelBonosRepo';
 
 
 const controller = {

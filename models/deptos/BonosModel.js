@@ -43,8 +43,6 @@ class bonosModel {
         
         return {
             message: 'Bonos',
-            city: 'Juarez',
-            depto: 'Chofer Local',
             semanas: semanas
         }
     }

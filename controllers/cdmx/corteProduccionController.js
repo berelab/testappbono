@@ -1,5 +1,5 @@
 'use strict'
-import produccionModel from '../../models/cdmx/corteProduccionModel';
+import produccionModel from '../../models/deptos/ProduccionModel';
 import SQLproduccionRepository from '../../infrastructure/cdmex/CorteProdRepo';
 
 

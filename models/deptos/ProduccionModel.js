@@ -42,9 +42,7 @@ class produccionModel {
         }
         
         return {
-            message: 'Produccion',
-            city: 'Cancun',
-            depto: 'Corte',
+            message: 'Producción',
             semanas: semanas
         }
     }

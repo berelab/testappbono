@@ -1,5 +1,5 @@
 'use strict'
-import bonosModel from '../../models/juarez/choferesBonos';
+import bonosModel from '../../models/deptos/BonosModel';
 import SQLBonosRepository from '../../infrastructure/juarez/ChoferesBonosRepository';
 
 

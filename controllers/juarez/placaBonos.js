@@ -1,5 +1,5 @@
 'use strict'
-import bonosModel from '../../models/juarez/placaBonos';
+import bonosModel from '../../models/deptos/BonosModel';
 import SQLBonosRepository from '../../infrastructure/juarez/placaBonosRepository';
 
 

@@ -1,6 +1,6 @@
 'use strict'
 import produccionModel from '../../models/deptos/ProduccionModel';
-import SQLproduccionRepository from '../../infrastructure/juarez/AligeranteProduccionRepository';
+import SQLproduccionRepository from '../../infrastructure/culiacan/almacenProdRepo';
 
 
 const controller = {

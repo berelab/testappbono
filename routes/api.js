@@ -235,6 +235,19 @@ import choferesLocalesCuliacan  from '../controllers/culiacan/choferesLocalesCon
 import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
 import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
 
+import bonosBloqueraCuliacan from '../controllers/culiacan/bloqueraBonosController';
+import produccionBloqueraCuliacan from '../controllers/culiacan/bloqueraProduccionController';
+import bonosMantenimientoCuliacan from '../controllers/culiacan/manetenimientoBonosController';
+import bonosCorteCuliacan from '../controllers/culiacan/corteBonosController';
+import produccionCorteCuliacan from '../controllers/culiacan/corteProduccionController';
+import bonosPanelCuliacan from '../controllers/culiacan/construpanelBonosController';
+import produccionPanelCuliacan from '../controllers/culiacan/construpanelProduccionController';
+import bonosAlmacenCuliacan from '../controllers/culiacan/almacenBonosController';
+import produccionAlmacenCuliacan from '../controllers/culiacan/almacenProduccionController';
+import bonosChoferLocalCuliacan from '../controllers/culiacan/choferLocalBonosController';
+import produccionChoferLocalCuliacan from '../controllers/culiacan/choferLocalProduccionController';
+
+//----------------------------------------------------------------------------------------------------
 // users
 router.get('/test', users.home);
 router.post('/login', users.login);
@@ -954,5 +967,24 @@ router.get('/culiacan/molienda/calculator/:index', moliendaCuliacan.calculator);
 router.get('/culiacan/mantenimiento-edificios/', mantenimientoEdificiosCuliacan.home);
 router.get('/culiacan/mantenimiento-edificios/calculator', mantenimientoEdificiosCuliacan.calculator);
 router.get('/culiacan/mantenimiento-edificios/calculator/:index', mantenimientoEdificiosCuliacan.calculator);
+
+
+/** bonos y produccion rutas */
+router.get('/culiacan/bloquera/bonos', bonosBloqueraCuliacan.home);
+router.get('/culiacan/bloquera/produccion', produccionBloqueraCuliacan.home);
+
+router.get('/culiacan/mantenimiento/bonos', bonosMantenimientoCuliacan.home);
+
+router.get('/culiacan/corte/bonos', bonosCorteCuliacan.home);
+router.get('/culiacan/corte/produccion', produccionCorteCuliacan.home);
+
+router.get('/culiacan/panel/bonos', bonosPanelCuliacan.home);
+router.get('/culiacan/panel/produccion', produccionPanelCuliacan.home);
+
+router.get('/culiacan/almacen/bonos', bonosAlmacenCuliacan.home);
+router.get('/culiacan/almacen/produccion', produccionAlmacenCuliacan.home);
+
+router.get('/culiacan/choferlocal/bonos', bonosChoferLocalCuliacan.home);
+router.get('/culiacan/choferlocal/produccion', produccionChoferLocalCuliacan.home);
 
 module.exports = router;
