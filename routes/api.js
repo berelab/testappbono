@@ -198,6 +198,14 @@ import almacenPlayaCancun from '../controllers/cancun/almacenPlayaController';
 import empaquePerlaCancun from '../controllers/cancun/empaquePerlaController';
 import traficoCancun from '../controllers/cancun/traficoController';
 
+import bonosAlmacenCancun from '../controllers/cancun/almacenBonosController';
+import produccionAlmacenCancun from '../controllers/cancun/almacenProduccionController';
+import bonosCorteCancun from '../controllers/cancun/corteBonosController';
+import produccionCorteCancun from '../controllers/cancun/corteProduccionController';
+import bonosBloqueraCancun from '../controllers/cancun/bloqueraBonosController';
+import produccionBloqueraCancun from '../controllers/cancun/bloqueraProduccionController';
+import bonosMantenimientoCancun from '../controllers/cancun/mantenimientoBonosController';
+
 // TIJUANA -----------------------------------------------------------------------------------------------
 import tijuana from '../controllers/tijuana/tijuana';
 import mantenimientoTijuana from '../controllers/tijuana/mantenimientoController';
@@ -800,21 +808,30 @@ router.get('/cancun', cancun.data)
 router.get('/cancun/mantenimiento/', mantenimientoCancun.home);
 router.get('/cancun/mantenimiento/calculator', mantenimientoCancun.calculator);
 router.get('/cancun/mantenimiento/calculator/:index', mantenimientoCancun.calculator);
+router.get('/cancun/mantenimiento/bonos', bonosMantenimientoCancun.home);
+
 
 router.put('/cancun/admin/corte', corteCancun.editInfo);
 router.get('/cancun/corte/', corteCancun.home);
 router.get('/cancun/corte/calculator', corteCancun.calculator);
 router.get('/cancun/corte/calculator/:index', corteCancun.calculator);
+router.get('/cancun/corte/bonos', bonosCorteCancun.home);
+router.get('/cancun/corte/produccion', produccionCorteCancun.home);
 
 router.put('/cancun/admin/bloquera', preexpYMoldeoCancun.editInfo);
 router.get('/cancun/bloquera/', preexpYMoldeoCancun.home);
 router.get('/cancun/bloquera/calculator', preexpYMoldeoCancun.calculator);
 router.get('/cancun/bloquera/calculator/:index', preexpYMoldeoCancun.calculator);
+router.get('/cancun/bloquera/bonos', bonosBloqueraCancun.home);
+router.get('/cancun/bloquera/produccion', produccionBloqueraCbonosBloqueraCancun.home);
 
 router.put('/cancun/admin/almacen', almacenCancun.editInfo);
 router.get('/cancun/almacen/', almacenCancun.home);
 router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
+router.get('/cancun/almacen/bonos', bonosAlmacenCancun.home);
+router.get('/cancun/almacen/produccion', produccionAlmacenCancun.home);
+
 
 router.get('/cancun/almacen-playa/', almacenPlayaCancun.home);
 router.get('/cancun/almacen-playa/calculator', almacenPlayaCancun.calculator);
