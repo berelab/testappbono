@@ -103,6 +103,20 @@ import choferesGuadalajara from '../controllers/guadalajara/choferesController';
 import moliendaMRGuadalajara from '../controllers/guadalajara/moliendaMRController';
 import mantenimientoGuadalajara from '../controllers/guadalajara/mantenimientoController';
 
+
+import bonosBloqueraGuadalajara from '../controllers/guadalajara/bloqueraBonosController';
+import produccionBloqueraGuadalajara from '../controllers/guadalajara/bloqueraProduccionController';
+import bonosAlmacenGuadalajara from '../controllers/guadalajara/almacenBonosController';
+import produccionAlmacenGuadalajara from '../controllers/guadalajara/almacenProduccionController';
+import bonosChoferLocalGuadalajara from '../controllers/guadalajara/choferLocalBonosController';
+import produccionChoferLocalGuadalajara from '../controllers/guadalajara/choferLocalProduccionController';
+import bonosCorteGuadalajara from '../controllers/guadalajara/corteBonosController';
+import produccionCorteGuadalajara from '../controllers/guadalajara/corteProduccionController';
+import bonosMolinoGuadalajara from '../controllers/guadalajara/molinoBonosController';
+import produccionMolinoGuadalajara from '../controllers/guadalajara/molinoProduccionController';
+import bonosInsulpanelGuadalajara from '../controllers/guadalajara/insulpanelBonosController';
+import bonosMantenimientoGuadalajara from '../controllers/guadalajara/mantenimientoBonosController';
+
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
 import queretaro from '../controllers/queretaro/queretaro';
@@ -544,6 +558,26 @@ router.get('/guadalajara/mantenimiento/', mantenimientoGuadalajara.home);
 router.get('/guadalajara/mantenimiento/calculator', mantenimientoGuadalajara.calculator);
 router.get('/guadalajara/mantenimiento/calculator/:index', mantenimientoGuadalajara.calculator);
 
+/** bonos y produccion rutas */
+router.get('/guadalajara/bloquera/bonos', bonosBloqueraGuadalajara.home);
+router.get('/guadalajara/bloquera/produccion', produccionBloqueraGuadalajara.home);
+
+router.get('/guadalajara/almacen/bonos', bonosAlmacenGuadalajara.home);
+router.get('/guadalajara/almacen/produccion', produccionAlmacenGuadalajara.home);
+
+router.get('/guadalajara/corte/bonos', bonosCorteGuadalajara.home);
+router.get('/guadalajara/corte/produccion', produccionCorteGuadalajara.home);
+
+router.get('/guadalajara/choferlocal/bonos', bonosChoferLocalGuadalajara.home);
+router.get('/guadalajara/choferlocal/produccion', produccionChoferLocalGuadalajara.home);
+
+router.get('/guadalajara/molino/bonos', bonosMolinoGuadalajara.home);
+router.get('/guadalajara/molino/produccion', produccionMolinoGuadalajara.home);
+
+router.get('/guadalajara/insulpanel/bonos', bonosInsulpanelGuadalajara.home);
+
+router.get('/guadalajara/mantenimiento/bonos', bonosMantenimientoGuadalajara.home);
+
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
 router.get('/queretaro', queretaro.data)
@@ -642,7 +676,7 @@ router.get('/cdmexico/bloquera/produccion', produccionBloqueraCdmx.home);
 router.get('/cdmexico/corte/bonos', bonosCorteCdmx.home);
 router.get('/cdmexico/corte/produccion', produccionCorteCdmx.home);
 
-router.get('/cdmexico/corte/bonos', bonosMantenimientoCdmx.home);
+router.get('/cdmexico/mantenimiento/bonos', bonosMantenimientoCdmx.home);
 
 //--------------------------------------------------------------------------------------------------
 // Monterrey
