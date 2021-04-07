@@ -33,7 +33,7 @@ class produccionModel {
             let len2 = 8-len;
             for(var i=0; i<len2; i++){
                 let semana ={
-                    semana:'../../..',
+                    semana:'...',
                     bono: 0
                 }
             

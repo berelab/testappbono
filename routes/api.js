@@ -200,6 +200,20 @@ import corteMerida from '../controllers/merida/corteController';
 import bloqueraMerida from '../controllers/merida/bloqueraController';
 import rotuladoMerida from '../controllers/merida/rotuladoController';
 
+import bonosMantenimientoMerida from '../controllers/merida/mantenimientoBonosController';
+import bonosAlmacenMerida from '../controllers/merida/almacenBonosController';
+import produccionAlmacenMerida from '../controllers/merida/almacenProduccionController';
+import bonosChoferLocalMerida from '../controllers/merida/choferLocalBonosController';
+import produccionChoferLocalMerida from '../controllers/merida/choferLocalProduccionController';
+import bonosMoldeoMerida from '../controllers/merida/moldeoBonosController';
+import produccionMoldeoMerida from '../controllers/merida/moldeoProduccionController';
+import bonosCorteMerida from '../controllers/merida/corteBonosController';
+import produccionCorteMerida from '../controllers/merida/corteProduccionController';
+import bonosBloqueraMerida from '../controllers/merida/bloqueraBonosController';
+import produccionBloqueraMerida from '../controllers/merida/bloqueraProduccionController';
+import bonosRotuladoMerida from '../controllers/merida/rotuladoBonosController';
+import produccionRotuladoMerida from '../controllers/merida/rotuladoProduccionController';
+
 //--------------------------------------------------------------------------------------------------
 // VERACRUZ
 import veracruz from '../controllers/veracruz/veracruz';
@@ -831,6 +845,26 @@ router.get('/merida/rotulado/', rotuladoMerida.home);
 router.get('/merida/rotulado/calculator', rotuladoMerida.calculator);
 router.get('/merida/rotulado/calculator/:index', rotuladoMerida.calculator);
 
+/** bonos y produccion rutas */
+router.get('/merida/almacen/bonos', bonosAlmacenMerida.home);
+router.get('/merida/almacen/produccion', produccionAlmacenMerida.home);
+
+router.get('/merida/mantenimiento/bonos', bonosMantenimientoMerida.home);
+
+router.get('/merida/choferlocal/bonos', bonosChoferLocalMerida.home);
+router.get('/merida/choferlocal/produccion', produccionChoferLocalMerida.home);
+
+router.get('/merida/moldeo/bonos', bonosMoldeoMerida.home);
+router.get('/merida/moldeo/produccion', produccionMoldeoMerida.home);
+
+router.get('/merida/corte/bonos', bonosCorteMerida.home);
+router.get('/merida/corte/produccion', produccionCorteMerida.home);
+
+router.get('/merida/bloquera/bonos', bonosBloqueraMerida.home);
+router.get('/merida/bloquera/produccion', produccionBloqueraMerida.home);
+
+router.get('/merida/rotulado/bonos', bonosRotuladoMerida.home);
+router.get('/merida/rotulado/produccion', produccionRotuladoMerida.home);
 //VERACRUZ ------------------------------------------------------------------------------
 
 router.get('/veracruz/bloquera/', bloqueraVeracruz.home);
