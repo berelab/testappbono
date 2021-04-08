@@ -22,7 +22,7 @@ const options = {
 
 cron.schedule('00 12 * * 7', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
      generarReporteLP.generar();
-     generarReporteJZ.generar();
+    //generarReporteJZ.generar();
 });
 
 app.use(morgan('tiny'));

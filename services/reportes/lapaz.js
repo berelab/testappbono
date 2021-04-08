@@ -1,49 +1,53 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
     // LA PAZ
-    axios.get('/lapaz/corte/calculator')
+    route.get('/lapaz/corte/calculator')
     .then(response => {
-      //console.log(response.data);
+      console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
-
-    axios.get('/lapaz/bloquera/calculator')
+    
+    route.get('/lapaz/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     });  
-
      
-    axios.get('/lapaz/almacen/calculator')
+    route.get('/lapaz/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
 
-    axios.get('/lapaz/choferlocal/calculator')
+    route.get('/lapaz/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/lapaz/chofercedi/calculator')
+    route.get('/lapaz/chofercedi/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     });
 
-    axios.get('/lapaz/vigueta/calculator')
+    route.get('/lapaz/vigueta/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -51,7 +55,7 @@ exports.generar = () =>{
     }); 
     
     /* pendiente 
-    axios.get('/lapaz/mantenimiento/calculator')
+    route.get('/lapaz/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

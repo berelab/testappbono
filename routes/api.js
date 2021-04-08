@@ -1054,8 +1054,8 @@ router.get('/tijuana/bloquera/produccion', preexpYMoldeoTijuana.produccionDepto)
 router.get('/tijuana/bonotyg/bonos', bonoTYGTijuana.bonosDepto);
 router.get('/tijuana/bonotyg/produccion', bonoTYGTijuana.produccionDepto);
 
-router.get('/tijuana/choferlocal/bonos', chofereslocalesTijuana.bonosDepto);
-router.get('/tijuana/choferlocal/produccion', chofereslocalesTijuana.produccionDepto);
+router.get('/tijuana/choferlocal/bonos', choferesLocalesTijuana.bonosDepto);
+router.get('/tijuana/choferlocal/produccion', choferesLocalesTijuana.produccionDepto);
 
 // CULIACAN -------------------------------------------------------------------------------------
 

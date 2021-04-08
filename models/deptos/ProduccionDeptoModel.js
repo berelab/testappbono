@@ -23,18 +23,18 @@ class produccionModel {
         for(var i = 0;i<len; i++ ){
         let semana ={
             semana: response[i].fecha,
-            bono: response[i].produccion
+            produccion: response[i].produccion
         }
 
         semanas.push(semana);
         }
 
-        if(len <8){ //solo pasara en las primeras 7 semanas que aun no haya mas de 8 registros.
+        if(len <8){ 
             let len2 = 8-len;
             for(var i=0; i<len2; i++){
                 let semana ={
                     semana:'...',
-                    bono: 0
+                    produccion: 0
                 }
             
                 semanas.push(semana);
