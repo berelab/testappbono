@@ -517,8 +517,8 @@ router.get('/nogales/bloquera/produccion', bloqueraNogales.produccionDepto);
 router.get('/nogales/moldeo/bonos', moldeoNogales.bonosDepto);
 router.get('/nogales/moldeo/produccion', moldeoNogales.produccionDepto);
 
-router.get('/nogales/choferlocal/bonos', choferlocalNogales.bonosDepto);
-router.get('/nogales/choferlocal/produccion', choferlocalNogales.produccionDepto);
+router.get('/nogales/choferlocal/bonos', choferesNogales.bonosDepto);
+router.get('/nogales/choferlocal/produccion', choferesNogales.produccionDepto);
 
 router.get('/nogales/mantenimiento/bonos', mantenimientoNogales.bonosDepto);
 
