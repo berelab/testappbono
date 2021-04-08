@@ -1,4 +1,6 @@
 'use strict'
+import bonosModel from '../../models/deptos/BonosDeptoModel';
+import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import aligeranteModel from '../../models/juarez/aligerante';
@@ -174,6 +176,28 @@ const controller = {
             message : 'OK',
             aligerante
         });  
+    },
+
+    bonosDepto:async (req, res) => {
+        const repository = new SQLAligeranteRepository();
+        const model = new bonosModel(repository);
+
+        let  bonos = await model.execute(); 
+
+		return res.status(200).send({
+           bonos:  bonos.semanas
+        });
+    },
+
+    produccionDepto:async (req, res) => {
+        const repository = new SQLAligeranteRepository();
+        const model = new produccionModel(repository);
+
+        let  produccion = await model.execute(); 
+
+		return res.status(200).send({
+           produccion:  produccion.semanas
+        });
     }
 
 };

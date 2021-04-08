@@ -45,31 +45,6 @@ import molinoJuarez from '../controllers/juarez/molino';
 import choferesJuarez from '../controllers/juarez/choferes';
 import mantenimientoJuarez from '../controllers/juarez/mantenimientoController';
 
-import bonosAligeranteJuarez from '../controllers/juarez/aligeranteBonos';
-import produccionAligeranteJuarez from '../controllers/juarez/aligeranteProduccion';
-import bonosAlmacenJuarez from '../controllers/juarez/almacenBonos';
-import produccionAlmacenJuarez from '../controllers/juarez/almacenProduccion';
-import bonosAosmithJuarez from '../controllers/juarez/aosmithBonos';
-import produccionAosmithJuarez from '../controllers/juarez/aosmithProduccion';
-import bonosChoferLocalJuarez from '../controllers/juarez/choferesBonos';
-import produccionChoferLocalJuarez from '../controllers/juarez/choferesProduccion';
-import bonosCommscopeJuarez from '../controllers/juarez/commscopeBonos';
-import produccionCommscopeJuarez from '../controllers/juarez/commscopeProduccion';
-import bonosCorteJuarez from '../controllers/juarez/corteBonos';
-import produccionCorteJuarez from '../controllers/juarez/corteProduccion';
-import bonosElectroluxJuarez from '../controllers/juarez/electroluxBonos';
-import produccionElectroluxJuarez from '../controllers/juarez/electroluxProduccion';
-import bonosKbrsJuarez from '../controllers/juarez/kbrsBonos';
-import produccionKbrsJuarez from '../controllers/juarez/kbrsProduccion';
-import bonosMcsframeJuarez from '../controllers/juarez/mcsframeBonos';
-import produccionMcsframeJuarez from '../controllers/juarez/mcsframeProduccion';
-import bonosMolinoJuarez from '../controllers/juarez/molinoBonos';
-import produccionMolinoJuarez from '../controllers/juarez/molinoProduccion';
-import bonosMoldeoJuarez from '../controllers/juarez/moldeoBonos';
-import produccionMoldeoJuarez from '../controllers/juarez/moldeoProduccion';
-import bonosPlacaJuarez from '../controllers/juarez/placaBonos';
-import produccionPlacaJuarez from '../controllers/juarez/placaProduccion';
-
 //NOGALES
 import nogales from '../controllers/nogales/nogales';
 import corteNogales from '../controllers/nogales/corteController';
@@ -92,23 +67,6 @@ import moldeoHermosillo from '../controllers/hermosillo/moldeoController';
 import insulpanelHermosillo from '../controllers/hermosillo/insulpanelController';
 import rotuladoT1Hermosillo from '../controllers/hermosillo/rotuladoT1Controller';
 
-import bonosBloqueraHermosillo from '../controllers/hermosillo/bloqueraBonosController';
-import produccionBloqueraHermosillo from '../controllers/hermosillo/bloqueraProduccionController';
-import bonosCorteHermosillo from '../controllers/hermosillo/corteBonosController';
-import produccionCorteHermosillo from '../controllers/hermosillo/corteProduccionController';
-import bonosAlmacenHermosillo from '../controllers/hermosillo/almacenBonosController';
-import produccionAlmacenHermosillo from '../controllers/hermosillo/almacenProduccionController';
-import bonosSteelfoamHermosillo from '../controllers/hermosillo/steelfoamBonosController';
-import produccionSteelfoamHermosillo from '../controllers/hermosillo/steelfoamProduccionController';
-import bonosChoferLocalHermosillo from '../controllers/hermosillo/choferLocalBonosController';
-import produccionChoferLocalHermosillo from '../controllers/hermosillo/choferLocalProduccionController';
-import bonosMoldeoHermosillo from '../controllers/hermosillo/moldeoBonosController';
-import produccionMoldeoHermosillo from '../controllers/hermosillo/moldeoProduccionController';
-import bonosRotuladoHermosillo from '../controllers/hermosillo/rotuladoBonosController';
-import produccionRotuladoHermosillo from '../controllers/hermosillo/rotuladoProduccionController';
-import bonosMantenimientoHermosillo from '../controllers/hermosillo/mantenimientoBonosController';
-import bonosInsulpanelHermosillo from '../controllers/hermosillo/insulpanelBonosController';
-
 //GUADALAJARA
 import guadalajara from '../controllers/guadalajara/guadalajara';
 import preexpMoldeoGuadalajara from '../controllers/guadalajara/preexpMoldeoController';
@@ -119,20 +77,6 @@ import insulpanelGuadalajara from '../controllers/guadalajara/insulpanelControll
 import choferesGuadalajara from '../controllers/guadalajara/choferesController';
 import moliendaMRGuadalajara from '../controllers/guadalajara/moliendaMRController';
 import mantenimientoGuadalajara from '../controllers/guadalajara/mantenimientoController';
-
-
-import bonosBloqueraGuadalajara from '../controllers/guadalajara/bloqueraBonosController';
-import produccionBloqueraGuadalajara from '../controllers/guadalajara/bloqueraProduccionController';
-import bonosAlmacenGuadalajara from '../controllers/guadalajara/almacenBonosController';
-import produccionAlmacenGuadalajara from '../controllers/guadalajara/almacenProduccionController';
-import bonosChoferLocalGuadalajara from '../controllers/guadalajara/choferLocalBonosController';
-import produccionChoferLocalGuadalajara from '../controllers/guadalajara/choferLocalProduccionController';
-import bonosCorteGuadalajara from '../controllers/guadalajara/corteBonosController';
-import produccionCorteGuadalajara from '../controllers/guadalajara/corteProduccionController';
-import bonosMolinoGuadalajara from '../controllers/guadalajara/molinoBonosController';
-import produccionMolinoGuadalajara from '../controllers/guadalajara/molinoProduccionController';
-import bonosInsulpanelGuadalajara from '../controllers/guadalajara/insulpanelBonosController';
-import bonosMantenimientoGuadalajara from '../controllers/guadalajara/mantenimientoBonosController';
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
@@ -154,10 +98,6 @@ import corteVillahermosa from '../controllers/villahermosa/corteController';
 import almacenVillahermosa from '../controllers/villahermosa/almacenController';
 import mantenimientoVillahermosa from '../controllers/villahermosa/mantenimientoController';
 
-import bonosBloqueraVillahermosa from '../controllers/villahermosa/bloqueraBonosController';
-import produccionBloqueraVillahermosa from '../controllers/villahermosa/bloqueraProduccionController';
-import bonosCorteVillahermosa from '../controllers/villahermosa/corteBonosController';
-import produccionCorteVillahermosa from '../controllers/villahermosa/corteProduccionController';
 //--------------------------------------------------------------------------------------------------
 // CDMX
 import cdmex from '../controllers/cdmx/cdmex';
@@ -168,11 +108,6 @@ import corteConstCdmx from '../controllers/cdmx/corteConstController';
 import corteMaquilaCdmx from '../controllers/cdmx/corteMaquilaController';
 import vitroCdmx from '../controllers/cdmx/vitroController';
 
-import bonosBloqueraCdmx from '../controllers/cdmx/bloqueraBonosController';
-import produccionBloqueraCdmx from '../controllers/cdmx/bloqueraProduccionController';
-import bonosCorteCdmx from '../controllers/cdmx/corteBonosController';
-import produccionCorteCdmx from '../controllers/cdmx/corteProduccionController';
-import bonosMantenimientoCdmx from '../controllers/cdmx/mantenimientoBonosController';
 //--------------------------------------------------------------------------------------------------
 // MONTERREY
 import monterrey from '../controllers/monterrey/monterrey';
@@ -203,20 +138,6 @@ import moldeoMerida from '../controllers/merida/moldeoController';
 import corteMerida from '../controllers/merida/corteController';
 import bloqueraMerida from '../controllers/merida/bloqueraController';
 import rotuladoMerida from '../controllers/merida/rotuladoController';
-
-import bonosMantenimientoMerida from '../controllers/merida/mantenimientoBonosController';
-import bonosAlmacenMerida from '../controllers/merida/almacenBonosController';
-import produccionAlmacenMerida from '../controllers/merida/almacenProduccionController';
-import bonosChoferLocalMerida from '../controllers/merida/choferLocalBonosController';
-import produccionChoferLocalMerida from '../controllers/merida/choferLocalProduccionController';
-import bonosMoldeoMerida from '../controllers/merida/moldeoBonosController';
-import produccionMoldeoMerida from '../controllers/merida/moldeoProduccionController';
-import bonosCorteMerida from '../controllers/merida/corteBonosController';
-import produccionCorteMerida from '../controllers/merida/corteProduccionController';
-import bonosBloqueraMerida from '../controllers/merida/bloqueraBonosController';
-import produccionBloqueraMerida from '../controllers/merida/bloqueraProduccionController';
-import bonosRotuladoMerida from '../controllers/merida/rotuladoBonosController';
-import produccionRotuladoMerida from '../controllers/merida/rotuladoProduccionController';
 
 //--------------------------------------------------------------------------------------------------
 // VERACRUZ
@@ -252,14 +173,6 @@ import almacenPlayaCancun from '../controllers/cancun/almacenPlayaController';
 import empaquePerlaCancun from '../controllers/cancun/empaquePerlaController';
 import traficoCancun from '../controllers/cancun/traficoController';
 
-import bonosAlmacenCancun from '../controllers/cancun/almacenBonosController';
-import produccionAlmacenCancun from '../controllers/cancun/almacenProduccionController';
-import bonosCorteCancun from '../controllers/cancun/corteBonosController';
-import produccionCorteCancun from '../controllers/cancun/corteProduccionController';
-import bonosBloqueraCancun from '../controllers/cancun/bloqueraBonosController';
-import produccionBloqueraCancun from '../controllers/cancun/bloqueraProduccionController';
-import bonosMantenimientoCancun from '../controllers/cancun/mantenimientoBonosController';
-
 // TIJUANA -----------------------------------------------------------------------------------------------
 import tijuana from '../controllers/tijuana/tijuana';
 import mantenimientoTijuana from '../controllers/tijuana/mantenimientoController';
@@ -283,18 +196,6 @@ import almacenCuliacan  from '../controllers/culiacan/almacenController';
 import choferesLocalesCuliacan  from '../controllers/culiacan/choferesLocalesController';
 import moliendaCuliacan  from '../controllers/culiacan/moliendaController';
 import mantenimientoEdificiosCuliacan  from '../controllers/culiacan/mantenimientoEdificiosController';
-
-import bonosBloqueraCuliacan from '../controllers/culiacan/bloqueraBonosController';
-import produccionBloqueraCuliacan from '../controllers/culiacan/bloqueraProduccionController';
-import bonosMantenimientoCuliacan from '../controllers/culiacan/manetenimientoBonosController';
-import bonosCorteCuliacan from '../controllers/culiacan/corteBonosController';
-import produccionCorteCuliacan from '../controllers/culiacan/corteProduccionController';
-import bonosPanelCuliacan from '../controllers/culiacan/construpanelBonosController';
-import produccionPanelCuliacan from '../controllers/culiacan/construpanelProduccionController';
-import bonosAlmacenCuliacan from '../controllers/culiacan/almacenBonosController';
-import produccionAlmacenCuliacan from '../controllers/culiacan/almacenProduccionController';
-import bonosChoferLocalCuliacan from '../controllers/culiacan/choferLocalBonosController';
-import produccionChoferLocalCuliacan from '../controllers/culiacan/choferLocalProduccionController';
 
 //----------------------------------------------------------------------------------------------------
 // users
@@ -432,41 +333,41 @@ router.get('/juarez/mantenimiento/calculator', mantenimientoJuarez.calculator);
 router.get('/juarez/mantenimiento/calculator/:index', mantenimientoJuarez.calculator);
 
 /** produccion y bonos juarez */
-router.get('/juarez/choferes/bonos', bonosChoferLocalJuarez.home);
-router.get('/juarez/choferes/produccion', produccionChoferLocalJuarez.home);
+router.get('/juarez/choferes/bonos', choferesJuarez.bonosDepto);
+router.get('/juarez/choferes/produccion',choferesJuarez.produccionDepto);
 
-router.get('/juarez/almacen/bonos', bonosAlmacenJuarez.home);
-router.get('/juarez/almacen/produccion', produccionAlmacenJuarez.home);
+router.get('/juarez/almacen/bonos', almacenJuarez.bonosDepto);
+router.get('/juarez/almacen/produccion', almacenJuarez.produccionDepto);
 
-router.get('/juarez/aligerante/bonos', bonosAligeranteJuarez.home);
-router.get('/juarez/aligerante/produccion', produccionAligeranteJuarez.home);
+router.get('/juarez/aligerante/bonos', aligeranteJuarez.bonosDepto);
+router.get('/juarez/aligerante/produccion', aligeranteJuarez.produccionDepto);
 
-router.get('/juarez/commscope/bonos', bonosCommscopeJuarez.home);
-router.get('/juarez/commscope/produccion', produccionCommscopeJuarez.home);
+router.get('/juarez/commscope/bonos', commscopeJuarez.bonosDepto);
+router.get('/juarez/commscope/produccion', commscopeJuarez.produccionDepto);
 
-router.get('/juarez/aosmith/bonos', bonosAosmithJuarez.home);
-router.get('/juarez/aosmith/produccion', produccionAosmithJuarez.home);
+router.get('/juarez/aosmith/bonos', aosmithJuarez.bonosDepto);
+router.get('/juarez/aosmith/produccion', aosmithJuarez.produccionDepto);
 
-router.get('/juarez/corte/bonos', bonosCorteJuarez.home);
-router.get('/juarez/corte/produccion', produccionCorteJuarez.home);
+router.get('/juarez/corte/bonos', corteJuarez.bonosDepto);
+router.get('/juarez/corte/produccion', corteJuarez.produccionDepto);
 
-router.get('/juarez/electrolux/bonos', bonosElectroluxJuarez.home);
-router.get('/juarez/electrolux/produccion', produccionElectroluxJuarez.home);
+router.get('/juarez/electrolux/bonos', electroluxJuarez.bonosDepto);
+router.get('/juarez/electrolux/produccion', electroluxJuarez.produccionDepto);
 
-router.get('/juarez/kbrs/bonos', bonosKbrsJuarez.home);
-router.get('/juarez/kbrs/produccion', produccionKbrsJuarez.home);
+router.get('/juarez/kbrs/bonos', kbrsJuarez.bonosDepto);
+router.get('/juarez/kbrs/produccion', kbrsJuarez.produccionDepto);
 
-router.get('/juarez/mcsframe/bonos', bonosMcsframeJuarez.home);
-router.get('/juarez/mcsframe/produccion', produccionMcsframeJuarez.home);
+router.get('/juarez/mcsframe/bonos', mcsframeJuarez.bonosDepto);
+router.get('/juarez/mcsframe/produccion', mcsframeJuarez.produccionDepto);
 
-router.get('/juarez/moldeo/bonos', bonosMoldeoJuarez.home);
-router.get('/juarez/moldeo/produccion', produccionMoldeoJuarez.home);
+router.get('/juarez/moldeo/bonos', moldeoJuarez.bonosDepto);
+router.get('/juarez/moldeo/produccion', moldeoJuarez.produccionDepto);
 
-router.get('/juarez/molino/bonos', bonosMolinoJuarez.home);
-router.get('/juarez/molino/produccion', produccionMolinoJuarez.home);
+router.get('/juarez/molino/bonos', molinoJuarez.bonosDepto);
+router.get('/juarez/molino/produccion', molinoJuarez.produccionDepto);
 
-router.get('/juarez/placa/bonos', bonosPlacaJuarez.home);
-router.get('/juarez/placa/produccion', produccionPlacaJuarez.home);
+router.get('/juarez/placa/bonos', placaJuarez.bonosDepto);
+router.get('/juarez/placa/produccion', placaJuarez.produccionDepto);
 
 //------------------------------------------------------------------------------------------------------------
 //NOGALES
@@ -572,30 +473,30 @@ router.get('/hermosillo/rotulado/calculator/', rotuladoT1Hermosillo.calculator);
 router.get('/hermosillo/rotulado/calculator/:index', rotuladoT1Hermosillo.calculator);
 
 /** bonos y produccion rutas */
-router.get('/hermosillo/bloquera/bonos', bonosBloqueraHermosillo.home);
-router.get('/hermosillo/bloquera/produccion', produccionBloqueraHermosillo.home);
+router.get('/hermosillo/bloquera/bonos', bloqueraHermosillo.bonosDepto);
+router.get('/hermosillo/bloquera/produccion', bloqueraHermosillo.produccionDepto);
 
-router.get('/hermosillo/almacen/bonos', bonosAlmacenHermosillo.home);
-router.get('/hermosillo/almacen/produccion', produccionAlmacenHermosillo.home);
+router.get('/hermosillo/almacen/bonos', almacenoHermosillo.bonosDepto);
+router.get('/hermosillo/almacen/produccion', almacenoHermosillo.produccionDepto);
 
-router.get('/hermosillo/corte/bonos', bonosCorteHermosillo.home);
-router.get('/hermosillo/corte/produccion', produccionCorteHermosillo.home);
+router.get('/hermosillo/corte/bonos', corteHermosillo.bonosDepto);
+router.get('/hermosillo/corte/produccion', corteHermosillo.produccionDepto);
 
-router.get('/hermosillo/moldeo/bonos', bonosMoldeoHermosillo.home);
-router.get('/hermosillo/moldeo/produccion', produccionMoldeoHermosillo.home);
+router.get('/hermosillo/moldeo/bonos', moldeoHermosillo.bonosDepto);
+router.get('/hermosillo/moldeo/produccion', moldeoHermosillo.produccionDepto);
 
-router.get('/hermosillo/steelfoam/bonos', bonosSteelfoamHermosillo.home);
-router.get('/hermosillo/steelfoam/produccion', produccionSteelfoamHermosillo.home);
+router.get('/hermosillo/steelfoam/bonos', steelfoamHermosillo.bonosDepto);
+router.get('/hermosillo/steelfoam/produccion', steelfoamHermosillo.produccionDepto);
 
-router.get('/hermosillo/rotulado/bonos', bonosRotuladoHermosillo.home);
-router.get('/hermosillo/rotulado/produccion', produccionRotuladoHermosillo.home);
+router.get('/hermosillo/rotulado/bonos', rotuladoT1Hermosillo.bonosDepto);
+router.get('/hermosillo/rotulado/produccion', rotuladoT1Hermosillo.produccionDepto);
 
-router.get('/hermosillo/choferlocal/bonos', bonosChoferLocalHermosillo.home);
-router.get('/hermosillo/choferlocal/produccion', produccionChoferLocalHermosillo.home);
+router.get('/hermosillo/choferlocal/bonos', choferesHermosillo.bonosDepto);
+router.get('/hermosillo/choferlocal/produccion', choferesHermosillo.produccionDepto);
 
-router.get('/hermosillo/insulpanel/bonos', bonosInsulpanelHermosillo.home);
+router.get('/hermosillo/insulpanel/bonos', insulpanelHermosillo.bonosDepto);
 
-router.get('/hermosillo/mantenimiento/bonos', bonosMantenimientoHermosillo.home);
+router.get('/hermosillo/mantenimiento/bonos', mantenimientoHermosillo.bonosDepto);
 
 //--------------------------------------------------------------------------------------------------
 // GUADALAJARA 
@@ -639,24 +540,24 @@ router.get('/guadalajara/mantenimiento/calculator', mantenimientoGuadalajara.cal
 router.get('/guadalajara/mantenimiento/calculator/:index', mantenimientoGuadalajara.calculator);
 
 /** bonos y produccion rutas */
-router.get('/guadalajara/bloquera/bonos', bonosBloqueraGuadalajara.home);
-router.get('/guadalajara/bloquera/produccion', produccionBloqueraGuadalajara.home);
+router.get('/guadalajara/bloquera/bonos', preexpMoldeoGuadalajara.bonosDepto);
+router.get('/guadalajara/bloquera/produccion', preexpMoldeoGuadalajara.produccionDepto);
 
-router.get('/guadalajara/almacen/bonos', bonosAlmacenGuadalajara.home);
-router.get('/guadalajara/almacen/produccion', produccionAlmacenGuadalajara.home);
+router.get('/guadalajara/almacen/bonos', almacenGuadalajara.bonosDepto);
+router.get('/guadalajara/almacen/produccion', almacenGuadalajara.produccionDepto);
 
-router.get('/guadalajara/corte/bonos', bonosCorteGuadalajara.home);
-router.get('/guadalajara/corte/produccion', produccionCorteGuadalajara.home);
+router.get('/guadalajara/corte/bonos', corteGuadalajara.bonosDepto);
+router.get('/guadalajara/corte/produccion',  corteGuadalajara.produccionDepto);
 
-router.get('/guadalajara/choferlocal/bonos', bonosChoferLocalGuadalajara.home);
-router.get('/guadalajara/choferlocal/produccion', produccionChoferLocalGuadalajara.home);
+router.get('/guadalajara/choferlocal/bonos',  choferesGuadalajara.bonosDepto);
+router.get('/guadalajara/choferlocal/produccion', choferesGuadalajara.produccionDepto);
 
-router.get('/guadalajara/molino/bonos', bonosMolinoGuadalajara.home);
-router.get('/guadalajara/molino/produccion', produccionMolinoGuadalajara.home);
+router.get('/guadalajara/molino/bonos', moliendaMRGuadalajara.bonosDepto);
+router.get('/guadalajara/molino/produccion', moliendaMRGuadalajara.produccionDepto);
 
-router.get('/guadalajara/insulpanel/bonos', bonosInsulpanelGuadalajara.home);
+router.get('/guadalajara/insulpanel/bonos', insulpanelGuadalajara.bonosDepto);
 
-router.get('/guadalajara/mantenimiento/bonos', bonosMantenimientoGuadalajara.home);
+router.get('/guadalajara/mantenimiento/bonos', mantenimientsoGuadalajara.bonosDepto);
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
@@ -719,11 +620,11 @@ router.get('/villahermosa/mantenimiento/', mantenimientoVillahermosa.home);
 router.get('/villahermosa/mantenimiento/calculator', mantenimientoVillahermosa.calculator);
 router.get('/villahermosa/mantenimiento/calculator/:index', mantenimientoVillahermosa.calculator);
 /** bonos y produccion rutas */
-router.get('/villahermosa/bloquera/bonos', bonosBloqueraVillahermosa.home);
-router.get('/villahermosa/bloquera/produccion', produccionBloqueraVillahermosa.home);
+router.get('/villahermosa/bloquera/bonos', preexpMoldeoVillahermosa.bonosDepto);
+router.get('/villahermosa/bloquera/produccion', preexpMoldeoVillahermosa.produccionDepto);
 
-router.get('/villahermosa/corte/bonos', bonosCorteVillahermosa.home);
-router.get('/villahermosa/corte/produccion', produccionCorteVillahermosa.home);
+router.get('/villahermosa/corte/bonos', corteVillahermosa.bonosDepto);
+router.get('/villahermosa/corte/produccion', corteVillahermosa.produccionDepto);
 
 //--------------------------------------------------------------------------------------------------
 // CDMX
@@ -755,14 +656,15 @@ router.get('/cdmexico/vitro/', vitroCdmx.home);
 router.get('/cdmexico/vitro/calculator', vitroCdmx.calculator);
 router.get('/cdmexico/vitro/calculator/:index', vitroCdmx.calculator);
 
+
 /** bonos y produccion rutas */
-router.get('/cdmexico/bloquera/bonos', bonosBloqueraCdmx.home);
-router.get('/cdmexico/bloquera/produccion', produccionBloqueraCdmx.home);
+router.get('/cdmexico/bloquera/bonos', preexpMoldeoCdmx.bonosDepto);
+router.get('/cdmexico/bloquera/produccion', preexpMoldeoCdmx.produccionDepto);
 
-router.get('/cdmexico/corte/bonos', bonosCorteCdmx.home);
-router.get('/cdmexico/corte/produccion', produccionCorteCdmx.home);
+router.get('/cdmexico/corte/bonos', corteConstCdmx.bonosDepto);
+router.get('/cdmexico/corte/produccion', corteConstCdmx.produccionDepto);
 
-router.get('/cdmexico/mantenimiento/bonos', bonosMantenimientoCdmx.home);
+router.get('/cdmexico/mantenimiento/bonos', mantenimientoCdmx.bonosDepto);
 
 //--------------------------------------------------------------------------------------------------
 // Monterrey
@@ -876,25 +778,25 @@ router.get('/merida/rotulado/calculator', rotuladoMerida.calculator);
 router.get('/merida/rotulado/calculator/:index', rotuladoMerida.calculator);
 
 /** bonos y produccion rutas */
-router.get('/merida/almacen/bonos', bonosAlmacenMerida.home);
-router.get('/merida/almacen/produccion', produccionAlmacenMerida.home);
+router.get('/merida/almacen/bonos', almacenMerida.bonosDepto);
+router.get('/merida/almacen/produccion',  almacenMerida.produccionDepto);
 
-router.get('/merida/mantenimiento/bonos', bonosMantenimientoMerida.home);
+router.get('/merida/mantenimiento/bonos', mantenimientoMerida.bonosDepto);
 
-router.get('/merida/choferlocal/bonos', bonosChoferLocalMerida.home);
-router.get('/merida/choferlocal/produccion', produccionChoferLocalMerida.home);
+router.get('/merida/choferlocal/bonos', choferesMerida.bonosDepto);
+router.get('/merida/choferlocal/produccion', choferesMerida.produccionDepto);
 
-router.get('/merida/moldeo/bonos', bonosMoldeoMerida.home);
-router.get('/merida/moldeo/produccion', produccionMoldeoMerida.home);
+router.get('/merida/moldeo/bonos', moldeoMerida.bonosDepto);
+router.get('/merida/moldeo/produccion', moldeoMerida.produccionDepto);
 
-router.get('/merida/corte/bonos', bonosCorteMerida.home);
-router.get('/merida/corte/produccion', produccionCorteMerida.home);
+router.get('/merida/corte/bonos', corteMerida.bonosDepto);
+router.get('/merida/corte/produccion', corteMerida.produccionDepto);
 
-router.get('/merida/bloquera/bonos', bonosBloqueraMerida.home);
-router.get('/merida/bloquera/produccion', produccionBloqueraMerida.home);
+router.get('/merida/bloquera/bonos', bloqueraMerida.bonosDepto);
+router.get('/merida/bloquera/produccion', bloqueraMerida.produccionDepto);
 
-router.get('/merida/rotulado/bonos', bonosRotuladoMerida.home);
-router.get('/merida/rotulado/produccion', produccionRotuladoMerida.home);
+router.get('/merida/rotulado/bonos', rotuladoMerida.bonosDepto);
+router.get('/merida/rotulado/produccion', rotuladoMerida.produccionDepto);
 //VERACRUZ ------------------------------------------------------------------------------
 
 router.get('/veracruz/bloquera/', bloqueraVeracruz.home);
@@ -992,16 +894,16 @@ router.get('/cancun/almacen/calculator', almacenCancun.calculator);
 router.get('/cancun/almacen/calculator/:index', almacenCancun.calculator);
 
 /** bonos y produccion rutas */
-router.get('/cancun/corte/bonos', bonosCorteCancun.home);
-router.get('/cancun/corte/produccion', produccionCorteCancun.home);
+router.get('/cancun/corte/bonos', corteCancun.bonosDepto);
+router.get('/cancun/corte/produccion',corteCancun.produccionDepto);
 
-router.get('/cancun/bloquera/bonos', bonosBloqueraCancun.home);
-router.get('/cancun/bloquera/produccion', produccionBloqueraCancun.home);
+router.get('/cancun/bloquera/bonos', preexpYMoldeoCancun.bonosDepto);
+router.get('/cancun/bloquera/produccion', preexpYMoldeoCancun.produccionDepto);
 
-router.get('/cancun/almacen/bonos', bonosAlmacenCancun.home);
-router.get('/cancun/almacen/produccion', produccionAlmacenCancun.home);
+router.get('/cancun/almacen/bonos', almacenCancun.bonosDepto);
+router.get('/cancun/almacen/produccion', almacenCancun.produccionDepto);
 
-router.get('/cancun/mantenimiento/bonos', bonosMantenimientoCancun.home);
+router.get('/cancun/mantenimiento/bonos', mantenimientoCancun.bonosDepto);
 
 
 
@@ -1110,21 +1012,21 @@ router.get('/culiacan/mantenimiento-edificios/calculator/:index', mantenimientoE
 
 
 /** bonos y produccion rutas */
-router.get('/culiacan/bloquera/bonos', bonosBloqueraCuliacan.home);
-router.get('/culiacan/bloquera/produccion', produccionBloqueraCuliacan.home);
+router.get('/culiacan/bloquera/bonos', preexpYMoldeoCuliacan.bonosDepto);
+router.get('/culiacan/bloquera/produccion', preexpYMoldeoCuliacan.produccionDepto);
 
-router.get('/culiacan/mantenimiento/bonos', bonosMantenimientoCuliacan.home);
+router.get('/culiacan/mantenimiento/bonos', mantenimientoCuliacan.bonosDepto);
 
-router.get('/culiacan/corte/bonos', bonosCorteCuliacan.home);
-router.get('/culiacan/corte/produccion', produccionCorteCuliacan.home);
+router.get('/culiacan/corte/bonos',  corteCuliacan.bonosDepto);
+router.get('/culiacan/corte/produccion', corteCuliacan.produccionDepto);
 
-router.get('/culiacan/panel/bonos', bonosPanelCuliacan.home);
-router.get('/culiacan/panel/produccion', produccionPanelCuliacan.home);
+router.get('/culiacan/panel/bonos', construpanelCuliacan.bonosDepto);
+router.get('/culiacan/panel/produccion', construpanelCuliacan.produccionDepto);
 
-router.get('/culiacan/almacen/bonos', bonosAlmacenCuliacan.home);
-router.get('/culiacan/almacen/produccion', produccionAlmacenCuliacan.home);
+router.get('/culiacan/almacen/bonos', almacenCuliacan.bonosDepto);
+router.get('/culiacan/almacen/produccion', almacenCuliacan.produccionDepto);
 
-router.get('/culiacan/choferlocal/bonos', bonosChoferLocalCuliacan.home);
-router.get('/culiacan/choferlocal/produccion', produccionChoferLocalCuliacan.home);
+router.get('/culiacan/choferlocal/bonos', choferesLocalesCuliacan.bonosDepto);
+router.get('/culiacan/choferlocal/produccion', choferesLocalesCuliacan.produccionDepto);
 
 module.exports = router;

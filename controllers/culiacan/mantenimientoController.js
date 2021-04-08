@@ -1,6 +1,6 @@
 'use strict'
 
- 
+import bonosModel from '../../models/deptos/BonosDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/culiacan/mantenimientoModel';
@@ -160,6 +160,17 @@ const controller = {
                 asistencia: asistencias_colaborador,             
             });
         }
+    },
+    
+    bonosDepto:async (req, res) => {
+        const repository = new SQLMantenimiento();
+        const model = new bonosModel(repository);
+
+        let  bonos = await model.execute(); 
+
+		return res.status(200).send({
+           bonos:  bonos.semanas
+        });
     }
 
 };

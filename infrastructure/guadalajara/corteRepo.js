@@ -112,6 +112,45 @@ class CorteRepository {
         }
         return  response.recordset[0].desperdicio
     }
+
+    async findProdDepto() {
+       
+        let response;
+        let pool;
+        const queryString = `
+        SELECT TOP (8) * FROM produccion_deptos where depto = 'Corte' and city='Guadalajara' order by id DESC
+        `;
+
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return response.recordset;
+    }
+
+    async findBonosDepto() {
+        let response;
+        let pool;
+        const queryString = `
+        SELECT TOP (8) * FROM bonos_deptos where depto = 'Corte' and city='Guadalajara' order by id DESC
+        `;
+
+        try {
+            pool = await appPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return response.recordset;
+    }
 };
 
 module.exports = CorteRepository;

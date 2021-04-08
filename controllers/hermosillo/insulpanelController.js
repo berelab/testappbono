@@ -1,5 +1,5 @@
 'use strict'
- 
+import bonosModel from '../../models/deptos/BonosDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import insulpanelModel from '../../models/hermosillo/insulpanelModel';
@@ -151,8 +151,19 @@ const controller = {
                 }
             });
         }  
-    }
-   
+    },
+
+    bonosDepto:async (req, res) => {
+        const repository = new insulpanelSQL();
+        const model = new bonosModel(repository);
+
+        let  bonos = await model.execute(); 
+
+		return res.status(200).send({
+           bonos:  bonos.semanas
+        });
+    },
+
     
 
 };
