@@ -1,4 +1,5 @@
 'use strict'
+import bonosModel from '../../models/deptos/BonosDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import viguetaModels from '../../models/lapaz/viguetaModels';
@@ -123,8 +124,18 @@ const controller = {
             message : 'OK',
             vigueta
         });  
-    }
+    },
+    
+    bonosDepto:async (req, res) => {
+        const repository = new viguetaSQLRepo();
+        const model = new bonosModel(repository);
 
+        let  bonos = await model.execute(); 
+
+		return res.status(200).send({
+           bonos:  bonos.semanas
+        });
+    }
 };
 
 //estandar

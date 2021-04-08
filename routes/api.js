@@ -595,6 +595,24 @@ router.get('/queretaro/choferlocal/', choferesQueretaro.home);
 router.get('/queretaro/choferlocal/calculator',choferesQueretaro.calculator);
 router.get('/queretaro/choferlocal/calculator/:index', choferesQueretaro.calculator);
 
+/** bonos y produccion rutas */
+router.get('/queretaro/bloquera/bonos', preexpMoldeoQueretaro.bonosDepto);
+router.get('/queretaro/bloquera/produccion', preexpMoldeoQueretaro.produccionDepto);
+
+router.get('/queretaro/moldeo/bonos', hieleraQueretaro.bonosDepto);
+router.get('/queretaro/moldeo/produccion', hieleraQueretaro.produccionDepto);
+
+router.get('/queretaro/corte/bonos', corteQueretaro.bonosDepto);
+router.get('/queretaro/corte/produccion', corteQueretaro.produccionDepto);
+
+router.get('/queretaro/almacen/bonos', almacenQueretaro.bonosDepto);
+router.get('/queretaro/almacen/produccion', almacenQueretaro.produccionDepto);
+
+router.get('/queretaro/choferlocal/bonos', choferesQueretaro.bonosDepto);
+router.get('/queretaro/choferlocal/produccion', choferesQueretaro.produccionDepto);
+
+router.get('/queretaro/mantenimiento/bonos', mantenimientoQueretaro.bonosDepto);
+
 //--------------------------------------------------------------------------------------------------
 // VILLAHERMOSA
 router.get('/villahermosa', villahermosa.data)
@@ -741,6 +759,31 @@ router.get('/monterrey/rotulado-hielera-3/', rotuladoHielera3Monterrey.home);
 router.get('/monterrey/rotulado-hielera-3/calculator', rotuladoHielera3Monterrey.calculator);
 router.get('/monterrey/rotulado-hielera-3/calculator/:index', rotuladoHielera3Monterrey.calculator);
 
+
+/** bonos y produccion rutas */
+router.get('/monterrey/almacen/bonos', almacenMonterrey.bonosDepto);
+router.get('/monterrey/almacen/produccion', almacenMonterrey.produccionDepto);
+
+router.get('/monterrey/bloquera/bonos', bloqueraMonterrey.bonosDepto);
+router.get('/monterrey/bloquera/produccion', bloqueraMonterrey.produccionDepto);
+
+router.get('/monterrey/choferlocal/bonos', choferesLocalesMonterrey.bonosDepto);
+router.get('/monterrey/choferlocal/produccion', choferesLocalesMonterrey.produccionDepto);
+
+router.get('/monterrey/cortenip/bonos', corteNIPMonterrey.bonosDepto);
+router.get('/monterrey/cortenip/produccion', corteNIPMonterrey.produccionDepto);
+
+router.get('/monterrey/emcorte/bonos', emcoMonterrey.bonosDepto);
+router.get('/monterrey/emcorte/produccion', emcoMonterrey.produccionDepto);
+
+router.get('/monterrey/moldeo/bonos', moldeoMonterrey.bonosDepto);
+router.get('/monterrey/moldeo/produccion', moldeoMonterrey.produccionDepto);
+
+router.get('/monterrey/molino/bonos', moliendaMRMonterrey.bonosDepto);
+router.get('/monterrey/molino/produccion', moliendaMRMonterrey.produccionDepto);
+
+router.get('/monterrey/mantenimiento/bonos', mantenimientoMonterrey.bonosDepto);
+
 // Merida ------------------------------------------------------------------------------------------
 router.get('/merida/mantenimiento/', mantenimientoMerida.home);
 router.get('/merida/mantenimiento/calculator',mantenimientoMerida.calculator);
@@ -849,6 +892,27 @@ router.put('/veracruz/admin/panel', construpanelVeracruz.editInfo);
 router.get('/veracruz/panel/', construpanelVeracruz.home);
 router.get('/veracruz/panel/calculator', construpanelVeracruz.calculator);
 router.get('/veracruz/panel/calculator/:index', construpanelVeracruz.calculator);
+
+/** bonos y produccion rutas */
+router.get('/veracruz/corte/bonos', corteVeracruz.bonosDepto);
+router.get('/veracruz/corte/produccion', corteVeracruz.produccionDepto);
+
+router.get('/veracruz/emcorte/bonos', emcoVeracruz.bonosDepto);
+router.get('/veracruz/emcorte/produccion', emcoVeracruz.produccionDepto);
+
+router.get('/veracruz/mantenimiento/bonos', mantenimientoVeracruz.bonosDepto);
+
+router.get('/veracruz/moldeo/bonos', moldeoVeracruz.bonosDepto);
+router.get('/veracruz/moldeo/produccion', moldeoVeracruz.produccionDepto);
+
+router.get('/veracruz/steelfoam/bonos', steelfoamVeracruz.bonosDepto);
+router.get('/veracruz/steelfoam/produccion', steelfoamVeracruz.produccionDepto);
+
+router.get('/veracruz/panel/bonos', construpanelVeracruz.bonosDepto);
+router.get('/veracruz/panel/produccion', construpanelVeracruz.produccionDepto);
+
+router.get('/veracruz/choferlocal/bonos', choferesVeracruz.bonosDepto);
+router.get('/veracruz/choferlocal/produccion', choferesVeracruz.produccionDepto);
 
 //MEXICALI ---------------------------------------------------------------------
 router.get('/mexicali/choferes/', choferesMexicali.home);
@@ -965,6 +1029,33 @@ router.put('/tijuana/admin/bonotyg', bonoTYGTijuana.editInfo);
 router.get('/tijuana/bonotyg/', bonoTYGTijuana.home);
 router.get('/tijuana/bonotyg/calculator', bonoTYGTijuana.calculator);
 router.get('/tijuana/bonotyg/calculator/:index', bonoTYGTijuana.calculator);
+
+/** bonos y produccion rutas */
+
+router.get('/tijuana/mantenimiento/bonos', mantenimientoTijuana.bonosDepto);
+
+router.get('/tijuana/bono-garantia/bonos', bonoGarantiaTijuana.bonosDepto);
+
+router.get('/tijuana/molino/bonos', siloMolinoTijuana.bonosDepto);
+router.get('/tijuana/molino/produccion', siloMolinoTijuana.produccionDepto);
+
+router.get('/tijuana/almacen/bonos', almacenTijuana.bonosDepto);
+router.get('/tijuana/almacen/produccion', almacenTijuana.produccionDepto);
+
+router.get('/tijuana/corte/bonos', corteTijuana.bonosDepto);
+router.get('/tijuana/corte/produccion', corteTijuana.produccionDepto);
+
+router.get('/tijuana/cortemaq/bonos', corteMaqTijuana.bonosDepto);
+router.get('/tijuana/cortemaq/produccion', corteMaqTijuana.produccionDepto);
+
+router.get('/tijuana/bloquera/bonos', preexpYMoldeoTijuana.bonosDepto);
+router.get('/tijuana/bloquera/produccion', preexpYMoldeoTijuana.produccionDepto);
+
+router.get('/tijuana/bonotyg/bonos', bonoTYGTijuana.bonosDepto);
+router.get('/tijuana/bonotyg/produccion', bonoTYGTijuana.produccionDepto);
+
+router.get('/tijuana/choferlocal/bonos', chofereslocalesTijuana.bonosDepto);
+router.get('/tijuana/choferlocal/produccion', chofereslocalesTijuana.produccionDepto);
 
 // CULIACAN -------------------------------------------------------------------------------------
 
