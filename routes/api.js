@@ -557,7 +557,7 @@ router.get('/guadalajara/molino/produccion', moliendaMRGuadalajara.produccionDep
 
 router.get('/guadalajara/insulpanel/bonos', insulpanelGuadalajara.bonosDepto);
 
-router.get('/guadalajara/mantenimiento/bonos', mantenimientsoGuadalajara.bonosDepto);
+router.get('/guadalajara/mantenimiento/bonos', mantenimientoGuadalajara.bonosDepto);
 
 //--------------------------------------------------------------------------------------------------
 // QUERETARO
