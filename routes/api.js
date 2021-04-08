@@ -210,6 +210,8 @@ router.get('/guardar', users.save);
 //Reportes
 router.get('/colab-bonos', reporte.getBonosColab);
 router.get('/colab-produccion', reporte.getProdColab);
+router.get('/colab-bonos/:num', reporte.getBonosColabByNum);
+router.get('/colab-produccion/:num', reporte.getProdColabByNum);
 router.get('/deptos-bonos', reporte.getBonosDepto);
 router.get('/deptos-produccion', reporte.getProdDepto);
 

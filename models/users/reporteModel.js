@@ -31,6 +31,32 @@ class reporteModel {
         return response;
     }
 
+    async executeBonosColabByNum(num) {
+        let response;
+
+        try {
+            response = await this.repository.findBonosColabByNum(num);
+        } catch(error) {
+            throw error;
+        }
+
+     
+        return response;
+    }
+
+    async executeProdColabByNum(num) {
+        let response;
+
+        try {
+            response = await this.repository.findProdColabByNum(num);
+        } catch(error) {
+            throw error;
+        }
+
+     
+        return response;
+    }
+
     async executeProdDepto() {
         let response;
 

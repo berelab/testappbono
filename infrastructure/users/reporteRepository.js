@@ -33,6 +33,36 @@ class reporteRepository {
     return response.recordset;
   }
 
+  async findBonosColabByNum(num) {
+    let response;
+    let pool;
+    const queryString = `SELECT * FROM bonos_colaboradores WHERE num = ${num}`;
+
+    try {
+      pool = await appPoolPromise;
+      response = await pool.request().query(queryString);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return response.recordset;
+  }
+
+  async findProdColabByNum(num) {
+    let response;
+    let pool;
+    const queryString = `SELECT * FROM produccion_colaboradores WHERE num = ${num}`;
+
+    try {
+      pool = await appPoolPromise;
+      response = await pool.request().query(queryString);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return response.recordset;
+  }
+
   async findBonosDeptos() {
     let response;
     let pool;

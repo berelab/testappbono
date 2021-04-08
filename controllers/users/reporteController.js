@@ -27,6 +27,30 @@ const controller = {
         });
     },
 
+    getBonosColabByNum: async (req, res) => {
+        const repository = new mySqlReporteRepository();
+        const model = new reporteModel(repository);
+        let params = req.body;
+
+        let reporte = await model.executeBonosColabByNum(params.num); 
+
+		return res.status(200).send({
+           reporte: reporte,
+        });
+    },
+
+    getProdColabByNum: async (req, res) => {
+        const repository = new mySqlReporteRepository();
+        const model = new reporteModel(repository);
+        let params = req.body;
+
+        let reporte = await model.executeProdColabByNum(params.num); 
+
+		return res.status(200).send({
+           reporte: reporte,
+        });
+    },
+
     getProdDepto: async (req, res) => {
         const repository = new mySqlReporteRepository();
         const model = new reporteModel(repository);
