@@ -504,6 +504,26 @@ router.get('/nogales/mantenimiento', mantenimientoNogales.home);
 router.get('/nogales/mantenimiento/calculator/', mantenimientoNogales.calculator);
 router.get('/nogales/mantenimiento/calculator/:index', mantenimientoNogales.calculator);
 
+/** bonos y produccion rutas */
+router.get('/nogales/almacen/bonos', almacenNogales.bonosDepto);
+router.get('/nogales/almacen/produccion', almacenNogales.produccionDepto);
+
+router.get('/nogales/corte/bonos', corteNogales.bonosDepto);
+router.get('/nogales/corte/produccion', corteNogales.produccionDepto);
+
+router.get('/nogales/bloquera/bonos', bloqueraNogales.bonosDepto);
+router.get('/nogales/bloquera/produccion', bloqueraNogales.produccionDepto);
+
+router.get('/nogales/moldeo/bonos', moldeoNogales.bonosDepto);
+router.get('/nogales/moldeo/produccion', moldeoNogales.produccionDepto);
+
+router.get('/nogales/choferlocal/bonos', choferlocalNogales.bonosDepto);
+router.get('/nogales/choferlocal/produccion', choferlocalNogales.produccionDepto);
+
+router.get('/nogales/mantenimiento/bonos', mantenimientoNogales.bonosDepto);
+
+router.get('/nogales/preexpansion/bonos', preexpansionNogales.bonosDepto);
+
 //------------------------------------------------------------------------------------------
 //HERMOSILLO
 

@@ -1,5 +1,5 @@
 'use strict'
- 
+import bonosModel from '../../models/deptos/BonosDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import preexpansionModel from '../../models/nogales/preexpansionModel';
@@ -155,7 +155,18 @@ const controller = {
                 asistencia: sumatoria_asistencia, 
             });
         } 
-    }
+    },
+
+    bonosDepto:async (req, res) => {
+        const repository = new preexpansionSQL();
+        const model = new bonosModel(repository);
+
+        let  bonos = await model.execute(); 
+
+		return res.status(200).send({
+           bonos:  bonos.semanas
+        });
+    },
 
 };
 
