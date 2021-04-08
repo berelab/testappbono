@@ -1,19 +1,25 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    axios.get('/monterrey/mantenimiento/calculator')
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
+    route.get('/monterrey/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/monterrey/choferlocal/calculator')
+    route.get('/monterrey/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -21,7 +27,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/monterrey/choferes-cedi/calculator')
+    route.get('/monterrey/choferes-cedi/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -29,7 +35,7 @@ exports.generar = () =>{
     }); 
     */
  
-    axios.get('/monterrey/molino/calculator')
+    route.get('/monterrey/molino/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -37,7 +43,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/monterrey/almacen-cedi/calculator')
+    route.get('/monterrey/almacen-cedi/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
@@ -45,14 +51,14 @@ exports.generar = () =>{
     }); 
     */
  
-    axios.get('/monterrey/almacen/calculator')
+    route.get('/monterrey/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    axios.get('/monterrey/moldeo/calculator')
+    route.get('/monterrey/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -60,7 +66,7 @@ exports.generar = () =>{
     }); 
 
     /* 
-    axios.get('/monterrey/emcorte/calculator')
+    route.get('/monterrey/emcorte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -68,7 +74,7 @@ exports.generar = () =>{
     }); 
     */
     
-    axios.get('/monterrey/cortenip/calculator')
+    route.get('/monterrey/cortenip/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -76,7 +82,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/monterrey/corte-l/calculator')
+    route.get('/monterrey/corte-l/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -84,7 +90,7 @@ exports.generar = () =>{
     }); 
     */
     
-    axios.get('/monterrey/bloquera/calculator')
+    route.get('/monterrey/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -92,7 +98,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/monterrey/preexpansion/calculator')
+    route.get('/monterrey/preexpansion/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

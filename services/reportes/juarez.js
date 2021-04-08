@@ -1,89 +1,95 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    axios.get('/juarez/bloquera/calculator')
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
+    route.get('/juarez/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/kbrs/calculator')
+    route.get('/juarez/kbrs/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/juarez/mcsframe/calculator')
+    route.get('/juarez/mcsframe/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/aosmith/calculator')
+    route.get('/juarez/aosmith/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/juarez/commscope/calculator')
+    route.get('/juarez/commscope/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/electrolux/calculator')
+    route.get('/juarez/electrolux/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    axios.get('/juarez/corte/calculator')
+    route.get('/juarez/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/placa/calculator')
+    route.get('/juarez/placa/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/juarez/aligerante/calculator')
+    route.get('/juarez/aligerante/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/almacen/calculator')
+    route.get('/juarez/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/juarez/molino/calculator')
+    route.get('/juarez/molino/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/juarez/choferes/calculator')
+    route.get('/juarez/choferes/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -91,7 +97,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/juarez/mantenimiento/calculator')
+    route.get('/juarez/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

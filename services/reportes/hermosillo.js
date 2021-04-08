@@ -1,56 +1,62 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
+
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+    
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
     
     //HERMOSILLO
 
-    axios.get('/hermosillo/bloquera/calculator')
+    route.get('/hermosillo/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/hermosillo/corte/calculator')
+    route.get('/hermosillo/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/hermosillo/steelfoam/calculator')
+    route.get('/hermosillo/steelfoam/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/hermosillo/choferlocal/calculator')
+    route.get('/hermosillo/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/hermosillo/mantenimiento/calculator')
+    route.get('/hermosillo/mantenimiento/calculator')
     .then(response => {
        //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/hermosillo/almacen/calculator')
+    route.get('/hermosillo/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/hermosillo/moldeo/calculator')
+    route.get('/hermosillo/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -58,14 +64,14 @@ exports.generar = () =>{
     }); 
     
     /* no funcional
-    axios.get('/hermosillo/insulpanel/calculator')
+    route.get('/hermosillo/insulpanel/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/hermosillo/rotulado/calculator')
+    route.get('/hermosillo/rotulado/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

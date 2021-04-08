@@ -1,47 +1,53 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    axios.get('/queretaro/bloquera/calculator')
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
+    route.get('/queretaro/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/queretaro/moldeo/calculator')
+    route.get('/queretaro/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/queretaro/corte/calculator')
+    route.get('/queretaro/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/queretaro/almacen/calculator')
+    route.get('/queretaro/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/queretaro/mantenimiento/calculator')
+    route.get('/queretaro/mantenimiento/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/queretaro/choferlocal/calculator')
+    route.get('/queretaro/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

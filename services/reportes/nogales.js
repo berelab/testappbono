@@ -1,56 +1,60 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    //NOGALES
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
 
-    axios.get('/nogales/corte/calculator')
+    route.get('/nogales/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/nogales/bloquera/calculator')
+    route.get('/nogales/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/nogales/moldeo/calculator')
+    route.get('/nogales/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/nogales/almacen/calculator')
+    route.get('/nogales/almacen/calculator')
     .then(response => {
       // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/nogales/choferlocal/calculator')
+    route.get('/nogales/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/nogales/preexpansion/calculator')
+    route.get('/nogales/preexpansion/calculator')
     .then(response => {
      //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/nogales/mantenimiento/calculator')
+    route.get('/nogales/mantenimiento/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {

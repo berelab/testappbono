@@ -1,33 +1,39 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    axios.get('/villahermosa/bloquera/calculator')
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
+    route.get('/villahermosa/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/villahermosa/corte/calculator')
+    route.get('/villahermosa/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
   /*
-    axios.get('/villahermosa/almacen/calculator')
+    route.get('/villahermosa/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/villahermosa/mantenimiento/calculator')
+    route.get('/villahermosa/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -35,7 +41,7 @@ exports.generar = () =>{
     }); 
 
    
-    axios.get('/villahermosa/trafico/calculator')
+    route.get('/villahermosa/trafico/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

@@ -1,13 +1,19 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
     /*
-    axios.get('/veracruz/bloquera/calculator')
+    route.get('/veracruz/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -15,21 +21,21 @@ exports.generar = () =>{
     }); 
     */
     
-    axios.get('/veracruz/corte/calculator')
+    route.get('/veracruz/corte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/veracruz/emcorte/calculator')
+    route.get('/veracruz/emcorte/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/veracruz/moldeo/calculator')
+    route.get('/veracruz/moldeo/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -37,7 +43,7 @@ exports.generar = () =>{
     }); 
     
     /*
-    axios.get('/veracruz/almacen/calculator')
+    route.get('/veracruz/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -46,7 +52,7 @@ exports.generar = () =>{
     */
 
     /*
-    axios.get('/veracruz/almacen-cedi/calculator')
+    route.get('/veracruz/almacen-cedi/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
@@ -54,21 +60,21 @@ exports.generar = () =>{
     }); 
     */
  
-    axios.get('/veracruz/mantenimiento/calculator')
+    route.get('/veracruz/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/veracruz/steelfoam/calculator')
+    route.get('/veracruz/steelfoam/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/veracruz/choferlocal/calculator')
+    route.get('/veracruz/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -76,7 +82,7 @@ exports.generar = () =>{
     }); 
 
     /*
-    axios.get('/veracruz/chofer-cedi/calculator')
+    route.get('/veracruz/chofer-cedi/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
@@ -84,7 +90,7 @@ exports.generar = () =>{
     });
     */ 
     
-    axios.get('/veracruz/panel/calculator')
+    route.get('/veracruz/panel/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

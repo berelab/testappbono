@@ -1,68 +1,74 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
 
-    axios.get('/tijuana/mantenimiento/calculator')
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+     
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+
+    route.get('/tijuana/mantenimiento/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/tijuana/bono-garantia/calculator')
+    route.get('/tijuana/bono-garantia/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/tijuana/molino/calculator')
+    route.get('/tijuana/molino/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/tijuana/almacen/calculator')
+    route.get('/tijuana/almacen/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/tijuana/corte/calculator')
+    route.get('/tijuana/corte/calculator')
     .then(response => {
      // console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
  
-    axios.get('/tijuana/cortemaq/calculator')
+    route.get('/tijuana/cortemaq/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    axios.get('/tijuana/bloquera/calculator')
+    route.get('/tijuana/bloquera/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
 
-    axios.get('/tijuana/choferlocal/calculator')
+    route.get('/tijuana/choferlocal/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {
       console.log(error);
     }); 
     
-    axios.get('/tijuana/bonotyg/calculator')
+    route.get('/tijuana/bonotyg/calculator')
     .then(response => {
       //console.log(response.data);
     }).catch(error => {

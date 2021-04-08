@@ -1,10 +1,17 @@
 'use strict' 
-
-var axios = require('axios');
-// Agregamos la URL base de nuestra API
-axios.defaults.baseURL = 'http://localhost:3000/api';
+import https from 'https';
+import axios from 'axios';
 
 exports.generar = () =>{
+
+     axios.defaults.baseURL = 'https://appbono.fanosa.com/api';
+    /**
+     const route = axios.create({
+      httpsAgent: new https.Agent({  
+        rejectUnauthorized: false
+      })
+    });
+     */
 
     //pendientes todos.
     /*
