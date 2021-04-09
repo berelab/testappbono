@@ -111,6 +111,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
+                    city: insulpanel.city,
                     depto: insulpanel.message,
                     day: weekdayName,
                     meta_semana: insulpanel.base0,
