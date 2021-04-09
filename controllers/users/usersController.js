@@ -5,6 +5,7 @@ import usersRepository from '../../infrastructure/users/usersRepository';
 var validator = require('validator');
 var jwt = require('../../services/jwt');
 var nodemailer = require('nodemailer'); 
+var smtpTransport = require('nodemailer'); 
 var fs = require('fs'); 
 var handlebars = require('handlebars'); 
 
@@ -214,8 +215,7 @@ let sendCode = (user, code)=>{
     var readHTMLFile = function(path, callback) {
      fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
          if (err) {
-             throw err;
-             callback(err);
+             throw err;  
          }
          else {
              callback(null, html);
@@ -241,7 +241,7 @@ let sendCode = (user, code)=>{
         };
          var htmlToSend = template(replacements);
          var mailOptions = {
-             from: 'no-reply@gmail.com',
+             from: 'correo remitente',
              to : user.email,
              subject : 'Código de acceso APP FANOSA',
              html : htmlToSend
@@ -249,7 +249,6 @@ let sendCode = (user, code)=>{
           transporter.sendMail(mailOptions, function (error, response) {
              if (error) {
                  console.log(error);
-                 callback(error);
              }
          });
      });
@@ -262,8 +261,7 @@ let sendCode = (user, code)=>{
      var readHTMLFile = function(path, callback) {
          fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
              if (err) {
-                 throw err;
-                 callback(err);
+                 throw err; 
              }
              else {
                  callback(null, html);
@@ -296,7 +294,7 @@ let sendCode = (user, code)=>{
               transporter.sendMail(mailOptions, function (error, response) {
                  if (error) {
                      console.log(error);
-                     callback(error);
+                    
                  }
              });
          });

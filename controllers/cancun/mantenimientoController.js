@@ -18,9 +18,16 @@ import convertData from '../ConvertData';
 const controller = {
 	
 	home: async (req, res) => {
+        const repositoryC = new SQLCorte();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
 
-        let percCorte = percepcionCorte();
-        let percBloquera = percepcionBloquera();
+        const repositoryM = new SQLMoldeo();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(moldeo);
 
         const repository = new SQLMantenimiento();
         const model = new mantenimientoModel(repository,percCorte, percBloquera);
@@ -29,6 +36,8 @@ const controller = {
         let equipo = cd.convert;
 
 		return res.status(200).send({
+            percCorte,
+            percBloquera,
             message: mantenimiento.message,           
             dias: mantenimiento.dias,
             factor_dias_laborados: mantenimiento.factor_dias_laborados,
@@ -49,9 +58,17 @@ const controller = {
     },
     
     calculator: async (req, res)=>{
-        let percCorte = percepcionCorte();
-        let percBloquera = percepcionBloquera();
+        const repositoryC = new SQLCorte();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
 
+        const repositoryM = new SQLMoldeo();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(moldeo);
+        
         const repository = new SQLMantenimiento();
         const model = new mantenimientoModel(repository, percCorte, percBloquera);
         let mantenimiento = await model.execute(); 
@@ -189,10 +206,7 @@ const controller = {
 
 };
 
-let percepcionCorte = () =>{
-        const repository = new SQLCorte();
-        const model = new corteModel(repository);
-        let corte = await model.execute(); 
+let percepcionCorte =  (corte) =>{
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;
 
@@ -232,10 +246,8 @@ let percepcionCorte = () =>{
         return percepcion_total
 }
 
-let percepcionBloquera = () =>{
-    const repository = new SQLMoldeo();
-    const model = new moldeoModel(repository);
-    let moldeo = await model.execute(); 
+let percepcionBloquera = (moldeo) =>{
+   
     const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
     let equipo = cd.convert;
 
