@@ -267,6 +267,10 @@ router.get('/lapaz/choferlocal/produccion', produccionChoferLaPaz.home);
 
 router.get('/lapaz/vigueta/bonos', bonosViguetaLaPaz.home);
 router.get('/lapaz/vigueta/produccion', produccionViguetaLaPaz.home);
+
+router.get('/lapaz/chofercedi/bonos',  cediLaPaz.bonosDepto);
+router.get('/lapaz/chofercedi/produccion', cediLaPaz.produccionDepto);
+
 //------------------------------------------------------------------------------------------------------------
 //CD JUAREZ
 router.get('/juarez', juarez.data)
