@@ -14,7 +14,7 @@ exports.generar = () =>{
     // LA PAZ
     route.get('/lapaz/corte/calculator')
     .then(response => {
-      console.log(response.data);
+      //console.log(response.data);
     }).catch(error => {
       console.log(error);
     });

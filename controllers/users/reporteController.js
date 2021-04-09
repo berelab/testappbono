@@ -30,9 +30,10 @@ const controller = {
     getBonosColabByNum: async (req, res) => {
         const repository = new mySqlReporteRepository();
         const model = new reporteModel(repository);
-        let params = req.body;
 
-        let reporte = await model.executeBonosColabByNum(params.num); 
+        let num = parseInt(req.params.num); 
+
+        let reporte = await model.executeBonosColabByNum(num); 
 
 		return res.status(200).send({
            reporte: reporte,
@@ -42,9 +43,9 @@ const controller = {
     getProdColabByNum: async (req, res) => {
         const repository = new mySqlReporteRepository();
         const model = new reporteModel(repository);
-        let params = req.body;
+        let num = parseInt(req.params.num); 
 
-        let reporte = await model.executeProdColabByNum(params.num); 
+        let reporte = await model.executeProdColabByNum(num); 
 
 		return res.status(200).send({
            reporte: reporte,
