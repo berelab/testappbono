@@ -1,8 +1,10 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorte, percBloquera){
         this.repository = repository;
+        this.percCorte = percCorte,
+        this.percBloquera = percBloquera
     }
 
     async execute() {
@@ -28,7 +30,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percBloquera);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +44,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra , agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra , agua,  combustible, electricidad, percCorte, percBloquera) {
         return {
             message: 'Mantenimiento',
             city: 'Cancun',
@@ -53,11 +55,11 @@ class MantenimientoModel {
             $_extra_m3: response.extra,
             areas: [
                 'Corte',
-                'Moldeo',
+                'Bloquera',
             ],
             montos_recibidos_area:[
-                995.22, 
-                246.17,
+                percCorte, 
+                percBloquera,
             ],
             rendimiento_agua: agua ,
             rendimiento_combustible: combustible,
@@ -213,25 +215,6 @@ class MantenimientoModel {
         }
     }
 
-    _percepcionTotal(){
-        let percepciones=[]
-      
-        axios.get('/cancun/corte/calculator')
-        .then(response => {
-            percepciones.push(response.data.bono_depto)
-        }).catch(error => {
-          console.log(error);
-        }); 
-    
-        axios.get('/cancun/bloquera/calculator')
-        .then(response => {
-            percepciones.push(response.data.bono_depto)
-        }).catch(error => {
-          console.log(error);
-        }); 
-        
-        return percepciones
-    }
 };
 
 module.exports = MantenimientoModel;
