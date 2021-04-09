@@ -1,8 +1,11 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository,percCorte, percInsulpanel, percMoldeo){
         this.repository = repository;
+        this.percCorte = percCorte;
+        this.percInsulpanel = percInsulpanel;
+        this.percMoldeo = percMoldeo;
     }
 
     async execute() {
@@ -27,7 +30,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percInsulpanel, this.percMoldeo);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +45,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra, agua, combustible, electricidad) {
+    _convertData(response, team, entries, extra, agua, combustible, electricidad ,percCorte, percInsulpanel, percMoldeo) {
         return {
             message: 'Mantenimiento',
             city: 'Hermosillo',
@@ -57,9 +60,9 @@ class MantenimientoModel {
                 'Moldeo'
             ],
             montos_recibidos_area:[
-               6952.68, 
-               991.76,
-               650.31
+               percCorte, 
+               percInsulpanel ,
+               percMoldeo
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

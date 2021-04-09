@@ -1,8 +1,10 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorte, percBloquera){
         this.repository = repository;
+        this.percCorte = percCorte;
+        this.percBloquera = percBloquera;
     }
 
     async execute() {
@@ -27,7 +29,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percBloquera);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +44,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra, agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra, agua,  combustible, electricidad, percCorte, percBloquera) {
         return {
             message: 'Mantenimiento',
             city: 'Merida',
@@ -56,8 +58,8 @@ class MantenimientoModel {
                 'Preexpansion y Moldeo'
             ],
             montos_recibidos_area:[
-               404.25, 
-               630
+                percCorte, 
+                percBloquera,
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

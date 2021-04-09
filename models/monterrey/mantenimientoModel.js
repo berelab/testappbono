@@ -1,8 +1,11 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorteL, percBloquera, percMoldeo){
         this.repository = repository;
+        this.percCorteL = percCorteL;
+        this.percBloquera = percBloquera;
+        this.percMoldeo = percMoldeo;
     }
 
     async execute() {
@@ -27,7 +30,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorteL, this.percBloquera, this.percMoldeo);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +45,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra, agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra, agua,  combustible, electricidad, percCorteL, percBloquera, percMoldeo) {
         return {
             message: 'Mantenimiento',
             city: 'Monterrey',
@@ -52,14 +55,14 @@ class MantenimientoModel {
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             areas: [
-                'Corte',
+                'Corte L',
                 'Bloquera',
                 'Moldeo'
             ],
             montos_recibidos_area:[
-               1594.62, 
-               1410.00,
-               215.52
+               percCorteL, 
+               percBloquera,
+               percMoldeo
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

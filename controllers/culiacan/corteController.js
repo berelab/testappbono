@@ -40,22 +40,21 @@ const controller = {
 
         const calcAtt = new att( equipo, corte.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
-        // let asistencia_total = calcAtt.asistenciaTotal;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
                 
-        colaboradores.lunes = corte.tiempo_extra.lunes >0 ? colaboradores.lunes + corte.tiempo_extra.lunes : colaboradores.lunes
+        /*colaboradores.lunes = corte.tiempo_extra.lunes >0 ? colaboradores.lunes + corte.tiempo_extra.lunes : colaboradores.lunes
         colaboradores.martes = corte.tiempo_extra.martes >0 ? colaboradores.martes +corte.tiempo_extra.martes: colaboradores.martes
         colaboradores.miercoles =  corte.tiempo_extra.miercoles >0 ?colaboradores.miercoles +corte.tiempo_extra.miercoles: colaboradores.miercoles
         colaboradores.jueves = corte.tiempo_extra.jueves>0 ? colaboradores.jueves +corte.tiempo_extra.jueves: colaboradores.jueves
         colaboradores.viernes = corte.tiempo_extra.viernes >0  ? colaboradores.viernes + corte.tiempo_extra.viernes : colaboradores.viernes
         colaboradores.sabado = corte.tiempo_extra.sabado >0 ? colaboradores.sabado + corte.tiempo_extra.sabado :colaboradores.sabado
-
         let asistencia_total = colaboradores.lunes + colaboradores.martes + colaboradores.miercoles+colaboradores.jueves+colaboradores.viernes+colaboradores.sabado;
-
+        */
         const calc = new mainCalcs(
             corte.dias, 
             corte.m3_desplazados, 

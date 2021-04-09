@@ -4,6 +4,16 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/guadalajara/mantenimientoModel';
 import SQLMantenimiento from '../../infrastructure/guadalajara/mantenimientoRepo';
+//corte
+import corteModel from '../../models/guadalajara/corteModel';
+import CorteSQL from '../../infrastructure/guadalajara/corteRepo';
+//bloquera
+import bloqueraModel from '../../models/guadalajara/preexpMoldeoModel';
+import SQLBloquera from '../../infrastructure/guadalajara/bloqueraRepo';
+//insulpanel
+import insulpanelModel from '../../models/guadalajara/insulpanelModel';
+import insulpanelSQL from '../../infrastructure/guadalajara/insulpanelRepo';
+
 import mainCalcs from '../MainCalcs';
 import att from '../Attendance';
 import convertData from '../ConvertData';
@@ -11,8 +21,24 @@ import convertData from '../ConvertData';
 const controller = {
 	
 	home: async(req, res) => {
+        const repositoryC = new CorteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryB = new SQLBloquera();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        const repositoryI = new insulpanelSQL();
+        const modelI = new insulpanelModel(repositoryI);
+        let insulpanel = await modelI.execute(); 
+
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(bloquera);
+        let percInsulpanel = percepcionInsulpanel(insulpanel);
+
         const repository = new SQLMantenimiento();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percBloquera,percInsulpanel);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -37,8 +63,24 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+        const repositoryC = new CorteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryB = new SQLBloquera();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        const repositoryI = new insulpanelSQL();
+        const modelI = new insulpanelModel(repositoryI);
+        let insulpanel = await modelI.execute(); 
+
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(bloquera);
+        let percInsulpanel = percepcionInsulpanel(insulpanel);
+
         const repository = new SQLMantenimiento();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percBloquera,percInsulpanel);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -174,5 +216,122 @@ const controller = {
     }
 
 };
+
+
+let percepcionCorte =  (corte) =>{
+    const cd =  new convertData(corte.equipo, corte.team_asis);
+    let equipo = cd.convert;
+    const calcAtt = new att( equipo, corte.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];                
+
+    const calc = new mainCalcs(
+        corte.dias, 
+        corte.m3_cortados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        corte.base0, 
+        corte.$_extra_m3, 
+        corte.dias_sucios, 
+        corte.factor_dias_laborados,
+        corte.message,
+        corte.city,
+        corte.amp,
+        corte.boletas_pnc,
+        null,
+        null,
+        null,
+        corte.horas_por_turno,
+        corte.num_quejas
+    );
+
+    let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+let percepcionBloquera = (bloquera) =>{
+    const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+        
+    const calc = new mainCalcs(
+        bloquera.dias, 
+        bloquera.blocks_cortados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        bloquera.base0, 
+        bloquera.$_extra_m3, 
+        bloquera.dias_sucios, 
+        bloquera.factor_dias_laborados,
+        bloquera.message,
+        bloquera.city,
+        bloquera.amp,
+        bloquera.blocks_fe,
+        null,
+        null,
+        null,
+        bloquera.horas_por_turno
+    );
+
+    let percepcion_total = calc.percepcionTotal;     
+
+    return percepcion_total
+}
+
+let percepcionInsulpanel = (insulpanel) =>{
+    const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
+    let equipo = cd.convert;
+    
+    const calcAtt = new att( equipo, insulpanel.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        insulpanel.dias, 
+        insulpanel.m2_producidos, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        null, 
+        null, 
+        null, 
+        insulpanel.factor_dias_laborados,
+        insulpanel.message,
+        insulpanel.city,
+        insulpanel.retardos_entrega,
+        insulpanel.falla_calidad,
+    );
+   
+    let bonoXpenalizacion= calc.bonoTotalConPenalizacionPorColaborador;
+    let totalbonoXpenalizacion = calc.bonoTotalConPenalizacion;  
+
+    let promedio= totalbonoXpenalizacion / bonoXpenalizacion.length
+
+    return promedio
+    }
 
 module.exports = controller; 

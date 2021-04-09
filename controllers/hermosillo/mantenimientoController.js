@@ -4,6 +4,16 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/hermosillo/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/hermosillo/mantenimientoRepo';
+//corte
+import corteModel from '../../models/hermosillo/corteModel';
+import corteSQL from '../../infrastructure/hermosillo/corteRepo';
+//insulpanel
+import insulpanelModel from '../../models/hermosillo/insulpanelModel';
+import insulpanelSQL from '../../infrastructure/hermosillo/insulpanelRepo';
+//moldeo
+import moldeoModel from '../../models/hermosillo/moldeoModel';
+import moldeoSQL from '../../infrastructure/hermosillo/moldeoRepo';
+
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
@@ -11,8 +21,25 @@ import att from '../Attendance';
 const controller = {
 	
 	home: async(req, res) => {
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+        
+        /*
+        const repositoryI = new insulpanelSQL();
+        const modelI = new insulpanelModel(repositoryI);
+        let insulpanel = await modelI.execute(); */
+
+        let percCorte =  percepcionCorte(corte);
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percInsulpanel =  0//percepcionInsulpanel(insulpanel); 
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percInsulpanel,percMoldeo);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -33,8 +60,26 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+        
+        /*
+        const repositoryI = new insulpanelSQL();
+        const modelI = new insulpanelModel(repositoryI);
+        let insulpanel = await modelI.execute(); */
+
+        let percCorte =  percepcionCorte(corte);
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percInsulpanel =  0//percepcionInsulpanel(insulpanel); 
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percInsulpanel,percMoldeo);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -168,5 +213,128 @@ const controller = {
         });
     }
 };
+
+
+let percepcionCorte =  (corte) =>{
+    const cd =  new convertData(corte.equipo, corte.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att(equipo, corte.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        corte.dias, 
+        corte.m3_cortados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        corte.base0, 
+        corte.$_extra_m3, 
+        corte.dias_sucios, 
+        corte.factor_dias_laborados,
+        corte.message,
+        corte.city,
+        corte.amp,
+        null,
+        null,
+        null,
+        null,
+        corte.horas_por_turno
+    );
+
+    let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+let percepcionMoldeo = (moldeo) =>{
+    const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att(equipo, moldeo.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+        const calc = new mainCalcs(
+            moldeo.dias, 
+            moldeo.m3_cortados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            moldeo.base0, 
+            moldeo.$_extra_m3, 
+            moldeo.dias_sucios, 
+            moldeo.factor_dias_laborados,
+            moldeo.message,
+            moldeo.city,
+            moldeo.amp,
+            null,
+            null,
+            null,
+            null,
+            moldeo.horas_por_turno,
+            null,
+            moldeo.rechazos_internos
+        );
+
+        let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+// No funcional requiere el nivel de plan de carrera del colab
+let percepcionInsulpanel = (insulpanel) =>{
+    const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, insulpanel.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        insulpanel.dias, 
+        insulpanel.m2_producidos, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        null, 
+        null, 
+        null, 
+        insulpanel.factor_dias_laborados,
+        insulpanel.message,
+        insulpanel.city,
+        insulpanel.retardos_entrega,
+        insulpanel.falla_calidad,
+        insulpanel.limpieza,
+        insulpanel.paros_produccion
+    );
+   
+    let bonoXpenalizacion= calc.bonoTotalConPenalizacionPorColaborador;
+    let totalbonoXpenalizacion = calc.bonoTotalConPenalizacion;  
+
+    let promedio= totalbonoXpenalizacion / bonoXpenalizacion.length
+
+    return promedio
+    }
+
 
 module.exports = controller; 

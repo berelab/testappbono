@@ -4,6 +4,14 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/monterrey/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/monterrey/mantenimientoRepo';
+//corte -> pendiente
+//Bloquera
+import bloqueraModel from '../../models/monterrey/bloqueraModel';
+import bloqueraSQL from '../../infrastructure/monterrey/bloqueraRepo';
+//moldeo
+import moldeoModel from '../../models/monterrey/moldeoModel';
+import moldeoSQL from '../../infrastructure/monterrey/moldeoRepo';
+
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
@@ -37,8 +45,22 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+        
+        let corteL = 'Pendiente..' //controller no funcional
+
+        let percCorteL =  percepcionCorteL(corteL); 
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percBloquera =  percepcionBloquera(bloquera);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorteL, percBloquera, percMoldeo);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -173,5 +195,91 @@ const controller = {
     }
 
 };
+
+
+let percepcionBloquera =  (bloquera) =>{
+     const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];        
+
+        const calc = new mainCalcs(
+            bloquera.dias, 
+            bloquera.m3_desplazados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            bloquera.base0, 
+            bloquera.$_extra_m3, 
+            bloquera.dias_sucios, 
+            bloquera.factor_dias_laborados,
+            bloquera.message,
+            bloquera.city,
+            bloquera.amp,
+            bloquera.blocks_fe
+        );
+
+        let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+let percepcionMoldeo = (moldeo) =>{
+    const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, moldeo.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
+        
+      
+        
+        const calc = new mainCalcs(
+            moldeo.dias, 
+            moldeo.m3_cortados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            moldeo.base0, 
+            moldeo.$_extra_m3, 
+            moldeo.dias_sucios, 
+            moldeo.factor_dias_laborados,
+            moldeo.message,
+            moldeo.city,
+            null,
+            null,
+            null,
+            null,
+            moldeo.total_turnos_extras,
+            null,
+            moldeo.num_quejas,
+        );
+
+        let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+// No funcional 
+let percepcionCorteL = (corteL) =>{
+    
+  let  percepcion_total =0;
+
+    return percepcion_total
+}
 
 module.exports = controller; 

@@ -1,8 +1,11 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorte, percBloquera, percPanel){
         this.repository = repository;
+        this.percCorte = percCorte;
+        this.percBloquera = percBloquera;
+        this.percPanel = percPanel;
     }
 
     async execute() {
@@ -27,7 +30,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percBloquera, this.percPanel);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +45,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra,agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra,agua,  combustible, electricidad, percCorte, percBloquera, percPanel) {
         return {
             message: 'Mantenimiento',
             city: 'Culiacan',
@@ -57,9 +60,9 @@ class MantenimientoModel {
                 'Construpanel'
             ],
             montos_recibidos_area:[
-               2138.00, 
-               2459.60,
-               1267.50
+               percCorte, 
+               percBloquera,
+               percPanel
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

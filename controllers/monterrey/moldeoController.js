@@ -46,6 +46,7 @@ const controller ={
         let weekdayNumber = dateObj.getDay();
         let weekdayName = arrayOfWeekdays[weekdayNumber];
         
+        /*
         let total_turnos_extras =[];
         let len = moldeo.horas_extras_semana.length;
 
@@ -59,7 +60,9 @@ const controller ={
         for(var i=0; i<total_turnos_extras.length; i++){
             total_extras = total_extras + total_turnos_extras[i];
         }
-        let asistenciaTotal = asistencia_total + total_extras;
+        */
+
+        let asistenciaTotal = asistencia_total //+ total_extras;
         
         const calc = new mainCalcs(
             moldeo.dias, 
