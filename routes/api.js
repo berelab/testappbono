@@ -992,9 +992,9 @@ router.get('/tijuana/mantenimiento/', mantenimientoTijuana.home);
 router.get('/tijuana/mantenimiento/calculator', mantenimientoTijuana.calculator);
 router.get('/tijuana/mantenimiento/calculator/:index', mantenimientoTijuana.calculator);
 
-router.get('/tijuana/bono-garantia/', bonoGarantiaTijuana.home);
-router.get('/tijuana/bono-garantia/calculator', bonoGarantiaTijuana.calculator);
-router.get('/tijuana/bono-garantia/calculator/:index', bonoGarantiaTijuana.calculator);
+router.get('/tijuana/bonogarantia/', bonoGarantiaTijuana.home);
+router.get('/tijuana/bonogarantia/calculator', bonoGarantiaTijuana.calculator);
+router.get('/tijuana/bonogarantia/calculator/:index', bonoGarantiaTijuana.calculator);
 
 router.get('/tijuana', tijuana.data)
 router.put('/tijuana/admin/molino', siloMolinoTijuana.editInfo);

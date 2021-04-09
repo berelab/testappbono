@@ -100,6 +100,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
+                    city: bonog.city,
                     depto: bonog.message,
                     day: weekdayName,
                     meta_semana: bonog.base0,
