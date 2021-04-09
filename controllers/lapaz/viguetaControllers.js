@@ -82,6 +82,7 @@ const controller = {
                 return res.status(200).send({
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
+                    city: vigueta.city,
                     depto: vigueta.message,
                     day: weekdayName,
                     dias_laborados: vigueta.dias_laborados,                    
