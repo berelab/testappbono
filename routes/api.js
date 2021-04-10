@@ -268,9 +268,25 @@ router.get('/lapaz/choferlocal/produccion', produccionChoferLaPaz.home);
 router.get('/lapaz/vigueta/bonos', bonosViguetaLaPaz.home);
 router.get('/lapaz/vigueta/produccion', produccionViguetaLaPaz.home);
 
+/* listos para activarse 
+router.get('/lapaz/corte/bonos', corteLaPaz.bonosDepto);
+router.get('/lapaz/corte/produccion', corteLaPaz.produccionDepto);
+
+router.get('/lapaz/bloquera/bonos', moldeoLaPaz.bonosDepto);
+router.get('/lapaz/bloquera/produccion', moldeoLaPaz.produccionDepto);
+
+router.get('/lapaz/choferlocal/bonos', choferLaPaz.bonosDepto);
+router.get('/lapaz/choferlocal/produccion', choferLaPaz.produccionDepto);
+
+router.get('/lapaz/vigueta/bonos', viguetaLaPaz.bonosDepto);
+router.get('/lapaz/vigueta/produccion', viguetaLaPaz.produccionDepto);
+
+router.get('/lapaz/almacen/bonos', almacenLaPaz.bonosDepto);
+router.get('/lapaz/almacen/produccion', almacenLaPaz.produccionDepto);
+
 router.get('/lapaz/chofercedi/bonos',  cediLaPaz.bonosDepto);
 router.get('/lapaz/chofercedi/produccion', cediLaPaz.produccionDepto);
-
+*/
 //------------------------------------------------------------------------------------------------------------
 //CD JUAREZ
 router.get('/juarez', juarez.data)

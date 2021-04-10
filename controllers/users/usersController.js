@@ -184,7 +184,7 @@ const controller = {
         const repository = new usersRepository();
         const modelUsr = new usersModel(repository);
         
-        /*pendiente falta correo de fanosa
+        /*
         let  users = await modelUsr.executeUsers(); 
        
        for(var i =0; i<users.length; i++){
@@ -228,8 +228,8 @@ let sendCode = (user, code)=>{
      var transporter = nodemailer.createTransport({
          service: 'Gmail',
          auth: {
-            user: 'correo remitente',
-            pass: 'pass'
+            user: 'appbonofanosa@gmail.com',
+            pass: 'AppBonoFanosa21!'
          }
      });
  
@@ -241,7 +241,7 @@ let sendCode = (user, code)=>{
         };
          var htmlToSend = template(replacements);
          var mailOptions = {
-             from: 'correo remitente',
+             from: 'appbonofanosa@gmail.com',
              to : user.email,
              subject : 'Código de acceso APP FANOSA',
              html : htmlToSend
@@ -274,8 +274,8 @@ let sendCode = (user, code)=>{
          var transporter = nodemailer.createTransport({
              service: 'Gmail',
              auth: {
-                 user: 'correo remitente',
-                 pass: 'pass'
+                user: 'appbonofanosa@gmail.com',
+                pass: 'AppBonoFanosa21!'
              }
          });
      
@@ -286,7 +286,7 @@ let sendCode = (user, code)=>{
             };
              var htmlToSend = template(replacements);
              var mailOptions = {
-                 from: 'no-reply@gmail.com',
+                 from: 'appbonofanosa@gmail.com',
                  to : user.email,
                  subject : 'Actualización de contraseña',
                  html : htmlToSend
