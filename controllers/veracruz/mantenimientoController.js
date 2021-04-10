@@ -4,6 +4,21 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/veracruz/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/veracruz/mantenimientoRepo';
+//corte
+import corteModel from '../../models/veracruz/corteModel';
+import corteSQL from '../../infrastructure/veracruz/corteRepo';
+//moldeo
+import moldeoModel from '../../models/veracruz/moldeoModel';
+import moldeoSQL from '../../infrastructure/veracruz/moldeoRepo';
+//emco
+import emcoModel from '../../models/veracruz/emcoModel';
+import emcoSQL from '../../infrastructure/veracruz/emcoRepo';
+//panel
+import panelModel from '../../models/veracruz/construpanelModel';
+import panelSQL from '../../infrastructure/veracruz/panelRepo';
+//bloquera -> pendiente...
+
+
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
@@ -11,8 +26,32 @@ import att from '../Attendance';
 const controller = {
 	
 	home: async(req, res) => {
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+        
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        const repositoryE = new emcoSQL();
+        const modelE = new emcoModel(repositoryE);
+        let emco = await modelE.execute(); 
+
+        const repositoryP = new panelSQL();
+        const modelP = new panelModel(repositoryP);
+        let panel = await modelP.execute(); 
+
+        //pendiente bloquera
+
+        let percCorte =  percepcionCorte(corte); 
+        let percMoldeo = percepcionMoldeo(moldeo); 
+        //let percBloquera =  percepcionBloquera(bloquera); pendiente
+        let percEmco =  percepcionEmco(emco); 
+        let percPanel = percepcionPanel(panel);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorte,percPanel, 0, percMoldeo, percEmco);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -37,8 +76,32 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+        
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        const repositoryE = new emcoSQL();
+        const modelE = new emcoModel(repositoryE);
+        let emco = await modelE.execute(); 
+
+        const repositoryP = new panelSQL();
+        const modelP = new panelModel(repositoryP);
+        let panel = await modelP.execute(); 
+
+        //pendiente bloquera
+
+        let percCorte =  percepcionCorte(corte); 
+        let percMoldeo = percepcionMoldeo(moldeo); 
+        //let percBloquera =  percepcionBloquera(bloquera); pendiente
+        let percEmco =  percepcionEmco(emco); 
+        let percPanel = percepcionPanel(panel);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorte,percPanel, 0, percMoldeo, percEmco);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -176,5 +239,176 @@ const controller = {
 
 
 };
+
+//controller no funcional - queda pendiente.
+let percepcionBloquera =  (bloquera) =>{
+    
+   return 0 //percepcion_total
+}
+
+
+
+let percepcionCorte = (corte) =>{
+    const cd =  new convertData(corte.equipo, corte.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, corte.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+        const calc = new mainCalcs(
+            corte.dias, 
+            corte.m3_desplazados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            corte.base0, 
+            corte.$_extra_m3, 
+            corte.dias_sucios, 
+            corte.factor_dias_laborados,
+            corte.message,
+            corte.city,
+            corte.amp,
+            corte.rechazo_interno,
+            null,
+            null,
+            null,
+            corte.horas_por_turno,
+            corte.num_quejas
+        );
+
+        let percepcion_total = calc.percepcionTotal;
+   
+      return percepcion_total
+   }
+   
+
+let percepcionMoldeo = (moldeo) =>{
+    const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, moldeo.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        moldeo.dias, 
+        moldeo.m3_desplazados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        moldeo.base0, 
+        moldeo.$_extra_m3, 
+        moldeo.dias_sucios, 
+        moldeo.factor_dias_laborados,
+        moldeo.message,
+        moldeo.city,
+        moldeo.amp,
+        moldeo.rechazo_interno,
+        null,
+        null,
+        null,
+        moldeo.horas_por_turno,
+        moldeo.num_quejas
+    );
+
+    let percepcion_total = calc.percepcionTotal;
+
+   return percepcion_total
+}
+
+let percepcionEmco = (emco) =>{
+    const cd =  new convertData(emco.equipo, emco.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, emco.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];        
+
+        const calc = new mainCalcs(
+            emco.dias, 
+            emco.m3_desplazados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            emco.base0, 
+            emco.$_extra_m3, 
+            emco.dias_sucios, 
+            emco.factor_dias_laborados,
+            emco.message,
+            emco.city,
+            emco.amp,
+            emco.rechazo_interno,
+            null,
+            null,
+            null,
+            emco.horas_por_turno,
+            emco.num_quejas
+        );
+
+ 
+        let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+ }
+
+ let percepcionPanel = (panel) =>{
+    const cd =  new convertData(panel.equipo, panel.team_asis);
+    let equipo = cd.convert;
+    
+    const calcAtt = new att( equipo, panel.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        panel.dias, 
+        panel.m3_desplazados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        panel.base0, 
+        panel.$_extra_m3, 
+        panel.dias_sucios, 
+        panel.factor_dias_laborados,
+        panel.message,
+        panel.city,
+        panel.desperdicio_alambre,
+        panel.rechazo_interno,
+        panel.desperdicio_placa,
+        panel.equipo_proteccion,
+        null,
+        panel.horas_por_turno,
+    );
+
+
+    let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+ }
+
 
 module.exports = controller; 

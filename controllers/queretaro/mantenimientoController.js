@@ -4,14 +4,40 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/queretaro/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/queretaro/mantenimientoRepo';
+//corte
+import corteModel from '../../models/queretaro/corteModel';
+import corteSQL from '../../infrastructure/queretaro/corteRepo';
+//moldeo
+import moldeoModel from '../../models/queretaro/hieleraModel';
+import moldeoSQL from '../../infrastructure/queretaro/Moldeo';
+//bloquera
+import bloqueraModel from '../../models/queretaro/preexpMoldeoModel';
+import bloqueraSQL from '../../infrastructure/queretaro/Bloquera';
+
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
 
 const controller = {	
 	home: async(req, res) => {
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+        
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        let percCorte =  percepcionCorte(corte); 
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percBloquera =  percepcionBloquera(bloquera);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percMoldeo, percBloquera);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -36,8 +62,25 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+
+        const repositoryC = new corteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+        
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        let percCorte =  percepcionCorte(corte); 
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percBloquera =  percepcionBloquera(bloquera);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository,percCorte,percMoldeo, percBloquera);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -173,5 +216,126 @@ const controller = {
     }
 
 };
+
+
+let percepcionCorte = (corte) =>{
+    const cd =  new convertData(corte.equipo, corte.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, corte.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+    
+    const calc = new mainCalcs(
+        corte.dias, 
+        corte.m3_cortados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        corte.base0, 
+        corte.$_extra_m3, 
+        corte.dias_sucios, 
+        corte.factor_dias_laborados,
+        corte.message,
+        corte.city,
+        corte.amp,
+        corte.rechazo_interno,
+        null,
+        null,
+        null,
+        corte.horas_por_turno,
+        corte.num_quejas
+    );
+
+    let percepcion_total = calc.percepcionTotal;
+   
+      return percepcion_total
+   }
+   
+
+let percepcionBloquera =  (bloquera) =>{
+    const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+        let equipo = cd.convert;
+
+        const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
+
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+        const calc = new mainCalcs(
+            bloquera.dias, 
+            bloquera.blocks_cortados, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equipo, 
+            bloquera.base0, 
+            bloquera.$_extra_m3, 
+            bloquera.dias_sucios, 
+            bloquera.factor_dias_laborados,
+            bloquera.message,
+            bloquera.city,
+            bloquera.amp,
+            bloquera.blocks_fe,
+            bloquera.extra,
+            null,
+            null,
+            bloquera.horas_por_turno
+        );
+       
+        let percepcion_total = calc.percepcionTotal;
+
+   return percepcion_total
+}
+
+let percepcionMoldeo = (moldeo) =>{
+    const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, moldeo.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        moldeo.dias, 
+        moldeo.hieleras_producidas, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        moldeo.base0, 
+        moldeo.$_extra_m3, 
+        moldeo.dias_sucios, 
+        moldeo.factor_dias_laborados,
+        moldeo.message,
+        moldeo.city,
+        null,
+        moldeo.hielera_fe,
+        moldeo.extra,
+        null,
+        null,
+        moldeo.horas_por_turno
+    );
+  
+    let percepcion_total = calc.percepcionTotal;
+
+   return percepcion_total
+}
+
 
 module.exports = controller; 

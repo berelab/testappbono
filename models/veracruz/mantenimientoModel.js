@@ -1,8 +1,13 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorte, percPanel,percBloquera, percMoldeo, percEmco){
         this.repository = repository;
+        this.percCorte = percCorte;
+        this.percPanel = percPanel;
+        this.percBloquera = percBloquera;
+        this.percMoldeo = percMoldeo;
+        this.percEmco = percEmco;
     }
 
     async execute() {
@@ -27,7 +32,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percPanel, this.percBloquera, this.percMoldeo, this.percEmco);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +47,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra, agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra, agua,  combustible, electricidad, percCorte, percPanel,percBloquera, percMoldeo, percEmco) {
         return {
             message: 'Mantenimiento',
             city: 'Veracruz',
@@ -54,16 +59,16 @@ class MantenimientoModel {
             areas: [
                 'Corte',
                 'Construpanel',
-                'Preexpansion y Moldeo',
+                //'Preexpansion y Moldeo',  pendiente
                 'Moldeo',
                 'EMCO',
             ],
             montos_recibidos_area:[
-               962.63, 
-               1730.37,
-               1187.50,
-               805.95,
-               840.00
+               percCorte, 
+               percPanel,
+               //percBloquera, pendiente
+               percMoldeo,
+               percEmco
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

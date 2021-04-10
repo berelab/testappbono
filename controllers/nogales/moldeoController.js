@@ -65,7 +65,7 @@ const controller = {
             moldeo.dias, 
             moldeo.bultos_fabricados, 
             colaboradores, 
-            asistenciaTotal, 
+            asistencia_total, 
             weekdayName, 
             equipo, 
             moldeo.base0, 

@@ -1,8 +1,11 @@
 'use strict'
 
 class MantenimientoModel {
-    constructor(repository){
+    constructor(repository, percCorte, percMoldeo, percBloquera){
         this.repository = repository;
+        this.percCorte = percCorte;
+        this.percMoldeo = percMoldeo;
+        this.percBloquera = percBloquera;
     }
 
     async execute() {
@@ -27,7 +30,7 @@ class MantenimientoModel {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad));
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertAgua(vlsAgua), this._convertCombustible(vlsCombustible) , this._convertElectricidad(vlsElectricidad), this.percCorte, this.percMoldeo, this.percBloquera);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -42,7 +45,7 @@ class MantenimientoModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra, agua,  combustible, electricidad) {
+    _convertData(response, team, entries, extra, agua,  combustible, electricidad, percCorte, percMoldeo, percBloquera) {
         return {
             message: 'Mantenimiento',
             city: 'Queretaro',
@@ -57,9 +60,9 @@ class MantenimientoModel {
                 'Preexpansion y Moldeo'
             ],
             montos_recibidos_area:[
-               1015.68, 
-               2322.92,
-               556.08
+               percCorte, 
+               percMoldeo,
+               percBloquera
             ],
             rendimiento_agua: agua,
             rendimiento_combustible: combustible,

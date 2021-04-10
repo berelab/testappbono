@@ -55,12 +55,12 @@ class MantenimientoModel {
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             areas: [
-                'Corte L',
+                //'Corte L',-> pendiente...
                 'Bloquera',
                 'Moldeo'
             ],
             montos_recibidos_area:[
-               percCorteL, 
+              // percCorteL, -> pendiente...
                percBloquera,
                percMoldeo
             ],
