@@ -19,8 +19,22 @@ import att from '../Attendance';
 const controller = {
 	
 	home: async(req, res) => {
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+
+        const repositoryM = new moldeoSQL();
+        const modelM = new moldeoModel(repositoryM);
+        let moldeo = await modelM.execute(); 
+        
+        let corteL = 'Pendiente..' //controller no funcional
+
+        let percCorteL =  percepcionCorteL(corteL); 
+        let percMoldeo = percepcionMoldeo(moldeo);
+        let percBloquera =  percepcionBloquera(bloquera);
+
         const repository = new mantenimientoSQL();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorteL, percBloquera, percMoldeo);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
