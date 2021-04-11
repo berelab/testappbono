@@ -80,7 +80,9 @@ const controller = {
         let pago_total = calc.pagoTotalSinPenalizacion;
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-       
+        let pc_energeticos = calc.pcenergeticos;
+        let pc_fugas = calc.pcfugas;
+        let descuento_fr = calc.penalizacionFaltasColab;
 
       
 
@@ -113,6 +115,9 @@ const controller = {
                     day: weekdayName,
                     dias_laborados: dias,
                     asistencia: sumatoria_asistencia[i],
+                    pc_energeticos: pc_energeticos,
+                    pc_fugas: pc_fugas,
+                    descuento_fr: descuento_fr[i],
                     bono_depto: total_mantenimiento,
                     pago_persona: pago_colaboradores[i],
                     bono_persona:bono_total_colaborador[i]
@@ -127,11 +132,14 @@ const controller = {
                 depto: message,
                 day: weekdayName,
                 asistencia:asistencias_colaborador,
+                pc_energeticos: pc_energeticos,
+                pc_fugas: pc_fugas,
                 bono_depto: total_mantenimiento,
                 pago_persona:pago_colaboradores,
                 pago_total:pago_total,
                 bono_persona:bono_total_colaborador,
                 bono_total:bono_total,
+                descuento_fr: descuento_fr,
                 equipo
                 
             });

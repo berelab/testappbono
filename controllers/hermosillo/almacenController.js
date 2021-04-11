@@ -140,7 +140,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({
-                depto: almacen.message,
+                depto: 'Almacén',
                 day: weekdayName,
                 meta_semana: almacen.base0,
                 dias_laborados: almacen.dias,

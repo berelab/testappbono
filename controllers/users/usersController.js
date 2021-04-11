@@ -120,8 +120,7 @@ const controller = {
                 }
 
                 //Enviar email con el codigo de auth
-                /* pendiente falta correo de fanosa
-                
+                /* pendiente activar
                  if(users[index].role == '230' || users[index].role == '039' || users[index].role == '056'){
                     //sendCode(users[index], code); // enviar codigo de autentificacion solo a admins
                  }
@@ -166,7 +165,7 @@ const controller = {
             changepass[0] = 'error'
         }
 
-        /* pendiente falta correo de fanosa
+        /* pendiente activar
         if(user.length > 0){
             sendInfo(user[0]);
         }

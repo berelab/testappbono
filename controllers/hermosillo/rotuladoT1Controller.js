@@ -162,7 +162,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({
-                depto: rotulado.message,
+                depto:'Rotulado',
                 day: weekdayName,
                 meta_semana: rotulado.base0,
                 dias_laborados: rotulado.dias,

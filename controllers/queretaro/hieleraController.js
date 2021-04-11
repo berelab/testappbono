@@ -118,7 +118,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: moldeo.message,
+                    depto: 'Moldeo',
                     day: weekdayName,
                     meta_semana: moldeo.base0,
                     dias_laborados: moldeo.dias, 
@@ -138,7 +138,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({      
-                depto: moldeo.message,
+                depto: 'Moldeo',
                 day: weekdayName,
                 meta_semana: moldeo.base0,
                 dias_laborados: moldeo.dias,

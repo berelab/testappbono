@@ -101,7 +101,7 @@ const controller = {
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
                     city: bonog.city,
-                    depto: bonog.message,
+                    depto: 'Bono Garantía',
                     day: weekdayName,
                     meta_semana: bonog.base0,
                     dias_laborados: bonog.dias, 
@@ -121,7 +121,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({      
-                depto: bonog.message,
+                depto: 'Bono Garantía',
                 day: weekdayName,
                 meta_semana: bonog.base0,
                 dias_laborados: bonog.dias,

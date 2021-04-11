@@ -112,7 +112,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: molino.message,
+                    depto: 'Molino',
                     day: weekdayName,
                     meta_semana: molino.base0,
                     dias_laborados: molino.dias, 
@@ -132,7 +132,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({      
-                depto: molino.message,
+                depto: 'Molino',
                 day: weekdayName,
                 meta_semana: molino.base0,
                 dias_laborados: molino.dias,

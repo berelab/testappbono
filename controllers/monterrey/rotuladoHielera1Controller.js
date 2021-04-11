@@ -140,7 +140,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: rotulado.message,
+                    depto: 'Rotulado',
                     day: weekdayName,
                     meta_semana: rotulado.base0,
                     dias_laborados: rotulado.dias, 
@@ -160,7 +160,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({
-                depto: rotulado.message,
+                depto: 'Rotulado',
                 day: weekdayName,
                 meta_semana: rotulado.base0,
                 dias_laborados: rotulado.dias,
