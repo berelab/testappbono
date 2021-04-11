@@ -42,7 +42,10 @@ const controller = {
         let asistencia_persona = asistencias(equipo);
         let total_base = total_base_persona(asistencia_persona, vigueta.pago_dia);
         let bono_total = bono_total_persona(total_base,condicion_auditoria);
-
+        let total =0;
+        for(var i=0; i<bono_total.length; i++){
+            total =  total + bono_total[i];
+        }
           //generar reporte
           if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
@@ -54,10 +57,7 @@ const controller = {
             const model = new reporteModel(repository);
             let reporte = await model.saveWeek(equipo,semana, bono_total, vigueta.message, vigueta.city); 
             
-            let total =0;
-            for(var i=0; i<bono_total.length; i++){
-                total =  total + bono_total[i];
-            }
+           
             let bonosDepto = await model.saveBonosDepto(semana, total, vigueta.message, vigueta.city); 
         }
 
@@ -89,6 +89,7 @@ const controller = {
                     asistencia: asistencia_persona[i],
                     total_base: total_base[i],
                     bono_persona:  bono_total[i],
+                    pago_base: vigueta.pago_dia,
                     datos_extra: {
                         condicionante_auditoria: condicion_auditoria,
                         pago_por_dia: vigueta.pago_dia
@@ -104,6 +105,8 @@ const controller = {
                 asistencia: asistencia_persona,
                 total_base: total_base,
                 bono_persona:  bono_total,
+                bono_total: total,
+                pago_base: vigueta.pago_dia,
                 datos_extra: {
                     condicionante_auditoria: condicion_auditoria,
                     pago_por_dia: vigueta.pago_dia

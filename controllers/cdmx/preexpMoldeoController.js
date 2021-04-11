@@ -128,7 +128,7 @@ const controller = {
                 return res.status(200).send({             
                     nombre: equipo[i].nombre,
                     code: equipo[i].num,
-                    depto: bloquera.message,
+                    depto: 'Bloquera',
                     day: weekdayName,
                     meta_semana: bloquera.base0,
                     dias_laborados: bloquera.dias, 
@@ -148,7 +148,7 @@ const controller = {
             }
         }else{
             return res.status(200).send({
-                depto: bloquera.message,
+                depto: 'Bloquera',
                 day: weekdayName,
                 meta_semana: bloquera.base0,
                 dias_laborados: bloquera.dias,

@@ -7,12 +7,28 @@ import SQLMantenimiento from '../../infrastructure/cdmex/mantenimientoRepo';
 import mainCalcs from '../MainCalcs';
 import att from '../Attendance';
 import convertData from '../ConvertData';
-
+//corte
+import corteModel from '../../models/cdmx/corteConstModel';
+import CorteSQL from '../../infrastructure/cdmex/corteRepo';
+//bloquera
+import bloqueraModel from '../../models/cdmx/preexpMoldeoModel';
+import bloqueraSQL from '../../infrastructure/cdmex/bloqueraRepo';
 const controller = {
 	
 	home: async (req, res) => {
+        const repositoryC = new CorteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+        
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(bloquera);//pendiente en bd funciona con datos simulados
+
         const repository = new SQLMantenimiento();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorte,percBloquera);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -37,8 +53,20 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+
+        const repositoryC = new CorteSQL();
+        const modelC = new corteModel(repositoryC);
+        let corte = await modelC.execute(); 
+
+        const repositoryB = new bloqueraSQL();
+        const modelB = new bloqueraModel(repositoryB);
+        let bloquera = await modelB.execute(); 
+        
+        let percCorte =  percepcionCorte(corte);
+        let percBloquera = percepcionBloquera(bloquera);//pendiente en bd funciona con datos simulados
+
         const repository = new SQLMantenimiento();
-        const model = new mantenimientoModel(repository);
+        const model = new mantenimientoModel(repository, percCorte,percBloquera);
         let mantenimiento = await model.execute(); 
         const cd =  new convertData(mantenimiento.equipo, mantenimiento.team_asis);
         let equipo = cd.convert;
@@ -94,7 +122,11 @@ const controller = {
         let pago_colaboradores = calc.pagoTotal;        
         let pago_total = calc.pagoTotalSinPenalizacion;        
         let bono_total_colaborador = calc.bonoTotalConPenalizacionPorColaborador;        
-        let bono_total = calc.bonoTotalConPenalizacion;        
+        let bono_total = calc.bonoTotalConPenalizacion; 
+        let pc_energeticos = calc.pcenergeticos;
+        let pc_fugas = calc.pcfugas;
+        let descuento_fr = calc.penalizacionFaltasColab;
+       
         // let bono_productividad = calc.bonoProductividad;  
         // let bono_metas = calc.pc_metas;  
 
@@ -140,6 +172,9 @@ const controller = {
                     dias_laborados: mantenimiento.dias, 
                     $_extra_m3: mantenimiento.$_extra_m3,
                     asistencia: sumatoria_asistencia[i],
+                    pc_energeticos: pc_energeticos,
+                    pc_fugas: pc_fugas,
+                    descuento_fr: descuento_fr[i],
                     bono_depto: total_mantenimiento,
                     pago_persona: pago_colaboradores[i],
                     bono_persona: bono_total_colaborador[i],
@@ -151,6 +186,8 @@ const controller = {
             return res.status(200).send({   
                 depto: mantenimiento.message,
                 day: weekdayName,
+                pc_energeticos: pc_energeticos,
+                pc_fugas: pc_fugas,
                 bono_depto: total_mantenimiento,
                 pago_persona: pago_colaboradores, 
                 pago_total: pago_total, 
@@ -158,7 +195,8 @@ const controller = {
                 bono_total: bono_total,  
                 // bono_productividad: bono_productividad,
                 // bono_metas: bono_metas,
-                asistencia: asistencias_colaborador,             
+                asistencia: asistencias_colaborador,         
+                descuento_fr: descuento_fr     
             });
         }
     },
@@ -186,5 +224,81 @@ const controller = {
     }
 
 };
+
+
+let percepcionCorte =  (corte) =>{
+    const cd =  new convertData(corte.equipo, corte.team_asis);
+    let equipo = cd.convert;
+
+    const calcAtt = new att( equipo, corte.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        corte.dias, 
+        corte.m3_cortados, 
+        colaboradores, 
+        asistencia_total, 
+        weekdayName, 
+        equipo, 
+        corte.base0, 
+        corte.$_extra_m3, 
+        corte.dias_sucios, 
+        corte.factor_dias_laborados,
+        corte.message,
+        corte.city,
+        corte.amp,
+        null,
+        null,
+        null,
+        null,
+        corte.horas_por_turno,
+        corte.num_quejas
+    );
+
+    let percepcion_total = calc.percepcionTotal;
+
+    return percepcion_total
+}
+
+let percepcionBloquera = (bloquera) =>{
+
+    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+    let dateObj = new Date();
+    let weekdayNumber = dateObj.getDay();
+    let weekdayName = arrayOfWeekdays[weekdayNumber];
+
+    const calc = new mainCalcs(
+        bloquera.dias, 
+        bloquera.blocks_cortados, 
+        bloquera.colaboradores, 
+        bloquera.asistencia_total, 
+        weekdayName, 
+        bloquera.equipo, 
+        bloquera.base0, 
+        bloquera.$_extra_m3, 
+        bloquera.dias_sucios, 
+        bloquera.factor_dias_laborados,
+        bloquera.message,
+        bloquera.city,
+        bloquera.amp,
+        null,
+        null,
+        null,
+        null,
+        bloquera.horas_por_turno,
+        bloquera.num_quejas
+    );
+
+
+    let percepcion_total= calc.percepcionTotal;
+
+return percepcion_total
+}
 
 module.exports = controller; 

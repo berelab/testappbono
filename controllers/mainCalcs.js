@@ -116,6 +116,10 @@ class MainCalcs {
         return this.pago_TotalSinPenalizacion(this.depto);
     }
 
+    get penalizacionFaltasColab(){
+        return this.penalizacion_Faltas_Colab(this.city,this.depto, this.dias);
+    }
+
     get bonoTotalConPenalizacionPorColaborador(){
         return this.bono_TotalConPenalizacionPorColaborador(this.city, this.depto, this.dias);
     }
@@ -138,6 +142,14 @@ class MainCalcs {
 
     get totalMantenimiento(){
         return this.total_mantenimiento(this.montos_recibidos_area, this.rendimiento_agua, this.rendimiento_combustible,this.rendimiento_electricidad, this.fugas_aire,this.fugas_perla , this.fugas_vapor, this.fugas_aceite ,this.faltas_uso_epp);
+    }
+
+    get pcenergeticos(){
+        return this.pc_energeticos( this.rendimiento_agua, this.rendimiento_combustible,this.rendimiento_electricidad);
+    }
+    
+    get pcfugas(){
+        return this.pc_fugas(this.fugas_aire,this.fugas_perla , this.fugas_vapor, this.fugas_aceite );
     }
 
     get  bonosPorNPC(){
@@ -728,14 +740,6 @@ class MainCalcs {
             if(depto == 'Mantenimiento'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Corte' ||  depto =='Commscope' || depto=='AOS Mith' || depto=='Choferes' || depto=='Aligerante' || depto=='Corte' || depto=='Almacén' || depto=='CEDI' || depto=='Chofer Local' || depto=='Moldeo'){
                 var pago=[];
               
-
-                 /* if(depto=='CEDI' || depto =='Chofer Local'){
-                      let percepcion_total = this.percepcion_total(depto, this.city);
-                    for(var i =0; i <sumatoria_asistencia.length; i++){
-                        var total = percepcion_total/dias*(sumatoria_asistencia[i]);
-                        pago.push(total);
-                    }
-                }else */
                 if(depto == 'Mantenimiento'){
                     var pago=[];
                         let total_bono_calidad = this.total_mantenimiento(this.montos_recibidos_area, this.rendimiento_agua, this.rendimiento_combustible, this.rendimiento_electricidad, this.fugas_aire,this.fugas_perla , this.fugas_vapor, this.fugas_aceite , this.faltas_uso_epp);
@@ -896,6 +900,30 @@ class MainCalcs {
         return bonototal;
     }
 
+    penalizacion_Faltas_Colab(city,depto, dias){
+        let total =[];
+        let calc = new Attendance(this.equipo, this.factor_dias_laborados, city, dias, depto, this.horas_por_turno);
+        let faltas = calc.faltas;
+        let retardos = calc.retardos;
+        let pago = this.pago_total(depto,dias);
+        let penalizacion_falta_retardos;
+
+        if( depto=='Silo Molino'|| depto=='Bono TYG' || depto=='Molienda'  || depto == 'Placa' || depto == 'Molino' || depto =='Mcs Frame' || depto =='Kbrs' || depto =='Electrolux' || depto =='Commscope' || depto=='AOS Mith' || depto=='Aligerante' || depto=='CEDI' || depto=='Chofer Local' || depto=='PreExpansion' || depto == 'Mantenimiento' || depto == 'Bloquera' || depto == 'Moldeo' || depto=='Almacén'  || depto =='Almacen'  || depto=='Almacen Const'  || depto=='Almacen CEDI' || depto=='Almacen Playa' || depto =='Choferes'  || depto =='Choferes Locales' ||  depto == 'Choferes CEDI' || depto =='Corte' || depto =='Steelfoam'  || depto == 'Insulpanel'  || depto == 'RotuladoT1' || depto =='PreexpYMoldeo' || depto =='Recupera' || depto=='Molienda de MR' || depto=='Hielera' || depto=='CorteConst' || depto=='CorteMaquila' || depto == 'Vitro' || depto == 'EMCO' || depto=='Corte NIP' || depto=='Corte L' || depto=='Herramental' || depto=='Rotulado Hielera 1' || depto=='Rotulado Hielera 2' || depto=='Rotulado Hielera 3' || depto=='Rotulado' || depto=='Construpanel'  || depto=='Empaque Perla'){
+            for(var i=0; i<pago.length; i++){
+                penalizacion_falta_retardos = this.penalizacion_falta_retardos(faltas[i], retardos[i], pago[i]);
+                if(penalizacion_falta_retardos >0){
+                    let total =  penalizacion_falta_retardos;
+                    total.push(total);
+                }else{
+                    total.push(0);
+                }
+            }
+        }
+        
+        return total;
+    }
+
+
     /*
     * Devuelve el total de la sumatoria  de los bonos
     */
@@ -1006,35 +1034,105 @@ class MainCalcs {
             }
         }
 
-        let promedio = sumatoria_montos/divisor;
+        if(sumatoria_montos > 0){
+            let promedio = sumatoria_montos/divisor;
 
-        let monto = promedio*.4;  // el porcentaje es fijo  %40
+            let monto = promedio*.4;  // el porcentaje es fijo  %40
+    
+    
+            /** total */
+            let calc = new TableOfProportions(null,null,null,null,null,null,null,null,null,rendimiento_agua,rendimiento_combustible, rendimiento_electricidad,faltas_uso_epp,fugas_perla, fugas_vapor, fugas_aceite, fugas_aire );
+    
+            let porcAgua = calc.agua;
+            let porcCombustible = calc.combustible;
+            let porcElectricidad = calc.electricidad;
+    
+            let premcastEnergeticos = porcAgua + porcCombustible + porcElectricidad;
+    
+            let faltasUsoEPP = calc.faltasEPP;
+    
+            let fugasPerla = calc.fugasPerla;
+            let fugasVapor = calc.fugasVapor;
+            let fugasAceite = calc.fugasAceite;
+            let fugasAire = calc.fugasAire;
+    
+            let premcastFugas = fugasPerla + fugasAceite + fugasAire + fugasVapor;
+    
+    
+            total = monto + (promedio*premcastEnergeticos) + (promedio*premcastFugas) + (promedio*faltasUsoEPP);
+        
+    
+            return  total;
+        }else{
+            return 0;
+        }
+        
+    }
 
+    promedioMontos(){
+       
+        let sumatoria_montos=0;
+        let montos = this.montos_recibidos_area;
+        let len = this.montos_recibidos_area.length;
 
-        /** total */
-        let calc = new TableOfProportions(null,null,null,null,null,null,null,null,null,rendimiento_agua,rendimiento_combustible, rendimiento_electricidad,faltas_uso_epp,fugas_perla, fugas_vapor, fugas_aceite, fugas_aire );
+        for(var i=0; i<len; i++){
+            sumatoria_montos = sumatoria_montos + montos[i];
+        }   
 
+        let divisor=0;
+
+        for(var i=0; i<len; i++){
+            if(montos[i]!=0){
+                divisor++
+            }
+        }
+
+        let promedio =0;
+
+        if(sumatoria_montos > 0){
+            promedio = sumatoria_montos/divisor;
+        }
+
+        return promedio;
+    }
+
+    pc_energeticos(rendimiento_agua, rendimiento_combustible, rendimiento_electricidad){
+        let calc = new TableOfProportions(null,null,null,null,null,null,null,null,null,rendimiento_agua,rendimiento_combustible, rendimiento_electricidad);
+    
         let porcAgua = calc.agua;
         let porcCombustible = calc.combustible;
         let porcElectricidad = calc.electricidad;
 
+        let promedio = this.promedioMontos();
         let premcastEnergeticos = porcAgua + porcCombustible + porcElectricidad;
 
-        let faltasUsoEPP = calc.faltasEPP;
+        let total=0;
+        if(promedio>0){
+            total = promedio* premcastEnergeticos
+        }
+        
+        return  total;
+    }
+
+    pc_fugas( fugas_aire,fugas_perla , fugas_vapor, fugas_aceite){
+        let calc = new TableOfProportions(null,null,null,null,null,null,null,null,null,null,null, null,null,fugas_perla, fugas_vapor, fugas_aceite, fugas_aire );
 
         let fugasPerla = calc.fugasPerla;
         let fugasVapor = calc.fugasVapor;
         let fugasAceite = calc.fugasAceite;
         let fugasAire = calc.fugasAire;
-
+        let promedio = this.promedioMontos();
         let premcastFugas = fugasPerla + fugasAceite + fugasAire + fugasVapor;
+        
+        let total=0;
+        if(promedio>0){
+            total = promedio* premcastFugas
+        }
+        
+        return total;
+    }    
 
 
-        total = monto + (promedio*premcastEnergeticos) + (promedio*premcastFugas) + (promedio*faltasUsoEPP);
-    
-
-        return  total;
-    }
 
     /** INSULPANEL */
 

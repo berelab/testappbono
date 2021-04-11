@@ -60,7 +60,7 @@ const controller = {
                     
                     nombre: equipo[i].nombre,
                     num: equipo[i].num,
-                    depto: message,
+                    depto: 'Tráfico',
                     day: weekdayName,
                     semana:semana,
                     bonos_por_viaje: bonos_por_viaje,
@@ -75,7 +75,7 @@ const controller = {
         }else{
             return res.status(200).send({
                 
-                depto: message,
+                depto: 'Tráfico',
                 day: weekdayName,
                 semana:semana,
                 bonos_por_viaje: bonos_por_viaje, 

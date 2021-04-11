@@ -55,7 +55,7 @@ class InsulpanelModel {
             retardos_entrega:0,
             falla_calidad:0,
             limpieza:0,
-            paros_produccion:1,
+            paros_produccion:0,
             equipo: team,
             team_asis: entries
         };

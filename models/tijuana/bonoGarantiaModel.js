@@ -44,12 +44,7 @@ class BonoGModel {
             $_extra_m3: response.extra,
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
-            sipo: 39,
-            semana:{
-                del:'13/07/2020',
-                al:'19/07/2020'
-            },
-            pago: 300,
+            pago_base: 300,
             equipo: team,
             team_asis: entries
         };
