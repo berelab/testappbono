@@ -41,6 +41,37 @@ class usersRepository {
         }
     }
 
+    async findInfo(num) {
+        let response; 
+        let pool;
+        const queryString = `SELECT 
+        COLABORADOR.CB_PUESTO AS puesto,
+        APP_NIVEL2.TB_ELEMENT AS depto,
+        COLABORADOR.CB_NIVEL5 AS planta,
+        APP_NIVEL1.TB_ELEMENT AS ciudad 
+        
+        FROM APP_COLABORA AS COLABORADOR
+        
+        INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO 
+        INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO 
+        
+        WHERE  COLABORADOR.CB_ACTIVO = 'S' and COLABORADOR.CB_CODIGO = '${num}'
+        ORDER BY  COLABORADOR.CB_NIVEL5 , APP_NIVEL2.TB_ELEMENT `;
+
+        try {
+            pool = await prodPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return {
+            response
+        }
+    }
+
     async insert(users) {
         let response;
         let pool;

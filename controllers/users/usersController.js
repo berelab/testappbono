@@ -1,7 +1,7 @@
 'use strict'
 import usersModel from '../../models/users/usersModel';
 import usersRepository from '../../infrastructure/users/usersRepository'; 
-
+import convertData from '../ConvertData'
 var validator = require('validator');
 var jwt = require('../../services/jwt');
 var nodemailer = require('nodemailer'); 
@@ -69,7 +69,7 @@ const controller = {
         let  users = await modelUsr.executeUsers(); 
     
 		return res.status(200).send({
-            message: 'Metodo de pruebas.',
+            message: 'Usuarios validos.',
             users
             
         });
@@ -77,11 +77,9 @@ const controller = {
 
     login: async (req, res)=>{
         const repository = new usersRepository();
-    
-        
         const modelUsr = new usersModel(repository);
-    
         let  users = await modelUsr.executeUsers(); 
+        
 
         //recoger parametros 
         var params = req.body;
@@ -125,6 +123,23 @@ const controller = {
                     //sendCode(users[index], code); // enviar codigo de autentificacion solo a admins
                  }
                 */
+
+                //Buscar el depto y ciudad del usuario encontrado
+                //Convertir
+                //let cd = new convertData();
+                //agregar al usuario encontrado 
+                 /*
+                let user = {
+                    id: 1010101,
+                    name: 'admin pruebas',
+                    num: 1010101,
+                    email: 'admin@pruebas.com' ,
+                    password: 'admin12345p',
+                    role: '230', 
+                    city: 'pruebas',
+                    depto: 'pruebas'  
+                }*/
+
                 
                 //Generar token de jwt y devolverlo
                 return res.status(200).send({

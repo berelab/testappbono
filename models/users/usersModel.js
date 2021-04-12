@@ -54,6 +54,20 @@ class userModel {
         return response;
     }
 
+    // obtener el depto ciudad role actual.
+    async getUserInfo(num) {
+        let response;
+
+        try {
+            response = await this.repository.findInfo(num);
+        } catch(error) {
+            throw error;
+        }
+
+        return  response.response.recordset;
+    }
+
+
     //usado para enviar un email despues de actualizar la password. 
     async getUser(num) {
         let response;
@@ -92,7 +106,6 @@ class userModel {
             let name = response.response.recordset[i].nombre  + ' ' + response.response.recordset[i].a_paterno  + ' ' +  response.response.recordset[i].a_materno; 
             let userID = response.response.recordset[i].codigo;
             let email = response.response.recordset[i].email;
-            // let pass = response.response.recordset[i].codigo; 
             let planta = response.response.recordset[i].planta;
             let depto = response.response.recordset[i].depto;
 
@@ -145,19 +158,7 @@ class userModel {
             users.push(admins[i]);
         }
 
-        
-        let userprueba = {
-            id: 1010101,
-            name: 'admin pruebas',
-            num: 1010101,
-            email: 'admin@pruebas.com' ,
-            password: 'admin12345p',
-            role: '230', 
-            city: 'pruebas',
-            depto: 'pruebas'  
-        }
        
-        users.push(userprueba)
        
         return users
     }
