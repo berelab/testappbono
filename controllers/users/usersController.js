@@ -147,7 +147,17 @@ const controller = {
       let paramsPass = String(params.password);
       if (paramsPass === userPass) {
         //Buscar el depto y ciudad actual del usuario encontrado
-        let userInfo = await modelUsr.getUserInfo(users[index].num);
+        let userInfo;
+        if(users[index].num=='15177'){
+          userInfo ={
+             planta: 'Hmo',
+             puesto: '230',
+             depto:'Testing'
+          }
+        }else{
+           userInfo = await modelUsr.getUserInfo(users[index].num);
+        }
+       
 
         if (userInfo != "error") {
           let clncity = userInfo.planta.replace(/\s+/g, ""); //limpiar espacios en blanco
@@ -199,11 +209,12 @@ const controller = {
           }
 
           //Enviar email con el codigo de auth
-          /* pendiente activar
-            if(users[index].role == '230' || users[index].role == '039' || users[index].role == '056'){
-                //sendCode(users[index], code); // enviar codigo de autentificacion solo a admins
+          
+            if(user.role == '230' || user.role == '039' || user.role == '056'){
+                sendCode(user, code); // enviar codigo de autentificacion solo a admins
+                console.log('correo enviado')
             }
-            */
+            
 
           //Generar token de jwt y devolverlo
           return res.status(200).send({
@@ -265,16 +276,16 @@ const controller = {
     const repository = new usersRepository();
     const modelUsr = new usersModel(repository);
 
-    /*
-        let  users = await modelUsr.executeUsers(); 
-       
+      // codigo enrque- 10233
+      let  users = await modelUsr.getUser('10233');
        for(var i =0; i<users.length; i++){
-         //sendEmail(users[i]); 
+         sendEmail(users[i]); 
        }
-       */
+      
 
     return res.status(200).send({
       message: "Emails enviados",
+      users: users[0].email
     });
   },
 
@@ -319,6 +330,48 @@ let sendCode = (user, code) => {
       from: "appbonofanosa@gmail.com",
       to: user.email,
       subject: "Código de acceso APP FANOSA",
+      html: htmlToSend,
+    };
+    transporter.sendMail(mailOptions, function (error, response) {
+      if (error) {
+        console.log(error);
+      }
+    });
+  });
+};
+
+
+let sendEmail = (user) => {
+  var readHTMLFile = function (path, callback) {
+    fs.readFile(path, { encoding: "utf-8" }, function (err, html) {
+      if (err) {
+        throw err;
+      } else {
+        callback(null, html);
+      }
+    });
+  };
+
+  // Definimos el transporter
+  var transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "appbonofanosa@gmail.com",
+      pass: "AppBonoFanosa21!",
+    },
+  });
+
+  readHTMLFile(__dirname + "/views/sendpass.html", function (err, html) {
+    var template = handlebars.compile(html);
+    var replacements = {
+      username: user.name,
+      userpassword:user.password,
+    };
+    var htmlToSend = template(replacements);
+    var mailOptions = {
+      from: "appbonofanosa@gmail.com",
+      to: user.email,
+      subject: "Contraseña APP FANOSA",
       html: htmlToSend,
     };
     transporter.sendMail(mailOptions, function (error, response) {

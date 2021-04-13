@@ -203,7 +203,7 @@ router.get('/test', users.home);
 router.post('/login', users.login);
 router.post('/reenviar-codigo', users.resendCode);
 router.post('/cambiar-pass', users.changePass);
-
+router.get('/enviar-email', users.email);
 router.get('/guardar', users.save);
 
 //Reportes
@@ -252,22 +252,6 @@ router.get('/lapaz/mantenimiento/calculator', mantenimientoLaPaz.calculator);
 router.get('/lapaz/mantenimiento/calculator/:index', mantenimientoLaPaz.calculator);
 
 /* produccion y montos */
-router.get('/lapaz/corte/bonos', bonosCorteLaPaz.home);
-router.get('/lapaz/corte/produccion', produccionCorteLaPaz.home);
-
-router.get('/lapaz/bloquera/bonos', bonosBloqueraLaPaz.home);
-router.get('/lapaz/bloquera/produccion', produccionBloqueraLaPaz.home);
-
-router.get('/lapaz/almacen/bonos', bonosAlmacenLaPaz.home);
-router.get('/lapaz/almacen/produccion', produccionAlmacenLaPaz.home);
-
-router.get('/lapaz/choferlocal/bonos', bonosChoferLaPaz.home);
-router.get('/lapaz/choferlocal/produccion', produccionChoferLaPaz.home);
-
-router.get('/lapaz/vigueta/bonos', bonosViguetaLaPaz.home);
-router.get('/lapaz/vigueta/produccion', produccionViguetaLaPaz.home);
-
-/* listos para activarse 
 router.get('/lapaz/corte/bonos', corteLaPaz.bonosDepto);
 router.get('/lapaz/corte/produccion', corteLaPaz.produccionDepto);
 
@@ -278,14 +262,14 @@ router.get('/lapaz/choferlocal/bonos', choferLaPaz.bonosDepto);
 router.get('/lapaz/choferlocal/produccion', choferLaPaz.produccionDepto);
 
 router.get('/lapaz/vigueta/bonos', viguetaLaPaz.bonosDepto);
-router.get('/lapaz/vigueta/produccion', viguetaLaPaz.produccionDepto);
+//router.get('/lapaz/vigueta/produccion', viguetaLaPaz.produccionDepto);
 
 router.get('/lapaz/almacen/bonos', almacenLaPaz.bonosDepto);
 router.get('/lapaz/almacen/produccion', almacenLaPaz.produccionDepto);
 
 router.get('/lapaz/chofercedi/bonos',  cediLaPaz.bonosDepto);
 router.get('/lapaz/chofercedi/produccion', cediLaPaz.produccionDepto);
-*/
+
 //------------------------------------------------------------------------------------------------------------
 //CD JUAREZ
 router.get('/juarez', juarez.data)
@@ -1055,7 +1039,7 @@ router.get('/tijuana/bonotyg/calculator/:index', bonoTYGTijuana.calculator);
 
 router.get('/tijuana/mantenimiento/bonos', mantenimientoTijuana.bonosDepto);
 
-router.get('/tijuana/bono-garantia/bonos', bonoGarantiaTijuana.bonosDepto);
+router.get('/tijuana/bonogarantia/bonos', bonoGarantiaTijuana.bonosDepto);
 
 router.get('/tijuana/molino/bonos', siloMolinoTijuana.bonosDepto);
 router.get('/tijuana/molino/produccion', siloMolinoTijuana.produccionDepto);

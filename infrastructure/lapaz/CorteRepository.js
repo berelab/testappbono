@@ -3,6 +3,7 @@
 const { prodPoolPromise } = require ('../prodSQLClient');
 const { appPoolPromise } = require ('../appSQLClient');
 const { tablPoolPromise } = require ('../prodSQLClientTab');
+//const { oracleConnection  } = require ('../oracleSQLclient');
 
 class MySqlCorteRepository {
 
