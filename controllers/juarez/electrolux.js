@@ -77,7 +77,6 @@ const controller = {
         let bono_metas = calc.pc_metas;   
 
         //generar reporte
-        /*pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -92,7 +91,7 @@ const controller = {
             let m3_cortados_totales = electrolux.produccion.lunes +  electrolux.produccion.martes + electrolux.produccion.miercoles + electrolux.produccion.jueves + electrolux.produccion.viernes + electrolux.produccion.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,electrolux.message, electrolux.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,electrolux.message, electrolux.city); 
-        }*/
+        }
 
 
         if(req.params.index){

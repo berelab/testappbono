@@ -75,7 +75,6 @@ const controller = {
         let bono_metas = calc.pc_metas;   
         
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -90,7 +89,7 @@ const controller = {
             let m3_cortados_totales = bonotyg.m3_desplazados.lunes +  bonotyg.m3_desplazados.martes + bonotyg.m3_desplazados.miercoles + bonotyg.m3_desplazados.jueves + bonotyg.m3_desplazados.viernes + bonotyg.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,bonotyg.message, bonotyg.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,bonotyg.message, bonotyg.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

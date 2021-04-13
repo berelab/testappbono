@@ -66,7 +66,6 @@ const controller = {
       
       
        //generar reporte 
-       /*pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -78,7 +77,7 @@ const controller = {
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, bonog.message, bonog.city); 
             
             let bonosDepto = await model.saveBonosDepto(semana,  bono_total, bonog.message, bonog.city); 
-        }*/
+        }
 
 
         if(req.params.index){

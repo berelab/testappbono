@@ -82,7 +82,6 @@ const controller ={
         let bono_metas = calc.pc_metas;  
         
         //generar reporte
-        /*
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -96,7 +95,7 @@ const controller ={
     
             let m3_cortados_totales = corte.m3_cortados.lunes +  corte.m3_cortados.martes + corte.m3_cortados.miercoles + corte.m3_cortados.jueves + corte.m3_cortados.viernes + corte.m3_cortados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,corte.message, corte.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

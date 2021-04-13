@@ -69,14 +69,14 @@ const controller = {
         const modelM = new moldeoModel(repositoryM);
         let moldeo = await modelM.execute(); 
         
-        /*
+        
         const repositoryI = new insulpanelSQL();
         const modelI = new insulpanelModel(repositoryI);
-        let insulpanel = await modelI.execute(); */
+        let insulpanel = await modelI.execute(); 
 
         let percCorte =  percepcionCorte(corte);
         let percMoldeo = percepcionMoldeo(moldeo);
-        let percInsulpanel =  0//percepcionInsulpanel(insulpanel); 
+        let percInsulpanel = percepcionInsulpanel(insulpanel); 
 
         const repository = new mantenimientoSQL();
         const model = new mantenimientoModel(repository,percCorte,percInsulpanel,percMoldeo);
@@ -142,7 +142,6 @@ const controller = {
         // let bono_metas = calc.pc_metas;  
 
         //generar reporte 
-        /*
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -154,7 +153,7 @@ const controller = {
             let reporte = await model.saveWeek(equipo,semana, bono_total_colaborador, mantenimiento.message,  mantenimiento.city); 
             
             let bonosDepto = await model.saveBonosDepto(semana,  bono_total, mantenimiento.message,  mantenimiento.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
@@ -304,7 +303,7 @@ let percepcionMoldeo = (moldeo) =>{
     return percepcion_total
 }
 
-// No funcional requiere el nivel de plan de carrera del colab
+
 let percepcionInsulpanel = (insulpanel) =>{
     const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
     let equipo = cd.convert;

@@ -94,7 +94,6 @@ const controller = {
         
                 
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -109,7 +108,7 @@ const controller = {
             let m3_cortados_totales = panel.m3_desplazados.lunes +  panel.m3_desplazados.martes + panel.m3_desplazados.miercoles + panel.m3_desplazados.jueves + panel.m3_desplazados.viernes + panel.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Panel', panel.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,'Panel', panel.city); 
-        }*/
+        }
         
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

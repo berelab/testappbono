@@ -81,7 +81,6 @@ const controller = {
         
                 
         //generar reporte
-        /*pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -96,7 +95,7 @@ const controller = {
             let m3_cortados_totales = chofer.m3_desplazados.lunes +  chofer.m3_desplazados.martes + chofer.m3_desplazados.miercoles +chofer.m3_desplazados.jueves + chofer.m3_desplazados.viernes + chofer.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Chofer Local', chofer.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,'Chofer Local', chofer.city); 
-        }*/
+        }
 
 
         if(req.params.index){

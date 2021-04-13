@@ -74,7 +74,6 @@ const controller = {
         let bono_metas = calc.pc_metas;     
 
         //generar reporte
-        /*
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -89,7 +88,7 @@ const controller = {
             let m3_cortados_totales = molino.m3_desplazados.lunes +  molino.m3_desplazados.martes + molino.m3_desplazados.miercoles + molino.m3_desplazados.jueves + molino.m3_desplazados.viernes + molino.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Molino', molino.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,'Molino', molino.city); 
-        }*/
+        }
 
 
 

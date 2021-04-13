@@ -56,12 +56,12 @@ class MantenimientoModel {
             factor_dias_laborados: extra.factor,
             areas: [
                 'Corte',
-                //'Insulpanel', -> pendiente...
+                'Insulpanel', 
                 'Moldeo'
             ],
             montos_recibidos_area:[
                percCorte, 
-               //percInsulpanel ,-> pendiente...
+               percInsulpanel ,
                percMoldeo
             ],
             rendimiento_agua: agua,

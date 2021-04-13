@@ -79,7 +79,6 @@ const controller = {
 
         
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -94,7 +93,7 @@ const controller = {
             let m3_cortados_totales = aosmith.piezas_terminadas.lunes +  aosmith.piezas_terminadas.martes + aosmith.piezas_terminadas.miercoles + aosmith.piezas_terminadas.jueves +aosmith.piezas_terminadas.viernes + aosmith.piezas_terminadass.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,aosmith.message, aosmith.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,aosmith.message, aosmith.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

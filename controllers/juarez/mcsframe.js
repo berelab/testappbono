@@ -79,7 +79,6 @@ const controller = {
                 
                 
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -94,7 +93,7 @@ const controller = {
             let m3_cortados_totales = mcsframe.m3_cortados.lunes +  mcsframe.m3_cortados.martes + mcsframe.m3_cortados.miercoles + mcsframe.m3_cortados.jueves + mcsframe.m3_cortados.viernes + mcsframe.m3_cortados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales, mcsframe.message, mcsframe.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total, mcsframe.message, mcsframe.city); 
-        }*/
+        }
 
 
         if(req.params.index){

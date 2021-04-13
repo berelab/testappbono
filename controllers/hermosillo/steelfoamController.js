@@ -85,7 +85,6 @@ const controller = {
 
         
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -100,7 +99,7 @@ const controller = {
             let m3_cortados_totales = steelfoam.m2_cortados.lunes +  steelfoam.m2_cortados.martes + steelfoam.m2_cortados.miercoles + steelfoam.m2_cortados.jueves + steelfoam.m2_cortados.viernes + steelfoam.m2_cortados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,steelfoam.message, steelfoam.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,steelfoam.message, steelfoam.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

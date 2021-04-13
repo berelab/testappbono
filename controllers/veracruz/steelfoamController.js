@@ -83,7 +83,6 @@ const controller = {
         let bono_metas = calc.pc_metas; 
 
         //generar reporte
-        /*
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -98,7 +97,7 @@ const controller = {
             let m3_cortados_totales = steelfoam.m3_desplazados.lunes +  steelfoam.m3_desplazados.martes + steelfoam.m3_desplazados.miercoles + steelfoam.m3_desplazados.jueves + steelfoam.m3_desplazados.viernes + steelfoam.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,steelfoam.message, steelfoam.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,steelfoam.message, steelfoam.city); 
-        }*/
+        }
 
         if(req.params.index){
             let codigo = parseInt(req.params.index); 

@@ -84,7 +84,6 @@ const controller = {
         let bono_metas = calc.pc_metas; 
 
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -96,7 +95,7 @@ const controller = {
             let reporte = await model.saveWeek(equiponc,semana, bonoXpenalizacion, insulpanel.message,  insulpanel.city); 
             
             let bonosDepto = await model.saveBonosDepto(semana,  totalbonoXpenalizacion, insulpanel.message,  insulpanel.city); 
-        }*/
+        }
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
 

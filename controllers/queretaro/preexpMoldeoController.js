@@ -82,7 +82,6 @@ const controller = {
         let bono_metas = calc.pc_metas;     
 
         //generar reporte
-        /* pendiente activar
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -97,7 +96,7 @@ const controller = {
             let m3_cortados_totales = bloquera.blocks_cortados.lunes +  bloquera.blocks_cortados.martes + bloquera.blocks_cortados.miercoles + bloquera.blocks_cortados.jueves + bloquera.blocks_cortados.viernes + bloquera.blocks_cortados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,'Bloquera', bloquera.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,'Bloquera', bloquera.city); 
-        }*/
+        }
 
 
 

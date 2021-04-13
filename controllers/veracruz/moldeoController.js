@@ -82,7 +82,6 @@ const controller = {
 
         
         //generar reporte
-        /*
         if(weekdayName =='domingo'){
             let dia = dateObj.getDate();
             let mes = dateObj.getMonth() + 1;
@@ -97,7 +96,7 @@ const controller = {
             let m3_cortados_totales = moldeo.m3_desplazados.lunes +  moldeo.m3_desplazados.martes + moldeo.m3_desplazados.miercoles + moldeo.m3_desplazados.jueves + moldeo.m3_desplazados.viernes + moldeo.m3_desplazados.sabado
             let produccionDepto= await model.saveProdDepto(semana, m3_cortados_totales,moldeo.message, moldeo.city); 
             let bonosDepto = await model.saveBonosDepto(semana, bono_total,moldeo.message, moldeo.city); 
-        }*/
+        }
 
 
         if(req.params.index){
