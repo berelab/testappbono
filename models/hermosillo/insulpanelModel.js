@@ -10,17 +10,19 @@ class InsulpanelModel {
         let teamResponse;
         let entries;
         let extra;
-
+        let slColabs;
+        
         try {
             response = await this.repository.find();
             teamResponse = await this.repository.findTeam();
             entries = await this.repository.entryTimes();
             extra = await this.repository.extraData();
+            slColabs = await this.repository.salary_colabs();
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra, this._convertSalary(slColabs));
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -35,7 +37,7 @@ class InsulpanelModel {
         return response;
     }
 
-    _convertData(response, team, entries, extra) {
+    _convertData(response, team, entries, extra,ncColabs) {
         return {
             message: 'Insulpanel',
             city: 'Hermosillo',
@@ -57,7 +59,8 @@ class InsulpanelModel {
             limpieza:0,
             paros_produccion:0,
             equipo: team,
-            team_asis: entries
+            team_asis: entries,
+            nc_colabs: ncColabs
         };
     }
     _reorderData(entries){
@@ -105,6 +108,35 @@ class InsulpanelModel {
 
         return result;
     }
+
+
+    _convertSalary(salarios){
+        let result =[]
+       
+        let len = salarios.length;
+        for(var i=0; i<len;i++){
+            let nc;
+            if(salarios[i].salario < 257.25){
+                nc='NI'
+            }else if(salarios[i].salario >=257.25 && salarios[i].salario <299.25 ){
+                nc='1'
+            }else if(salarios[i].salario >=299.25 && salarios[i].salario <315 ){
+                nc='2'
+            }else if(salarios[i].salario >=315){
+                nc='3'
+            }
+
+            let colaborador ={
+                num: salarios[i].codigo,
+                nc:nc
+            }
+            
+            result.push(colaborador);
+
+        }
+        return result;
+    }
 };
 
 module.exports = InsulpanelModel;
+

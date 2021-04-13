@@ -77,7 +77,7 @@ class usersRepository {
         let pool;
         let len = users.length;
         for(var i=0; i<len; i++){
-         let queryString = `INSERT INTO colaboradores (name, num, email, password,role, city, depto) VALUES ('${users[i].name}', '${users[i].num}' , '${users[i].email}', '${users[i].password}', '${users[i].role}' ,'${users[i].city}', '${users[i].depto}')`;
+         let queryString = `INSERT INTO colaboradores (name, num, email, password) VALUES ('${users[i].name}', '${users[i].num}' , '${users[i].email}', '${users[i].password}')`;
              try {
             pool = await appPoolPromise
             response = await pool.request()

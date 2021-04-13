@@ -8,6 +8,7 @@ import path from 'path';
 import fs from 'fs';
 import https from 'https';
 import http from 'http';
+import saveUsers from './services/users/saveNewUsers'
 import reporteLP  from  './services/reportes/lapaz';
 import reporteJZ  from  './services/reportes/juarez';
 import reporteNG  from  './services/reportes/nogales';
@@ -21,11 +22,15 @@ const options = {
     cert: fs.readFileSync('C:\\certificates\\appbono.fanosa.com-crt.pem')
 }
 
-cron.schedule('37 16 * * 4', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
+cron.schedule('00 20 * * 6', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
     reporteLP.generar();
     reporteJZ.generar();
     reporteNG.generar();
 });
+
+cron.schedule('00 13 * * *', function() { 
+    saveUsers.execute();
+ });
 
 app.use(morgan('tiny'));
 app.use(cors());

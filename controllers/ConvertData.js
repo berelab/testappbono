@@ -521,7 +521,15 @@ class FormatData {
       }else if(citycode == 'MXL'){//-----------------------------------------
           return 'no-valido'
       }else if(citycode == 'CMX'){//-----------------------------------------
-          return 'no-valido'
+         if(depto == 'Bloqueras'){
+            return 'bloquera'
+        }else if(depto == 'Corte Variable'  || depto == 'EM Cortado'  ){
+            return 'corte'
+        }else if(depto == 'Mantenimiento Ind. Variable'){
+            return 'mantenimiento'
+        }else{
+            return 'no-valido'
+        } 
       }else if(citycode == 'RSA'){//-----------------------------------------
           return 'no-valido'
       }else{

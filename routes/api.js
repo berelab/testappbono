@@ -204,8 +204,7 @@ router.post('/login', users.login);
 router.post('/reenviar-codigo', users.resendCode);
 router.post('/cambiar-pass', users.changePass);
 
-router.get('/guardar', users.save); 
-//router.get('/vaciar-tabla', users.clear); 
+router.get('/guardar', users.save);
 
 //Reportes
 router.get('/colab-bonos', reporte.getBonosColab);

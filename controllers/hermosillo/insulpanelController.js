@@ -16,6 +16,7 @@ const controller = {
         let insulpanel = await model.execute(); 
         const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
         let equipo = cd.convert;
+        let equiponc = addNivelCarrera(equipo, insulpanel.nc_colabs);
 
 		return res.status(200).send({
             message: insulpanel.message,
@@ -26,7 +27,11 @@ const controller = {
             factor_dias_laborados: insulpanel.factor_dias_laborados,
             m2_producidos: insulpanel.m2_producidos,
             asistencia: insulpanel.team_asis,
-            equipo_convertido: equipo             
+            equipo_convertido: equipo,
+            equiponc: equiponc,
+            nc: insulpanel.nc_colabs  , 
+            lennc:  insulpanel.nc_colabs.length,
+            leteq: equipo.length          
         });
     },
     calculator: async(req, res)=>{
@@ -35,8 +40,9 @@ const controller = {
         let insulpanel = await model.execute(); 
         const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
         let equipo = cd.convert;
+        let equiponc = addNivelCarrera(equipo, insulpanel.nc_colabs);
 
-        const calcAtt = new att( equipo, insulpanel.factor_dias_laborados);
+        const calcAtt = new att( equiponc, insulpanel.factor_dias_laborados);
         let colaboradores = calcAtt.colaboradoresPorDia;
         let asistencia_total = calcAtt.asistenciaTotal;
 
@@ -51,7 +57,7 @@ const controller = {
             colaboradores, 
             asistencia_total, 
             weekdayName, 
-            equipo, 
+            equiponc, 
             null, 
             null, 
             null, 
@@ -68,7 +74,7 @@ const controller = {
         let m3_persona = calc.m3Persona;        
         let sumatoria_asistencia = calc.totalAsistencia;
         
-        //let bonos_Por_NPC = calc.bonosPorNPC
+        let bonos_Por_NPC = calc.bonosPorNPC
         let bono_total = calc.bonoTotalColaborador;
         let bonoXdiasLaborados = calc.pagoTotal;
         let TotalbonoXdiasLaborados  = calc.pagoTotalSinPenalizacion;
@@ -87,18 +93,18 @@ const controller = {
             
             const repository = new mySqlReporteRepository();
             const model = new reporteModel(repository);
-            let reporte = await model.saveWeek(equipo,semana, bonoXpenalizacion, insulpanel.message,  insulpanel.city); 
+            let reporte = await model.saveWeek(equiponc,semana, bonoXpenalizacion, insulpanel.message,  insulpanel.city); 
             
             let bonosDepto = await model.saveBonosDepto(semana,  totalbonoXpenalizacion, insulpanel.message,  insulpanel.city); 
         }*/
         if(req.params.index){
             let codigo = parseInt(req.params.index); 
 
-            let len = equipo.length;
+            let len = equiponc.length;
             let i = 'no encontrado';
 
             for(var a=0; a<len; a++){
-                equipo[a].num == codigo?  i = a: i
+                equiponc[a].num == codigo?  i = a: i
             }
             
             if(i =='no encontrado'){
@@ -109,8 +115,8 @@ const controller = {
                 });
             }else{
                 return res.status(200).send({             
-                    nombre: equipo[i].nombre,
-                    code: equipo[i].num,
+                    nombre: equiponc[i].nombre,
+                    code: equiponc[i].num,
                     city: insulpanel.city,
                     depto: insulpanel.message,
                     day: weekdayName,
@@ -119,6 +125,7 @@ const controller = {
                     $_extra_m3: insulpanel.$_extra_m3,       
                     progress: progress, 
                     m3_persona: m3_persona,
+                    bono_Nivel_Carrera: bonos_Por_NPC[i],
                     bono_depto: bono_total[i],
                     pago_persona: bonoXdiasLaborados[i],
                     bono_persona: bonoXpenalizacion[i],
@@ -139,6 +146,7 @@ const controller = {
                 $_extra_m3: insulpanel.$_extra_m3,
                 progress: progress,
                 m3_persona: m3_persona,
+                bono_Nivel_Carrera: bonos_Por_NPC,
                 bono_depto: bono_total,
                 pago_persona: bonoXdiasLaborados, 
                 pago_total: TotalbonoXdiasLaborados, 
@@ -169,4 +177,40 @@ const controller = {
 
 };
 
+let addNivelCarrera =(equipo, nc_colabs) =>{
+    let result =[];
+    let lenEq = equipo.length;
+    let lenNC = nc_colabs.length;
+
+    for(var i =0; i<lenEq; i++){
+        let numEq = equipo[i].num
+        let encontrado ='NO';
+        let equipoModel={
+            nombre:  equipo[i].nombre,
+            num:   equipo[i].num,
+            factor_dias_laborados:  equipo[i].factor_dias_laborados,
+            dias:  equipo[i].dias,
+            asistencia:  equipo[i].asistencia,
+            faltas : equipo[i].faltas,
+            retardos: equipo[i].retardos,
+            horas_extras: equipo[i].horas_extras,
+            nivel_dPdC: ''
+        }
+        for(var k=0; k<lenNC; k++){
+            let numNC = nc_colabs[k].num
+            if(numEq===numNC){
+                encontrado =k
+            }
+        }
+        if(encontrado != 'NO'){
+            equipoModel.nivel_dPdC = nc_colabs[encontrado].nc
+        }
+
+        result.push(equipoModel);
+
+    }
+    
+    return result
+
+}
 module.exports = controller; 

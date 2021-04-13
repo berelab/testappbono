@@ -114,6 +114,35 @@ class InsulpanelRepository {
         return response.recordset;
     }
 
+    async salary_colabs(){
+        let response;
+        let pool;
+        const queryString = `
+        SELECT 
+        CB_CODIGO as codigo
+        ,CB_SALARIO as salario
+        
+        FROM APP_COLABORA AS COLABORADOR
+        
+        INNER JOIN APP_NIVEL2 ON COLABORADOR.CB_NIVEL2 = APP_NIVEL2.TB_CODIGO 
+        INNER JOIN APP_NIVEL1 ON COLABORADOR.CB_NIVEL1 = APP_NIVEL1.TB_CODIGO 
+        
+        WHERE  COLABORADOR.CB_ACTIVO = 'S'  and COLABORADOR.CB_NIVEL5 = 'HMO' and APP_NIVEL2.TB_ELEMENT = 'Insulpanel Variable'
+        ORDER BY  COLABORADOR.CB_NIVEL5 , APP_NIVEL2.TB_ELEMENT
+        `;
+
+        try {
+            pool = await prodPoolPromise
+            response = await pool.request()
+            .query(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return response.recordset;
+    }
+
 
 };
 
