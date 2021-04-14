@@ -57,7 +57,8 @@ class CorteModel {
                 miercoles: 749.59,
                 jueves: 749.59,
                 viernes: 749.59,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

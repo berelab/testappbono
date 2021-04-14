@@ -53,7 +53,8 @@ class Almacen {
                 miercoles: 249.02863,
                 jueves: 329.1536,
                 viernes: 81.26,
-                sabado: 0.00
+                sabado: 0.00,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

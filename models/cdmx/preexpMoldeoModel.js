@@ -58,7 +58,8 @@ class BloqueraModel {
                 miercoles:0,
                 jueves:0,
                 viernes: 158,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             colaboradores: {
                 lunes: 0,
@@ -66,7 +67,8 @@ class BloqueraModel {
                 miercoles: 3,
                 jueves: 3,
                 viernes: 3,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: [
                 {

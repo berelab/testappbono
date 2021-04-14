@@ -53,7 +53,8 @@ class Molino {
                 miercoles: 2831.5,
                 jueves: 2831.5,
                 viernes: 0.0,
-                sabado: 0.0
+                sabado: 0.0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

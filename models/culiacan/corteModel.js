@@ -58,7 +58,7 @@ class CorteModels {
                 jueves: 919.5,
                 viernes: 919.5,
                 sabado: 0,
-                
+                domingo:0,
             },
             tiempo_extra: {
                 lunes: 0,
@@ -67,7 +67,7 @@ class CorteModels {
                 jueves: 0,
                 viernes: 0,
                 sabado: 0,
-                
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

@@ -57,7 +57,8 @@ class BloqueraModel {
                 miercoles: 27.2,
                 jueves: 27.2,
                 viernes: 27.2,
-                sabado: 0
+                sabado: 0,
+                domingo: 0
             },
             equipo: team,
             team_asis: entries

@@ -57,7 +57,8 @@ class MoldeoModel {
                 miercoles: 242,
                 jueves: 242,
                 viernes: 242,
-                sabado: 0
+                sabado: 0,
+                domingo: 0
             },
             horas_extras_semana: [
                 {

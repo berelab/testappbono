@@ -50,7 +50,8 @@ class InsulpanelModel {
                 miercoles: 160,
                 jueves: 160,
                 viernes: 160,
-                sabado: 0.00
+                sabado: 0.00,
+                domingo:0,
             },
             retardos_entrega: 0,
             falla_calidad: 0,

@@ -54,7 +54,8 @@ class AlmacenModels {
                 miercoles: 398.32,
                 jueves: 100.31,
                 viernes: 136.84,
-                sabado: 0.00
+                sabado: 0.00,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

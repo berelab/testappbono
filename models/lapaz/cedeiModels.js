@@ -51,7 +51,8 @@ class CediModels {
                 miercoles: 22.7813,
                 jueves: 41.7991,
                 viernes: 46.08,
-                sabado: 0.00
+                sabado: 0.00,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

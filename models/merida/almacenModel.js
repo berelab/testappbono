@@ -51,7 +51,8 @@ class AlmacenModel {
                 miercoles: 300,
                 jueves: 300,
                 viernes: 300,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             horas_extras_semana: [
                 {
@@ -91,6 +92,13 @@ class AlmacenModel {
                 },
                 {
                     dia: 'sabado',
+                    horas_extras:{
+                        horas_extras_dobles: 0,
+                        horas_extras_triples: 0,
+                    }
+                },
+                {
+                    dia: 'domingo',
                     horas_extras:{
                         horas_extras_dobles: 0,
                         horas_extras_triples: 0,

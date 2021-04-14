@@ -53,7 +53,8 @@ class AlmacenModel {
                 miercoles: 858.8,
                 jueves: 858.8,
                 viernes: 858.8,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             horas_extras_semana: [
                 {

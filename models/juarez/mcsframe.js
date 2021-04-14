@@ -54,7 +54,8 @@ class Mcsframe {
                 miercoles: 20.55,
                 jueves: 20.55,
                 viernes: 20.55,
-                sabado: 0.00
+                sabado: 0.00,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

@@ -54,7 +54,8 @@ class Commscope {
                 miercoles: 168.22,
                 jueves: 168.22,
                 viernes: 0,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

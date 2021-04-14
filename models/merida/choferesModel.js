@@ -51,7 +51,8 @@ class ChoferModel {
                 miercoles:267.2,
                 jueves: 267.2,
                 viernes: 267.2,
-                sabado: 0
+                sabado: 0,
+                domingo: 0
             },
             equipo: team,
             team_asis: entries

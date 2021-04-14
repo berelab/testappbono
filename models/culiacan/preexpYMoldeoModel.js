@@ -57,7 +57,7 @@ class BloqueraModel {
                 jueves: 165.8,
                 viernes: 165.8,
                 sabado: 0,
-                
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

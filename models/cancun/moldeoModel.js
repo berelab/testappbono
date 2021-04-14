@@ -59,7 +59,7 @@ class MoldeoModel {
                 jueves: 80.25,
                 viernes: 80.25,
                 sabado: 0,
-                
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

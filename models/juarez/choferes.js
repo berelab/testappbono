@@ -51,7 +51,8 @@ class Choferes {
                 miercoles: 182,
                 jueves: 182,
                 viernes: 182,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

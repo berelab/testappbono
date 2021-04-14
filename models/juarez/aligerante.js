@@ -55,7 +55,8 @@ class Aligerante {
                 miercoles: 34.1025,
                 jueves: 34.1025,
                 viernes: 0,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

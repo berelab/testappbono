@@ -53,7 +53,7 @@ class AlmacenModels {
                 jueves: 290,
                 viernes: 290,
                 sabado: 0,
-                
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

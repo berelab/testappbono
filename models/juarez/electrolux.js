@@ -51,7 +51,8 @@ class Electrolux {
                 miercoles: 5823.25,
                 jueves: 5823.25,
                 viernes: 0,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries

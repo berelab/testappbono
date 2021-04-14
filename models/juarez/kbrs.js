@@ -51,7 +51,8 @@ class Kbrs {
                 miercoles: 50,
                 jueves: 50,
                 viernes: 50,
-                sabado: 0
+                sabado: 0,
+                domingo:0,
             },
             equipo: team,
             team_asis: entries
