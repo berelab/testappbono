@@ -18,16 +18,6 @@ import viguetaLaPaz from '../controllers/lapaz/viguetaControllers';
 import moldeoLaPaz from '../controllers/lapaz/moldeoControllers';
 import mantenimientoLaPaz from '../controllers/lapaz/mantenimientoController';
 
-import bonosCorteLaPaz from '../controllers/lapaz/corteBonosController';
-import produccionCorteLaPaz from '../controllers/lapaz/corteProduccionController';
-import bonosBloqueraLaPaz from '../controllers/lapaz/bloqueraBonosController';
-import produccionBloqueraLaPaz from '../controllers/lapaz/bloqueraProduccionController';
-import bonosAlmacenLaPaz from '../controllers/lapaz/almacenBonosController';
-import produccionAlmacenLaPaz from '../controllers/lapaz/almacenProduccionController';
-import bonosChoferLaPaz from '../controllers/lapaz/choferBonosController';
-import produccionChoferLaPaz from '../controllers/lapaz/choferProduccionController';
-import bonosViguetaLaPaz from '../controllers/lapaz/viguetaBonosController';
-import produccionViguetaLaPaz from '../controllers/lapaz/viguetaProduccionController';
 
 //CD JUAREZ
 import juarez from '../controllers/juarez/juarez';

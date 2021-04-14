@@ -3,17 +3,20 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/lapaz/produccionRepository';
 import corteModels from '../../models/lapaz/corteModels';
 import CorteSQLRepo from '../../infrastructure/lapaz/CorteRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
 
+
 const controller = {
 	
 	home: async (req, res) => {
         const repository = new CorteSQLRepo();
-        const model = new corteModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModels(repository,produccionRepo);
 
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
@@ -23,19 +26,21 @@ const controller = {
             message: corte.message,
             base0: corte.base0,
             dias_sucios: corte.dias_sucios,
+            m3_cortados:corte.m3_cortados,
             $_extra_m3: corte.$_extra_m3,
             dias: corte.dias,
             factor_dias_laborados: corte.factor_dias_laborados,
             amp: corte.amp,
             m3_cortados: corte.m3_cortados,
             asistencia: corte.team_asis,
-            equipo_convertido: equipo
+            equipo_convertido: equipo,
         });
     },
 
     calculator: async(req, res)=>{
         const repository = new CorteSQLRepo();
-        const model = new corteModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModels(repository,produccionRepo);
 
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
