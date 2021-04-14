@@ -41,7 +41,7 @@ class SteelfoamModel {
             city: 'Veracruz',
             base0: response.base,
             dias_sucios: response.dirty_days,
-            $_extra_m2: response.extra,            
+            $_extra_m3: response.extra,            
             dias: extra.dias,
             factor_dias_laborados: extra.factor,
             num_quejas:0,
