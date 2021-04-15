@@ -12,6 +12,18 @@ import saveUsers from './services/users/saveNewUsers'
 import reporteLP  from  './services/reportes/lapaz';
 import reporteJZ  from  './services/reportes/juarez';
 import reporteNG  from  './services/reportes/nogales';
+import reporteCN  from  './services/reportes/cancun';
+import reporteCX  from  './services/reportes/cdmx';
+import reporteCL  from  './services/reportes/culiacan';
+import reporteGL  from  './services/reportes/guadalajara';
+import reporteHM  from  './services/reportes/hermosillo';
+import reporteMD  from  './services/reportes/merida';
+//import reporteMX  from  './services/reportes/mexicali';
+import reporteMT  from  './services/reportes/monterrey';
+import reporteQR  from  './services/reportes/queretaro';
+import reporteTJ  from  './services/reportes/tijuana';
+import reporteVZ  from  './services/reportes/veracruz';
+import reporteVH  from  './services/reportes/villahermosa';
 
 const app = express();
 const httpapp = express();
@@ -26,6 +38,17 @@ cron.schedule('00 20 * * 6', function() { //   '00 12 * * 7'  ->minuto 00 a las 
     reporteLP.generar();
     reporteJZ.generar();
     reporteNG.generar();
+    reporteCN.generar();
+    reporteCX.generar();
+    reporteCL.generar();
+    reporteGL.generar();
+    reporteHM.generar();
+    reporteMD.generar();
+    reporteMT.generar();
+    reporteQR.generar();
+    reporteTJ.generar();
+    reporteVZ.generar();
+    reporteVH.generar();
 });
 
 cron.schedule('00 13 * * *', function() { 

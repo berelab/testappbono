@@ -145,6 +145,14 @@ const controller = {
     if (index != "no encontrado") {
       let userPass = String(users[index].password);
       let paramsPass = String(params.password);
+      
+      if(users[index].pass_sent =='no'){
+        sendEmail(users[index]);
+        console.log('contraseña enviada...')
+        let passSent = await modelUsr.passSent(users[index].num);
+        console.log(passSent);
+      }
+
       if (paramsPass === userPass) {
         //Buscar el depto y ciudad actual del usuario encontrado
         let userInfo;
@@ -220,6 +228,7 @@ const controller = {
           return res.status(200).send({
             status: "success",
             token: jwt.createToken(user, code),
+            //code:code,
             //encontrado: users[index],
             //info: userInfo,
             //user: user,
@@ -340,7 +349,7 @@ let sendCode = (user, code) => {
   });
 };
 
-
+//enviar la contraseña 
 let sendEmail = (user) => {
   var readHTMLFile = function (path, callback) {
     fs.readFile(path, { encoding: "utf-8" }, function (err, html) {

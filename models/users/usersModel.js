@@ -100,6 +100,18 @@ class userModel {
 
         return response.response.rowsAffected;
     }
+
+    async passSent(num) {
+        let response;
+
+        try {
+            response = await this.repository.updatePassSent(num);
+        } catch(error) {
+            throw error;
+        }
+
+        return response.response.rowsAffected;
+    }
     
     _convertData(response) {
         let users = []

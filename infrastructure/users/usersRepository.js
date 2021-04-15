@@ -77,7 +77,7 @@ class usersRepository {
         let pool;
         let len = users.length;
         for(var i=0; i<len; i++){
-         let queryString = `INSERT INTO colaboradores (name, num, email, password) VALUES ('${users[i].name}', '${users[i].num}' , '${users[i].email}', '${users[i].password}')`;
+         let queryString = `INSERT INTO colaboradores (name, num, email, password, pass_sent) VALUES ('${users[i].name}', '${users[i].num}' , '${users[i].email}', '${users[i].password}', 'no')`;
              try {
             pool = await appPoolPromise
             response = await pool.request()
@@ -158,10 +158,10 @@ class usersRepository {
     }
 
    
-    async update(num, password) {
+    async updatePassSent(num) {
         let response;
         let pool;
-        const queryString = `UPDATE colaboradores SET password = '${password}'  WHERE num = '${num}'`;
+        const queryString = `UPDATE colaboradores SET pass_sent = 'yes'  WHERE num = '${num}'`;
     
         try {
             pool = await appPoolPromise
