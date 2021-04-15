@@ -16,7 +16,7 @@ const oracleConnection = async(query) => {
      query
     );
     
-    console.log("Connected to ORACLE - PFANOI");
+    //console.log("Connected to ORACLE - PFANOI");
     return result
 
   } catch (err) {

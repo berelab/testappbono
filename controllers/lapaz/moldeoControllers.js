@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/lapaz/produccionRepository';
 import moldeoModels from '../../models/lapaz/moldeoModels';
 import SQLMoldeoRepository from '../../infrastructure/lapaz/MoldeoRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLMoldeoRepository();
-        const model = new moldeoModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new moldeoModels(repository,produccionRepo);
         let moldeo = await model.execute(); 
         const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
         let equipo = cd.convert;
@@ -36,7 +38,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLMoldeoRepository();
-        const model = new moldeoModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new moldeoModels(repository,produccionRepo);
         let moldeo = await model.execute();
         const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
         let equipo = cd.convert; 
@@ -143,7 +146,9 @@ const controller = {
                
             }
         }else{
-            return res.status(200).send({      
+            return res.status(200).send({   
+                m3: moldeo.blocks_moldeados,
+                as: asistencia_total,   
                 depto: moldeo.message,
                 day: weekdayName,
                 meta_semana: moldeo.base0,

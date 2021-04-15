@@ -169,13 +169,23 @@ class CorteModels {
 
         
         if(day == 1){
-            m3cortados = m3cortados //la produccion del lunes se refleja al dia siguiente e igual con los demas dias.
+            let fechaL = moment().format("DD/MMM/YYYY");
+            fechaL = fechaL.toUpperCase();
+            let produccionL = await this.produccionRepo.find(fechaL);
+            let totalL= this._convertProd(produccionL.rows)
+            m3cortados.lunes = totalL
         }else if(day == 2){
             let fechaL = moment().subtract(1, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
             let produccionL = await this.produccionRepo.find(fechaL);
             let totalL= this._convertProd(produccionL.rows)
             m3cortados.lunes = totalL
+
+            let fechaMa = moment().format("DD/MMM/YYYY");
+            fechaMa = fechaMa.toUpperCase();
+            let produccionMa = await this.produccionRepo.find(fechaMa);
+            let totalMa= this._convertProd(produccionMa.rows)
+            m3cortados.martes= totalMa
         }else if(day==3){
             let fechaL = moment().subtract(2, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
@@ -188,6 +198,12 @@ class CorteModels {
             let produccionMa = await this.produccionRepo.find(fechaMa);
             let totalMa= this._convertProd(produccionMa.rows)
             m3cortados.martes = totalMa
+
+            let fechaMi = moment().format("DD/MMM/YYYY");
+            fechaMi = fechaMi.toUpperCase();
+            let produccionMi = await this.produccionRepo.find(fechaMi);
+            let totalMi= this._convertProd(produccionMi.rows)
+            m3cortados.miercoles = totalMi
         }else if(day==4){
             let fechaL = moment().subtract(3, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
@@ -206,6 +222,12 @@ class CorteModels {
             let produccionMi = await this.produccionRepo.find(fechaMi);
             let totalMi= this._convertProd(produccionMi.rows)
             m3cortados.miercoles = totalMi
+
+            let fechaJ = moment().format("DD/MMM/YYYY");
+            fechaJ = fechaJ.toUpperCase();
+            let produccionJ = await this.produccionRepo.find(fechaJ);
+            let totalJ= this._convertProd(produccionJ.rows)
+            m3cortados.jueves = totalJ
         }else if(day == 5){
             let fechaL = moment().subtract(4, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
@@ -230,6 +252,12 @@ class CorteModels {
             let produccionJ = await this.produccionRepo.find(fechaJ);
             let totalJ= this._convertProd(produccionJ.rows)
             m3cortados.miercoles = totalJ
+
+            let fechaV = moment().format("DD/MMM/YYYY");
+            fechaV = fechaV.toUpperCase();
+            let produccionV = await this.produccionRepo.find(fechaV);
+            let totalV= this._convertProd(produccionV.rows)
+            m3cortados.viernes = totalV
         }else if(day== 6){
             let fechaL = moment().subtract(5, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
@@ -260,6 +288,12 @@ class CorteModels {
             let produccionV = await this.produccionRepo.find(fechaV);
             let totalV= this._convertProd(produccionV.rows)
             m3cortados.viernes = totalV
+
+            let fechaS = moment().format("DD/MMM/YYYY");
+            fechaS = fechaS.toUpperCase();
+            let produccionS = await this.produccionRepo.find(fechaS);
+            let totalS= this._convertProd(produccionS.rows)
+            m3cortados.sabado = totalS
         }else if(day == 7){
             let fechaL = moment().subtract(6, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();

@@ -461,7 +461,7 @@ class CalcsN {
                 if(percepcion_Total_Por_M3Base[i]==0){  // percepcion es 0
                     percepcionTotal.push(0); 
                 }else{
-                    let total = percepcion_Total_Por_M3Base[i]+$porDesperdicio[i]+$porAuditoriaSOL[i]-$porQuejas[i]+$porRechazoInterno[i];
+                    let total = percepcion_Total_Por_M3Base[i]+$porDesperdicio[i]+$porAuditoriaSOL[i]; //-$porQuejas[i]+$porRechazoInterno[i];
                     percepcionTotal.push(total); 
                 }
             }
