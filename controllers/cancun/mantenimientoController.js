@@ -4,6 +4,7 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/cancun/mantenimientoModel';
 import SQLMantenimiento from '../../infrastructure/cancun/mantenimientoRepo';
+import oracleProduccionRepo from '../../infrastructure/cancun/produccionRepository';
 //corte
 import corteModel from '../../models/cancun/corteModel';
 import SQLCorte from '../../infrastructure/cancun/corteRepo';
@@ -18,12 +19,14 @@ import convertData from '../ConvertData';
 const controller = {
 	
 	home: async (req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
+
         const repositoryC = new SQLCorte();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC, produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryM = new SQLMoldeo();
-        const modelM = new moldeoModel(repositoryM);
+        const modelM = new moldeoModel(repositoryM, produccionRepo);
         let moldeo = await modelM.execute(); 
 
         let percCorte =  percepcionCorte(corte);
@@ -58,12 +61,14 @@ const controller = {
     },
     
     calculator: async (req, res)=>{
+        const produccionRepo = new oracleProduccionRepo();
+
         const repositoryC = new SQLCorte();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC, produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryM = new SQLMoldeo();
-        const modelM = new moldeoModel(repositoryM);
+        const modelM = new moldeoModel(repositoryM, produccionRepo);
         let moldeo = await modelM.execute(); 
 
         let percCorte =  percepcionCorte(corte);

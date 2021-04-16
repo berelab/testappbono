@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/cancun/produccionRepository';
 import almacenModel from '../../models/cancun/almacenModel';
 import SQLAlmacen from '../../infrastructure/cancun/almacenRepo';
 import mainCalcs from '../MainCalcs';
@@ -13,11 +14,12 @@ const controller = {
 	
     home: async(req, res) => {
         const repository = new SQLAlmacen();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository, produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
-
+        let m3_cortados_totales = almacen.m3_desplazados.lunes +  almacen.m3_desplazados.martes + almacen.m3_desplazados.miercoles + almacen.m3_desplazados.jueves + almacen.m3_desplazados.viernes + almacen.m3_desplazados.sabado
 		return res.status(200).send({
             message: almacen.message,
             base0: almacen.base0,
@@ -26,6 +28,7 @@ const controller = {
             dias: almacen.dias,
             factor_dias_laborados: almacen.factor_dias_laborados,
             diferencia_inv: almacen.diferencia_inv,
+            m3_cortados_totales:m3_cortados_totales,
             m3_desplazados: almacen.m3_desplazados,
             asistencia: almacen.team_asis,
             equipo_convertido: equipo            
@@ -34,7 +37,8 @@ const controller = {
     
     calculator: async (req, res)=>{
         const repository = new SQLAlmacen();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository, produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
