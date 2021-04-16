@@ -208,7 +208,7 @@ class Electrolux {
             fechaJ = fechaJ.toUpperCase();
             let produccionJ = await this.produccionRepo.find(fechaJ);
             let totalJ= this._convertProd(produccionJ.rows)
-            m3cortados.miercoles = totalJ
+            m3cortados.jueves = totalJ
 
             let fechaV = moment().format("DD/MMM/YYYY");
             fechaV = fechaV.toUpperCase();
