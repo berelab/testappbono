@@ -11,6 +11,9 @@ class Placa {
         let teamResponse;
         let entries;
         let extra;
+        let amp;
+        let valorReal = this._convertMonth();
+        let year = this._getYear();
         let produccion;
         let day = moment().weekday()
         try {
@@ -18,12 +21,13 @@ class Placa {
             teamResponse = await this.repository.findTeam();
             entries = await this.repository.entryTimes();
             extra = await this.repository.extraData();
+            amp = await this.repository.indicator(year, valorReal);
             produccion = await this._produccion(day)
         } catch(error) {
             throw error;
         }
 
-        return this._convertData(response, teamResponse, this._reorderData(entries), extra,produccion);
+        return this._convertData(response, teamResponse, this._reorderData(entries), extra,amp,produccion);
     }
 
     async refresh(base, dias_sucios, extra_m3) {
@@ -38,7 +42,7 @@ class Placa {
         return response;
     }
 
-    _convertData(response, team, entries, extra,produccion) {
+    _convertData(response, team, entries, extra,amp,produccion) {
         return {            
             message: 'Placa',
             city: 'Juarez',
@@ -46,7 +50,7 @@ class Placa {
             auditoria_sol: response.dirty_days,
             $_extra_m3: response.extra,
             dias: extra.dias,
-            desperdicio: .1699,
+            desperdicio: amp,
             factor_dias_laborados: extra.factor,
             horas_por_turno: 9.6,
             horas_extra_dobles: 0,
@@ -115,6 +119,43 @@ class Placa {
         return result
     }
     
+    _convertMonth(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        if(month==0){ 
+            return 'ValorReal12'
+        }else if(month==1){
+            return 'ValorReal1'
+        }else if(month==2){
+            return 'ValorReal2'
+        }else if(month==3){
+            return 'ValorReal3'
+        }else if(month==4){
+            return 'ValorReal4'
+        }else if(month==5){
+            return 'ValorReal5'
+        }else if(month==6){
+            return 'ValorReal6'
+        }else if(month==7){
+            return 'ValorReal7'
+        }else if(month==8){
+            return 'ValorReal8'
+        }else if(month==9){
+            return 'ValorReal9'
+        }else if(month==10){
+            return 'ValorReal10'
+        }else if(month==11){
+            return 'ValorReal11'
+        }
+    }
+    
+    _getYear(){
+        let dateObj = new Date();
+        let month = dateObj.getMonth();
+        let year = dateObj.getFullYear();
+        month == 0? year = year-1: year  
+        return year
+    }
     async _produccion (day){
         let m3cortados ={
             lunes: 0,

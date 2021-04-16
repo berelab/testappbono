@@ -93,6 +93,26 @@ class PlacaRepository {
         }
     }
 
+    
+    async indicator(year, valorReal){
+        let response;
+        let pool;
+         
+        const queryString = `SELECT 
+                             ${valorReal} as desperdicio
+                            FROM DatoReporte 
+                            WHERE IndicadorID = 15 and EntidadID = 4 and Periodo = ${year}`;
+        try {
+            pool = await tablPoolPromise
+            response = await pool.request()
+            .query(queryString);
+        } catch (error) {
+            console.log(error);
+        }
+        return  response.recordset[0].desperdicio
+    }
+
+
     async findProdDepto() {
         let response;
         let pool;
