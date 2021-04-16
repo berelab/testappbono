@@ -14,8 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLKbrsRepository();
-        const produccionRepo = new oracleProduccionRepo();
-        const model = new kbrsModel(repository,produccionRepo);
+        //const produccionRepo = new oracleProduccionRepo();
+        const model = new kbrsModel(repository);
         let kbrs = await model.execute(); 
         const cd =  new convertData(kbrs.equipo, kbrs.team_asis);
         let equipo = cd.convert;
@@ -35,8 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLKbrsRepository();
-        const produccionRepo = new oracleProduccionRepo();
-        const model = new kbrsModel(repository,produccionRepo);
+        //const produccionRepo = new oracleProduccionRepo();
+        const model = new kbrsModel(repository);
         let kbrs = await model.execute(); 
         const cd =  new convertData(kbrs.equipo, kbrs.team_asis);
         let equipo = cd.convert;
