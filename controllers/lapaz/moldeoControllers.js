@@ -146,9 +146,7 @@ const controller = {
                
             }
         }else{
-            return res.status(200).send({   
-                m3: moldeo.blocks_moldeados,
-                as: asistencia_total,   
+            return res.status(200).send({    
                 depto: moldeo.message,
                 day: weekdayName,
                 meta_semana: moldeo.base0,

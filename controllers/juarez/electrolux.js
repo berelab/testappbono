@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import electroluxModel from '../../models/juarez/electrolux';
 import SQLElectroluxRepository from '../../infrastructure/juarez/ElectroluxRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLElectroluxRepository();
-        const model = new electroluxModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new electroluxModel(repository,produccionRepo);
         let electrolux = await model.execute(); 
         const cd =  new convertData(electrolux.equipo, electrolux.team_asis);
         let equipo = cd.convert;
@@ -32,7 +34,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLElectroluxRepository();
-        const model = new electroluxModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new electroluxModel(repository,produccionRepo);
         let electrolux = await model.execute(); 
         const cd =  new convertData(electrolux.equipo, electrolux.team_asis);
         let equipo = cd.convert;

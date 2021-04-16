@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import placaModel from '../../models/juarez/placa';
 import SQLPlacaRepository from '../../infrastructure/juarez/PlacaRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLPlacaRepository();
-        const model = new placaModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new placaModel(repository,produccionRepo);
         let placa = await model.execute(); 
         const cd =  new convertData(placa.equipo, placa.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLPlacaRepository();
-        const model = new placaModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new placaModel(repository,produccionRepo);
         let placa = await model.execute(); 
         const cd =  new convertData(placa.equipo, placa.team_asis);
         let equipo = cd.convert;

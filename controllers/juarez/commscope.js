@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import commscopeModel from '../../models/juarez/commscope';
 import SQLCommscopeRepository from '../../infrastructure/juarez/CommscopeRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLCommscopeRepository();
-        const model = new commscopeModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new commscopeModel(repository, produccionRepo);
         let commscope = await model.execute(); 
         const cd =  new convertData(commscope.equipo, commscope.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLCommscopeRepository();
-        const model = new commscopeModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new commscopeModel(repository, produccionRepo);
         let commscope = await model.execute(); 
         const cd =  new convertData(commscope.equipo, commscope.team_asis);
         let equipo = cd.convert;

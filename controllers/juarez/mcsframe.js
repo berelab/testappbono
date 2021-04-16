@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import mcsframeModel from '../../models/juarez/mcsframe';
 import SQLMcsframeRepository from '../../infrastructure/juarez/McsframeRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLMcsframeRepository();
-        const model = new mcsframeModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new mcsframeModel(repository,produccionRepo);
         let mcsframe = await model.execute(); 
         const cd =  new convertData(mcsframe.equipo, mcsframe.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLMcsframeRepository();
-        const model = new mcsframeModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new mcsframeModel(repository,produccionRepo);
         let mcsframe = await model.execute(); 
         const cd =  new convertData(mcsframe.equipo, mcsframe.team_asis);
         let equipo = cd.convert;

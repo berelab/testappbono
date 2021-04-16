@@ -146,12 +146,13 @@ const controller = {
       let userPass = String(users[index].password);
       let paramsPass = String(params.password);
       
+      /* pendiente activar
       if(users[index].pass_sent =='no'){
         sendEmail(users[index]);
         console.log('contraseña enviada...')
         let passSent = await modelUsr.passSent(users[index].num);
         console.log(passSent);
-      }
+      }*/
 
       if (paramsPass === userPass) {
         //Buscar el depto y ciudad actual del usuario encontrado

@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import aosmithModel from '../../models/juarez/aosmith';
 import SQLAosmithRepository from '../../infrastructure/juarez/AosmithRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLAosmithRepository();
-        const model = new aosmithModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new aosmithModel(repository,produccionRepo);
         let aosmith = await model.execute(); 
         const cd =  new convertData(aosmith.equipo, aosmith.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLAosmithRepository();
-        const model = new aosmithModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new aosmithModel(repository,produccionRepo);
         let aosmith = await model.execute(); 
         const cd =  new convertData(aosmith.equipo, aosmith.team_asis);
         let equipo = cd.convert;

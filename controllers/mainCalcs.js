@@ -349,7 +349,7 @@ class MainCalcs {
             premio_castigo_desperdicio = clacs.desperdicios;
             premio_castigo_densidad_bobedilla = clacs.densidadBobedilla;
             premio_castigo_densidad_ins = clacs.densidadIns16;
-            percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_desperdicio ; //+ premio_castigo_densidad_bobedilla + premio_castigo_densidad_ins;
+            percepcion_total = percepcion_total_m3_base + extra_diasSucios + premio_castigo_desperdicio //+ premio_castigo_densidad_bobedilla + premio_castigo_densidad_ins;
          }else if(depto == 'Moldeo' && city == 'Nogales'){
             premio_castigo_desperdicio = clacs.desperdicios2;
             premio_castigo_ordenLimpieza = clacs.ordenLimpieza;

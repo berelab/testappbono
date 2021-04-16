@@ -4,6 +4,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/cancun/produccionRepository';
 import corteModel from '../../models/cancun/corteModel';
 import SQLCorte from '../../infrastructure/cancun/corteRepo';
 import mainCalcs from '../MainCalcs';
@@ -14,7 +15,8 @@ const controller = {
 	
     home: async (req, res) => {
         const repository = new SQLCorte();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;
@@ -34,7 +36,8 @@ const controller = {
     },
     calculator: async (req, res)=>{
         const repository = new SQLCorte();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;

@@ -3,7 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
-
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import kbrsModel from '../../models/juarez/kbrs';
 import SQLKbrsRepository from '../../infrastructure/juarez/KbrsRepository';
 import mainCalcs from '../MainCalcs';
@@ -14,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLKbrsRepository();
-        const model = new kbrsModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new kbrsModel(repository,produccionRepo);
         let kbrs = await model.execute(); 
         const cd =  new convertData(kbrs.equipo, kbrs.team_asis);
         let equipo = cd.convert;
@@ -34,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLKbrsRepository();
-        const model = new kbrsModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new kbrsModel(repository,produccionRepo);
         let kbrs = await model.execute(); 
         const cd =  new convertData(kbrs.equipo, kbrs.team_asis);
         let equipo = cd.convert;

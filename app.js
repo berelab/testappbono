@@ -34,6 +34,7 @@ const options = {
     cert: fs.readFileSync('C:\\certificates\\appbono.fanosa.com-crt.pem')
 }
 
+/*
 cron.schedule('00 20 * * 6', function() { //   '00 12 * * 7'  ->minuto 00 a las 12pm   todos los dias  todos los meses que sea domingo(7).
     reporteLP.generar();
     reporteJZ.generar();
@@ -49,9 +50,9 @@ cron.schedule('00 20 * * 6', function() { //   '00 12 * * 7'  ->minuto 00 a las 
     reporteTJ.generar();
     reporteVZ.generar();
     reporteVH.generar();
-});
+});*/
 
-cron.schedule('00 13 * * *', function() { 
+cron.schedule('00 13 * * *', function() { //guardar usuarios nuevos
     saveUsers.execute();
  });
 
