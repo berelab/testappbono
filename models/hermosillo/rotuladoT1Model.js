@@ -47,11 +47,11 @@ class RotuladoModel {
             amp:0,      
             horas_por_turno: 0, 
             produccion: {
-                lunes: 3000,
-                martes: 3000,
-                miercoles: 0,
-                jueves: 3000,
-                viernes: 2225,
+                lunes:0,
+                martes: 0,
+                miercoles: 3000,
+                jueves: 0,
+                viernes: 0,
                 sabado: 0,
                 domingo: 0
             },

@@ -17,7 +17,9 @@ const controller = {
         let rotulado = await model.execute(); 
         const cd =  new convertData(rotulado.equipo, rotulado.team_asis);
         let equipo = cd.convert;
-
+        const calcAtt = new att(equipo, rotulado.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 		return res.status(200).send({
             message: rotulado.message, 
             city: rotulado.city, 
@@ -29,7 +31,9 @@ const controller = {
             amp: rotulado.amp,           
             produccion: rotulado.produccion, 
             asistencia: rotulado.team_asis,
-            equipo_convertido: equipo
+            equipo_convertido: equipo,
+            colaboradores:colaboradores,
+            asistencia_total, asistencia_total
         });
     },
     
@@ -70,9 +74,8 @@ const controller = {
             rotulado.horas_por_turno,
         );
 
-        let daily_prod = calc.dailyProd;
         let sumatoria_asistencia = calc.totalAsistencia;
-        let progress = calc.progress_bar;  
+      
         
           /** calculos especificos */
         const calN = new calcsN(
@@ -94,15 +97,29 @@ const controller = {
             colaboradores
         );
 
-        //let m3_persona =  calN.m3CortadosPersona; 
-        let m3cortados_persona = calc.m3Persona;
+        let m3 =  calN.m3CortadosPersona; 
+        let totalm3persona =0;
+        for(var i=0; i<m3.length; i++){
+            totalm3persona= totalm3persona+m3[i];
+        }
+        let percepcionM3BaseDia =calN.percepcionTotalM3Base;
+        let totalpmbd =0;
+        for(var i =0; i<percepcionM3BaseDia.length; i++){
+            totalpmbd= totalpmbd + percepcionM3BaseDia[i];
+        }
+
+        let daily_prod = dailyProd(colaboradores,rotulado.produccion, weekdayName);
+        let progress = calc.progress_bar;  
+
+
+        //let m3cortados_persona = calc.m3Persona;
         let bono_depto = calN.percepcionTotalPorSemana;
         let pago_colaboradores = calc.pagoTotal;
         let pago_total_sin_penalizacion = calc.pagoTotalSinPenalizacion;
         let bono_Total_con_penalizacion_por_colaborador = calc.bonoTotalConPenalizacionPorColaborador;
         let bono_total = calc.bonoTotalConPenalizacion;
-        let bono_productividad = calc.bonoProductividad; 
-        let bono_metas = calc.pc_metas; 
+        let bono_productividad =  totalpmbd; 
+        let bono_metas = bono_depto- totalpmbd; 
 
         //generar reporte
         if(weekdayName =='domingo'){
@@ -147,7 +164,7 @@ const controller = {
                     dias_laborados: rotulado.dias, 
                     $_extra_m3: rotulado.$_extra_m3,       
                     progress: progress,
-                    m3_persona: m3cortados_persona,
+                    m3_persona: totalm3persona,
                     bono_depto: bono_depto,  
                     pago_persona:pago_colaboradores[i], 
                     bono_persona: bono_Total_con_penalizacion_por_colaborador[i],
@@ -167,7 +184,7 @@ const controller = {
                 dias_laborados: rotulado.dias,
                 $_extra_m3: rotulado.$_extra_m3,
                 progress: progress,
-                m3_persona: m3cortados_persona,
+                m3_persona: totalm3persona,
                 bono_depto: bono_depto,
                 pago_persona:pago_colaboradores, 
                 pago_total: pago_total_sin_penalizacion, 
@@ -220,5 +237,28 @@ const controller = {
     }
     
 };
+
+let dailyProd =(colaboradores, produccion, dia)=>{
+    let total =0;
+    if(dia=='lunes'){
+        colaboradores.lunes ==0 && produccion.lunes==0? total :total = produccion.lunes /colaboradores.lunes 
+    }else if(dia=='martes'){
+        colaboradores.martes ==0 && produccion.martes==0? total :total = produccion.martes / colaboradores.martes 
+    }else if(dia=='miercoles'){
+        colaboradores.miercoles ==0 && produccion.miercoles==0? total : total = produccion.miercoles / colaboradores.miercoles
+    }else if(dia=='jueves'){
+        colaboradores.jueves ==0 && produccion.jueves==0? total :total = produccion.jueves / colaboradores.jueves  
+    }else if(dia=='viernes'){
+        colaboradores.viernes ==0 && produccion.viernes==0? total : total = produccion.viernes / colaboradores.viernes 
+    }else if(dia=='sabado'){
+        colaboradores.sabado ==0 && produccion.sabado==0? total : total =produccion.sabado / colaboradores.sabado 
+    }else if(dia=='domingo'){
+        total=0;
+    }
+
+    return total;
+}
+
+
 
 module.exports = controller; 
