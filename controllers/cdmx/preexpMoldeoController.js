@@ -3,21 +3,27 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/cdmex/produccionRepository';
 import bloqueraModel from '../../models/cdmx/preexpMoldeoModel';
 import bloqueraSQL from '../../infrastructure/cdmex/bloqueraRepo';
 import mainCalcs from '../MainCalcs';
-// import convertData from '../ConvertData';
-// import att from '../Attendance';
+ import convertData from '../ConvertData';
+ import att from '../Attendance';
 
 const controller = {
 
     home: async(req, res) =>{
         const repository = new bloqueraSQL();
-        const model = new bloqueraModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new bloqueraModel(repository,produccionRepo);
         let bloquera = await model.execute(); 
 
-        // const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
-        // let equipo = cd.convert;
+         const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+         let equipo = cd.convert;
+
+         const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+         let colaboradores = calcAtt.colaboradoresPorDia;
+         let asistencia_total = calcAtt.asistenciaTotal;
 
         return res.status(200).send({
             message: bloquera.message, 
@@ -28,26 +34,25 @@ const controller = {
             factor_dias_laborados: bloquera.factor_dias_laborados,
             amp: bloquera.amp, 
             num_quejas: bloquera.num_quejas, 
-            blocks_cortados: bloquera.blocks_cortados,
-            asistencia: bloquera.asistencia_total,            
-            colaboradores: bloquera.colaboradores, 
-            equipo_convertido: bloquera.equipo,
-            // asistencia: bloquera.team_asis,
-            // equipo_convertido: equipo     
+            blocks_cortados: bloquera.blocks_cortados,          
+             equipo_convertido: equipo ,
+             colaboradores: colaboradores,
+             asistencia_total, asistencia_total    
         });
     },
 
     calculator: async(req, res)=>{
         const repository = new bloqueraSQL();
-        const model = new bloqueraModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new bloqueraModel(repository,produccionRepo);
         let bloquera = await model.execute(); 
 
-        // const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
-        // let equipo = cd.convert;
+         const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+         let equipo = cd.convert;
 
-        // const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
-        // let colaboradores = calcAtt.colaboradoresPorDia;
-        // let asistencia_total = calcAtt.asistenciaTotal;
+         const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+         let colaboradores = calcAtt.colaboradoresPorDia;
+         let asistencia_total = calcAtt.asistenciaTotal;
 
         let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
         let dateObj = new Date();
@@ -57,10 +62,10 @@ const controller = {
         const calc = new mainCalcs(
             bloquera.dias, 
             bloquera.blocks_cortados, 
-            bloquera.colaboradores, 
-            bloquera.asistencia_total, 
+            colaboradores, 
+            asistencia_total, 
             weekdayName, 
-            bloquera.equipo, 
+            equipo, 
             bloquera.base0, 
             bloquera.$_extra_m3, 
             bloquera.dias_sucios, 

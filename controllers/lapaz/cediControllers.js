@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/lapaz/produccionRepository';
 import cedeiModels from '../../models/lapaz/cedeiModels';
 import SQLCediRepository from '../../infrastructure/lapaz/CediRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 
 	home: async(req, res) => {
         const repository = new SQLCediRepository();
-        const model = new cedeiModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new cedeiModels(repository,produccionRepo);
         let cedi = await model.execute(); 
         const cd =  new convertData(cedi.equipo, cedi.team_asis);
         let equipo = cd.convert;
@@ -34,7 +36,8 @@ const controller = {
     calculator: async(req, res)=>{
 
         const repository = new SQLCediRepository();
-        const model = new cedeiModels(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new cedeiModels(repository,produccionRepo);
         let cedi = await model.execute(); 
         const cd =  new convertData(cedi.equipo, cedi.team_asis);
         let equipo = cd.convert;

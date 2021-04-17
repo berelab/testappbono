@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/cdmex/produccionRepository';
 import corteModel from '../../models/cdmx/corteConstModel';
 import CorteSQL from '../../infrastructure/cdmex/corteRepo';
 import mainCalcs from '../MainCalcs';
@@ -12,7 +13,8 @@ import att from '../Attendance';
 const controller ={
     home: async (req,res) =>{
         const repository = new CorteSQL();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
 
         const cd =  new convertData(corte.equipo, corte.team_asis);
@@ -35,7 +37,8 @@ const controller ={
 
     calculator: async (req, res)=>{
         const repository = new CorteSQL();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
 
         const cd =  new convertData(corte.equipo, corte.team_asis);

@@ -1,5 +1,5 @@
 'use strict'
-
+const { tablPoolPromise } = require ('../prodSQLClientTab');
 const { prodPoolPromise } = require ('../prodSQLClient');
 const { appPoolPromise } = require ('../appSQLClient');
 

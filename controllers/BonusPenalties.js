@@ -94,7 +94,7 @@ export default class BonusPenalties {
         let extra_amp;
         let premio_castigo_amp;
         if(city == 'Juarez') {
-            this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicio13//calc.desperdicios2;
+            premio_castigo_amp = calc.desperdicio13//this.depto == 'Placa' || this.depto == 'Aligerante' ? premio_castigo_amp = calc.desperdicios3 : premio_castigo_amp = calc.desperdicio13//calc.desperdicios2;
         }else if(city == 'La Paz'){
             if(this.depto=='Corte'){
                 premio_castigo_amp = calc.desperdicio13;

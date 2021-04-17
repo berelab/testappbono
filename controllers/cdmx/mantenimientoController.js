@@ -4,6 +4,7 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/cdmx/mantenimientoModel';
 import SQLMantenimiento from '../../infrastructure/cdmex/mantenimientoRepo';
+import oracleProduccionRepo from '../../infrastructure/cdmex/produccionRepository';
 import mainCalcs from '../MainCalcs';
 import att from '../Attendance';
 import convertData from '../ConvertData';
@@ -16,12 +17,13 @@ import bloqueraSQL from '../../infrastructure/cdmex/bloqueraRepo';
 const controller = {
 	
 	home: async (req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new CorteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
         
         let percCorte =  percepcionCorte(corte);
@@ -54,12 +56,13 @@ const controller = {
     
     calculator: async(req, res)=>{
 
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new CorteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
         
         let percCorte =  percepcionCorte(corte);
@@ -266,35 +269,42 @@ let percepcionCorte =  (corte) =>{
 
 let percepcionBloquera = (bloquera) =>{
 
-    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
-    let dateObj = new Date();
-    let weekdayNumber = dateObj.getDay();
-    let weekdayName = arrayOfWeekdays[weekdayNumber];
+    const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
+    let equipo = cd.convert;
 
-    const calc = new mainCalcs(
-        bloquera.dias, 
-        bloquera.blocks_cortados, 
-        bloquera.colaboradores, 
-        bloquera.asistencia_total, 
-        weekdayName, 
-        bloquera.equipo, 
-        bloquera.base0, 
-        bloquera.$_extra_m3, 
-        bloquera.dias_sucios, 
-        bloquera.factor_dias_laborados,
-        bloquera.message,
-        bloquera.city,
-        bloquera.amp,
-        null,
-        null,
-        null,
-        null,
-        bloquera.horas_por_turno,
-        bloquera.num_quejas
-    );
+    const calcAtt = new att( equipo, bloquera.factor_dias_laborados);
+    let colaboradores = calcAtt.colaboradoresPorDia;
+    let asistencia_total = calcAtt.asistenciaTotal;
 
+   let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+   let dateObj = new Date();
+   let weekdayNumber = dateObj.getDay();
+   let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-    let percepcion_total= calc.percepcionTotal;
+   const calc = new mainCalcs(
+       bloquera.dias, 
+       bloquera.blocks_cortados, 
+       colaboradores, 
+       asistencia_total, 
+       weekdayName, 
+       equipo, 
+       bloquera.base0, 
+       bloquera.$_extra_m3, 
+       bloquera.dias_sucios, 
+       bloquera.factor_dias_laborados,
+       bloquera.message,
+       bloquera.city,
+       bloquera.amp,
+       null,
+       null,
+       null,
+       null,
+       bloquera.horas_por_turno,
+       bloquera.num_quejas
+   );
+
+  
+   let percepcion_total= calc.percepcionTotal;
 
 return percepcion_total
 }

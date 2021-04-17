@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/juarez/produccionRepository';
 import almacenModel from '../../models/juarez/almacen';
 import SQLAlmacenRepository from '../../infrastructure/juarez/AlmacenRepository';
 import mainCalcs from '../MainCalcs';
@@ -13,7 +14,8 @@ const controller = {
 	
 	home: async(req, res) => {
         const repository = new SQLAlmacenRepository();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository, produccionRepo );
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new SQLAlmacenRepository();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository, produccionRepo );
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
