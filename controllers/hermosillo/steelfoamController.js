@@ -27,7 +27,7 @@ const controller = {
             dias: steelfoam.dias, 
             factor_dias_laborados: steelfoam.factor_dias_laborados,  
             amp: steelfoam.amp,           
-            m2_cortados: steelfoam.m3_cortados, 
+            m2_cortados: steelfoam.m2_cortados, 
             asistencia: steelfoam.team_asis,
             equipo_convertido: equipo,  
         });

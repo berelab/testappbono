@@ -26,7 +26,7 @@ const controller ={
             $_extra_m3: moldeo.$_extra_m3,        
             dias: moldeo.dias,
             factor_dias_laborados: moldeo.factor_dias_laborados,
-            m3_desplazados: moldeo.m3_desplazados,
+            m3_desplazados: moldeo.m3_cortados,
             asistencia: moldeo.team_asis,
             equipo_convertido: equipo 
         });
