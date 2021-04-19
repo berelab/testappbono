@@ -3,10 +3,10 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
-
 import {depto,ciudad,cargas, monto_a_repartir, asist,pago_por_asistencia} from '../../models/queretaro/cargasIPAlmacenModel';
 import almacenModel from '../../models/queretaro/almacenModel';
 import almacenSQL from '../../infrastructure/queretaro/almacenRepo';
+import oracleProduccionRepo from '../../infrastructure/queretaro/produccionRepository';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
@@ -14,7 +14,8 @@ import att from '../Attendance';
 const controller ={
     home: async(req,res) =>{
         const repository = new almacenSQL();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
@@ -35,7 +36,8 @@ const controller ={
 
     calculator: async(req, res)=>{
         const repository = new almacenSQL();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
@@ -77,7 +79,7 @@ const controller ={
             almacen.dias, 
             almacen.m3_cortados, 
             colaboradores, 
-            asistenciaTotal, 
+            asistencia_total, 
             weekdayName, 
             equipo, 
             almacen.base0, 
