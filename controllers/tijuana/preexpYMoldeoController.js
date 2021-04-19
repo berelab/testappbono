@@ -8,11 +8,13 @@ import bloqueraSQL from '../../infrastructure/tijuana/bloqueraRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/tijuana/produccionRepository';
 
 const controller = {	
     home: async(req, res) => {
         const repository = new bloqueraSQL();
-        const model = new bloqueraModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new bloqueraModel(repository,produccionRepo);
         let bloquera = await model.execute(); 
         const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new bloqueraSQL();
-        const model = new bloqueraModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new bloqueraModel(repository,produccionRepo);
         let bloquera = await model.execute(); 
         const cd =  new convertData(bloquera.equipo, bloquera.team_asis);
         let equipo = cd.convert;
