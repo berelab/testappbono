@@ -9,11 +9,14 @@ import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
 import calcsN from  '../calcsN';
+import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
+
 
 const controller = {	
 	home: async(req, res) => {
         const repository = new rotuladoSQL();
-        const model = new rotuladoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new rotuladoModel(repository, produccionRepo);
         let rotulado = await model.execute(); 
         const cd =  new convertData(rotulado.equipo, rotulado.team_asis);
         let equipo = cd.convert;
@@ -39,7 +42,8 @@ const controller = {
     
     calculator: async(req, res)=>{
         const repository = new rotuladoSQL();
-        const model = new rotuladoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new rotuladoModel(repository, produccionRepo);
         let rotulado = await model.execute(); 
         const cd =  new convertData(rotulado.equipo, rotulado.team_asis);
         let equipo = cd.convert;
