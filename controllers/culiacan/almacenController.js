@@ -8,11 +8,12 @@ import SQLAlmacen from '../../infrastructure/culiacan/almacenRepo';
 import mainCalcs from '../MainCalcs';
 import att from '../Attendance';
 import convertData from '../ConvertData';
-
+import oracleProduccionRepo from '../../infrastructure/culiacan/produccionRepository';
 const controller ={
     home: async(req,res) =>{
         const repository = new SQLAlmacen();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
@@ -32,7 +33,8 @@ const controller ={
 
     calculator: async(req, res)=>{
         const repository = new SQLAlmacen();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo);
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;

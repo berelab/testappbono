@@ -8,11 +8,12 @@ import almacenSQL from '../../infrastructure/merida/almacenRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-
+import oracleProduccionRepo from '../../infrastructure/merida/produccionRepository';
 const controller ={
     home: async(req,res) =>{
         const repository = new almacenSQL();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo );
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;
@@ -32,7 +33,8 @@ const controller ={
 
     calculator: async(req, res)=>{
         const repository = new almacenSQL();
-        const model = new almacenModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new almacenModel(repository,produccionRepo );
         let almacen = await model.execute(); 
         const cd =  new convertData(almacen.equipo, almacen.team_asis);
         let equipo = cd.convert;

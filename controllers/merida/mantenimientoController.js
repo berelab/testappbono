@@ -14,16 +14,17 @@ import bloqueraSQL from '../../infrastructure/merida/bloqueraRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-
+import oracleProduccionRepo from '../../infrastructure/merida/produccionRepository';
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         let percCorte =  percepcionCorte(corte);

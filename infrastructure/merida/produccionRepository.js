@@ -136,6 +136,150 @@ class OracleProduccionRepository {
 
         return response
     }
+
+     // Almacenes , Choferes
+     async findDespl(inicio, fin) {
+        let response;
+        const queryString = `SELECT organization_name, sum(volumen), attribute15 FROM
+        (
+        SELECT 
+            (   SELECT  NAME
+                FROM    apps.HR_ALL_ORGANIZATION_UNITS
+                WHERE   ORGANIZATION_ID = Remisiones.ORGANIZATION_ID) ORGANIZATION_NAME,
+            Remisiones.INITIAL_PICKUP_DATE,
+            Remisiones.NAME,
+            Clientes.CUSTOMER_NAME,
+            Transp.FREIGHT_CODE,
+            Productos.SEGMENT1 || '-' || Productos.SEGMENT2 CODIGO,
+            Productos.DESCRIPTION,
+            RemDetails.REQUESTED_QUANTITY_UOM,
+            case when Productos.UNIT_VOLUME is null then 
+                   1
+            else
+                 sum(RemDetails.PICKED_QUANTITY * nvl(Productos.UNIT_VOLUME, 0)) 
+            end Volumen,
+            sum(Remdetails.SHIPPED_QUANTITY) Unidades,
+            RemDetails.SOURCE_HEADER_NUMBER num_order
+              , Remisiones.attribute15 
+        FROM
+            apps.WSH_DELIVERY_ASSIGNMENTS Asignaciones,
+            apps.WSH_NEW_DELIVERIES Remisiones,
+            apps.WSH_DELIVERY_DETAILS RemDetails,
+            apps.MTL_SYSTEM_ITEMS_B Productos,
+            apps.WSH_CARRIERS_V Transp,    
+            apps.AR_CUSTOMERS Clientes
+        WHERE
+            Remisiones.INITIAL_PICKUP_DATE between '${inicio}' AND '${fin}'--:P_FECHA_INI and :P_FECHA_FIN + 1
+            and Remisiones.ORGANIZATION_ID =   509
+            and Productos.ORGANIZATION_ID = 186
+            and (Productos.segment1 not in ('MREC') and Remisiones.customer_id not in (1674, 6204)) 
+            and Remisiones.DELIVERY_ID = Asignaciones.DELIVERY_ID
+            and RemDetails.DELIVERY_DETAIL_ID = Asignaciones.DELIVERY_DETAIL_ID
+            and Productos.INVENTORY_ITEM_ID = RemDetails.INVENTORY_ITEM_ID
+            and Transp.CARRIER_ID (+)= Remisiones.CARRIER_ID
+            and Clientes.CUSTOMER_ID = RemDetails.CUSTOMER_ID
+            and NOT EXISTS (    SELECT  'X' 
+                                FROM    apps.OE_ORDER_HEADERS
+                                WHERE   ORDER_CATEGORY_CODE = 'RETURN'
+                                        and SOURCE_DOCUMENT_ID = RemDetails.SOURCE_HEADER_ID)  
+            and NOT EXISTS (    SELECT  'X'
+                                FROM    apps.MTL_PARAMETERS
+                                WHERE   ORGANIZATION_CODE = Transp.FREIGHT_CODE)        
+                            
+        GROUP BY
+            Remisiones.ORGANIZATION_ID,
+            Remisiones.INITIAL_PICKUP_DATE,
+            Remisiones.NAME,
+            Clientes.CUSTOMER_NAME,
+            Transp.FREIGHT_CODE,
+            Productos.SEGMENT1 || '-' || Productos.SEGMENT2,
+            Productos.DESCRIPTION,
+            RemDetails.REQUESTED_QUANTITY_UOM,
+            RemDetails.SOURCE_HEADER_NUMBER,
+            Productos.UNIT_VOLUME
+          , Remisiones.attribute15 
+        UNION ALL
+        
+        SELECT 
+            (   SELECT  NAME
+                FROM    apps.HR_ALL_ORGANIZATION_UNITS Orgs,
+                        apps.MTL_PARAMETERS mp
+                WHERE   mp.ORGANIZATION_ID = Orgs.ORGANIZATION_ID
+                        and mp.ORGANIZATION_CODE = Transp.FREIGHT_CODE) ORGANIZATION_NAME,
+            Remisiones.INITIAL_PICKUP_DATE,
+            Remisiones.NAME,
+            Clientes.CUSTOMER_NAME,
+            Transp.FREIGHT_CODE,
+            Productos.SEGMENT1 || '-' || Productos.SEGMENT2 CODIGO,
+            Productos.DESCRIPTION,
+            RemDetails.REQUESTED_QUANTITY_UOM,
+            case when Productos.UNIT_VOLUME is null then 
+                   1
+             else
+                    sum(RemDetails.PICKED_QUANTITY * nvl(Productos.UNIT_VOLUME, 0)) 
+             end Volumen,
+            sum(Remdetails.SHIPPED_QUANTITY) Unidades,
+            RemDetails.SOURCE_HEADER_NUMBER num_order
+          , Remisiones.attribute15 
+        FROM
+            apps.WSH_DELIVERY_ASSIGNMENTS Asignaciones,
+            apps.WSH_NEW_DELIVERIES Remisiones,
+            apps.WSH_DELIVERY_DETAILS RemDetails,
+            apps.MTL_SYSTEM_ITEMS_B Productos,
+            apps.WSH_CARRIERS_V Transp,
+            apps.AR_CUSTOMERS Clientes
+        WHERE
+            Remisiones.INITIAL_PICKUP_DATE between '${inicio}' AND '${fin}'-- :P_FECHA_INI and :P_FECHA_FIN + 1
+            and (   SELECT  Orgs.ORGANIZATION_ID
+                    FROM    apps.HR_ALL_ORGANIZATION_UNITS Orgs,
+                            apps.MTL_PARAMETERS mp
+                    WHERE   mp.ORGANIZATION_ID = Orgs.ORGANIZATION_ID
+                            and mp.ORGANIZATION_CODE = Transp.FREIGHT_CODE
+                      ) =   509
+            and Productos.ORGANIZATION_ID = 186
+            and (Productos.segment1 not in ('MREC') and Remisiones.customer_id not in (1674, 6204)) 
+            and Remisiones.DELIVERY_ID = Asignaciones.DELIVERY_ID
+            and RemDetails.DELIVERY_DETAIL_ID = Asignaciones.DELIVERY_DETAIL_ID
+            and Productos.INVENTORY_ITEM_ID = RemDetails.INVENTORY_ITEM_ID
+            and Transp.CARRIER_ID (+)= Remisiones.CARRIER_ID
+            and Clientes.CUSTOMER_ID = RemDetails.CUSTOMER_ID
+            and NOT EXISTS (    SELECT  'X' 
+                                FROM    apps.OE_ORDER_HEADERS
+                                WHERE   ORDER_CATEGORY_CODE = 'RETURN'
+                                        and SOURCE_DOCUMENT_ID = RemDetails.SOURCE_HEADER_ID)  
+            and EXISTS     (    SELECT  'X'
+                                FROM    apps.MTL_PARAMETERS
+                                WHERE   ORGANIZATION_CODE = Transp.FREIGHT_CODE)      
+                                          
+        GROUP BY
+            Remisiones.ORGANIZATION_ID,
+            Remisiones.INITIAL_PICKUP_DATE,
+            Remisiones.NAME,
+            Clientes.CUSTOMER_NAME,
+            Transp.FREIGHT_CODE,
+            Productos.SEGMENT1 || '-' || Productos.SEGMENT2,
+            Productos.DESCRIPTION,
+            RemDetails.REQUESTED_QUANTITY_UOM   ,
+            RemDetails.SOURCE_HEADER_NUMBER,
+            Productos.UNIT_VOLUME
+          , Remisiones.attribute15 
+        ORDER BY
+            2, 4
+            )
+            VALORES
+            
+            group by organization_name,  attribute15 
+      `;
+
+        try {
+            response = oracleConnection(queryString);
+            
+        } catch(error) {
+            console.log(error);
+        }
+
+        return response
+    }
    
     
 };

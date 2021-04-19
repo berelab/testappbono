@@ -3,6 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
+import oracleProduccionRepo from '../../infrastructure/lapaz/produccionRepository';
 import choferModel from '../../models/culiacan/choferesLocalesModel';
 import SQLChofer from '../../infrastructure/culiacan/choferesRepo';
 import mainCalcs from '../MainCalcs';
@@ -12,7 +13,8 @@ import att from '../Attendance';
 const controller = {
     home: async (req, res) => {
         const repository = new SQLChofer();
-        const model = new choferModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new choferModel(repository, produccionRepo);
         let chofer = await model.execute(); 
         const cd =  new convertData(chofer.equipo, chofer.team_asis);
         let equipo = cd.convert;
@@ -31,7 +33,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new SQLChofer();
-        const model = new choferModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new choferModel(repository, produccionRepo);
         let chofer = await model.execute(); 
         const cd =  new convertData(chofer.equipo, chofer.team_asis);
         let equipo = cd.convert;

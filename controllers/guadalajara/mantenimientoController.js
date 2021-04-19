@@ -65,12 +65,13 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new CorteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new SQLBloquera();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         const repositoryI = new insulpanelSQL();

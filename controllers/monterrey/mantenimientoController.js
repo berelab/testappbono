@@ -15,12 +15,13 @@ import moldeoSQL from '../../infrastructure/monterrey/moldeoRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-
+import oracleProduccionRepo from '../../infrastructure/monterrey/produccionRepository';
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         const repositoryM = new moldeoSQL();

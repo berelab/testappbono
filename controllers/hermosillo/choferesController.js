@@ -8,12 +8,13 @@ import choferSQL from '../../infrastructure/hermosillo/choferRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-
+import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
 const controller = {
 	
 	home: async(req, res) => {
         const repository = new choferSQL();
-        const model = new choferModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new choferModel(repository,produccionRepo);
         let chofer = await model.execute(); 
         const cd =  new convertData(chofer.equipo, chofer.team_asis);
         let equipo = cd.convert;
@@ -34,7 +35,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new choferSQL();
-        const model = new choferModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new choferModel(repository,produccionRepo);
         let chofer = await model.execute(); 
         const cd =  new convertData(chofer.equipo, chofer.team_asis);
         let equipo = cd.convert;

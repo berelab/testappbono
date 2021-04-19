@@ -31,14 +31,13 @@ const controller = {
         const modelM = new moldeoModel(repositoryM);
         let moldeo = await modelM.execute(); 
         
-        /*
         const repositoryI = new insulpanelSQL();
         const modelI = new insulpanelModel(repositoryI);
-        let insulpanel = await modelI.execute(); */
+        let insulpanel = await modelI.execute(); 
 
         let percCorte =  percepcionCorte(corte);
         let percMoldeo = percepcionMoldeo(moldeo);
-        let percInsulpanel =  0//percepcionInsulpanel(insulpanel); 
+        let percInsulpanel =  percepcionInsulpanel(insulpanel); 
 
         const repository = new mantenimientoSQL();
         const model = new mantenimientoModel(repository,percCorte,percInsulpanel,percMoldeo);
@@ -309,39 +308,40 @@ let percepcionMoldeo = (moldeo) =>{
 
 let percepcionInsulpanel = (insulpanel) =>{
     const cd =  new convertData(insulpanel.equipo, insulpanel.team_asis);
-    let equipo = cd.convert;
+        let equipo = cd.convert;
+        let equiponc = addNivelCarrera(equipo, insulpanel.nc_colabs);
 
-    const calcAtt = new att( equipo, insulpanel.factor_dias_laborados);
-    let colaboradores = calcAtt.colaboradoresPorDia;
-    let asistencia_total = calcAtt.asistenciaTotal;
+        const calcAtt = new att( equiponc, insulpanel.factor_dias_laborados);
+        let colaboradores = calcAtt.colaboradoresPorDia;
+        let asistencia_total = calcAtt.asistenciaTotal;
 
-    let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
-    let dateObj = new Date();
-    let weekdayNumber = dateObj.getDay();
-    let weekdayName = arrayOfWeekdays[weekdayNumber];
+        let arrayOfWeekdays = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+        let dateObj = new Date();
+        let weekdayNumber = dateObj.getDay();
+        let weekdayName = arrayOfWeekdays[weekdayNumber];
 
-    const calc = new mainCalcs(
-        insulpanel.dias, 
-        insulpanel.m2_producidos, 
-        colaboradores, 
-        asistencia_total, 
-        weekdayName, 
-        equipo, 
-        null, 
-        null, 
-        null, 
-        insulpanel.factor_dias_laborados,
-        insulpanel.message,
-        insulpanel.city,
-        insulpanel.retardos_entrega,
-        insulpanel.falla_calidad,
-        insulpanel.limpieza,
-        insulpanel.paros_produccion
-    );
-   
-    let bonoXpenalizacion= calc.bonoTotalConPenalizacionPorColaborador;
-    let totalbonoXpenalizacion = calc.bonoTotalConPenalizacion;  
-
+        const calc = new mainCalcs(
+            insulpanel.dias, 
+            insulpanel.m2_producidos, 
+            colaboradores, 
+            asistencia_total, 
+            weekdayName, 
+            equiponc, 
+            null, 
+            null, 
+            null, 
+            insulpanel.factor_dias_laborados,
+            insulpanel.message,
+            insulpanel.city,
+            insulpanel.retardos_entrega,
+            insulpanel.falla_calidad,
+            insulpanel.limpieza,
+            insulpanel.paros_produccion
+        );
+      
+        let bonoXpenalizacion= calc.bonoTotalConPenalizacionPorColaborador;
+        let totalbonoXpenalizacion = calc.bonoTotalConPenalizacion;  
+       
     let promedio= totalbonoXpenalizacion / bonoXpenalizacion.length
 
     return promedio
