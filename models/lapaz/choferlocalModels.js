@@ -282,7 +282,7 @@ class ChoferModels {
             let produccionS = await this.produccionRepo.findDespl(fechaS, fechaD);
             let totalS= this._convertProd(produccionS.rows)
             m3cortados.sabado = totalS
-        }else if(day == 7){
+        }else if(day == 0){
             let fechaL = moment().subtract(6, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
             let fechaMa = moment().subtract(5, "days").format("DD/MMM/YYYY");

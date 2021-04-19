@@ -8,12 +8,14 @@ import SQLCorte from '../../infrastructure/culiacan/corteRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/culiacan/produccionRepository';
 
 const controller = {
 	
     home: async(req, res) => {
         const repository = new SQLCorte();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new SQLCorte();
-        const model = new corteModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new corteModel(repository,produccionRepo);
         let corte = await model.execute(); 
         const cd =  new convertData(corte.equipo, corte.team_asis);
         let equipo = cd.convert;

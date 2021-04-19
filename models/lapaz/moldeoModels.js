@@ -295,7 +295,7 @@ class MoldeoModels {
             let produccionS = await this.produccionRepo.find(fechaS);
             let totalS= this._convertProd(produccionS.rows)
             m3cortados.sabado = totalS
-        }else if(day == 7){
+        }else if(day == 0){
             let fechaL = moment().subtract(6, "days").format("DD/MMM/YYYY");
             fechaL = fechaL.toUpperCase();
             let produccionL = await this.produccionRepo.find(fechaL);
