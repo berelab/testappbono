@@ -9,12 +9,14 @@ import SQLPanel from '../../infrastructure/culiacan/panelRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/culiacan/produccionRepository';
 
 const controller = {
 	
     home: async (req, res) => {
         const repository = new SQLPanel();
-        const model = new panelModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new panelModel(repository, produccionRepo);
         let panel = await model.execute(); 
         const cd =  new convertData(panel.equipo, panel.team_asis);
         let equipo = cd.convert;
@@ -34,7 +36,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new SQLPanel();
-        const model = new panelModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new panelModel(repository, produccionRepo);
         let panel = await model.execute(); 
         const cd =  new convertData(panel.equipo, panel.team_asis);
         let equipo = cd.convert;
