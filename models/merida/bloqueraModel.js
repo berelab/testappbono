@@ -150,7 +150,7 @@ class CorteModel {
         let result=0;
         if(len>0){
             for(var i=0; i<len; i++){
-                prod[i][1]=='CORTE' ?result= prod[i][3]: result
+                prod[i][1]=='BLOQUERA' ?result= prod[i][2]: result
             }
         }
 
