@@ -8,11 +8,13 @@ import moldeoSQL from '../../infrastructure/queretaro/Moldeo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/globalRepo/produccionRepository';
 
 const controller = {
     home: async(req, res) =>{
         const repository = new moldeoSQL();
-        const model = new moldeoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new moldeoModel(repository,produccionRepo);
         let moldeo = await model.execute(); 
         const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
         let equipo = cd.convert;
@@ -33,7 +35,8 @@ const controller = {
 
     calculator: async(req, res)=>{
         const repository = new moldeoSQL();
-        const model = new moldeoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new moldeoModel(repository,produccionRepo);
         let moldeo = await model.execute(); 
         const cd =  new convertData(moldeo.equipo, moldeo.team_asis);
         let equipo = cd.convert;
