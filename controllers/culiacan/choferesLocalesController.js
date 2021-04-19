@@ -3,7 +3,7 @@ import bonosModel from '../../models/deptos/BonosDeptoModel';
 import produccionModel from '../../models/deptos/ProduccionDeptoModel';
 import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
-import oracleProduccionRepo from '../../infrastructure/lapaz/produccionRepository';
+import oracleProduccionRepo from '../../infrastructure/culiacan/produccionRepository';
 import choferModel from '../../models/culiacan/choferesLocalesModel';
 import SQLChofer from '../../infrastructure/culiacan/choferesRepo';
 import mainCalcs from '../MainCalcs';

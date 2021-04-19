@@ -57,15 +57,7 @@ class CorteModel {
             rechazo_interno:0,
             amp:amp,
             horas_por_turno: 0,
-            m3_desplazados: {
-                lunes: 297.514,
-                martes: 297.514,
-                miercoles: 297.514,
-                jueves: 297.514,
-                viernes: 297.514,
-                sabado: 0,
-                domingo: 0            
-            },
+            m3_desplazados: produccion,
             equipo: team,
             team_asis: entries
         };

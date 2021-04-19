@@ -8,7 +8,7 @@ import moldeoSQL from '../../infrastructure/hermosillo/moldeoRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
+import oracleProduccionRepo from '../../infrastructure/globalRepo/produccionRepository';
 
 const controller = {
 	

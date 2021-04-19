@@ -1,7 +1,7 @@
 'use strict'
 import moment from 'moment';
 
-class CorteModel {
+class BloqueraModel {
     constructor(repository, produccionRepo){
         this.repository = repository;
         this.produccionRepo =produccionRepo;

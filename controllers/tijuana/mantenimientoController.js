@@ -4,6 +4,8 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/tijuana/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/tijuana/mantenimientoRepo';
+
+import oracleProduccionRepo from '../../infrastructure/tijuana/produccionRepository';
 //corte
 import corteModel from '../../models/tijuana/corteModel';
 import corteSQL from '../../infrastructure/tijuana/corteRepo';
@@ -17,12 +19,13 @@ import att from '../Attendance';
 
 const controller = {	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         let percCorte =  percepcionCorte(corte);

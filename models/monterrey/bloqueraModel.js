@@ -1,5 +1,5 @@
 'use strict'
-
+import moment from 'moment';
 class BloqueraModel {
     constructor(repository, produccionRepo){
         this.repository = repository;
@@ -54,15 +54,7 @@ class BloqueraModel {
             factor_dias_laborados: extra.factor,
             amp:amp,    
             blocks_fe:0,
-            m3_desplazados: {
-                lunes: 138,
-                martes: 138,
-                miercoles:138,
-                jueves: 138,
-                viernes: 138,
-                sabado: 0,
-                domingo: 0
-            },
+            m3_desplazados: produccion,
             equipo: team,
             team_asis: entries
         };

@@ -23,6 +23,7 @@ class BloqueraModel {
             entries = await this.repository.entryTimes();
             extra = await this.repository.extraData();
             amp = await this.repository.indicator(year, valorReal);
+            produccion = await this._produccion(day)
         } catch(error) {
             throw error;
         }

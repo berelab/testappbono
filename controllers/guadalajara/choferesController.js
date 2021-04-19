@@ -27,7 +27,7 @@ const controller = {
             dias: chofer.dias,
             factor_dias_laborados: chofer.factor_dias_laborados,
             num_quejas: chofer.num_quejas, 
-            m3_cortados: chofer.m3_cortados,
+            m3_cortados: chofer.m3_desplazados,
             asistencia: chofer.team_asis,
             equipo_convertido: equipo,   
         });

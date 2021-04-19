@@ -8,7 +8,7 @@ import corteSQL from '../../infrastructure/veracruz/corteRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
-import oracleProduccionRepo from '../../infrastructure/tijuana/produccionRepository';
+import oracleProduccionRepo from '../../infrastructure/veracruz/produccionRepository';
 
 const controller = {
 	
