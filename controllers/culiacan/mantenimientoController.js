@@ -5,6 +5,7 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/culiacan/mantenimientoModel';
 import SQLMantenimiento from '../../infrastructure/culiacan/mantenimientoRepo';
+import oracleProduccionRepo from '../../infrastructure/culiacan/produccionRepository';
 //corte
 import corteModel from '../../models/culiacan/corteModel';
 import SQLCorte from '../../infrastructure/culiacan/corteRepo';
@@ -22,16 +23,17 @@ import convertData from '../ConvertData';
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new SQLCorte();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new SQLBloquera();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         const repositoryP = new SQLPanel();
-        const modelP = new panelModel(repositoryP);
+        const modelP = new panelModel(repositoryP,produccionRepo);
         let panel = await modelP.execute(); 
 
         let percCorte =  percepcionCorte(corte);
@@ -64,17 +66,17 @@ const controller = {
     },
     
     calculator: async (req, res)=>{
-
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new SQLCorte();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new SQLBloquera();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         const repositoryP = new SQLPanel();
-        const modelP = new panelModel(repositoryP);
+        const modelP = new panelModel(repositoryP,produccionRepo);
         let panel = await modelP.execute(); 
 
         let percCorte =  percepcionCorte(corte);
