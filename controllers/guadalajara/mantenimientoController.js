@@ -17,16 +17,18 @@ import insulpanelSQL from '../../infrastructure/guadalajara/insulpanelRepo';
 import mainCalcs from '../MainCalcs';
 import att from '../Attendance';
 import convertData from '../ConvertData';
+import oracleProduccionRepo from '../../infrastructure/guadalajara/produccionRepository';
 
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new CorteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryB = new SQLBloquera();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         const repositoryI = new insulpanelSQL();

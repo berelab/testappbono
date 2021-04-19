@@ -17,12 +17,14 @@ import moldeoSQL from '../../infrastructure/hermosillo/moldeoRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
 
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryM = new moldeoSQL();
@@ -61,8 +63,9 @@ const controller = {
     
     calculator: async(req, res)=>{
 
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryM = new moldeoSQL();
