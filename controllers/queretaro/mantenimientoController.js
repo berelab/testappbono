@@ -4,6 +4,7 @@ import reporteModel from '../../models/users/reporteModel';
 import mySqlReporteRepository from '../../infrastructure/users/reporteRepository';
 import mantenimientoModel from '../../models/queretaro/mantenimientoModel';
 import mantenimientoSQL from '../../infrastructure/queretaro/mantenimientoRepo';
+import oracleProduccionRepo from '../../infrastructure/queretaro/produccionRepository';
 //corte
 import corteModel from '../../models/queretaro/corteModel';
 import corteSQL from '../../infrastructure/queretaro/corteRepo';
@@ -20,8 +21,9 @@ import att from '../Attendance';
 
 const controller = {	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
         
         const repositoryM = new moldeoSQL();
@@ -29,7 +31,7 @@ const controller = {
         let moldeo = await modelM.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         let percCorte =  percepcionCorte(corte); 
@@ -62,9 +64,9 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
-
+        const produccionRepo = new oracleProduccionRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
         
         const repositoryM = new moldeoSQL();
@@ -72,7 +74,7 @@ const controller = {
         let moldeo = await modelM.execute(); 
 
         const repositoryB = new bloqueraSQL();
-        const modelB = new bloqueraModel(repositoryB);
+        const modelB = new bloqueraModel(repositoryB,produccionRepo);
         let bloquera = await modelB.execute(); 
 
         let percCorte =  percepcionCorte(corte); 
