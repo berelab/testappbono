@@ -149,7 +149,7 @@ class CorteNipModel {
         let result=0;
         if(len>0){
             for(var i=0; i<len; i++){
-                prod[i][1]=='CORTE' ?result= prod[i][3]: result
+                prod[i][1]=='NIP' ?result= prod[i][3]: result
             }
         }
 

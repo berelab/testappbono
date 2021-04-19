@@ -8,12 +8,14 @@ import emcoSQL from '../../infrastructure/monterrey/emcoRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/monterrey/produccionRepository';
 
 const controller = {
 	
 	home: async(req, res) => {
         const repository = new emcoSQL();
-        const model = new emcoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new emcoModel(repository,produccionRepo);
         let emco = await model.execute(); 
         const cd =  new convertData(emco.equipo, emco.team_asis);
         let equipo = cd.convert;
@@ -32,7 +34,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new emcoSQL();
-        const model = new emcoModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new emcoModel(repository,produccionRepo);
         let emco = await model.execute(); 
         const cd =  new convertData(emco.equipo, emco.team_asis);
         let equipo = cd.convert;
