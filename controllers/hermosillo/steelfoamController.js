@@ -8,12 +8,14 @@ import steelfoamSQL from '../../infrastructure/hermosillo/steelfoamRepo';
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
+import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
 
 const controller = {
 	
 	home: async(req, res) => {
         const repository = new steelfoamSQL();
-        const model = new steelfoamModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new steelfoamModel(repository,produccionRepo);
         let steelfoam = await model.execute(); 
         const cd =  new convertData(steelfoam.equipo, steelfoam.team_asis);
         let equipo = cd.convert;
@@ -34,7 +36,8 @@ const controller = {
     },
     calculator: async(req, res)=>{
         const repository = new steelfoamSQL();
-        const model = new steelfoamModel(repository);
+        const produccionRepo = new oracleProduccionRepo();
+        const model = new steelfoamModel(repository,produccionRepo);
         let steelfoam = await model.execute(); 
         const cd =  new convertData(steelfoam.equipo, steelfoam.team_asis);
         let equipo = cd.convert;
