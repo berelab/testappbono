@@ -18,17 +18,19 @@ import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
 import oracleProduccionRepo from '../../infrastructure/hermosillo/produccionRepository';
+import oracleProduccionMoldeoRepo from '../../infrastructure/globalRepo/produccionRepository';
 
 const controller = {
 	
 	home: async(req, res) => {
         const produccionRepo = new oracleProduccionRepo();
+        const produccionMoldeoRepo = new oracleProduccionMoldeoRepo();
         const repositoryC = new corteSQL();
         const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
 
         const repositoryM = new moldeoSQL();
-        const modelM = new moldeoModel(repositoryM);
+        const modelM = new moldeoModel(repositoryM,produccionMoldeoRepo);
         let moldeo = await modelM.execute(); 
         
         const repositoryI = new insulpanelSQL();
@@ -347,5 +349,42 @@ let percepcionInsulpanel = (insulpanel) =>{
     return promedio
     }
 
+    
+    let addNivelCarrera =(equipo, nc_colabs) =>{
+        let result =[];
+        let lenEq = equipo.length;
+        let lenNC = nc_colabs.length;
+    
+        for(var i =0; i<lenEq; i++){
+            let numEq = equipo[i].num
+            let encontrado ='NO';
+            let equipoModel={
+                nombre:  equipo[i].nombre,
+                num:   equipo[i].num,
+                factor_dias_laborados:  equipo[i].factor_dias_laborados,
+                dias:  equipo[i].dias,
+                asistencia:  equipo[i].asistencia,
+                faltas : equipo[i].faltas,
+                retardos: equipo[i].retardos,
+                horas_extras: equipo[i].horas_extras,
+                nivel_dPdC: ''
+            }
+            for(var k=0; k<lenNC; k++){
+                let numNC = nc_colabs[k].num
+                if(numEq===numNC){
+                    encontrado =k
+                }
+            }
+            if(encontrado != 'NO'){
+                equipoModel.nivel_dPdC = nc_colabs[encontrado].nc
+            }
+    
+            result.push(equipoModel);
+    
+        }
+        
+        return result
+    
+    }
 
 module.exports = controller; 

@@ -37,6 +37,7 @@ class OracleProduccionRepository {
                         WHEN jobs.line_id in (2478) THEN 'MCS FRAME'
                         WHEN jobs.line_id in (2479) THEN 'KBRS'
                         WHEN jobs.line_id in (2480) THEN 'COMMSCOPE'
+                        WHEN jobs.line_id in (2301) THEN 'STEELFOAM'
                             ELSE 'SIN AREA'
                     END
                 )
