@@ -19,6 +19,9 @@ import panelSQL from '../../infrastructure/veracruz/panelRepo';
 //bloquera -> pendiente...
 
 
+import oracleProduccionRepo from '../../infrastructure/veracruz/produccionRepository';
+import oracleProduccionMoldeoRepo from '../../infrastructure/globalRepo/produccionRepository';
+
 import mainCalcs from '../MainCalcs';
 import convertData from '../ConvertData';
 import att from '../Attendance';
@@ -26,20 +29,22 @@ import att from '../Attendance';
 const controller = {
 	
 	home: async(req, res) => {
+        const produccionRepo = new oracleProduccionRepo();
+        const produccionMoldeoRepo = new oracleProduccionMoldeoRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
         
         const repositoryM = new moldeoSQL();
-        const modelM = new moldeoModel(repositoryM);
+        const modelM = new moldeoModel(repositoryM,produccionMoldeoRepo);
         let moldeo = await modelM.execute(); 
 
         const repositoryE = new emcoSQL();
-        const modelE = new emcoModel(repositoryE);
+        const modelE = new emcoModel(repositoryE,produccionRepo);
         let emco = await modelE.execute(); 
 
         const repositoryP = new panelSQL();
-        const modelP = new panelModel(repositoryP);
+        const modelP = new panelModel(repositoryP,produccionRepo);
         let panel = await modelP.execute(); 
 
         //pendiente bloquera
@@ -76,20 +81,22 @@ const controller = {
     },
     
     calculator: async(req, res)=>{
+        const produccionRepo = new oracleProduccionRepo();
+        const produccionMoldeoRepo = new oracleProduccionMoldeoRepo();
         const repositoryC = new corteSQL();
-        const modelC = new corteModel(repositoryC);
+        const modelC = new corteModel(repositoryC,produccionRepo);
         let corte = await modelC.execute(); 
         
         const repositoryM = new moldeoSQL();
-        const modelM = new moldeoModel(repositoryM);
+        const modelM = new moldeoModel(repositoryM,produccionMoldeoRepo);
         let moldeo = await modelM.execute(); 
 
         const repositoryE = new emcoSQL();
-        const modelE = new emcoModel(repositoryE);
+        const modelE = new emcoModel(repositoryE,produccionRepo);
         let emco = await modelE.execute(); 
 
         const repositoryP = new panelSQL();
-        const modelP = new panelModel(repositoryP);
+        const modelP = new panelModel(repositoryP,produccionRepo);
         let panel = await modelP.execute(); 
 
         //pendiente bloquera
